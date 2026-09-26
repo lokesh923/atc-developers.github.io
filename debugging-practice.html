@@ -1,0 +1,1985 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debugging Assessment Practice</title>
+<meta name="description" content="Practice platform for timed debugging assessments: find and fix planted bugs in C, C++ and Java code on Trees, Graphs, 2D DP and advanced DSA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #0457ad; --brand-ink: #ffffff; --accent: #19a8dc; --accent-soft: #e3f4fb;
+  --ink: #141a22; --muted: #5b6776; --bg: #f4f7fb; --card: #ffffff; --soft: #eef5fc; --line: #d6e3f0;
+  --ok: #1e8e3e; --ok-soft: #e6f4ea; --bad: #c5221f; --bad-soft: #fce8e6; --warn: #a15c00; --warn-soft: #fef3e0;
+  --code-bg: #fbfcfe; --code-ink: #1f2937; --gutter: #9aa7b6;
+  --t-kw: #a626a4; --t-ty: #0b62c4; --t-num: #b35900; --t-com: #7c8a99; --t-str: #237a3b; --t-fn: #4a4ab5;
+  --diff-del: #fde7e7; --diff-add: #e3f6e8;
+  --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand: #3b8fe6; --brand-ink: #ffffff; --accent: #3cc0ee; --accent-soft: #0f2c3a;
+    --ink: #e6edf5; --muted: #9aa8b8; --bg: #0d1218; --card: #151c25; --soft: #18222e; --line: #263342;
+    --ok: #4cc26b; --ok-soft: #11291a; --bad: #ff7b72; --bad-soft: #35181a; --warn: #f2b35b; --warn-soft: #33260f;
+    --code-bg: #10161d; --code-ink: #dbe4ee; --gutter: #5d6b7b;
+    --t-kw: #d48ae8; --t-ty: #6cb6ff; --t-num: #f0a35e; --t-com: #6f7f90; --t-str: #7ee0a0; --t-fn: #a5a5ff;
+    --diff-del: #3a1c1e; --diff-add: #15301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --brand: #3b8fe6; --brand-ink: #ffffff; --accent: #3cc0ee; --accent-soft: #0f2c3a;
+  --ink: #e6edf5; --muted: #9aa8b8; --bg: #0d1218; --card: #151c25; --soft: #18222e; --line: #263342;
+  --ok: #4cc26b; --ok-soft: #11291a; --bad: #ff7b72; --bad-soft: #35181a; --warn: #f2b35b; --warn-soft: #33260f;
+  --code-bg: #10161d; --code-ink: #dbe4ee; --gutter: #5d6b7b;
+  --t-kw: #d48ae8; --t-ty: #6cb6ff; --t-num: #f0a35e; --t-com: #6f7f90; --t-str: #7ee0a0; --t-fn: #a5a5ff;
+  --diff-del: #3a1c1e; --diff-add: #15301f;
+  --shadow: 0 1px 2px rgba(0,0,0,.4);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 Ubuntu, "Segoe UI", system-ui, sans-serif; overflow-x: hidden; }
+code, pre, textarea.code { font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; }
+button { font: inherit; cursor: pointer; }
+a { color: var(--brand); }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 16px; }
+
+/* top bar */
+.top { background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
+.top .wrap { display: flex; align-items: center; gap: 12px; min-height: 58px; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 19px; color: var(--brand); cursor: pointer; background: none; border: 0; padding: 0; }
+.logo .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--brand); color: var(--brand-ink); display: grid; place-items: center; font-size: 15px; }
+.logo small { color: var(--muted); font-weight: 400; font-size: 13px; }
+.spacer { flex: 1; }
+.qnav { display: flex; gap: 6px; }
+.qnav button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--soft); color: var(--ink); font-weight: 700; }
+.qnav button.on { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.qnav button.done { box-shadow: inset 0 -3px 0 var(--ok); }
+.timer { display: flex; align-items: center; gap: 8px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.timer .clock { background: var(--brand); color: var(--brand-ink); padding: 5px 12px; border-radius: 8px; font-size: 18px; letter-spacing: .5px; }
+.timer .clock.low { background: var(--bad); }
+.timer .lbl { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.1; text-align: right; }
+.iconbtn { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; height: 34px; padding: 0 10px; }
+
+/* home */
+.hero { padding: 36px 0 8px; }
+.hero h1 { font-size: clamp(28px, 5vw, 44px); margin: 0; line-height: 1.1; border-left: 6px solid var(--accent); padding-left: 16px; }
+.hero p.sub { color: var(--muted); margin: 8px 0 0 22px; font-size: 17px; }
+.banner { margin: 26px 0; background: var(--brand); color: var(--brand-ink); border-radius: 14px; padding: 16px 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; font-weight: 700; font-size: 18px; }
+.banner span + span::before { content: "|"; margin-right: 22px; opacity: .7; }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.step { background: var(--soft); border: 1px solid var(--line); border-radius: 14px; padding: 22px 16px; text-align: center; position: relative; }
+.step:not(:last-child)::after { content: "›"; position: absolute; right: -17px; top: 34%; color: var(--accent); font-size: 28px; font-weight: 700; }
+.step .num { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 10px; font-size: 24px; font-weight: 700; color: #fff; background: var(--brand); }
+.step:nth-child(even) .num { background: var(--accent); }
+.step h3 { margin: 0 0 6px; color: var(--brand); font-size: 20px; }
+.step p { margin: 0; color: var(--muted); }
+.concepts { margin-top: 18px; background: var(--accent-soft); color: var(--brand); font-weight: 700; border-radius: 10px; padding: 10px 14px; }
+h2.sec { margin: 38px 0 14px; font-size: 22px; }
+.qgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.qcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; text-align: left; color: var(--ink); }
+.qcard:hover { border-color: var(--accent); }
+.qcard .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.qcard h3 { margin: 0; font-size: 18px; }
+.qcard .topic { color: var(--muted); font-size: 14px; }
+.qcard .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 4px 12px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.qcard .foot > span:last-child { white-space: nowrap; }
+.pill { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--soft); color: var(--brand); border: 1px solid var(--line); }
+.pill.hard { color: var(--bad); background: var(--bad-soft); border-color: transparent; }
+.pill.medium { color: var(--warn); background: var(--warn-soft); border-color: transparent; }
+.pill.video { color: var(--brand-ink); background: var(--accent); border-color: transparent; }
+.qno { font-weight: 700; color: var(--muted); }
+.score { font-weight: 700; }
+.score.ok { color: var(--ok); }
+.info { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+.box h3 { margin: 0 0 8px; font-size: 16px; }
+.box ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.box li { margin: 3px 0; }
+.foot-note { color: var(--muted); font-size: 13px; margin: 30px 0; text-align: center; }
+
+/* question view */
+.qview { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px; padding: 16px 0 40px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); min-width: 0; }
+.panel-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 0; background: none; color: var(--muted); padding: 7px 12px; border-radius: 8px; font-weight: 500; }
+.tabs button.on { background: var(--soft); color: var(--brand); font-weight: 700; }
+.stmt { padding: 16px 18px; overflow-wrap: anywhere; }
+.stmt h2 { margin: 0 0 4px; font-size: 20px; }
+.stmt .meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.stmt pre { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; font-size: 13px; margin: 8px 0; }
+.stmt code { background: var(--soft); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+.stmt pre code { background: none; padding: 0; }
+.stmt ul { padding-left: 20px; }
+.ex { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ex pre { margin: 4px 0 0; white-space: pre-wrap; }
+.ex .lab { font-weight: 700; font-size: 13px; }
+.hint { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 10px 0; background: var(--soft); }
+.hint b { color: var(--brand); }
+.btn { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 8px 16px; font-weight: 500; }
+.btn.primary { background: #1f8f3a; border-color: #1f8f3a; color: #fff; font-weight: 700; }
+.btn.blue { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); font-weight: 700; }
+.btn.ghost { background: none; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.ed-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.ed-head .coding { font-weight: 700; }
+.ed-head select { font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 5px 8px; }
+.driver { border-bottom: 1px solid var(--line); }
+.driver summary { padding: 8px 14px; cursor: pointer; color: var(--muted); font-size: 13px; }
+.driver pre { margin: 0; padding: 8px 14px 12px 56px; font-size: 13px; background: var(--code-bg); color: var(--code-ink); overflow-x: auto; opacity: .85; }
+.modify { color: #d4880f; font-size: 14px; padding: 8px 14px; font-weight: 500; }
+.editor { position: relative; display: flex; background: var(--code-bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); height: min(62vh, 560px); min-height: 300px; }
+.gutter { flex: 0 0 auto; padding: 12px 8px 12px 10px; text-align: right; color: var(--gutter); font: 13px/1.6 "JetBrains Mono", monospace; user-select: none; overflow: hidden; min-width: 44px; white-space: pre; }
+.codebox { position: relative; flex: 1; min-width: 0; }
+.codebox pre, .codebox textarea { position: absolute; inset: 0; margin: 0; padding: 12px 14px; font: 13px/1.6 "JetBrains Mono", monospace; white-space: pre; overflow: auto; tab-size: 4; border: 0; }
+.codebox pre { color: var(--code-ink); pointer-events: none; }
+.codebox textarea { background: transparent; color: transparent; caret-color: var(--ink); resize: none; outline: none; }
+.codebox textarea::selection { background: rgba(25,168,220,.3); }
+.tk-kw { color: var(--t-kw); } .tk-ty { color: var(--t-ty); } .tk-num { color: var(--t-num); } .tk-com { color: var(--t-com); font-style: italic; } .tk-str { color: var(--t-str); } .tk-fn { color: var(--t-fn); }
+.actions { display: flex; align-items: center; gap: 10px; padding: 12px 14px; flex-wrap: wrap; }
+.own { padding: 0 14px 12px; }
+.own label { display: flex; align-items: center; gap: 8px; color: var(--muted); cursor: pointer; }
+.own textarea { width: 100%; margin-top: 8px; min-height: 90px; border: 1px solid var(--line); border-radius: 8px; background: var(--code-bg); color: var(--code-ink); padding: 8px 10px; font: 13px/1.5 "JetBrains Mono", monospace; }
+.result { padding: 14px; border-top: 1px solid var(--line); }
+.result .muted { color: var(--muted); }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 14px; margin-bottom: 10px; }
+.kv b { font-weight: 700; }
+.good { color: var(--ok); font-weight: 700; } .badc { color: var(--bad); font-weight: 700; } .warnc { color: var(--warn); font-weight: 700; }
+.cases { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; }
+.cases button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 4px 12px; font-size: 13px; display: flex; gap: 6px; align-items: center; }
+.cases button.on { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
+.dot { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; color: #fff; font-size: 11px; font-weight: 700; }
+.dot.p { background: var(--ok); } .dot.f { background: var(--bad); }
+.io { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.io div > span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.io pre { margin: 4px 0 0; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-height: 180px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.io pre.bad { border-color: var(--bad); background: var(--bad-soft); }
+.io pre.good { border-color: var(--ok); background: var(--ok-soft); }
+.msg { margin-top: 12px; color: var(--brand); font-size: 14px; }
+.alert { border-radius: 10px; padding: 10px 12px; margin: 8px 0; font-size: 14px; }
+.alert.bad { background: var(--bad-soft); color: var(--bad); } .alert.warn { background: var(--warn-soft); color: var(--warn); } .alert.ok { background: var(--ok-soft); color: var(--ok); }
+.alert pre { margin: 6px 0 0; white-space: pre-wrap; font-size: 12px; }
+.report { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 10px 0 14px; }
+.stat { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.stat .v { font-size: 24px; font-weight: 700; }
+.stat .k { font-size: 12px; color: var(--muted); }
+.buglist { list-style: none; padding: 0; margin: 0; }
+.buglist li { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+.buglist .ico { flex: 0 0 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 12px; }
+.buglist .ico.p { background: var(--ok); } .buglist .ico.f { background: var(--bad); }
+.buglist .why { color: var(--muted); font-size: 14px; }
+.buglist code { background: var(--soft); padding: 0 4px; border-radius: 4px; font-size: 12.5px; }
+.diff { border: 1px solid var(--line); border-radius: 10px; overflow: auto; background: var(--code-bg); margin-top: 10px; max-height: 520px; }
+.diff div { font: 12.5px/1.6 "JetBrains Mono", monospace; white-space: pre; padding: 0 12px; color: var(--code-ink); }
+.diff .del { background: var(--diff-del); } .diff .add { background: var(--diff-add); }
+.diff .del::before { content: "- "; color: var(--bad); } .diff .add::before { content: "+ "; color: var(--ok); } .diff .same::before { content: "  "; }
+.modal { position: fixed; inset: 0; background: rgba(8,14,22,.55); display: none; place-items: center; z-index: 50; padding: 16px; }
+.modal.on { display: grid; }
+.modal .card { background: var(--card); border-radius: 14px; padding: 20px; max-width: 440px; width: 100%; border: 1px solid var(--line); }
+.modal h3 { margin: 0 0 8px; }
+.modal .row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+.hide { display: none !important; }
+.muted { color: var(--muted); }
+
+@media (max-width: 1000px) { .qview { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .steps { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+  .step:not(:last-child)::after { display: none; }
+  .banner { font-size: 15px; } .banner span + span::before { display: none; }
+  .io, .ex { grid-template-columns: minmax(0, 1fr); }
+  .logo small { display: none; }
+  .editor { height: 55vh; }
+}
+@media (max-width: 420px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <button class="logo" id="goHome" title="Home"><span class="mark">{ }</span>DebugLab <small>· Debugging Assessment Practice</small></button>
+    <div class="spacer"></div>
+    <nav class="qnav hide" id="qnav"></nav>
+    <div class="timer hide" id="timerBox"><div class="lbl">Time left<br><span id="timerSub">20 min</span></div><div class="clock" id="clock">20:00</div></div>
+    <button class="iconbtn" id="themeBtn" title="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main class="wrap" id="home">
+  <section class="hero">
+    <h1>Debugging Assessment</h1>
+    <p class="sub">What this test involves, the four steps to follow — and five hard practice questions.</p>
+  </section>
+  <div class="banner"><span>1 Question per round</span><span>~ 20 Minutes</span><span>3 Languages: C, C++, Java</span></div>
+  <section class="steps">
+    <div class="step"><div class="num">1</div><h3>Review</h3><p>Read the problem statement and the code that contains one or more issues.</p></div>
+    <div class="step"><div class="num">2</div><h3>Identify</h3><p>Spot the errors in the code — logic, syntax, or runtime.</p></div>
+    <div class="step"><div class="num">3</div><h3>Fix</h3><p>Make the corrections so the program runs as expected.</p></div>
+    <div class="step"><div class="num">4</div><h3>Validate</h3><p>Check the logic, test the approach, and handle edge cases.</p></div>
+  </section>
+  <div class="concepts">Key concepts covered: Trees, Graphs, 2D Dynamic Programming, Advanced DSA topics (DSU, MST, Dijkstra).</div>
+
+  <h2 class="sec">Practice questions</h2>
+  <div class="qgrid" id="qgrid"></div>
+
+  <h2 class="sec">Before you start</h2>
+  <div class="info">
+    <div class="box"><h3>How a round works</h3><ul>
+      <li>Each question has its own <b>20:00</b> timer that starts when you open it. At 0:00 your code is submitted automatically.</li>
+      <li>The <code>main()</code> driver is fixed — only edit the function(s) shown in the editor.</li>
+      <li><b>Save &amp; Test</b> runs the sample test cases. <b>Submit</b> also runs the hidden test cases and shows your score.</li>
+      <li>After submitting, review every bug with an explanation and a line-by-line diff of the solution.</li>
+    </ul></div>
+    <div class="box"><h3>Where bugs usually hide</h3><ul>
+      <li>Loop bounds: <code>&lt;</code> vs <code>&lt;=</code>, <code>n</code> vs <code>n-1</code>, index <code>i</code> vs <code>i-1</code>.</li>
+      <li>Initialisation: base cases, <code>0</code> vs <code>INT_MIN</code>, "infinity" too small.</li>
+      <li>Flipped comparisons (min vs max), wrong variable after copy-paste.</li>
+      <li>Overflow: 32-bit <code>int</code> where the answer needs 64 bits.</li>
+      <li>Returning the wrong thing (node vs root, local vs global answer).</li>
+    </ul></div>
+    <div class="box"><h3>How this practice judge works</h3><ul>
+      <li>Your browser cannot compile C/C++/Java, so the judge recognises each fix in your code and runs a <b>model of your program</b>, checked against real gcc / g++ / javac output.</li>
+      <li>So <b>Your Output</b> shows what your program would actually print — including garbage values, crashes and overflows.</li>
+      <li>Make <b>minimal, line-level edits</b>, as in the real test. If a correct fix isn't recognised, compare with the solution diff.</li>
+    </ul></div>
+  </div>
+  <p class="foot-note">Your code, timers and scores are saved in this browser only.</p>
+</main>
+
+<main class="wrap hide" id="qv">
+  <div class="qview">
+    <section class="panel" id="left">
+      <div class="panel-head"><div class="tabs" id="ltabs">
+        <button data-t="problem" class="on">Problem</button><button data-t="concept">Concept</button><button data-t="hints">Hints</button><button data-t="review" id="reviewTab" class="hide">Review &amp; Solution</button>
+      </div></div>
+      <div class="stmt" id="leftBody"></div>
+    </section>
+    <section class="panel" id="right">
+      <div class="ed-head">
+        <span class="coding">Now let's start coding :</span>
+        <span class="spacer"></span>
+        <label class="muted" for="lang">You are coding in</label>
+        <select id="lang"><option value="c">C (Gcc 11.3)</option><option value="cpp">C++ (G++ 11.3)</option><option value="java">Java (JDK 17)</option></select>
+      </div>
+      <details class="driver"><summary>Driver code (read-only) — input is read from STDIN and the returned value is printed to STDOUT</summary><pre id="driver"></pre></details>
+      <div class="modify">› Modify or complete the below code as needed . . .</div>
+      <div class="editor">
+        <div class="gutter" id="gutter">1</div>
+        <div class="codebox"><pre id="hl" aria-hidden="true"></pre><textarea class="code" id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code editor"></textarea></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="runBtn">Save &amp; Test</button>
+        <button class="btn ghost" id="resetBtn">Reset</button>
+        <span class="spacer"></span>
+        <button class="btn blue" id="submitBtn">Submit</button>
+      </div>
+      <div class="own">
+        <label><input type="checkbox" id="ownChk"> Test against your own input</label>
+        <textarea id="ownIn" class="hide" spellcheck="false" placeholder="Paste STDIN here, in the input format described in the problem"></textarea>
+      </div>
+      <div class="result" id="result"><span class="muted">Start compiling code by clicking "Save &amp; Test" button</span></div>
+    </section>
+  </div>
+</main>
+
+<div class="modal" id="modal"><div class="card"><h3 id="mTitle"></h3><div id="mBody"></div><div class="row"><button class="btn" id="mNo">Cancel</button><button class="btn blue" id="mYes">OK</button></div></div></div>
+
+<script>
+/* ---------- helpers shared by simulators ---------- */
+const GARBAGE = '⟂GARBAGE';
+const RTE = '⟂RTE:';
+const i32 = x => Number(BigInt.asIntN(32, BigInt(Math.round(x))));
+function rng(seed) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+const ri = (r, lo, hi) => lo + Math.floor(r() * (hi - lo + 1));
+function ints(str) {
+  const t = str.trim().split(/\s+/).filter(Boolean).map(Number);
+  if (t.some(x => !Number.isFinite(x) || !Number.isInteger(x))) throw new Error('Input must contain integers only');
+  let p = 0;
+  return { next() { if (p >= t.length) throw new Error('Input ended early'); return t[p++]; } };
+}
+// optional-brace helper for checker regexes (code is compared with all whitespace/comments removed)
+const MAXLR = '(?:(?:Math\\.|std::)?max\\((?:l,r|r,l)\\)|l>r\\?l:r|r>l\\?r:l|l>=r\\?l:r|r>=l\\?r:l|l<r\\?r:l|r<l\\?l:r|l<=r\\?r:l|r<=l\\?l:r)';
+
+const QUESTIONS = [
+/* ================================================================ Q1 */
+{
+  id: 'knapsack',
+  title: 'Unbounded Knapsack',
+  topic: '1D Dynamic Programming',
+  tag: 'DP',
+  difficulty: 'Medium',
+  fromVideo: true,
+  fn: { c: 'KnapsackProblem', cpp: 'KnapsackProblem', java: 'KnapsackProblem' },
+  statement: `
+<p><b>The knapsack problem:</b> Given a set of items, each with a weight and a value, determine the items to include in a collection so that the total weight is less than or equal to a given limit and the total value is as large as possible.</p>
+<p>You are required to debug the following function:</p>
+<pre class="sig">int KnapsackProblem(int* wt, int* val, int n, int W);</pre>
+<p>The function accepts 2 integer arrays <b>wt</b> and <b>val</b> of length <b>n</b> and an integer <b>W</b>. There is an item <i>i</i> with weight <b>wt[i]</b> and value <b>val[i]</b>. Find the maximum sum of values of selected items such that the overall weight does not exceed the capacity of the knapsack, <b>W</b>.</p>
+<p><b>Note:</b></p>
+<ul>
+<li>You can pick an item <b>more than once</b>.</li>
+<li>Breaking an item is not allowed — pick the complete item or don't pick it.</li>
+<li>Return <b>-1</b> if the distribution is not possible (no item fits).</li>
+<li>Return <b>-1</b> if <b>wt</b> = NULL or <b>val</b> = NULL.</li>
+</ul>
+<p><b>Input Format:</b> four lines — <b>n</b>; the <b>n</b> weights; the <b>n</b> values; <b>W</b>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>0 ≤ n ≤ 10<sup>3</sup></li><li>1 ≤ wt[i] ≤ 10<sup>5</sup></li><li>1 ≤ val[i] ≤ 10<sup>4</sup></li><li>1 ≤ W ≤ 10<sup>5</sup></li></ul>`,
+  concept: `
+<p><b>State:</b> <code>dp[c]</code> = best value achievable with total weight <b>at most</b> <code>c</code>.</p>
+<p><b>Base case:</b> <code>dp[c] = 0</code> for <b>every</b> <code>c</code> in <code>0..W</code> (an empty knapsack is always allowed, value 0). Every cell must be initialised — including <code>dp[W]</code>, the answer cell.</p>
+<p><b>Transition (unbounded):</b> for each capacity <code>c</code> from small to large, try every item that <b>fits</b> (<code>wt[j] ≤ c</code>):</p>
+<pre>dp[c] = max(dp[c], dp[c - wt[j]] + val[j])</pre>
+<p>Because <code>c</code> increases and we read <code>dp[c - wt[j]]</code> from the <b>same</b> row, an item may be reused — that is exactly what "pick an item more than once" means. (0/1 knapsack would iterate capacity downward instead.)</p>
+<p><b>Typical planted bugs:</b> off-by-one in the init loop (<code>&lt;</code> vs <code>&lt;=</code>), wrong base value, a fits-check that excludes the exact-fit case, and a flipped comparison that computes a minimum instead of a maximum.</p>`,
+  hints: [
+    'Trace the initialisation loop for W = 5. Which index of dp is never written, and which index do we return?',
+    'An empty knapsack has value 0, not 1. What does starting at 1 do to every answer?',
+    'An item of weight 7 must fit into capacity 7. Check the condition that decides whether item j fits.',
+    'We want the MAXIMUM value. When should dp[i] be replaced by dp[i - wt[j]] + val[j]?'
+  ],
+  bugs: [
+    { title: 'Init loop skips dp[W]', why: 'The loop runs <code>i &lt; W</code>, so <code>dp[W]</code> — the very cell that is returned — is never initialised. In C it holds garbage; in C++/Java it only "works" by luck of zero-initialisation. Use <code>i &lt;= W</code>.' },
+    { title: 'Wrong base value', why: '<code>dp[i] = 1</code> claims every capacity already has value 1 without taking any item. The base case of the DP is 0.' },
+    { title: 'Fits-check excludes exact fits', why: '<code>wt[j] &lt; i - 1</code> rejects items whose weight equals <code>i</code> or <code>i - 1</code>. An item fits whenever <code>wt[j] &lt;= i</code>.' },
+    { title: 'Comparison is reversed', why: '<code>dp[i] &gt; candidate</code> only updates when the candidate is <b>smaller</b> (a minimum). For the maximum value the update must happen when <code>dp[i] &lt; dp[i - wt[j]] + val[j]</code>.' }
+  ],
+  code: {
+    c: {
+      header: `#include <stdio.h>
+#include <stdlib.h>
+
+int KnapsackProblem(int* wt, int* val, int n, int W);
+
+int main()
+{
+    //Input read from STDIN
+    int p = KnapsackProblem(wt, val, n, W);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `int KnapsackProblem(int* wt, int* val, int n, int W)
+{
+    /* Debug the given code. */
+    if(wt == NULL || val == NULL)
+        return -1;
+    int dp[W + 5];
+    for(int i = 0; i < W; i++)
+        dp[i] = 1;
+    for(int i = 0; i <= W; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            if(wt[j] < i - 1)
+            {
+                if(dp[i] > (dp[i - wt[j]] + val[j]))
+                    dp[i] = dp[i - wt[j]] + val[j];
+            }
+        }
+    }
+    if(dp[W] == 0)
+        return -1;
+    return dp[W];
+}`
+    },
+    cpp: {
+      header: `#include <bits/stdc++.h>
+using namespace std;
+
+int KnapsackProblem(int* wt, int* val, int n, int W);
+
+int main()
+{
+    //Input read from STDIN
+    int p = KnapsackProblem(wt, val, n, W);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `int KnapsackProblem(int* wt, int* val, int n, int W)
+{
+    /* Debug the given code. */
+    if(wt == nullptr || val == nullptr)
+        return -1;
+    vector<int> dp(W + 5);
+    for(int i = 0; i < W; i++)
+        dp[i] = 1;
+    for(int i = 0; i <= W; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            if(wt[j] < i - 1)
+            {
+                if(dp[i] > (dp[i - wt[j]] + val[j]))
+                    dp[i] = dp[i - wt[j]] + val[j];
+            }
+        }
+    }
+    if(dp[W] == 0)
+        return -1;
+    return dp[W];
+}`
+    },
+    java: {
+      header: `import java.util.*;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        //Input read from STDIN
+        int p = KnapsackProblem(wt, val, n, W);
+        //Value in p is printed to STDOUT
+    }`,
+      body: `static int KnapsackProblem(int[] wt, int[] val, int n, int W)
+{
+    /* Debug the given code. */
+    if(wt == null || val == null)
+        return -1;
+    int[] dp = new int[W + 5];
+    for(int i = 0; i < W; i++)
+        dp[i] = 1;
+    for(int i = 0; i <= W; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            if(wt[j] < i - 1)
+            {
+                if(dp[i] > (dp[i - wt[j]] + val[j]))
+                    dp[i] = dp[i - wt[j]] + val[j];
+            }
+        }
+    }
+    if(dp[W] == 0)
+        return -1;
+    return dp[W];
+}`,
+      footer: '}'
+    }
+  },
+  fixes: {
+    all: [
+      [['for(int i = 0; i < W; i++)', 'for(int i = 0; i <= W; i++)']],
+      [['dp[i] = 1;', 'dp[i] = 0;']],
+      [['if(wt[j] < i - 1)', 'if(wt[j] <= i)']],
+      [['if(dp[i] > (dp[i - wt[j]] + val[j]))', 'if(dp[i] < (dp[i - wt[j]] + val[j]))']]
+    ]
+  },
+  checks: {
+    all: [
+      { need: [/for\(inti=0;i(?:<=W|<W\+[1-5]|<=W\+[0-4]);i\+\+\)\{?dp\[i\]=/], forbid: [/for\(inti=0;i<W;i\+\+\)/] },
+      { need: [/dp\[i\]=0;/], forbid: [/dp\[i\]=1;/] },
+      { need: [/if\((?:wt\[j\]<=i|i>=wt\[j\]|wt\[j\]<i\+1|i\+1>wt\[j\]|i-wt\[j\]>=0)\)/], forbid: [/wt\[j\]<i-1/] },
+      { need: [/if\(dp\[i\]<\(?dp\[i-wt\[j\]\]\+val\[j\]\)?\)|if\(\(?dp\[i-wt\[j\]\]\+val\[j\]\)?>dp\[i\]\)|dp\[i\]=(?:Math\.|std::)?max\((?:dp\[i\],\(?dp\[i-wt\[j\]\]\+val\[j\]\)?|\(?dp\[i-wt\[j\]\]\+val\[j\]\)?,dp\[i\])\)/], forbid: [/if\(dp\[i\]>\(/] }
+    ]
+  },
+  parse(s) {
+    const r = ints(s); const n = r.next();
+    if (n < 0 || n > 1000) throw new Error('n must be in [0, 1000]');
+    const wt = [], val = [];
+    for (let i = 0; i < n; i++) wt.push(r.next());
+    for (let i = 0; i < n; i++) val.push(r.next());
+    const W = r.next();
+    if (W < 1 || W > 100000) throw new Error('W must be in [1, 100000]');
+    if (wt.some(x => x < 1) || val.some(x => x < 1)) throw new Error('weights and values must be ≥ 1');
+    return { n, wt, val, W };
+  },
+  simulate({ n, wt, val, W }, f, lang) {
+    const dp = new Array(W + 5).fill(0);
+    for (let i = 0; f[0] ? i <= W : i < W; i++) dp[i] = f[1] ? 0 : 1;
+    if (!f[0] && lang === 'c') return GARBAGE;
+    for (let i = 0; i <= W; i++)
+      for (let j = 0; j < n; j++)
+        if (f[2] ? wt[j] <= i : wt[j] < i - 1) {
+          const cand = dp[i - wt[j]] + val[j];
+          if (f[3] ? dp[i] < cand : dp[i] > cand) dp[i] = cand;
+        }
+    return String(dp[W] === 0 ? -1 : dp[W]);
+  },
+  tests: [
+    '3\n10 20 30\n40 100 120\n50',
+    '3\n1 3 4\n15 50 60\n8',
+    '1\n7\n9\n7',
+    '2\n5 10\n10 30\n4'
+  ],
+  hidden(r) {
+    const T = ['0\n\n\n10'];
+    for (let k = 0; k < 4; k++) {
+      const n = ri(r, 1, 6), W = ri(r, 20, 120);
+      const wt = [], val = [];
+      for (let i = 0; i < n; i++) { wt.push(ri(r, 1, 40)); val.push(ri(r, 1, 300)); }
+      T.push(`${n}\n${wt.join(' ')}\n${val.join(' ')}\n${W}`);
+    }
+    const n = 120, wt = [], val = [];
+    for (let i = 0; i < n; i++) { wt.push(ri(r, 3, 5000)); val.push(ri(r, 1, 10000)); }
+    T.push(`${n}\n${wt.join(' ')}\n${val.join(' ')}\n100000`);
+    T.push('2\n100000 99999\n10000 9999\n100000');
+    return T;
+  }
+},
+/* ================================================================ Q2 */
+{
+  id: 'treepath',
+  title: 'Binary Tree Maximum Path Sum',
+  topic: 'Trees · DFS · Post-order DP',
+  tag: 'Trees',
+  difficulty: 'Hard',
+  fn: { c: 'maxPathSum', cpp: 'maxPathSum', java: 'maxPathSum' },
+  statement: `
+<p>A <b>path</b> in a binary tree is a sequence of nodes where each pair of adjacent nodes is connected by an edge. A node can appear in the path <b>at most once</b>, and the path does <b>not</b> need to pass through the root. The <b>path sum</b> is the sum of the node values on the path.</p>
+<p>You are required to debug the following function:</p>
+<pre class="sig">int maxPathSum(int n, int* val, int* left, int* right);</pre>
+<p>The tree has <b>n</b> nodes numbered <code>0..n-1</code>; node <b>0</b> is the root. <b>val[i]</b> is the value of node <i>i</i>, and <b>left[i]</b> / <b>right[i]</b> are the indices of its children (<b>-1</b> if absent). Return the <b>maximum path sum</b> of any non-empty path.</p>
+<p><b>Input Format:</b> the first line contains <b>n</b>. Each of the next <b>n</b> lines contains three integers <code>val[i] left[i] right[i]</code>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ n ≤ 10<sup>4</sup></li><li>-1000 ≤ val[i] ≤ 1000</li><li>The input always describes a valid binary tree rooted at node 0.</li></ul>`,
+  concept: `
+<p>Solve it with a single <b>post-order DFS</b>. For every node <code>u</code> compute its <b>gain</b>: the best sum of a <i>downward</i> path that starts at <code>u</code>.</p>
+<pre>l = max(gain(left), 0)     // a negative branch is never worth taking
+r = max(gain(right), 0)
+best = max(best, val[u] + l + r)   // path that "bends" at u
+return val[u] + max(l, r)          // parent can extend only ONE branch</pre>
+<p><b>Key insights:</b></p>
+<ul>
+<li>The value used to update the answer (<code>val + l + r</code>) is <b>different</b> from the value returned to the parent (<code>val + max(l, r)</code>) — a path cannot fork.</li>
+<li>Clamp each branch at 0 <b>independently</b>.</li>
+<li>All values may be negative, so the answer can be negative — initialise <code>best</code> to <code>-∞</code>, not 0.</li>
+</ul>`,
+  hints: [
+    'Look closely at the two clamping lines. Is each branch clamped into its own variable?',
+    'Draw a node with two children. If gain() returns val+l+r, the parent will extend a path that visits this node and BOTH children — is that a valid path?',
+    'Run the code on a single node with value -3. What does it return and why?'
+  ],
+  bugs: [
+    { title: 'Copy-paste clamp bug', why: '<code>if(r &lt; 0) l = 0;</code> clamps the wrong variable: a negative right branch is still added, and a good left branch is thrown away. It must be <code>r = 0</code>.' },
+    { title: 'Returned gain forks the path', why: 'A parent can only continue through <b>one</b> child of this node. Returning <code>val[u] + l + r</code> lets the parent build a path that visits both children — impossible in a tree path. Return <code>val[u] + max(l, r)</code>.' },
+    { title: 'Answer initialised to 0', why: 'If every node is negative the best path is the single largest (negative) node, but <code>best = 0</code> makes the function print 0. Start from <code>INT_MIN</code> / <code>Integer.MIN_VALUE</code>.' }
+  ],
+  code: {
+    c: {
+      header: `#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+int maxPathSum(int n, int* val, int* left, int* right);
+
+int main()
+{
+    //Input read from STDIN
+    int p = maxPathSum(n, val, left, right);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `int gain(int u, int* val, int* left, int* right, int* best)
+{
+    if(u == -1)
+        return 0;
+    int l = gain(left[u], val, left, right, best);
+    int r = gain(right[u], val, left, right, best);
+    if(l < 0)
+        l = 0;
+    if(r < 0)
+        l = 0;
+    int through = val[u] + l + r;
+    if(through > *best)
+        *best = through;
+    return val[u] + l + r;
+}
+
+int maxPathSum(int n, int* val, int* left, int* right)
+{
+    /* Debug the given code. */
+    int best = 0;
+    gain(0, val, left, right, &best);
+    return best;
+}`
+    },
+    cpp: {
+      header: `#include <bits/stdc++.h>
+using namespace std;
+
+int maxPathSum(int n, vector<int>& val, vector<int>& left, vector<int>& right);
+
+int main()
+{
+    //Input read from STDIN
+    int p = maxPathSum(n, val, left, right);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `int gain(int u, vector<int>& val, vector<int>& left, vector<int>& right, int& best)
+{
+    if(u == -1)
+        return 0;
+    int l = gain(left[u], val, left, right, best);
+    int r = gain(right[u], val, left, right, best);
+    if(l < 0)
+        l = 0;
+    if(r < 0)
+        l = 0;
+    int through = val[u] + l + r;
+    if(through > best)
+        best = through;
+    return val[u] + l + r;
+}
+
+int maxPathSum(int n, vector<int>& val, vector<int>& left, vector<int>& right)
+{
+    /* Debug the given code. */
+    int best = 0;
+    gain(0, val, left, right, best);
+    return best;
+}`
+    },
+    java: {
+      header: `import java.util.*;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        //Input read from STDIN
+        int p = maxPathSum(n, val, left, right);
+        //Value in p is printed to STDOUT
+    }`,
+      body: `static int best;
+
+static int gain(int u, int[] val, int[] left, int[] right)
+{
+    if(u == -1)
+        return 0;
+    int l = gain(left[u], val, left, right);
+    int r = gain(right[u], val, left, right);
+    if(l < 0)
+        l = 0;
+    if(r < 0)
+        l = 0;
+    int through = val[u] + l + r;
+    if(through > best)
+        best = through;
+    return val[u] + l + r;
+}
+
+static int maxPathSum(int n, int[] val, int[] left, int[] right)
+{
+    /* Debug the given code. */
+    best = 0;
+    gain(0, val, left, right);
+    return best;
+}`,
+      footer: '}'
+    }
+  },
+  fixes: {
+    c: [
+      [['if(r < 0)\n        l = 0;', 'if(r < 0)\n        r = 0;']],
+      [['return val[u] + l + r;', 'return val[u] + (l > r ? l : r);']],
+      [['int best = 0;', 'int best = INT_MIN;']]
+    ],
+    cpp: [
+      [['if(r < 0)\n        l = 0;', 'if(r < 0)\n        r = 0;']],
+      [['return val[u] + l + r;', 'return val[u] + max(l, r);']],
+      [['int best = 0;', 'int best = INT_MIN;']]
+    ],
+    java: [
+      [['if(r < 0)\n        l = 0;', 'if(r < 0)\n        r = 0;']],
+      [['return val[u] + l + r;', 'return val[u] + Math.max(l, r);']],
+      [['best = 0;', 'best = Integer.MIN_VALUE;']]
+    ]
+  },
+  checks: {
+    all: [
+      { need: [/if\(r<0\)\{?r=0;|r=(?:Math\.|std::)?max\((?:r,0|0,r)\);|r=\(?r<0\)?\?0:r;|r=\(?r>0\)?\?r:0;/], forbid: [/if\(r<0\)\{?l=0/] },
+      { need: [new RegExp('return\\(?val\\[u\\]\\+\\(?' + MAXLR + '\\)?\\)?;|return\\(?\\(?' + MAXLR + '\\)?\\+val\\[u\\]\\)?;')], forbid: [/returnval\[u\]\+l\+r;/] },
+      { need: [/best=(?:INT_MIN|Integer\.MIN_VALUE|-\d{4,}|-1e[4-9]|\(int\)-1e[4-9]|val\[0\]|numeric_limits<int>::min\(\))/], forbid: [/best=0;/] }
+    ]
+  },
+  parse(s) {
+    const r = ints(s); const n = r.next();
+    if (n < 1 || n > 10000) throw new Error('n must be in [1, 10000]');
+    const val = [], left = [], right = [];
+    for (let i = 0; i < n; i++) { val.push(r.next()); left.push(r.next()); right.push(r.next()); }
+    const seen = new Array(n).fill(0); seen[0] = 1;
+    for (let i = 0; i < n; i++) for (const c of [left[i], right[i]]) {
+      if (c === -1) continue;
+      if (c < 1 || c >= n || seen[c]) throw new Error('Children must form a valid tree rooted at node 0');
+      seen[c] = 1;
+    }
+    if (seen.some(x => !x)) throw new Error('Every node must be reachable from node 0');
+    return { n, val, left, right };
+  },
+  simulate({ n, val, left, right }, f) {
+    const order = [], st = [0];
+    while (st.length) { const u = st.pop(); order.push(u); for (const c of [left[u], right[u]]) if (c !== -1) st.push(c); }
+    const g = new Array(n).fill(0);
+    let best = f[2] ? -2147483648 : 0;
+    for (let k = order.length - 1; k >= 0; k--) {
+      const u = order[k];
+      let l = left[u] === -1 ? 0 : g[left[u]];
+      let r = right[u] === -1 ? 0 : g[right[u]];
+      if (l < 0) l = 0;
+      if (r < 0) { if (f[0]) r = 0; else l = 0; }
+      const through = val[u] + l + r;
+      if (through > best) best = through;
+      g[u] = f[1] ? val[u] + Math.max(l, r) : val[u] + l + r;
+    }
+    return String(best);
+  },
+  tests: [
+    '5\n-10 1 2\n9 -1 -1\n20 3 4\n15 -1 -1\n7 -1 -1',
+    '1\n-3 -1 -1',
+    '3\n2 1 2\n3 -1 -1\n-5 -1 -1',
+    '7\n1 1 2\n2 3 4\n3 5 6\n4 -1 -1\n5 -1 -1\n6 -1 -1\n7 -1 -1'
+  ],
+  hidden(r) {
+    const T = [];
+    const mk = (n, lo, hi) => {
+      const val = [], L = new Array(n).fill(-1), R = new Array(n).fill(-1);
+      for (let i = 0; i < n; i++) val.push(ri(r, lo, hi));
+      for (let i = 1; i < n; i++) {
+        for (;;) { const p = ri(r, 0, i - 1); if (r() < 0.5) { if (L[p] === -1) { L[p] = i; break; } } else if (R[p] === -1) { R[p] = i; break; } }
+      }
+      return `${n}\n` + val.map((v, i) => `${v} ${L[i]} ${R[i]}`).join('\n');
+    };
+    T.push(mk(6, -1000, -1));
+    for (let k = 0; k < 4; k++) T.push(mk(ri(r, 5, 40), -60, 60));
+    T.push(mk(300, -1000, 1000));
+    const n = 4000, lines = [];
+    for (let i = 0; i < n; i++) lines.push(`${i % 3 === 0 ? -1 : 1} ${i + 1 < n ? i + 1 : -1} -1`);
+    T.push(`${n}\n` + lines.join('\n'));
+    return T;
+  }
+},
+/* ================================================================ Q3 */
+{
+  id: 'dijkstra',
+  title: 'Number of Shortest Paths',
+  topic: 'Graphs · Dijkstra · Path counting',
+  tag: 'Graphs',
+  difficulty: 'Hard',
+  fn: { c: 'countShortestPaths', cpp: 'countShortestPaths', java: 'countShortestPaths' },
+  statement: `
+<p>A city has <b>n</b> intersections (numbered 1..n) joined by <b>m</b> two-way roads. Road <i>e</i> connects <code>edges[e][0]</code> and <code>edges[e][1]</code> and takes <code>edges[e][2]</code> minutes to travel.</p>
+<p>You are required to debug the following function:</p>
+<pre class="sig">int countShortestPaths(int n, int m, int edges[][3]);</pre>
+<p>It must return the <b>number of different shortest routes</b> from intersection <b>1</b> to intersection <b>n</b>, modulo <b>10<sup>9</sup> + 7</b>. Return <b>0</b> if <b>n</b> is unreachable. Two routes are different if their sequences of roads differ.</p>
+<p><b>Input Format:</b> first line <code>n m</code>; each of the next <b>m</b> lines contains <code>u v w</code>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ n ≤ 1000, 0 ≤ m ≤ n·(n-1)/2</li><li>1 ≤ w ≤ 10<sup>9</sup></li><li>No self-loops and no two roads join the same pair of intersections.</li></ul>`,
+  concept: `
+<p>Run <b>Dijkstra</b> and carry a second array <code>ways[v]</code> = number of shortest paths found so far to <code>v</code>. When relaxing edge <code>u → v</code> with candidate distance <code>nd</code>:</p>
+<pre>if (nd &lt; dist[v]) { dist[v] = nd; ways[v] = ways[u]; }          // strictly better: RESET
+else if (nd == dist[v]) ways[v] = (ways[v] + ways[u]) % MOD;  // tie: ADD</pre>
+<p><b>Why it is tricky:</b></p>
+<ul>
+<li>A strictly shorter distance makes every previously counted path obsolete, so the count must be <b>replaced</b>, not accumulated.</li>
+<li>Using <code>&lt;=</code> merges the two cases and turns a tie into a reset.</li>
+<li>Distances can reach 10<sup>9</sup> × 999 ≈ 10<sup>12</sup> → they must be <b>64-bit</b>, and "infinity" must be larger than any real distance.</li>
+</ul>`,
+  hints: [
+    'What is the largest possible shortest distance? Does it fit in a 32-bit int? Check both the dist array and INF.',
+    'If a road of weight 10^9 exists, is dist == INF (10^9) really "unreachable"?',
+    'When nd == dist[v], which branch executes? It should add paths, not overwrite them.',
+    'When a strictly shorter path to v is found, should the old count of paths to v survive?'
+  ],
+  bugs: [
+    { title: '32-bit distance array', why: 'Distances go up to ~10<sup>12</sup>, but <code>dist</code> stores <code>int</code>. Writing <code>nd</code> back truncates it, corrupting comparisons. Use <code>long long</code> / <code>long</code>.' },
+    { title: 'INF is a reachable distance', why: '<code>INF = 10<sup>9</sup></code> is a legal edge weight and far below real distances, so real nodes look unreachable (or unreachable nodes look finished). Use something like <code>1LL &lt;&lt; 60</code>.' },
+    { title: '<code>&lt;=</code> swallows the tie case', why: 'With <code>nd &lt;= dist[v]</code> the <code>else if(nd == dist[v])</code> branch is dead code — equal-length routes are never added up correctly. Use strict <code>&lt;</code>.' },
+    { title: 'Count accumulates on improvement', why: 'On a strictly shorter distance the old paths are no longer shortest, so <code>ways[v]</code> must be <b>reset</b> to <code>ways[u]</code>, not incremented.' }
+  ],
+  code: {
+    c: {
+      header: `#include <stdio.h>
+#include <stdlib.h>
+
+int countShortestPaths(int n, int m, int edges[][3]);
+
+int main()
+{
+    //Input read from STDIN
+    int p = countShortestPaths(n, m, edges);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `#define MOD 1000000007
+#define INF 1000000000
+
+int countShortestPaths(int n, int m, int edges[][3])
+{
+    /* Debug the given code. */
+    long long *adj = (long long*)malloc(sizeof(long long) * n * n);
+    for(int i = 0; i < n * n; i++)
+        adj[i] = -1;
+    for(int e = 0; e < m; e++)
+    {
+        int u = edges[e][0] - 1, v = edges[e][1] - 1;
+        adj[u * n + v] = edges[e][2];
+        adj[v * n + u] = edges[e][2];
+    }
+    int *dist = (int*)malloc(sizeof(int) * n);
+    long long *ways = (long long*)malloc(sizeof(long long) * n);
+    int *done = (int*)calloc(n, sizeof(int));
+    for(int i = 0; i < n; i++)
+    {
+        dist[i] = INF;
+        ways[i] = 0;
+    }
+    dist[0] = 0;
+    ways[0] = 1;
+    for(int it = 0; it < n; it++)
+    {
+        int u = -1;
+        for(int i = 0; i < n; i++)
+            if(!done[i] && (u == -1 || dist[i] < dist[u]))
+                u = i;
+        if(dist[u] == INF)
+            break;
+        done[u] = 1;
+        for(int v = 0; v < n; v++)
+        {
+            if(adj[u * n + v] < 0 || done[v])
+                continue;
+            long long nd = dist[u] + adj[u * n + v];
+            if(nd <= dist[v])
+            {
+                dist[v] = nd;
+                ways[v] = (ways[v] + ways[u]) % MOD;
+            }
+            else if(nd == dist[v])
+                ways[v] = (ways[v] + ways[u]) % MOD;
+        }
+    }
+    int ans = (int)ways[n - 1];
+    free(adj); free(dist); free(ways); free(done);
+    return ans;
+}`
+    },
+    cpp: {
+      header: `#include <bits/stdc++.h>
+using namespace std;
+
+int countShortestPaths(int n, int m, vector<array<int, 3>>& edges);
+
+int main()
+{
+    //Input read from STDIN
+    int p = countShortestPaths(n, m, edges);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `const int MOD = 1000000007;
+const int INF = 1000000000;
+
+int countShortestPaths(int n, int m, vector<array<int, 3>>& edges)
+{
+    /* Debug the given code. */
+    vector<vector<long long>> adj(n, vector<long long>(n, -1));
+    for(auto& e : edges)
+    {
+        adj[e[0] - 1][e[1] - 1] = e[2];
+        adj[e[1] - 1][e[0] - 1] = e[2];
+    }
+    vector<int> dist(n, INF);
+    vector<long long> ways(n, 0);
+    vector<bool> done(n, false);
+    dist[0] = 0;
+    ways[0] = 1;
+    for(int it = 0; it < n; it++)
+    {
+        int u = -1;
+        for(int i = 0; i < n; i++)
+            if(!done[i] && (u == -1 || dist[i] < dist[u]))
+                u = i;
+        if(dist[u] == INF)
+            break;
+        done[u] = true;
+        for(int v = 0; v < n; v++)
+        {
+            if(adj[u][v] < 0 || done[v])
+                continue;
+            long long nd = dist[u] + adj[u][v];
+            if(nd <= dist[v])
+            {
+                dist[v] = nd;
+                ways[v] = (ways[v] + ways[u]) % MOD;
+            }
+            else if(nd == dist[v])
+                ways[v] = (ways[v] + ways[u]) % MOD;
+        }
+    }
+    return (int) ways[n - 1];
+}`
+    },
+    java: {
+      header: `import java.util.*;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        //Input read from STDIN
+        int p = countShortestPaths(n, m, edges);
+        //Value in p is printed to STDOUT
+    }`,
+      body: `static final int MOD = 1000000007;
+static final int INF = 1000000000;
+
+static int countShortestPaths(int n, int m, int[][] edges)
+{
+    /* Debug the given code. */
+    long[][] adj = new long[n][n];
+    for(long[] row : adj)
+        Arrays.fill(row, -1);
+    for(int e = 0; e < m; e++)
+    {
+        int u = edges[e][0] - 1, v = edges[e][1] - 1;
+        adj[u][v] = edges[e][2];
+        adj[v][u] = edges[e][2];
+    }
+    int[] dist = new int[n];
+    long[] ways = new long[n];
+    boolean[] done = new boolean[n];
+    Arrays.fill(dist, INF);
+    dist[0] = 0;
+    ways[0] = 1;
+    for(int it = 0; it < n; it++)
+    {
+        int u = -1;
+        for(int i = 0; i < n; i++)
+            if(!done[i] && (u == -1 || dist[i] < dist[u]))
+                u = i;
+        if(dist[u] == INF)
+            break;
+        done[u] = true;
+        for(int v = 0; v < n; v++)
+        {
+            if(adj[u][v] < 0 || done[v])
+                continue;
+            long nd = dist[u] + adj[u][v];
+            if(nd <= dist[v])
+            {
+                dist[v] = (int) nd;
+                ways[v] = (ways[v] + ways[u]) % MOD;
+            }
+            else if(nd == dist[v])
+                ways[v] = (ways[v] + ways[u]) % MOD;
+        }
+    }
+    return (int) ways[n - 1];
+}`,
+      footer: '}'
+    }
+  },
+  fixes: {
+    c: [
+      [['int *dist = (int*)malloc(sizeof(int) * n);', 'long long *dist = (long long*)malloc(sizeof(long long) * n);']],
+      [['#define INF 1000000000', '#define INF (1LL << 60)']],
+      [['if(nd <= dist[v])', 'if(nd < dist[v])']],
+      [['dist[v] = nd;\n                ways[v] = (ways[v] + ways[u]) % MOD;', 'dist[v] = nd;\n                ways[v] = ways[u];']]
+    ],
+    cpp: [
+      [['vector<int> dist(n, INF);', 'vector<long long> dist(n, INF);']],
+      [['const int INF = 1000000000;', 'const long long INF = (1LL << 60);']],
+      [['if(nd <= dist[v])', 'if(nd < dist[v])']],
+      [['dist[v] = nd;\n                ways[v] = (ways[v] + ways[u]) % MOD;', 'dist[v] = nd;\n                ways[v] = ways[u];']]
+    ],
+    java: [
+      [['int[] dist = new int[n];', 'long[] dist = new long[n];'], ['dist[v] = (int) nd;', 'dist[v] = nd;']],
+      [['static final int INF = 1000000000;', 'static final long INF = (1L << 60);']],
+      [['if(nd <= dist[v])', 'if(nd < dist[v])']],
+      [['ways[v] = (ways[v] + ways[u]) % MOD;\n            }', 'ways[v] = ways[u];\n            }']]
+    ]
+  },
+  checks: {
+    c: [
+      { need: [/longlong\*dist=[^;]*(?:sizeof\(longlong\)|sizeof\(\*dist\)|sizeof\(dist\[0\]\))[^;]*;/], forbid: [/int\*dist=/] },
+      { need: [/#defineINF\(?(?:\(longlong\))?(?:1LL<<\d\d|1ll<<\d\d|LLONG_MAX(?:\/\d+)?|\d{13,}(?:LL|ll)?|[1-9]e1[3-8])\)?|constlonglongINF=/], forbid: [/#defineINF1000000000(?!\d)/] },
+      { need: [/if\(nd<dist\[v\]\)/], forbid: [/nd<=dist\[v\]/] },
+      { need: [/dist\[v\]=nd;ways\[v\]=ways\[u\](?:%MOD)?;/], forbid: [/dist\[v\]=nd;ways\[v\]=\(ways\[v\]\+ways\[u\]\)/] }
+    ],
+    cpp: [
+      { need: [/vector<(?:longlong|int64_t|longlongint)>dist\(/], forbid: [/vector<int>dist/] },
+      { need: [/(?:constlonglong|longlongconst|constexprlonglong|constint64_t)INF=(?:\(?1LL<<\d\d\)?|\(?1ll<<\d\d\)?|LLONG_MAX(?:\/\d+)?|[1-9]e1[3-8]|\d{13,}(?:LL|ll)?|numeric_limits<longlong>::max\(\)(?:\/\d+)?)|#defineINF/], forbid: [/constintINF=/] },
+      { need: [/if\(nd<dist\[v\]\)/], forbid: [/nd<=dist\[v\]/] },
+      { need: [/dist\[v\]=nd;ways\[v\]=ways\[u\](?:%MOD)?;/], forbid: [/dist\[v\]=nd;ways\[v\]=\(ways\[v\]\+ways\[u\]\)/] }
+    ],
+    java: [
+      { need: [/long\[\]dist=newlong\[n\];/, /dist\[v\]=nd;/], forbid: [/int\[\]dist/, /dist\[v\]=\(int\)nd/] },
+      { need: [/staticfinallongINF=(?:\(?1L<<\d\d\)?|Long\.MAX_VALUE(?:\/\d+)?|[\d_]{13,}L|\(long\)[1-9]e1[3-8])/], forbid: [/staticfinalintINF/] },
+      { need: [/if\(nd<dist\[v\]\)/], forbid: [/nd<=dist\[v\]/] },
+      { need: [/dist\[v\]=(?:\(int\))?nd;ways\[v\]=ways\[u\](?:%MOD)?;/], forbid: [/dist\[v\]=(?:\(int\))?nd;ways\[v\]=\(ways\[v\]\+ways\[u\]\)/] }
+    ]
+  },
+  compileCheck(S, lang) {
+    if (lang === 'java' && /int\[\]dist/.test(S) && /staticfinallongINF/.test(S))
+      return 'Main.java: error: incompatible types: possible lossy conversion from long to int\n        Arrays.fill(dist, INF);\n                          ^';
+    return null;
+  },
+  parse(s) {
+    const r = ints(s); const n = r.next(), m = r.next();
+    if (n < 1 || n > 1000) throw new Error('n must be in [1, 1000]');
+    if (m < 0 || m > n * (n - 1) / 2) throw new Error('m out of range');
+    const E = [], seen = new Set();
+    for (let i = 0; i < m; i++) {
+      const u = r.next(), v = r.next(), w = r.next();
+      if (u < 1 || v < 1 || u > n || v > n || u === v) throw new Error('Invalid road ' + u + ' ' + v);
+      const k = Math.min(u, v) * 2000 + Math.max(u, v);
+      if (seen.has(k)) throw new Error('Duplicate road ' + u + ' ' + v); seen.add(k);
+      if (w < 1 || w > 1e9) throw new Error('w must be in [1, 1e9]');
+      E.push([u, v, w]);
+    }
+    return { n, m, E };
+  },
+  simulate({ n, E }, f) {
+    const MOD = 1000000007, INF = f[1] ? 2 ** 60 : 1e9;
+    const store = x => f[0] ? x : i32(x);
+    const adj = Array.from({ length: n }, () => new Array(n).fill(-1));
+    for (const [u, v, w] of E) { adj[u - 1][v - 1] = w; adj[v - 1][u - 1] = w; }
+    const dist = new Array(n).fill(store(INF)), ways = new Array(n).fill(0), done = new Array(n).fill(false);
+    dist[0] = 0; ways[0] = 1;
+    for (let it = 0; it < n; it++) {
+      let u = -1;
+      for (let i = 0; i < n; i++) if (!done[i] && (u === -1 || dist[i] < dist[u])) u = i;
+      if (dist[u] === INF) break;
+      done[u] = true;
+      for (let v = 0; v < n; v++) {
+        if (adj[u][v] < 0 || done[v]) continue;
+        const nd = dist[u] + adj[u][v];
+        if (f[2] ? nd < dist[v] : nd <= dist[v]) { dist[v] = store(nd); ways[v] = f[3] ? ways[u] : (ways[v] + ways[u]) % MOD; }
+        else if (nd === dist[v]) ways[v] = (ways[v] + ways[u]) % MOD;
+      }
+    }
+    return String(ways[n - 1]);
+  },
+  tests: [
+    '4 4\n1 2 1\n1 3 1\n2 4 1\n3 4 1',
+    '4 4\n1 2 5\n1 3 1\n3 2 1\n2 4 1',
+    '6 6\n1 2 1000000000\n2 3 1000000000\n3 6 1000000000\n1 4 1000000000\n4 5 1000000000\n5 6 1000000000',
+    '3 1\n1 2 4'
+  ],
+  hidden(r) {
+    const T = ['1 0'];
+    const rand = (n, p, lo, hi) => {
+      const E = [];
+      for (let i = 1; i <= n; i++) for (let j = i + 1; j <= n; j++) if (r() < p) E.push([i, j, ri(r, lo, hi)]);
+      return `${n} ${E.length}\n` + E.map(e => e.join(' ')).join('\n');
+    };
+    T.push(rand(7, 0.6, 1, 3));
+    T.push(rand(9, 0.5, 1, 2));
+    T.push(rand(12, 0.4, 999999998, 1000000000));
+    // 40 chained diamonds => 2^40 shortest paths (tests the modulo)
+    { const E = []; let c = 1, id = 1; for (let k = 0; k < 40; k++) { const a = ++id, b = ++id, d = ++id; E.push([c, a, 7], [c, b, 7], [a, d, 5], [b, d, 5]); c = d; }
+      T.push(`${id} ${E.length}\n` + E.map(e => e.join(' ')).join('\n')); }
+    // 30 heavy diamonds: distance 6e10 (needs 64-bit) and 2^30 shortest paths
+    { const E = []; let c = 1, id = 1; for (let k = 0; k < 30; k++) { const a = ++id, b = ++id, d = ++id; E.push([c, a, 1000000000], [c, b, 999999999], [a, d, 999999999], [b, d, 1000000000]); c = d; }
+      T.push(`${id} ${E.length}\n` + E.map(e => e.join(' ')).join('\n')); }
+    // two long parallel heavy chains of equal length + one slightly longer detour
+    { const E = []; const L = 150; let id = 1; const n = 2 * L + 2; let pa = 1, pb = 1;
+      for (let k = 0; k < L; k++) { const a = ++id, b = ++id; E.push([pa, a, 1000000000], [pb, b, 1000000000]); pa = a; pb = b; }
+      E.push([pa, n, 1000000000], [pb, n, 1000000000], [2, 5, 999999999]);
+      T.push(`${n} ${E.length}\n` + E.map(e => e.join(' ')).join('\n')); }
+    T.push('5 3\n1 2 3\n2 3 3\n4 5 1');
+    return T;
+  }
+},
+/* ================================================================ Q4 */
+{
+  id: 'editdist',
+  title: 'Edit Distance',
+  topic: '2D Dynamic Programming · Strings',
+  tag: '2D DP',
+  difficulty: 'Hard',
+  fn: { c: 'editDistance', cpp: 'editDistance', java: 'editDistance' },
+  statement: `
+<p>Given two strings <b>s</b> and <b>t</b>, return the minimum number of operations required to convert <b>s</b> into <b>t</b>. The permitted operations on <b>s</b> are:</p>
+<ul><li>Insert a character</li><li>Delete a character</li><li>Replace a character</li></ul>
+<p>You are required to debug the following function:</p>
+<pre class="sig">int editDistance(char* s, char* t);</pre>
+<p><b>Input Format:</b> the first line contains <b>s</b>, the second line contains <b>t</b>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ |s|, |t| ≤ 500</li><li>Both strings contain lowercase English letters only.</li></ul>`,
+  concept: `
+<p><b>State:</b> <code>dp[i][j]</code> = edit distance between the first <code>i</code> characters of <code>s</code> and the first <code>j</code> characters of <code>t</code>. The table is <code>(n+1) × (m+1)</code>, so row/column 0 represent the <b>empty prefix</b>.</p>
+<p><b>Base cases:</b> <code>dp[i][0] = i</code> (delete all i chars), <code>dp[0][j] = j</code> (insert all j chars).</p>
+<p><b>Transition:</b> prefix lengths <code>i, j</code> end at characters <code>s[i-1]</code> and <code>t[j-1]</code>:</p>
+<pre>if (s[i-1] == t[j-1]) dp[i][j] = dp[i-1][j-1];
+else dp[i][j] = 1 + min(dp[i-1][j],      // delete
+                        dp[i][j-1],      // insert
+                        dp[i-1][j-1]);   // replace</pre>
+<p><b>Classic traps:</b> mixing up "length i" with "index i" (off-by-one), asymmetric base cases, and forgetting one of the three operations.</p>`,
+  hints: [
+    'How many operations turn "abc" into ""? Compare with what dp[3][0] is initialised to.',
+    'dp[i][j] covers the first i characters of s. Which character of s is the LAST one in that prefix?',
+    'Look at the three arguments passed to min3. Are they three different operations?'
+  ],
+  bugs: [
+    { title: 'Base column is 0', why: 'Converting a prefix of length <code>i</code> into the empty string needs <code>i</code> deletions, so <code>dp[i][0] = i</code>. It is inconsistent with the (correct) row <code>dp[0][j] = j</code>.' },
+    { title: 'Off-by-one character comparison', why: '<code>dp[i][j]</code> refers to prefixes of length <code>i</code> and <code>j</code>; their last characters are <code>s[i-1]</code> and <code>t[j-1]</code>. Comparing <code>s[i]</code> reads the wrong character (and past the end — Java throws <code>StringIndexOutOfBoundsException</code>).' },
+    { title: 'Replace operation missing', why: '<code>dp[i][j-1]</code> is passed twice, so the diagonal <code>dp[i-1][j-1]</code> (replace) is never considered. "abc" → "abd" would cost 2 instead of 1.' }
+  ],
+  code: {
+    c: {
+      header: `#include <stdio.h>
+#include <string.h>
+
+int editDistance(char* s, char* t);
+
+int main()
+{
+    //Input read from STDIN
+    int p = editDistance(s, t);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `int min3(int a, int b, int c)
+{
+    int m = a < b ? a : b;
+    return m < c ? m : c;
+}
+
+int editDistance(char* s, char* t)
+{
+    /* Debug the given code. */
+    int n = strlen(s), m = strlen(t);
+    int dp[n + 1][m + 1];
+    for(int i = 0; i <= n; i++)
+        dp[i][0] = 0;
+    for(int j = 0; j <= m; j++)
+        dp[0][j] = j;
+    for(int i = 1; i <= n; i++)
+    {
+        for(int j = 1; j <= m; j++)
+        {
+            if(s[i] == t[j])
+                dp[i][j] = dp[i - 1][j - 1];
+            else
+                dp[i][j] = 1 + min3(dp[i - 1][j], dp[i][j - 1], dp[i][j - 1]);
+        }
+    }
+    return dp[n][m];
+}`
+    },
+    cpp: {
+      header: `#include <bits/stdc++.h>
+using namespace std;
+
+int editDistance(string& s, string& t);
+
+int main()
+{
+    //Input read from STDIN
+    int p = editDistance(s, t);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `int min3(int a, int b, int c)
+{
+    return min(a, min(b, c));
+}
+
+int editDistance(string& s, string& t)
+{
+    /* Debug the given code. */
+    int n = s.size(), m = t.size();
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1));
+    for(int i = 0; i <= n; i++)
+        dp[i][0] = 0;
+    for(int j = 0; j <= m; j++)
+        dp[0][j] = j;
+    for(int i = 1; i <= n; i++)
+    {
+        for(int j = 1; j <= m; j++)
+        {
+            if(s[i] == t[j])
+                dp[i][j] = dp[i - 1][j - 1];
+            else
+                dp[i][j] = 1 + min3(dp[i - 1][j], dp[i][j - 1], dp[i][j - 1]);
+        }
+    }
+    return dp[n][m];
+}`
+    },
+    java: {
+      header: `import java.util.*;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        //Input read from STDIN
+        int p = editDistance(s, t);
+        //Value in p is printed to STDOUT
+    }`,
+      body: `static int min3(int a, int b, int c)
+{
+    return Math.min(a, Math.min(b, c));
+}
+
+static int editDistance(String s, String t)
+{
+    /* Debug the given code. */
+    int n = s.length(), m = t.length();
+    int[][] dp = new int[n + 1][m + 1];
+    for(int i = 0; i <= n; i++)
+        dp[i][0] = 0;
+    for(int j = 0; j <= m; j++)
+        dp[0][j] = j;
+    for(int i = 1; i <= n; i++)
+    {
+        for(int j = 1; j <= m; j++)
+        {
+            if(s.charAt(i) == t.charAt(j))
+                dp[i][j] = dp[i - 1][j - 1];
+            else
+                dp[i][j] = 1 + min3(dp[i - 1][j], dp[i][j - 1], dp[i][j - 1]);
+        }
+    }
+    return dp[n][m];
+}`,
+      footer: '}'
+    }
+  },
+  fixes: {
+    c: [
+      [['dp[i][0] = 0;', 'dp[i][0] = i;']],
+      [['if(s[i] == t[j])', 'if(s[i - 1] == t[j - 1])']],
+      [['min3(dp[i - 1][j], dp[i][j - 1], dp[i][j - 1])', 'min3(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])']]
+    ],
+    java: [
+      [['dp[i][0] = 0;', 'dp[i][0] = i;']],
+      [['if(s.charAt(i) == t.charAt(j))', 'if(s.charAt(i - 1) == t.charAt(j - 1))']],
+      [['min3(dp[i - 1][j], dp[i][j - 1], dp[i][j - 1])', 'min3(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])']]
+    ]
+  },
+  checks: {
+    all: [
+      { need: [/dp\[i\]\[0\]=i;/], forbid: [/dp\[i\]\[0\]=0;/] },
+      { need: [/if\((?:s\[i-1\]==t\[j-1\]|t\[j-1\]==s\[i-1\]|s\.charAt\(i-1\)==t\.charAt\(j-1\)|t\.charAt\(j-1\)==s\.charAt\(i-1\))\)/], forbid: [/s\[i\]==t\[j\]|s\.charAt\(i\)==t\.charAt\(j\)/] },
+      { need: [/min3\([^;]*dp\[i-1\]\[j-1\]/, /min3\([^;]*dp\[i-1\]\[j\][,)]/, /min3\([^;]*dp\[i\]\[j-1\]/], forbid: [/min3\(dp\[i-1\]\[j\],dp\[i\]\[j-1\],dp\[i\]\[j-1\]\)/] }
+    ]
+  },
+  parse(s) {
+    const lines = s.replace(/\r/g, '').split('\n').map(x => x.trim());
+    while (lines.length && lines[lines.length - 1] === '') lines.pop();
+    if (lines.length !== 2) throw new Error('Expected exactly two lines: s and t');
+    for (const x of lines) if (!/^[a-z]{1,500}$/.test(x)) throw new Error('Strings must be 1..500 lowercase letters');
+    return { s: lines[0], t: lines[1] };
+  },
+  simulate({ s, t }, f, lang) {
+    const n = s.length, m = t.length;
+    if (!f[1] && lang === 'java') return RTE + 'Exception in thread "main" java.lang.StringIndexOutOfBoundsException';
+    const at = (x, i) => i < x.length ? x[i] : '\0';
+    const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+    for (let i = 0; i <= n; i++) dp[i][0] = f[0] ? i : 0;
+    for (let j = 0; j <= m; j++) dp[0][j] = j;
+    for (let i = 1; i <= n; i++) for (let j = 1; j <= m; j++) {
+      const eq = f[1] ? s[i - 1] === t[j - 1] : at(s, i) === at(t, j);
+      dp[i][j] = eq ? dp[i - 1][j - 1] : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], f[2] ? dp[i - 1][j - 1] : dp[i][j - 1]);
+    }
+    return String(dp[n][m]);
+  },
+  tests: ['horse\nros', 'intention\nexecution', 'abc\nabd', 'kitten\nkitten'],
+  hidden(r) {
+    const T = ['a\nb', 'abcdef\nazced'];
+    const rs = (len, k) => Array.from({ length: len }, () => String.fromCharCode(97 + ri(r, 0, k - 1))).join('');
+    for (let q = 0; q < 4; q++) T.push(rs(ri(r, 1, 25), 3) + '\n' + rs(ri(r, 1, 25), 3));
+    T.push(rs(500, 4) + '\n' + rs(480, 4));
+    T.push(rs(1, 26) + '\n' + rs(300, 26));
+    return T;
+  }
+},
+/* ================================================================ Q5 */
+{
+  id: 'kruskal',
+  title: 'Minimum Cost to Connect Cities',
+  topic: 'Graphs · MST (Kruskal) · Disjoint Set Union',
+  tag: 'Advanced DSA',
+  difficulty: 'Hard',
+  fn: { c: 'minimumCost', cpp: 'minimumCost', java: 'minimumCost' },
+  statement: `
+<p>There are <b>n</b> cities numbered 1..n and <b>m</b> possible cables. Cable <i>e</i> can connect cities <code>u</code> and <code>v</code> at a cost of <code>w</code>. Choose cables so that every pair of cities is connected (directly or indirectly) with the <b>minimum total cost</b>.</p>
+<p>You are required to debug the following function:</p>
+<pre class="sig">long long minimumCost(int n, int m, Edge* edges);</pre>
+<p>Return the minimum total cost, or <b>-1</b> if it is impossible to connect all cities.</p>
+<p><b>Input Format:</b> first line <code>n m</code>; each of the next <b>m</b> lines contains <code>u v w</code>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ n ≤ 10<sup>4</sup>, 0 ≤ m ≤ 10<sup>5</sup></li><li>1 ≤ w ≤ 10<sup>9</sup>, all costs are <b>distinct</b></li><li>1 ≤ u, v ≤ n (a cable may connect a city to itself)</li></ul>`,
+  concept: `
+<p><b>Kruskal's algorithm:</b> sort cables by cost <b>ascending</b>; take a cable if its endpoints are in <b>different components</b>; stop after <code>n-1</code> cables.</p>
+<p>Components are tracked with a <b>Disjoint Set Union (Union-Find)</b>:</p>
+<pre>int find(int x) {                 // returns the ROOT of x's set
+    if (parent[x] != x)
+        parent[x] = find(parent[x]); // path compression
+    return parent[x];
+}
+void unite(int a, int b) {
+    int ra = find(a), rb = find(b);
+    if (ra != rb) parent[ra] = rb;   // link ROOTS, never raw nodes
+}</pre>
+<p><b>Why each detail matters:</b></p>
+<ul>
+<li>Descending order builds a <b>maximum</b> spanning tree.</li>
+<li><code>find</code> must return the root, otherwise every node looks like its own component.</li>
+<li>Linking raw nodes (<code>parent[u] = v</code>) detaches <code>u</code> from its old tree and silently splits components.</li>
+<li>A spanning tree on <code>n</code> nodes has exactly <code>n - 1</code> edges, and 10<sup>4</sup> × 10<sup>9</sup> overflows 32-bit ints.</li>
+</ul>`,
+  hints: [
+    'Which order does the comparator sort cables in? Kruskal needs the cheapest first.',
+    'find() is supposed to return the representative (root). What does it actually return?',
+    'After a successful union, which two entries should be linked: the nodes or their roots?',
+    'How many edges does a spanning tree on n nodes have? And what is the maximum possible total cost?'
+  ],
+  bugs: [
+    { title: 'Sorted in descending order', why: 'The comparator puts the most expensive cables first, which builds a <b>maximum</b> spanning tree. Sort ascending by <code>w</code>.' },
+    { title: 'find() returns x, not the root', why: 'Path compression updates <code>parent[x]</code> correctly, but the function then returns <code>x</code> itself, so every call reports "different components". Return <code>parent[x]</code>.' },
+    { title: 'Union links nodes instead of roots', why: '<code>parent[u] = v</code> overwrites u\'s link to its own tree, splitting components and later creating cycles in the chosen edges. Link the roots: <code>parent[ru] = rv</code>.' },
+    { title: 'Total cost overflows int', why: 'Up to 10<sup>4</sup> - 1 cables × 10<sup>9</sup> ≈ 10<sup>13</sup> — needs a 64-bit accumulator (<code>long long</code> / <code>long</code>).' },
+    { title: 'Wrong spanning-tree edge count', why: 'A spanning tree has <code>n - 1</code> edges; <code>used</code> can never reach <code>n</code>, so the function always returns -1. Check <code>used != n - 1</code>.' }
+  ],
+  code: {
+    c: {
+      header: `#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct { int u, v, w; } Edge;
+
+long long minimumCost(int n, int m, Edge* edges);
+
+int main()
+{
+    //Input read from STDIN
+    long long p = minimumCost(n, m, edges);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `int parent[100005];
+
+int cmp(const void* a, const void* b)
+{
+    const Edge* x = (const Edge*)a;
+    const Edge* y = (const Edge*)b;
+    return y->w - x->w;
+}
+
+int findSet(int x)
+{
+    if(parent[x] != x)
+        parent[x] = findSet(parent[x]);
+    return x;
+}
+
+long long minimumCost(int n, int m, Edge* edges)
+{
+    /* Debug the given code. */
+    qsort(edges, m, sizeof(Edge), cmp);
+    for(int i = 1; i <= n; i++)
+        parent[i] = i;
+    int total = 0;
+    int used = 0;
+    for(int e = 0; e < m && used < n - 1; e++)
+    {
+        int ru = findSet(edges[e].u), rv = findSet(edges[e].v);
+        if(ru == rv)
+            continue;
+        parent[edges[e].u] = edges[e].v;
+        total += edges[e].w;
+        used++;
+    }
+    if(used != n)
+        return -1;
+    return total;
+}`
+    },
+    cpp: {
+      header: `#include <bits/stdc++.h>
+using namespace std;
+
+struct Edge { int u, v, w; };
+
+long long minimumCost(int n, int m, vector<Edge>& edges);
+
+int main()
+{
+    //Input read from STDIN
+    long long p = minimumCost(n, m, edges);
+    //Value in p is printed to STDOUT
+    return 0;
+}`,
+      body: `vector<int> parent;
+
+int findSet(int x)
+{
+    if(parent[x] != x)
+        parent[x] = findSet(parent[x]);
+    return x;
+}
+
+long long minimumCost(int n, int m, vector<Edge>& edges)
+{
+    /* Debug the given code. */
+    sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) {
+        return a.w > b.w;
+    });
+    parent.assign(n + 1, 0);
+    for(int i = 1; i <= n; i++)
+        parent[i] = i;
+    int total = 0;
+    int used = 0;
+    for(int e = 0; e < m && used < n - 1; e++)
+    {
+        int ru = findSet(edges[e].u), rv = findSet(edges[e].v);
+        if(ru == rv)
+            continue;
+        parent[edges[e].u] = edges[e].v;
+        total += edges[e].w;
+        used++;
+    }
+    if(used != n)
+        return -1;
+    return total;
+}`
+    },
+    java: {
+      header: `import java.util.*;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        //Input read from STDIN
+        long p = minimumCost(n, m, edges);
+        //Value in p is printed to STDOUT
+    }`,
+      body: `static int[] parent;
+
+static int findSet(int x)
+{
+    if(parent[x] != x)
+        parent[x] = findSet(parent[x]);
+    return x;
+}
+
+static long minimumCost(int n, int m, int[][] edges)
+{
+    /* Debug the given code. */
+    Arrays.sort(edges, (a, b) -> b[2] - a[2]);
+    parent = new int[n + 1];
+    for(int i = 1; i <= n; i++)
+        parent[i] = i;
+    int total = 0;
+    int used = 0;
+    for(int e = 0; e < m && used < n - 1; e++)
+    {
+        int ru = findSet(edges[e][0]), rv = findSet(edges[e][1]);
+        if(ru == rv)
+            continue;
+        parent[edges[e][0]] = edges[e][1];
+        total += edges[e][2];
+        used++;
+    }
+    if(used != n)
+        return -1;
+    return total;
+}`,
+      footer: '}'
+    }
+  },
+  fixes: {
+    c: [
+      [['return y->w - x->w;', 'return x->w - y->w;']],
+      [['    return x;\n}', '    return parent[x];\n}']],
+      [['parent[edges[e].u] = edges[e].v;', 'parent[ru] = rv;']],
+      [['int total = 0;', 'long long total = 0;']],
+      [['if(used != n)', 'if(used != n - 1)']]
+    ],
+    cpp: [
+      [['return a.w > b.w;', 'return a.w < b.w;']],
+      [['    return x;\n}', '    return parent[x];\n}']],
+      [['parent[edges[e].u] = edges[e].v;', 'parent[ru] = rv;']],
+      [['int total = 0;', 'long long total = 0;']],
+      [['if(used != n)', 'if(used != n - 1)']]
+    ],
+    java: [
+      [['(a, b) -> b[2] - a[2]', '(a, b) -> a[2] - b[2]']],
+      [['    return x;\n}', '    return parent[x];\n}']],
+      [['parent[edges[e][0]] = edges[e][1];', 'parent[ru] = rv;']],
+      [['int total = 0;', 'long total = 0;']],
+      [['if(used != n)', 'if(used != n - 1)']]
+    ]
+  },
+  checks: {
+    c: [
+      { need: [/returnx->w-y->w;|return\(x->w>y->w\)-\(x->w<y->w\);|returnx->w<y->w\?-1:|returnx->w>y->w\?1:/], forbid: [/returny->w-x->w;/] },
+      { need: [/returnparent\[x\];/], forbid: [/=findSet\(parent\[x\]\);\}?returnx;/] },
+      { need: [/parent\[ru\]=rv;|parent\[rv\]=ru;/], forbid: [/parent\[edges\[e\]\.u\]=edges\[e\]\.v;/] },
+      { need: [/longlong(?:int)?total=0;/], forbid: [/inttotal=0;/] },
+      { need: [/if\((?:used!=n-1|used<n-1|n-1!=used|used\+1!=n)\)/], forbid: [/if\(used!=n\)/] }
+    ],
+    cpp: [
+      { need: [/returna\.w<b\.w;|returnb\.w>a\.w;/], forbid: [/returna\.w>b\.w;/] },
+      { need: [/returnparent\[x\];/], forbid: [/=findSet\(parent\[x\]\);\}?returnx;/] },
+      { need: [/parent\[ru\]=rv;|parent\[rv\]=ru;/], forbid: [/parent\[edges\[e\]\.u\]=edges\[e\]\.v;/] },
+      { need: [/(?:longlong(?:int)?|int64_t)total=0;/], forbid: [/inttotal=0;/] },
+      { need: [/if\((?:used!=n-1|used<n-1|n-1!=used|used\+1!=n)\)/], forbid: [/if\(used!=n\)/] }
+    ],
+    java: [
+      { need: [/\(a,b\)->a\[2\]-b\[2\]|\(a,b\)->Integer\.compare\(a\[2\],b\[2\]\)|Comparator\.comparingInt\(\(?(\w+)\)?->\1\[2\]\)/], forbid: [/->b\[2\]-a\[2\]/] },
+      { need: [/returnparent\[x\];/], forbid: [/=findSet\(parent\[x\]\);\}?returnx;/] },
+      { need: [/parent\[ru\]=rv;|parent\[rv\]=ru;/], forbid: [/parent\[edges\[e\]\[0\]\]=edges\[e\]\[1\];/] },
+      { need: [/longtotal=0;/], forbid: [/inttotal=0;/] },
+      { need: [/if\((?:used!=n-1|used<n-1|n-1!=used|used\+1!=n)\)/], forbid: [/if\(used!=n\)/] }
+    ]
+  },
+  parse(s) {
+    const r = ints(s); const n = r.next(), m = r.next();
+    if (n < 1 || n > 10000) throw new Error('n must be in [1, 10000]');
+    if (m < 0 || m > 100000) throw new Error('m must be in [0, 100000]');
+    const E = [], ws = new Set();
+    for (let i = 0; i < m; i++) {
+      const u = r.next(), v = r.next(), w = r.next();
+      if (u < 1 || v < 1 || u > n || v > n) throw new Error('City out of range');
+      if (w < 1 || w > 1e9) throw new Error('w must be in [1, 1e9]');
+      if (ws.has(w)) throw new Error('All costs must be distinct'); ws.add(w);
+      E.push([u, v, w]);
+    }
+    return { n, m, E };
+  },
+  simulate({ n, m, E }, f, lang) {
+    const CYCLE = {};
+    const edges = E.map(e => e.slice()).sort((a, b) => f[0] ? a[2] - b[2] : b[2] - a[2]);
+    const parent = new Array(n + 1);
+    for (let i = 1; i <= n; i++) parent[i] = i;
+    const find = x => {
+      if (!f[1]) {                    // buggy findSet: walks the whole chain (recursively), changes nothing, returns x
+        let y = x, steps = 0;
+        while (parent[y] !== y) { y = parent[y]; if (++steps > n) throw CYCLE; }
+        return x;
+      }
+      let r = x; while (parent[r] !== r) r = parent[r];
+      while (parent[x] !== r) { const nx = parent[x]; parent[x] = r; x = nx; }
+      return r;
+    };
+    let total = 0, used = 0;
+    for (let e = 0; e < m && used < n - 1; e++) {
+      const [u, v, w] = edges[e];
+      let ru, rv;
+      try { ru = find(u); rv = find(v); } catch (err) {
+        if (err !== CYCLE) throw err;
+        return RTE + (lang === 'java' ? 'Exception in thread "main" java.lang.StackOverflowError\n\tat Main.findSet(Main.java)' : 'Segmentation fault (core dumped) — stack overflow: findSet() recursed forever because parent[] contains a cycle');
+      }
+      if (ru === rv) continue;
+      if (f[2]) parent[ru] = rv; else parent[u] = v;
+      total = f[3] ? total + w : i32(total + w);
+      used++;
+    }
+    if (f[4] ? used !== n - 1 : used !== n) return '-1';
+    return String(total);
+  },
+  tests: [
+    '4 5\n1 2 1\n2 3 4\n1 3 3\n3 4 2\n1 4 5',
+    '1 0',
+    '4 2\n1 2 7\n3 4 9',
+    '5 6\n1 2 1000000000\n2 3 999999999\n3 4 999999998\n4 5 999999997\n1 5 5\n2 4 6'
+  ],
+  hidden(r) {
+    const T = [];
+    const gen = (n, extra, lo, hi, connected) => {
+      const E = [], used = new Set();
+      const W = () => { for (;;) { const w = ri(r, lo, hi); if (!used.has(w)) { used.add(w); return w; } } };
+      const lim = connected ? n : Math.max(2, n - 3);
+      for (let i = 2; i <= lim; i++) E.push([ri(r, 1, i - 1), i, W()]);
+      for (let k = 0; k < extra; k++) E.push([ri(r, 1, n), ri(r, 1, n), W()]);
+      for (let i = E.length - 1; i > 0; i--) { const j = ri(r, 0, i); [E[i], E[j]] = [E[j], E[i]]; }
+      return `${n} ${E.length}\n` + E.map(e => e.join(' ')).join('\n');
+    };
+    T.push(gen(6, 6, 1, 50, true));
+    T.push(gen(10, 15, 1, 100, true));
+    T.push(gen(30, 60, 1, 1000, true));
+    T.push(gen(12, 10, 1, 500, false));
+    T.push(gen(3000, 6000, 900000000, 1000000000, true));
+    T.push('3 3\n1 1 5\n2 2 6\n1 2 7');
+    return T;
+  }
+}
+];
+
+for (const q of QUESTIONS) {
+  q.hiddenTests = q.hidden(rng(q.id.split('').reduce((a, c) => a * 31 + c.charCodeAt(0) | 0, 7)));
+}
+
+</script>
+<script>
+(function () {
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const strip = code => code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '').replace(/\s+/g, '');
+const LANGS = { c: 'C', cpp: 'C++', java: 'Java' };
+const DURATION = 20 * 60 * 1000;
+
+/* ---------- persistence ---------- */
+const KEY = 'debuglab.v1';
+let store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
+store.code = store.code || {}; store.timer = store.timer || {}; store.hints = store.hints || {}; store.best = store.best || {}; store.last = store.last || {};
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
+
+/* ---------- theme ---------- */
+const applyTheme = () => { if (store.theme) document.documentElement.setAttribute('data-theme', store.theme); else document.documentElement.removeAttribute('data-theme'); };
+applyTheme();
+$('#themeBtn').onclick = () => {
+  const dark = store.theme ? store.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  store.theme = dark ? 'light' : 'dark'; save(); applyTheme();
+};
+
+/* ---------- state ---------- */
+let qi = -1, lang = store.lang || 'c', leftTab = 'problem', tick = null;
+const Q = () => QUESTIONS[qi];
+const ck = (q, l) => q.id + ':' + l;
+const getCode = (q, l) => store.code[ck(q, l)] ?? q.code[l].body;
+const bugsOf = (q, l) => q.checks[l] || q.checks.all;
+const fixesOf = (q, l) => q.fixes[l] || q.fixes.c || q.fixes.all;
+function solutionBody(q, l) {
+  let b = q.code[l].body;
+  for (const edits of fixesOf(q, l)) for (const [a, c] of edits) b = b.replace(a, c);
+  return b;
+}
+
+/* ---------- syntax highlight ---------- */
+const KW = {
+  c: 'if else for while do return break continue switch case default sizeof typedef struct const static void NULL define include',
+  cpp: 'if else for while do return break continue switch case default sizeof typedef struct const static void nullptr using namespace auto template class public private new delete true false constexpr define include',
+  java: 'if else for while do return break continue switch case default new class public private protected static final void null true false import throw throws try catch extends implements this'
+};
+const TY = 'int long char double float bool boolean short unsigned vector string String array Edge Arrays Math Integer Long size_t int64_t';
+function highlight(src, l) {
+  const kw = new Set(KW[l].split(' ')), ty = new Set(TY.split(' '));
+  const re = /(\/\*[\s\S]*?\*\/|\/\/[^\n]*)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])')|(\b\d[\d_]*(?:\.\d+)?(?:[eE]\d+)?[LlUu]*\b)|(#?\b[A-Za-z_]\w*\b)/g;
+  let out = '', last = 0, m;
+  while ((m = re.exec(src))) {
+    out += esc(src.slice(last, m.index)); last = re.lastIndex;
+    const t = m[0];
+    if (m[1]) out += '<span class="tk-com">' + esc(t) + '</span>';
+    else if (m[2]) out += '<span class="tk-str">' + esc(t) + '</span>';
+    else if (m[3]) out += '<span class="tk-num">' + esc(t) + '</span>';
+    else {
+      const w = t.replace(/^#/, '');
+      if (t[0] === '#' || kw.has(w)) out += '<span class="tk-kw">' + esc(t) + '</span>';
+      else if (ty.has(w)) out += '<span class="tk-ty">' + esc(t) + '</span>';
+      else if (/^\s*\(/.test(src.slice(last))) out += '<span class="tk-fn">' + esc(t) + '</span>';
+      else out += esc(t);
+    }
+  }
+  return out + esc(src.slice(last));
+}
+
+/* ---------- editor ---------- */
+const ta = $('#code'), hl = $('#hl'), gut = $('#gutter');
+function paint() {
+  hl.innerHTML = highlight(ta.value, lang) + '\n';
+  const n = ta.value.split('\n').length;
+  let g = ''; for (let i = 1; i <= n; i++) g += i + '\n';
+  gut.textContent = g;
+  syncScroll();
+}
+function syncScroll() { hl.scrollTop = ta.scrollTop; hl.scrollLeft = ta.scrollLeft; gut.scrollTop = ta.scrollTop; }
+ta.addEventListener('scroll', syncScroll);
+ta.addEventListener('input', () => { store.code[ck(Q(), lang)] = ta.value; save(); paint(); });
+ta.addEventListener('keydown', e => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = ta.selectionStart, en = ta.selectionEnd;
+    ta.setRangeText('    ', s, en, 'end');
+    ta.dispatchEvent(new Event('input'));
+  } else if (e.key === 'Enter') {
+    const s = ta.selectionStart, line = ta.value.slice(0, s).split('\n').pop();
+    let ind = (line.match(/^\s*/) || [''])[0];
+    if (/[{]\s*$/.test(line)) ind += '    ';
+    e.preventDefault();
+    ta.setRangeText('\n' + ind, s, ta.selectionEnd, 'end');
+    ta.dispatchEvent(new Event('input'));
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "'") { e.preventDefault(); run(false); }
+});
+
+/* ---------- modal ---------- */
+function confirmBox(title, body, yes, onYes) {
+  $('#mTitle').textContent = title; $('#mBody').innerHTML = body; $('#mYes').textContent = yes;
+  $('#modal').classList.add('on');
+  $('#mYes').onclick = () => { $('#modal').classList.remove('on'); onYes(); };
+  $('#mNo').onclick = () => $('#modal').classList.remove('on');
+}
+
+/* ---------- judge ---------- */
+function anchors(q, l) {
+  // statements of the original code that no fix touches: removing them is suspicious
+  const norm = s => strip(s).replace(/[{}]/g, '');
+  const a = new Set(norm(q.code[l].body).split(';')), b = new Set(norm(solutionBody(q, l)).split(';'));
+  return [...a].filter(x => x && b.has(x));
+}
+function compileErrors(q, l, code, S) {
+  const body = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  const pairs = { ')': '(', ']': '[', '}': '{' }, st = [];
+  const lines = body.split('\n');
+  for (let i = 0; i < lines.length; i++) for (const ch of lines[i]) {
+    if ('([{'.includes(ch)) st.push([ch, i]);
+    else if (')]}'.includes(ch)) {
+      const top = st.pop();
+      if (!top || top[0] !== pairs[ch]) return `solution.${l === 'java' ? 'java' : l}:${i + 1}: error: unexpected '${ch}'`;
+    }
+  }
+  if (st.length) return `solution.${l === 'java' ? 'java' : l}:${st[st.length - 1][1] + 1}: error: expected '${{ '(': ')', '[': ']', '{': '}' }[st[st.length - 1][0]]}' before end of input`;
+  if (!S.includes(q.fn[l] + '(')) return `error: undefined reference to '${q.fn[l]}'`;
+  return q.compileCheck ? q.compileCheck(S, l) : null;
+}
+function garbageFor(input) { let h = 7; for (const c of input) h = (h * 31 + c.charCodeAt(0)) | 0; return String(-(Math.abs(h) % 2000000000) - 21474); }
+function judge(q, l, code, inputs) {
+  const S = strip(code);
+  const ce = compileErrors(q, l, code, S);
+  if (ce) return { ce };
+  const flags = bugsOf(q, l).map(c => c.need.every(r => r.test(S)) && !c.forbid.some(r => r.test(S)));
+  const miss = anchors(q, l).filter(a => !S.replace(/[{}]/g, '').includes(a));
+  const res = inputs.map(inp => {
+    let parsed;
+    try { parsed = q.parse(inp.input); } catch (e) { return { input: inp.input, err: e.message }; }
+    const exp = inp.custom ? q.simulate(parsed, q.bugs.map(() => true), l) : inp.expected;
+    let out = q.simulate(parsed, flags, l), kind = 'ok';
+    if (out === GARBAGE) { out = garbageFor(inp.input); kind = 'garbage'; }
+    else if (out.startsWith(RTE)) { kind = 're'; out = out.slice(RTE.length); }
+    return { input: inp.input, out, exp, kind, pass: kind === 'ok' && out === exp };
+  });
+  return { flags, res, miss };
+}
+const expectedCache = {};
+function suite(q, hidden) {
+  const k = q.id + (hidden ? ':h' : ':v');
+  if (!expectedCache[k]) {
+    const all = q.bugs.map(() => true);
+    expectedCache[k] = (hidden ? q.hiddenTests : q.tests).map(t => ({ input: t, expected: q.simulate(q.parse(t), all, 'c') }));
+  }
+  return expectedCache[k];
+}
+
+/* ---------- result rendering ---------- */
+let lastRun = null, sel = 0;
+function renderRun(r, label) {
+  const box = $('#result');
+  if (r.ce) {
+    box.innerHTML = `<div class="kv"><b>Compilation:</b><span class="badc">Compilation Failed</span></div><div class="alert bad">Your code did not compile.<pre>${esc(r.ce)}</pre></div>`;
+    return;
+  }
+  const n = r.res.length, p = r.res.filter(x => x.pass).length;
+  let h = `<div class="kv"><b>Compilation:</b><span class="good">✓ Compilation Successful</span><b>Exit code:</b><span>0</span><b>Warnings:</b><span>0 warning(s)</span></div>`;
+  if (r.miss && r.miss.length) h += `<div class="alert warn">Heads-up: you removed or changed original code that did not contain a bug, e.g. <code>${esc(r.miss[0].slice(0, 70))}</code>. Keep edits minimal — the judge models the original program around your fixes.</div>`;
+  h += `<div class="cases">` + r.res.map((x, i) => `<button data-i="${i}" class="${i === sel ? 'on' : ''}"><span class="dot ${x.pass ? 'p' : 'f'}">${x.pass ? '✓' : '✕'}</span>${label} #${i + 1}</button>`).join('') + `</div>`;
+  const x = r.res[Math.min(sel, n - 1)];
+  if (x.err) h += `<div class="alert bad">Invalid input: ${esc(x.err)}</div><div class="io"><div><span>Input</span><pre>${esc(x.input)}</pre></div></div>`;
+  else {
+    const status = x.kind === 're' ? '<span class="badc">Runtime Error</span>' : x.pass ? '<span class="good">Passed</span>' : x.kind === 'garbage' ? '<span class="badc">Failed — undefined behaviour (uninitialised memory)</span>' : '<span class="badc">Failed — Wrong Answer</span>';
+    h += `<div class="kv"><b>Result:</b>${status}</div>`;
+    h += `<div class="io"><div><span>Input</span><pre>${esc(x.input.length > 600 ? x.input.slice(0, 600) + '\n…' : x.input)}</pre></div><div><span>Your Output</span><pre class="${x.pass ? 'good' : 'bad'}">${esc(x.out)}</pre></div><div><span>Expected Output</span><pre>${esc(x.exp)}</pre></div></div>`;
+  }
+  if (label === 'Test Case') h += `<div class="msg">You have passed ${p} of ${n} basic test case${n > 1 ? 's' : ''}. The final score will, however, depend on the hidden test cases evaluated on submission.</div>`;
+  box.innerHTML = h;
+  box.querySelectorAll('.cases button').forEach(b => b.onclick = () => { sel = +b.dataset.i; renderRun(r, label); });
+}
+
+function run() {
+  const q = Q(), code = ta.value;
+  sel = 0;
+  if ($('#ownChk').checked) {
+    const inp = $('#ownIn').value;
+    if (!inp.trim()) { $('#result').innerHTML = '<div class="alert warn">Type some input first (same format as the problem statement).</div>'; return; }
+    lastRun = judge(q, lang, code, [{ input: inp.replace(/\s+$/, ''), custom: true }]);
+    renderRun(lastRun, 'Custom Input');
+  } else {
+    lastRun = judge(q, lang, code, suite(q, false));
+    renderRun(lastRun, 'Test Case');
+  }
+}
+
+function submit(auto) {
+  const q = Q(), code = ta.value, t = timerOf(q);
+  if (t.submitted) return;
+  const vis = judge(q, lang, code, suite(q, false));
+  t.submitted = Date.now(); t.lang = lang; save();
+  let score = 0, pv = 0, ph = 0, nh = q.hiddenTests.length, nv = q.tests.length, flags = q.bugs.map(() => false);
+  if (!vis.ce) {
+    const hid = judge(q, lang, code, suite(q, true));
+    pv = vis.res.filter(x => x.pass).length; ph = hid.res.filter(x => x.pass).length; flags = vis.flags;
+    score = Math.round(100 * (pv + ph) / (nv + nh));
+  }
+  const used = Math.min(DURATION, t.submitted - t.start);
+  store.last[q.id] = { score, pv, ph, nv, nh, flags, lang, used, ce: vis.ce || null, auto: !!auto, hints: store.hints[q.id] || 0 };
+  store.best[q.id] = Math.max(store.best[q.id] || 0, score);
+  save();
+  renderRun(vis, 'Test Case');
+  lockEditor(); updateTimer(); renderNav();
+  $('#reviewTab').classList.remove('hide');
+  setLeft('review');
+}
+
+/* ---------- timer ---------- */
+function timerOf(q) { return store.timer[q.id] || (store.timer[q.id] = { start: Date.now() }); }
+const fmt = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+function updateTimer() {
+  if (qi < 0) return;
+  const t = timerOf(Q());
+  const left = t.submitted ? DURATION - (t.submitted - t.start) : DURATION - (Date.now() - t.start);
+  $('#clock').textContent = fmt(left);
+  $('#clock').classList.toggle('low', !t.submitted && left < 3 * 60 * 1000);
+  $('#timerSub').textContent = t.submitted ? 'submitted' : 'min : sec';
+  if (!t.submitted && left <= 0) submit(true);
+}
+function lockEditor() {
+  const done = !!timerOf(Q()).submitted;
+  ta.readOnly = done;
+  $('#runBtn').disabled = done; $('#submitBtn').disabled = done;
+  $('#resetBtn').textContent = done ? 'Retry question' : 'Reset';
+  $('#lang').disabled = done;
+}
+
+/* ---------- left panel ---------- */
+function setLeft(t) {
+  leftTab = t;
+  document.querySelectorAll('#ltabs button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
+  const q = Q(), L = $('#leftBody');
+  const head = `<h2>Q${qi + 1}. ${esc(q.title)}</h2><div class="meta"><span class="pill ${q.difficulty.toLowerCase()}">${q.difficulty}</span><span class="pill">${esc(q.tag)}</span>${q.fromVideo ? '<span class="pill video">From the sample video</span>' : ''}<span class="pill">🐞 ${q.bugs.length} bugs planted</span></div>`;
+  if (t === 'problem') {
+    const ex = q.tests.slice(0, 2).map((s, i) => `<div><div class="lab">Sample Input ${i + 1}</div><pre>${esc(s)}</pre></div><div><div class="lab">Sample Output ${i + 1}</div><pre>${esc(suite(q, false)[i].expected)}</pre></div>`).join('');
+    const sig = (q.code[lang].body.split('\n').find(x => x.includes(q.fn[lang] + '(')) || '').trim() + ';';
+    L.innerHTML = head + q.statement.replace(/<pre class="sig">[^<]*<\/pre>/, `<pre class="sig">${esc(sig)}</pre>`) + `<div class="ex">${ex}</div>`;
+  } else if (t === 'concept') {
+    L.innerHTML = head + `<p class="muted">Read this if you're stuck on <i>what the code should do</i>. It explains the algorithm without pointing at specific lines.</p>` + q.concept;
+  } else if (t === 'hints') {
+    const n = store.hints[q.id] || 0;
+    L.innerHTML = head + `<p>Hints unlock one at a time. Try to get as far as you can before opening the next one.</p>` +
+      q.hints.slice(0, n).map((h, i) => `<div class="hint"><b>Hint ${i + 1}.</b> ${esc(h)}</div>`).join('') +
+      (n < q.hints.length ? `<button class="btn" id="moreHint">Reveal hint ${n + 1} of ${q.hints.length}</button>` : '<p class="muted">All hints revealed.</p>');
+    const b = $('#moreHint'); if (b) b.onclick = () => { store.hints[q.id] = n + 1; save(); setLeft('hints'); };
+  } else if (t === 'review') {
+    const r = store.last[q.id];
+    if (!r) { setLeft('problem'); return; }
+    const l = r.lang, fixed = r.flags.filter(Boolean).length;
+    let h = head + `<div class="report">
+      <div class="stat"><div class="v ${r.score === 100 ? 'good' : ''}">${r.score}%</div><div class="k">Score</div></div>
+      <div class="stat"><div class="v">${r.pv}/${r.nv}</div><div class="k">Sample tests</div></div>
+      <div class="stat"><div class="v">${r.ph}/${r.nh}</div><div class="k">Hidden tests</div></div>
+      <div class="stat"><div class="v">${fixed}/${q.bugs.length}</div><div class="k">Bugs fixed</div></div>
+      <div class="stat"><div class="v">${fmt(r.used)}</div><div class="k">Time used${r.auto ? ' (time up)' : ''}</div></div>
+    </div>`;
+    if (r.ce) h += `<div class="alert bad">Submission did not compile, so no test case passed.</div>`;
+    else if (r.score === 100 && fixed === q.bugs.length) h += `<div class="alert ok">Excellent — every bug fixed and every hidden test passed.</div>`;
+    else if (fixed === q.bugs.length) h += `<div class="alert warn">All planted bugs were fixed, but some tests still fail — you probably changed something else. Compare with the diff below.</div>`;
+    h += `<h3>Bug report (${LANGS[l]})</h3><ul class="buglist">` + q.bugs.map((b, i) => `<li><span class="ico ${r.flags[i] ? 'p' : 'f'}">${r.flags[i] ? '✓' : '✕'}</span><div><b>${b.title}</b><div class="why">${b.why}</div></div></li>`).join('') + `</ul>`;
+    h += `<h3 style="margin-top:18px">Solution diff (${LANGS[l]})</h3><div class="diff">${diffHtml(q.code[l].body, solutionBody(q, l))}</div>`;
+    h += `<p><button class="btn" id="loadSol">Load the corrected code into the editor</button></p>`;
+    L.innerHTML = h;
+    $('#loadSol').onclick = () => { ta.value = solutionBody(q, lang); paint(); };
+  }
+}
+document.querySelectorAll('#ltabs button').forEach(b => b.onclick = () => setLeft(b.dataset.t));
+function diffHtml(a, b) {
+  const A = a.split('\n'), B = b.split('\n'), n = A.length, m = B.length;
+  const L = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) L[i][j] = A[i] === B[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  let i = 0, j = 0, out = '';
+  while (i < n || j < m) {
+    if (i < n && j < m && A[i] === B[j]) { out += `<div class="same">${esc(A[i]) || ' '}</div>`; i++; j++; }
+    else if (j < m && (i >= n || L[i][j + 1] >= L[i + 1][j])) { out += `<div class="add">${esc(B[j])}</div>`; j++; }
+    else { out += `<div class="del">${esc(A[i])}</div>`; i++; }
+  }
+  return out;
+}
+
+/* ---------- navigation ---------- */
+function renderNav() {
+  $('#qnav').innerHTML = QUESTIONS.map((q, i) => `<button class="${i === qi ? 'on' : ''} ${store.last[q.id] ? 'done' : ''}" data-i="${i}" title="${esc(q.title)}">${i + 1}</button>`).join('');
+  $('#qnav').querySelectorAll('button').forEach(b => b.onclick = () => openQ(+b.dataset.i));
+}
+function renderHome() {
+  $('#qgrid').innerHTML = QUESTIONS.map((q, i) => {
+    const best = store.best[q.id], t = store.timer[q.id];
+    const st = best != null ? `<span class="score ${best === 100 ? 'ok' : ''}">Best: ${best}%</span>` : t && !t.submitted ? '<span>In progress</span>' : '<span>Not attempted</span>';
+    return `<button class="qcard" data-i="${i}">
+      <div class="row"><span class="qno">Q${i + 1}</span><span class="pill ${q.difficulty.toLowerCase()}">${q.difficulty}</span><span class="pill">${esc(q.tag)}</span>${q.fromVideo ? '<span class="pill video">Sample video</span>' : ''}</div>
+      <h3>${esc(q.title)}</h3><div class="topic">${esc(q.topic)}</div>
+      <div class="foot"><span>🐞 ${q.bugs.length} bugs · C / C++ / Java · 20 min</span>${st}</div></button>`;
+  }).join('');
+  $('#qgrid').querySelectorAll('.qcard').forEach(b => b.onclick = () => openQ(+b.dataset.i));
+}
+function goHome() {
+  qi = -1; clearInterval(tick);
+  $('#home').classList.remove('hide'); $('#qv').classList.add('hide');
+  $('#qnav').classList.add('hide'); $('#timerBox').classList.add('hide');
+  renderHome(); location.hash = '';
+}
+$('#goHome').onclick = goHome;
+
+function loadEditor() {
+  const q = Q();
+  const c = q.code[lang];
+  $('#driver').textContent = c.header + (c.footer ? '\n\n    /* ...your method(s) below live inside class Main... */' : '');
+  ta.value = getCode(q, lang);
+  ta.scrollTop = 0;
+  paint();
+}
+function openQ(i) {
+  qi = i; const q = Q();
+  const t = timerOf(q); save();
+  if (t.submitted && t.lang) lang = t.lang;
+  $('#lang').value = lang;
+  $('#home').classList.add('hide'); $('#qv').classList.remove('hide');
+  $('#qnav').classList.remove('hide'); $('#timerBox').classList.remove('hide');
+  $('#reviewTab').classList.toggle('hide', !store.last[q.id]);
+  $('#ownChk').checked = false; $('#ownIn').classList.add('hide');
+  $('#ownIn').value = q.tests[0];
+  $('#result').innerHTML = '<span class="muted">Start compiling code by clicking "Save &amp; Test" button</span>';
+  loadEditor(); lockEditor(); renderNav();
+  setLeft(t.submitted && store.last[q.id] ? 'review' : 'problem');
+  clearInterval(tick); tick = setInterval(updateTimer, 500); updateTimer();
+  location.hash = 'q' + (i + 1);
+  window.scrollTo(0, 0);
+}
+
+$('#lang').onchange = e => { lang = e.target.value; store.lang = lang; save(); loadEditor(); if (leftTab === 'problem') setLeft('problem'); $('#result').innerHTML = '<span class="muted">Start compiling code by clicking "Save &amp; Test" button</span>'; };
+$('#runBtn').onclick = () => run();
+$('#submitBtn').onclick = () => confirmBox('Submit your code?', `<p>Your ${LANGS[lang]} code will be run against the sample and hidden test cases. You can't edit it after submitting (but you can retry the question).</p>`, 'Submit', () => submit(false));
+$('#resetBtn').onclick = () => {
+  const q = Q();
+  if (timerOf(q).submitted) {
+    confirmBox('Retry this question?', '<p>This restores the original buggy code in every language and restarts the 20-minute timer. Your best score is kept.</p>', 'Retry', () => {
+      for (const l in LANGS) delete store.code[ck(q, l)];
+      store.timer[q.id] = { start: Date.now() }; delete store.last[q.id]; store.hints[q.id] = 0; save();
+      openQ(qi);
+    });
+  } else {
+    confirmBox('Reset code?', `<p>Discard your changes and restore the original ${LANGS[lang]} code? The timer keeps running.</p>`, 'Reset', () => {
+      delete store.code[ck(q, lang)]; save(); loadEditor();
+    });
+  }
+};
+$('#ownChk').onchange = e => $('#ownIn').classList.toggle('hide', !e.target.checked);
+
+window.addEventListener('hashchange', () => {
+  const m = location.hash.match(/^#q(\d)$/);
+  if (m && +m[1] - 1 !== qi && QUESTIONS[+m[1] - 1]) openQ(+m[1] - 1);
+  else if (!m && qi >= 0) goHome();
+});
+const m0 = location.hash.match(/^#q(\d)$/);
+if (m0 && QUESTIONS[+m0[1] - 1]) openQ(+m0[1] - 1); else goHome();
+})();
+</script>
+</body>
+</html>
