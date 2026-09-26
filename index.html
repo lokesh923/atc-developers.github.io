@@ -1,57 +1,2324 @@
-<html>
-   <head>
-      <title>ATC Developers</title>
-      <!-- Compiled and minified CSS -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-      <link rel="stylesheet" href="./main.css">
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-      <script
-         src="https://code.jquery.com/jquery-3.4.1.min.js"
-         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-         crossorigin="anonymous"></script>
-   </head>
-   <body class="main-background">
-      <div class="black-text" id="main-body">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Coding Assessment Practice</title>
+<meta name="description" content="Practice platform for AI-assisted coding assessments: frame the problem, choose data structures, explain your approach, then review and fix AI-generated code in C, C++, Java and Python.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #0457ad; --brand-ink: #ffffff; --accent: #19a8dc; --accent-soft: #e3f4fb;
+  --ink: #141a22; --muted: #5b6776; --bg: #f4f7fb; --card: #ffffff; --soft: #eef5fc; --line: #d6e3f0;
+  --ok: #1e8e3e; --ok-soft: #e6f4ea; --bad: #c5221f; --bad-soft: #fce8e6; --warn: #a15c00; --warn-soft: #fef3e0;
+  --code-bg: #fbfcfe; --code-ink: #1f2937; --gutter: #9aa7b6; --ro-bg: #f3f6fa;
+  --t-kw: #a626a4; --t-ty: #0b62c4; --t-num: #b35900; --t-com: #7c8a99; --t-str: #237a3b; --t-fn: #4a4ab5;
+  --bot: #dde5ec; --bot-ink: #16202b; --me: #3b4450; --me-ink: #ffffff;
+  --diff-del: #fde7e7; --diff-add: #e3f6e8;
+  --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand: #3b8fe6; --brand-ink: #ffffff; --accent: #3cc0ee; --accent-soft: #0f2c3a;
+    --ink: #e6edf5; --muted: #9aa8b8; --bg: #0d1218; --card: #151c25; --soft: #18222e; --line: #263342;
+    --ok: #4cc26b; --ok-soft: #11291a; --bad: #ff7b72; --bad-soft: #35181a; --warn: #f2b35b; --warn-soft: #33260f;
+    --code-bg: #10161d; --code-ink: #dbe4ee; --gutter: #5d6b7b; --ro-bg: #131b24;
+    --t-kw: #d48ae8; --t-ty: #6cb6ff; --t-num: #f0a35e; --t-com: #6f7f90; --t-str: #7ee0a0; --t-fn: #a5a5ff;
+    --bot: #22303e; --bot-ink: #e6edf5; --me: #3b8fe6; --me-ink: #ffffff;
+    --diff-del: #3a1c1e; --diff-add: #15301f;
+    --shadow: 0 1px 2px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --brand: #3b8fe6; --brand-ink: #ffffff; --accent: #3cc0ee; --accent-soft: #0f2c3a;
+  --ink: #e6edf5; --muted: #9aa8b8; --bg: #0d1218; --card: #151c25; --soft: #18222e; --line: #263342;
+  --ok: #4cc26b; --ok-soft: #11291a; --bad: #ff7b72; --bad-soft: #35181a; --warn: #f2b35b; --warn-soft: #33260f;
+  --code-bg: #10161d; --code-ink: #dbe4ee; --gutter: #5d6b7b; --ro-bg: #131b24;
+  --t-kw: #d48ae8; --t-ty: #6cb6ff; --t-num: #f0a35e; --t-com: #6f7f90; --t-str: #7ee0a0; --t-fn: #a5a5ff;
+  --bot: #22303e; --bot-ink: #e6edf5; --me: #3b8fe6; --me-ink: #ffffff;
+  --diff-del: #3a1c1e; --diff-add: #15301f;
+  --shadow: 0 1px 2px rgba(0,0,0,.4);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 Ubuntu, "Segoe UI", system-ui, sans-serif; overflow-x: hidden; }
+code, pre, textarea.code { font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; }
+button, select, textarea, input { font: inherit; }
+button { cursor: pointer; }
+a { color: var(--brand); }
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 16px; }
+.hide { display: none !important; }
+.muted { color: var(--muted); }
+.spacer { flex: 1; }
+
+/* top bar */
+.top { background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; }
+.top .wrap { display: flex; align-items: center; gap: 10px; min-height: 58px; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 19px; color: var(--brand); background: none; border: 0; padding: 0; }
+.logo .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--brand); color: var(--brand-ink); display: grid; place-items: center; font-size: 13px; }
+.logo small { color: var(--muted); font-weight: 400; font-size: 13px; }
+.navlink { font-size: 13px; text-decoration: none; border: 1px solid var(--line); padding: 5px 10px; border-radius: 8px; color: var(--ink); background: var(--soft); }
+.layout-btns { display: flex; gap: 4px; }
+.layout-btns button, .iconbtn { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; height: 34px; min-width: 34px; padding: 0 9px; }
+.layout-btns button.on { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.timer { display: flex; align-items: center; gap: 8px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.timer .clock { background: var(--brand); color: var(--brand-ink); padding: 5px 12px; border-radius: 8px; font-size: 18px; }
+.timer .clock.low { background: var(--bad); }
+.timer .lbl { font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.1; text-align: right; }
+
+/* home */
+.hero { padding: 34px 0 6px; }
+.hero h1 { font-size: clamp(28px, 5vw, 44px); margin: 0; line-height: 1.1; border-left: 6px solid var(--accent); padding-left: 16px; }
+.hero p { color: var(--muted); margin: 8px 0 0 22px; font-size: 17px; }
+.banner { margin: 24px 0; background: var(--brand); color: var(--brand-ink); border-radius: 14px; padding: 15px 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; font-weight: 700; font-size: 18px; }
+.banner span + span::before { content: "|"; margin-right: 22px; opacity: .7; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 20px; margin-top: 18px; }
+.stack { display: grid; gap: 20px; }
+.slide { background: var(--soft); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; }
+.chip { display: inline-block; background: var(--brand); color: #fff; font-weight: 700; letter-spacing: .3px; border-radius: 999px; padding: 7px 20px; font-size: 15px; margin-bottom: 14px; }
+.chip.alt { background: var(--accent); }
+.slide p { margin: 0; font-size: 16px; }
+.numlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.numlist li { display: flex; gap: 14px; align-items: flex-start; }
+.num { flex: 0 0 38px; height: 38px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-weight: 700; }
+.numlist li:nth-child(even) .num { background: var(--accent); }
+.numlist b { color: var(--brand); }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.checks li { display: flex; gap: 10px; }
+.checks .y { color: var(--ok); font-weight: 700; } .checks .n { color: var(--bad); font-weight: 700; }
+.grid6 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; margin-top: 8px; }
+.grid6 > div { display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.grid6 h4 { margin: 0 0 4px; color: var(--brand); font-size: 17px; }
+.grid6 p { margin: 0; color: var(--muted); }
+h2.sec { margin: 38px 0 14px; font-size: 22px; }
+.qgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.qcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; text-align: left; color: var(--ink); }
+.qcard:hover { border-color: var(--accent); }
+.qcard .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.qcard h3 { margin: 0; font-size: 18px; }
+.qcard .topic { color: var(--muted); font-size: 14px; }
+.qcard .foot { margin-top: auto; display: flex; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.qcard .foot > span:last-child { white-space: nowrap; }
+.pill { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--soft); color: var(--brand); border: 1px solid var(--line); }
+.pill.hard { color: var(--bad); background: var(--bad-soft); border-color: transparent; }
+.pill.video { color: #fff; background: var(--accent); border-color: transparent; }
+.score { font-weight: 700; } .score.ok { color: var(--ok); }
+.note { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-top: 16px; }
+.note h3 { margin: 0 0 6px; font-size: 16px; }
+.note ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.foot-note { color: var(--muted); font-size: 13px; margin: 30px 0; text-align: center; }
+
+/* exam view */
+.exam { display: grid; grid-template-columns: 52px minmax(0, 5fr) minmax(0, 6fr); gap: 12px; padding: 14px 0 30px; }
+.exam.stacked { grid-template-columns: 52px minmax(0, 1fr); }
+.exam.stacked #right { grid-column: 2; }
+.rail { display: flex; flex-direction: column; gap: 6px; }
+.rail button { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 8px; height: 40px; font-weight: 700; font-size: 13px; }
+.rail button.on { background: #fff6d6; color: #111; border-color: #f0c64a; box-shadow: inset 3px 0 0 #e8a33d; }
+.rail button.done { color: var(--ok); }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); min-width: 0; display: flex; flex-direction: column; }
+.phead { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.phead h2 { margin: 0; font-size: 17px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 0; background: none; color: var(--muted); padding: 7px 12px; border-radius: 8px; font-weight: 500; }
+.tabs button.on { background: var(--soft); color: var(--brand); font-weight: 700; }
+.rtabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
+.rtabs button { border: 0; background: var(--soft); color: var(--muted); padding: 11px; font-weight: 700; border-bottom: 3px solid transparent; }
+.rtabs button.on { background: var(--card); color: var(--ink); border-bottom-color: var(--brand); }
+.rtabs .badge { background: var(--accent); color: #fff; border-radius: 999px; font-size: 11px; padding: 1px 7px; margin-left: 6px; }
+.stmt { padding: 16px 18px; overflow-wrap: anywhere; overflow-y: auto; }
+.stmt h3 { margin: 16px 0 6px; font-size: 16px; }
+.stmt pre { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; font-size: 13px; margin: 8px 0; }
+.stmt code { background: var(--soft); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+.stmt pre code { background: none; padding: 0; }
+.stmt ul { padding-left: 20px; }
+.meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; align-items: center; }
+.ex { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ex pre { margin: 4px 0 0; white-space: pre-wrap; }
+.btn { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 8px 16px; font-weight: 500; }
+.btn.primary { background: #1f8f3a; border-color: #1f8f3a; color: #fff; font-weight: 700; }
+.btn.outline { border-color: #7fbf8f; color: #1f8f3a; }
+.btn.blue { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 700; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.sm { padding: 5px 10px; font-size: 13px; }
+
+/* coding panel */
+.ctop { display: flex; align-items: center; gap: 10px; padding: 10px 14px; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+.ctop select { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 5px 8px; }
+.marker { color: #d4880f; font-size: 14px; padding: 7px 14px; font-weight: 500; }
+.ro { background: var(--ro-bg); color: var(--code-ink); margin: 0; padding: 8px 14px 10px 56px; font-size: 13px; line-height: 1.6; overflow-x: auto; opacity: .9; border-bottom: 1px solid var(--line); }
+.editor { position: relative; display: flex; background: var(--code-bg); border-bottom: 1px solid var(--line); height: min(56vh, 520px); min-height: 280px; }
+.editor.night { --code-bg: #10161d; --code-ink: #dbe4ee; --gutter: #5d6b7b; --t-kw: #d48ae8; --t-ty: #6cb6ff; --t-num: #f0a35e; --t-com: #6f7f90; --t-str: #7ee0a0; --t-fn: #a5a5ff; }
+.gutter { flex: 0 0 auto; padding: 12px 8px 12px 10px; text-align: right; color: var(--gutter); font: 13px/1.6 "JetBrains Mono", monospace; user-select: none; overflow: hidden; min-width: 44px; white-space: pre; }
+.codebox { position: relative; flex: 1; min-width: 0; }
+.codebox pre, .codebox textarea { position: absolute; inset: 0; margin: 0; padding: 12px 14px; font: 13px/1.6 "JetBrains Mono", monospace; white-space: pre; overflow: auto; tab-size: 4; border: 0; }
+.codebox pre { color: var(--code-ink); pointer-events: none; }
+.codebox textarea { background: transparent; color: transparent; caret-color: var(--code-ink); resize: none; outline: none; }
+.codebox textarea::selection { background: rgba(25,168,220,.3); }
+.tk-kw { color: var(--t-kw); } .tk-ty { color: var(--t-ty); } .tk-num { color: var(--t-num); } .tk-com { color: var(--t-com); font-style: italic; } .tk-str { color: var(--t-str); } .tk-fn { color: var(--t-fn); }
+.actions { display: flex; align-items: center; gap: 8px; padding: 10px 14px; flex-wrap: wrap; }
+.pos { font-size: 12px; color: var(--muted); }
+.own { padding: 0 14px 10px; }
+.own textarea { width: 100%; min-height: 80px; border: 1px solid var(--line); border-radius: 8px; background: var(--code-bg); color: var(--code-ink); padding: 8px 10px; font: 13px/1.5 "JetBrains Mono", monospace; }
+.result { padding: 12px 14px; border-top: 1px solid var(--line); }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 14px; margin-bottom: 8px; }
+.good { color: var(--ok); font-weight: 700; } .badc { color: var(--bad); font-weight: 700; }
+.cases { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 10px; }
+.cases button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 4px 12px; font-size: 13px; display: flex; gap: 6px; align-items: center; }
+.cases button.on { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
+.dot { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; color: #fff; font-size: 11px; font-weight: 700; }
+.dot.p { background: var(--ok); } .dot.f { background: var(--bad); }
+.io { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.io div > span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.io pre { margin: 4px 0 0; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-height: 170px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.io pre.bad { border-color: var(--bad); background: var(--bad-soft); } .io pre.good { border-color: var(--ok); background: var(--ok-soft); }
+.msg { margin-top: 10px; color: var(--brand); font-size: 14px; }
+.alert { border-radius: 10px; padding: 10px 12px; margin: 8px 0; font-size: 14px; }
+.alert.bad { background: var(--bad-soft); color: var(--bad); } .alert.warn { background: var(--warn-soft); color: var(--warn); } .alert.ok { background: var(--ok-soft); color: var(--ok); } .alert.info { background: var(--accent-soft); color: var(--brand); }
+.alert pre { margin: 6px 0 0; white-space: pre-wrap; font-size: 12px; }
+.submitbar { display: flex; justify-content: flex-end; gap: 10px; padding: 10px 14px; border-top: 1px solid var(--line); }
+
+/* chat */
+.chat { display: flex; flex-direction: column; height: min(78vh, 760px); min-height: 420px; }
+.msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.bubble { max-width: 88%; border-radius: 14px; padding: 10px 14px; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.bubble.bot { background: var(--bot); color: var(--bot-ink); align-self: flex-start; border-top-left-radius: 4px; }
+.bubble.me { background: var(--me); color: var(--me-ink); align-self: flex-end; border-top-right-radius: 4px; white-space: pre-wrap; }
+.bubble .time { display: block; text-align: right; font-size: 11px; opacity: .65; margin-top: 4px; }
+.bubble ol, .bubble ul { margin: 4px 0; padding-left: 22px; }
+.bubble pre { background: var(--code-bg); color: var(--code-ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow-x: auto; font-size: 12.5px; line-height: 1.5; margin: 8px 0; }
+.bubble .insert { margin-top: 4px; }
+.typing { align-self: flex-start; color: var(--muted); font-size: 13px; }
+.compose { border-top: 1px solid var(--line); padding: 10px 14px; }
+.compose .box { display: flex; gap: 8px; align-items: flex-end; border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: var(--card); }
+.compose textarea { flex: 1; border: 0; outline: none; resize: none; background: transparent; color: var(--ink); min-height: 44px; max-height: 140px; }
+.compose .send { width: 38px; height: 38px; border-radius: 8px; border: 0; background: var(--brand); color: #fff; font-size: 18px; }
+.compose .send:disabled { background: var(--line); }
+.meter { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.bar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: 4px; }
+.bar i { display: block; height: 100%; background: var(--ok); width: 0; }
+.stagebar { display: flex; gap: 4px; padding: 8px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.stagebar span { font-size: 12px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.stagebar span.done { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.stagebar span.now { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+/* report */
+.report { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 10px 0 14px; }
+.stat { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.stat .v { font-size: 22px; font-weight: 700; } .stat .k { font-size: 12px; color: var(--muted); }
+table.rub { width: 100%; border-collapse: collapse; font-size: 14px; margin: 6px 0 12px; }
+table.rub td { border-top: 1px solid var(--line); padding: 7px 6px; vertical-align: top; }
+table.rub td:last-child { text-align: right; white-space: nowrap; font-weight: 700; }
+.buglist { list-style: none; padding: 0; margin: 0; }
+.buglist li { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+.buglist .ico { flex: 0 0 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 12px; }
+.buglist .ico.p { background: var(--ok); } .buglist .ico.f { background: var(--bad); }
+.buglist .why { color: var(--muted); font-size: 14px; }
+.diff { border: 1px solid var(--line); border-radius: 10px; overflow: auto; background: var(--code-bg); margin-top: 10px; max-height: 480px; }
+.diff div { font: 12.5px/1.6 "JetBrains Mono", monospace; white-space: pre; padding: 0 12px; color: var(--code-ink); }
+.diff .del { background: var(--diff-del); } .diff .add { background: var(--diff-add); }
+.diff .del::before { content: "- "; color: var(--bad); } .diff .add::before { content: "+ "; color: var(--ok); } .diff .same::before { content: "  "; }
+
+.toast { position: fixed; top: 70px; right: 16px; z-index: 60; background: #d8f3ea; color: #0f5132; border: 1px solid #9ad7c0; border-radius: 10px; padding: 10px 14px; max-width: 360px; font-size: 14px; box-shadow: var(--shadow); }
+.toast b { display: block; }
+.modal { position: fixed; inset: 0; background: rgba(8,14,22,.55); display: none; place-items: center; z-index: 70; padding: 16px; }
+.modal.on { display: grid; }
+.modal .card { background: var(--card); border-radius: 14px; padding: 20px; max-width: 460px; width: 100%; border: 1px solid var(--line); }
+.modal h3 { margin: 0 0 8px; }
+.modal .row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+
+@media (max-width: 1100px) { .exam { grid-template-columns: 52px minmax(0, 1fr); } .exam #right { grid-column: 2; } .layout-btns { display: none; } }
+@media (max-width: 860px) { .two, .grid6 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 700px) {
+  .exam, .exam.stacked { grid-template-columns: minmax(0, 1fr); }
+  .rail { flex-direction: row; overflow-x: auto; } .rail button { min-width: 44px; }
+  .exam #right { grid-column: 1; }
+  .io, .ex { grid-template-columns: minmax(0, 1fr); }
+  .banner { font-size: 15px; } .banner span + span::before { display: none; }
+  .logo small, .navlink { display: none; }
+  .editor { height: 50vh; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <button class="logo" id="goHome" title="Home"><span class="mark">AI</span>AI Coding Lab <small>· AI Assisted Coding Assessment Practice</small></button>
+    <a class="navlink" href="debugging-practice.html">Debugging practice →</a>
+    <div class="spacer"></div>
+    <div class="layout-btns hide" id="layoutBtns"><button data-l="side" class="on" title="Side by side">◧</button><button data-l="stacked" title="Stacked">⬒</button></div>
+    <div class="timer hide" id="timerBox"><div class="lbl">Time left<br><span id="timerSub">min : sec</span></div><div class="clock" id="clock">20:00</div></div>
+    <button class="iconbtn" id="themeBtn" title="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main class="wrap" id="home">
+  <section class="hero">
+    <h1>AI Assisted Coding Assessment</h1>
+    <p>How the assessment works, what it measures — and six hard practice questions.</p>
+  </section>
+  <div class="banner"><span>6 Questions</span><span>20 Minutes each</span><span>4 Languages: C, C++, Java, Python</span></div>
+
+  <section class="two">
+    <div class="stack">
+      <div class="slide"><span class="chip">THE FOCUS</span><p>Use the AI assistant effectively to solve coding problems, quickly and efficiently — not just to reach the final answer.</p></div>
+      <div class="slide"><span class="chip alt">SCAFFOLDING FLOW</span><p>The test follows step-by-step logic. Give clear, correct, and complete inputs at each step to unlock the next — and finally, code generation.</p></div>
+    </div>
+    <div class="slide"><span class="chip">WHAT IS BEING EVALUATED</span>
+      <ol class="numlist">
+        <li><span class="num">1</span><div><b>AI literacy</b> — Understanding &amp; interpreting the questions and responding meaningfully.</div></li>
+        <li><span class="num">2</span><div><b>Prompt quality</b> — Structured, relevant prompts over random one-liners.</div></li>
+        <li><span class="num">3</span><div><b>Problem-solving</b> — Choosing the right approach and guiding the AI to solve the problem.</div></li>
+        <li><span class="num">4</span><div><b>Review &amp; adapt</b> — Checking and improving the code, not just copy-pasting.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="two">
+    <div class="slide"><span class="chip">WHAT IS EXPECTED</span>
+      <ol class="numlist">
+        <li><span class="num">1</span><div>Read and understand the coding problem carefully.</div></li>
+        <li><span class="num">2</span><div>Share clear prompts with the AI assistant.</div></li>
+        <li><span class="num">3</span><div>Explain the logic, inputs, outputs, and constraints.</div></li>
+        <li><span class="num">4</span><div>Use AI support to build or improve the code.</div></li>
+        <li><span class="num">5</span><div>Review and correct the generated code before submission.</div></li>
+        <li><span class="num">6</span><div>Complete the task efficiently and independently.</div></li>
+      </ol>
+    </div>
+    <div class="stack">
+      <div class="slide"><span class="chip alt">DO</span><ul class="checks">
+        <li><span class="y">✓</span>Read each question and instruction carefully.</li>
+        <li><span class="y">✓</span>Think first, then tell the plan to the AI assistant.</li>
+        <li><span class="y">✓</span>Check and edit any code before running it.</li>
+        <li><span class="y">✓</span>Test with a couple of examples if time permits.</li></ul></div>
+      <div class="slide"><span class="chip">DON'T</span><ul class="checks">
+        <li><span class="n">✗</span>Type vague prompts like "write the code" with no explanation.</li>
+        <li><span class="n">✗</span>Copy the sample text or numbers as constraints.</li>
+        <li><span class="n">✗</span>Rely blindly on AI or submit code without understanding.</li>
+        <li><span class="n">✗</span>Use external tools, phones, or discuss with others.</li></ul></div>
+    </div>
+  </section>
+
+  <h2 class="sec">Before starting</h2>
+  <div class="grid6">
+    <div><span class="num">1</span><div><h4>It is about the process</h4><p>You are assessed on how you collaborate with AI, not just on the outcome you achieve.</p></div></div>
+    <div><span class="num">2</span><div><h4>Frame the problem first</h4><p>Understand inputs, outputs, constraints, and edge cases before giving the prompt.</p></div></div>
+    <div><span class="num">3</span><div><h4>Prompt with intent</h4><p>Use structured, complete prompts. Vague one-liners like "write the code" won't cut it.</p></div></div>
+    <div><span class="num">4</span><div><h4>Follow the scaffolding</h4><p>Give clear, correct inputs at each step to unlock the next — and finally code generation.</p></div></div>
+    <div><span class="num">5</span><div><h4>Always review the code</h4><p>Check and understand the code before submitting it. Here, the AI's code <b>always</b> contains realistic mistakes.</p></div></div>
+    <div><span class="num">6</span><div><h4>Stay within the rules</h4><p>No phones, no external tools, or discussion. Do not copy sample values.</p></div></div>
+  </div>
+
+  <h2 class="sec">Practice questions</h2>
+  <div class="qgrid" id="qgrid"></div>
+
+  <div class="note">
+    <h3>How this practice platform works</h3>
+    <ul>
+      <li><b>The AI Assistant is a practice simulator, not a live AI model.</b> It follows the same scaffolding as the real test: it checks whether your description, data-structure choice and approach cover what matters for the question. It refuses vague or "just give me the answer" prompts, and only generates code once all three steps are done.</li>
+      <li>The generated code is realistic but <b>deliberately contains 2–3 mistakes</b>, like the struct re-declaration seen in the real test. Ask the assistant to refine specific logic by explaining <b>what</b> and <b>why</b>, or fix it yourself.</li>
+      <li>Your browser can't compile code, so the judge recognises the fixes you make and runs a model of your program. The model was checked against real gcc / g++ / javac / python3 output. It works on the assistant's solution: keep edits focused on the logic you are fixing.</li>
+      <li>Your score = test cases (25 marks) + process (25 marks: framing, data structure &amp; reasoning, approach, prompt quality, review &amp; adapt).</li>
+    </ul>
+  </div>
+  <p class="foot-note">Your code, chats, timers and scores are saved in this browser only.</p>
+</main>
+
+<main class="wrap hide" id="exam">
+  <div class="exam" id="examGrid">
+    <nav class="rail" id="rail"></nav>
+    <section class="panel" id="left">
+      <div class="phead"><h2 id="qTitle"></h2><span class="spacer"></span><span class="muted" id="qMarks"></span></div>
+      <div class="phead" style="padding:6px 10px"><div class="tabs" id="ltabs"><button data-t="problem" class="on">Problem</button><button data-t="concept">Concept</button><button data-t="report" id="reportTab" class="hide">Report &amp; Solution</button></div></div>
+      <div class="stmt" id="leftBody"></div>
+    </section>
+    <section class="panel" id="right">
+      <div class="rtabs"><button data-p="code" class="on">&lt;&gt; Coding Panel</button><button data-p="ai">✦ AI Assistant<span class="badge hide" id="aiBadge">new</span></button></div>
+      <div id="codePanel">
+        <div class="ctop">
+          <label class="muted" for="lang">Language:</label>
+          <select id="lang"><option value="c">C (Gcc 11.3)</option><option value="cpp">C++ (G++ 11.3)</option><option value="java">Java (JDK 17)</option><option value="py">Python (3.11)</option></select>
+          <span class="spacer"></span>
+          <select id="mode"><option value="day">Day Mode</option><option value="night">Night Mode</option></select>
+        </div>
+        <div class="marker">› Read-only code below . . .</div>
+        <pre class="ro" id="ro"></pre>
+        <div class="marker">› Modify or complete the below code as needed . . .</div>
+        <div class="editor" id="editor">
+          <div class="gutter" id="gutter">1</div>
+          <div class="codebox"><pre id="hl" aria-hidden="true"></pre><textarea class="code" id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code editor"></textarea></div>
+        </div>
+        <div class="actions">
+          <span class="pos" id="pos">line: 1, column: 1</span>
+          <span class="spacer"></span>
+          <button class="btn" id="resetBtn">⟲ Reset</button>
+          <button class="btn outline" id="customBtn">Test for Custom Input</button>
+          <button class="btn primary" id="runBtn">Save &amp; Test</button>
+        </div>
+        <div class="own hide" id="ownBox"><textarea id="ownIn" spellcheck="false" placeholder="Custom STDIN (same format as the problem). Then click Save & Test."></textarea></div>
+        <div class="result" id="result"><span class="muted">Start compiling code by clicking "Save &amp; Test" button</span></div>
+        <div class="submitbar"><button class="btn blue" id="submitBtn">Submit</button></div>
       </div>
-   </body>
-   <script>
-      //
-      //
-      // CHANGE HERE
-      //
-      //
-      const data = [{
-      	'name': 'Shashank Sharma',
-      	'message': 'This internet is flooded with cats !',
-      	'image_url': 'https://media.giphy.com/media/BSx6mzbW1ew7K/giphy.gif'
-      },
-      {
-      	'name': 'Swarup Hegde',
-      	'message': 'Catto Everywhere !',
-      	'image_url': 'https://media3.giphy.com/media/72DtXz1K8PTOw/source.gif'
-      }]
-      //
-      //
-      //
-      //
-      //
-      
-      data.forEach(function (profile) {
-      	console.log(profile);
-      $('#main-body').append(`<div class="card horizontal" style="margin: 30px;">
-      	<div class="card-image">
-      <img src="${profile.image_url}">
+      <div id="aiPanel" class="hide chat">
+        <div class="stagebar" id="stagebar"></div>
+        <div class="msgs" id="msgs"></div>
+        <div class="compose">
+          <div class="box"><textarea id="chatIn" maxlength="500" placeholder="Type your message here"></textarea><button class="send" id="sendBtn" title="Send">→</button></div>
+          <div class="meter"><span id="tokLbl">Tokens used: 0 / 2000</span><span id="charLbl">0 / 500</span></div>
+          <div class="bar"><i id="tokBar"></i></div>
+        </div>
       </div>
-      <div class="card-stacked">
-      <div class="card-content">
-       <h4>${profile.name}</h4>
-       <span>${profile.message}</span>
-      </div>
-      </div>
-      </div>
-      
-      	`);
-      });
-   </script>
+    </section>
+  </div>
+</main>
+
+<div class="toast hide" id="toast"><b>✓ Code Inserted Successfully</b>The AI-generated code has been inserted into the editor and is now ready for review, modification, or execution.</div>
+<div class="modal" id="modal"><div class="card"><h3 id="mTitle"></h3><div id="mBody"></div><div class="row"><button class="btn" id="mNo">Cancel</button><button class="btn blue" id="mYes">OK</button></div></div></div>
+
+<script>
+/* ================= shared helpers ================= */
+const GARBAGE = '⟂GARBAGE';
+const RTE = '⟂RTE:';
+const i32 = x => Number(BigInt.asIntN(32, BigInt(Math.round(x))));
+function rng(seed) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+const ri = (r, lo, hi) => lo + Math.floor(r() * (hi - lo + 1));
+function ints(str) {
+  const t = str.trim().split(/\s+/).filter(Boolean).map(Number);
+  if (t.some(x => !Number.isFinite(x) || !Number.isInteger(x))) throw new Error('Input must contain integers only');
+  let p = 0;
+  return { next() { if (p >= t.length) throw new Error('Input ended early'); return t[p++]; }, left() { return t.length - p; } };
+}
+function stripCode(code, lang) {
+  if (lang === 'py') return code.replace(/#[^\n]*/g, '').split('\n').map(x => x.replace(/\s+/g, '')).filter(Boolean).join(';') + ';';
+  return code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '').replace(/\s+/g, '');
+}
+const alt = (...xs) => '(?:' + xs.join('|') + ')';
+const MX = (a, b) => alt(`(?:Math\\.|std::)?max\\((?:${a},${b}|${b},${a})\\)`, `\\(?${a}>=?${b}\\)?\\?${a}:${b}`, `\\(?${b}>=?${a}\\)?\\?${b}:${a}`, `\\(?${a}<=?${b}\\)?\\?${b}:${a}`, `\\(?${b}<=?${a}\\)?\\?${a}:${b}`, `${a}if${a}>=?${b}else${b}`, `${b}if${b}>=?${a}else${a}`);
+const MN = (a, b) => alt(`(?:Math\\.|std::)?min\\((?:${a},${b}|${b},${a})\\)`, `\\(?${a}<=?${b}\\)?\\?${a}:${b}`, `\\(?${b}<=?${a}\\)?\\?${b}:${a}`, `\\(?${a}>=?${b}\\)?\\?${b}:${a}`, `\\(?${b}>=?${a}\\)?\\?${a}:${b}`, `${a}if${a}<=?${b}else${b}`, `${b}if${b}<=?${a}else${a}`);
+const R = s => new RegExp(s);
+
+/* level-order tree helpers (LeetCode style, -1 = null) */
+function buildTree(a) {
+  if (!a.length || a[0] === -1) return null;
+  const root = { data: a[0], left: null, right: null }, q = [root];
+  let h = 0, i = 1;
+  while (i < a.length) {
+    const cur = q[h++];
+    if (i < a.length) { if (a[i] !== -1) { cur.left = { data: a[i], left: null, right: null }; q.push(cur.left); } i++; }
+    if (i < a.length) { if (a[i] !== -1) { cur.right = { data: a[i], left: null, right: null }; q.push(cur.right); } i++; }
+  }
+  return root;
+}
+function serTree(root, fmt) {
+  if (!root) return 'null';
+  const out = [], q = [root];
+  for (let h = 0; h < q.length; h++) {
+    const x = q[h];
+    if (!x) { out.push('-1'); continue; }
+    out.push(fmt(x.data)); q.push(x.left, x.right);
+  }
+  while (out.length && out[out.length - 1] === '-1') out.pop();
+  return out.join(' ');
+}
+function parseLevel(r, name) {
+  const n = r.next();
+  if (n < 0 || n > 2000) throw new Error(name + ': size must be in [0, 2000]');
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(r.next());
+  if (n && a[0] === -1) throw new Error(name + ': root cannot be -1 (use size 0 for an empty tree)');
+  let cnt = 1, slots = 2;               // validate shape: children listed only for non-null nodes
+  for (let i = 1; i < n; i++) { if (slots <= 0) throw new Error(name + ': too many entries for the tree shape'); slots--; if (a[i] !== -1) { if (a[i] < 1 || a[i] > 100000) throw new Error(name + ': values must be in [1, 100000]'); cnt++; slots += 2; } }
+  if (n && (a[0] < 1 || a[0] > 100000)) throw new Error(name + ': values must be in [1, 100000]');
+  return a;
+}
+function randLevel(r, n, lo, hi, pNull) {
+  if (n === 0) return [];
+  const a = [ri(r, lo, hi)]; let slots = 2, made = 1;
+  while (made < n && slots > 0) { slots--; if (r() < pNull) a.push(-1); else { a.push(ri(r, lo, hi)); made++; slots += 2; } }
+  while (a.length && a[a.length - 1] === -1) a.pop();
+  return a;
+}
+const lvl = a => `${a.length}\n${a.join(' ')}`;
+
+/* ================= QUESTIONS ================= */
+const QUESTIONS = [
+/* ------------------------------------------------------------ Q1 LCM of two trees */
+{
+  id: 'lcmtrees', title: 'LCM of Two Trees', tag: 'Trees', topic: 'Trees · Simultaneous recursion · GCD/LCM', difficulty: 'Hard', fromVideo: true, marks: 50,
+  fn: { c: 'LCMOfTrees', cpp: 'LCMOfTrees', java: 'LCMOfTrees', py: 'LCMOfTrees' },
+  statement: `
+<p>A binary tree is represented by the following structure:</p>
+<pre>struct TreeNode
+{
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};</pre>
+<p>Implement the following function:</p>
+<pre class="sig">struct TreeNode* LCMOfTrees(struct TreeNode* root1, struct TreeNode* root2);</pre>
+<p><b>LCM</b> of 2 integers is the smallest positive integer that is exactly divisible by both integers.</p>
+<p>The function accepts the root nodes of two binary trees <b>root1</b> and <b>root2</b>. Implement the function to return a tree which is the LCM of both trees: each node value of the output tree is equal to the LCM of the data values of the nodes at that <b>same position</b> in the input trees.</p>
+<p><b>Note:</b></p>
+<ul>
+<li>Return <b>null</b> if both trees are null.</li>
+<li>While calculating the LCM, if one of the nodes is null, use the data value of the other node (i.e. the other node's whole subtree is kept).</li>
+<li><b>Do not use extra memory</b> — reuse the nodes of the input trees.</li>
+</ul>
+<p><b>Input format:</b> each tree is given as its size <code>n</code> followed by <code>n</code> values in level order, where <code>-1</code> is a missing child (children are listed only for existing nodes). The result is printed the same way.</p>
+<p><b>Constraints:</b></p>
+<ul><li>0 ≤ nodes in each tree ≤ 1000</li><li>1 ≤ data ≤ 10<sup>5</sup></li><li>Every LCM fits in a 32-bit signed integer.</li></ul>`,
+  concept: `<p>Walk both trees <b>at the same time</b> with recursion. At each position: if one node is missing, the answer for that whole subtree is simply the other subtree (nothing to combine). If both exist, store <code>lcm(a, b)</code> in <code>root1</code> and recurse on both children pairs, returning <code>root1</code> — no new nodes are allocated.</p>
+<pre>lcm(a, b) = a / gcd(a, b) * b     // divide FIRST: a * b can overflow even when the LCM fits</pre>`,
+  rubric: {
+    describe: [
+      { label: 'the inputs (two binary trees / root1 & root2)', re: /two (binary )?trees|root ?1|root ?2|both trees|2 trees/i },
+      { label: 'what is returned (a tree of LCM values at the same positions)', re: /return|output|result|new tree|resulting|same position|corresponding|position/i },
+      { label: 'the LCM rule', re: /lcm|least common multiple|lowest common multiple/i },
+      { label: 'the edge cases (null trees / one node missing)', re: /null|empty|missing|absent|none|one (of the )?(node|tree)s? (is|are)|doesn.t exist|does not exist/i }
+    ],
+    ds: { good: /recurs|dfs|depth[- ]first|in[- ]place|existing (tree|node|structure)|the trees? themselves|call stack|same (tree|nodes)|tree structure/i,
+          bad: [{ re: /queue|bfs|breadth|hash|map|vector|array ?list|new tree|extra (array|list)/i, msg: 'A queue/BFS or a new tree would work, but the problem says <b>do not use extra memory</b>. Which structure lets you reuse the existing nodes?' }] },
+    approach: [
+      { label: 'visit both trees together recursively', re: /recurs|dfs|pre[- ]?order|post[- ]?order|position by position|simultaneous|together|same time|both (trees|nodes)/i },
+      { label: 'what happens when one node is null', re: /null|none|missing|one (of them|node|tree)|other (node|tree|subtree)|return (the )?(other|non[- ]null)/i },
+      { label: 'how the LCM is computed (gcd)', re: /gcd|greatest common divisor|euclid|hcf/i }
+    ]
+  },
+  bugs: [
+    { title: 'AI re-declared the struct with the wrong field', why: 'The generated code redefines <code>struct TreeNode</code> (already defined in the read-only section) and uses a field called <code>val</code>, but the platform\'s structure uses <code>data</code>. Delete the duplicate definition and use <code>data</code>.', find: /val|data|field|struct|redefin|member|attribute|compil|duplicate|declar/i },
+    { title: 'A missing node drops the other subtree', why: '<code>if (root1 == NULL || root2 == NULL) return root1;</code> returns NULL when only <code>root1</code> is missing — the whole subtree of <code>root2</code> is lost. Return the other node: <code>if (!root1) return root2; if (!root2) return root1;</code>', find: /null|none|missing|drop|lost|other (tree|node|subtree)|root ?2|one (tree|node|side)|empty/i },
+    { title: 'a * b overflows before dividing', why: '<code>a * b</code> can exceed 2<sup>31</sup> even when the LCM itself fits (e.g. 60000 and 90000). Divide first: <code>a / gcd(a, b) * b</code>.', find: /overflow|large|long|divide (it )?first|a ?\* ?b|product|32[- ]bit|int range/i }
+  ],
+  langBugs: { py: { 2: { title: '/ produces a float', why: 'In Python <code>/</code> is true division, so every combined node becomes a float such as <code>12.0</code>. Use integer division: <code>a // gcdInt(a, b) * b</code>.', find: /float|\/\/|integer division|decimal|\.0|true division/i } } },
+  code: {
+    c: {
+      readonly: `struct TreeNode
+{
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};`,
+      stub: `struct TreeNode* LCMOfTrees(struct TreeNode* root1, struct TreeNode* root2)
+{
+    /* Write your code here. */
+}`,
+      ai: `struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+static int gcdInt(int a, int b) {
+    while (b != 0) {
+        int t = a % b;
+        a = b;
+        b = t;
+    }
+    return a;
+}
+
+static int lcmInt(int a, int b) {
+    return a * b / gcdInt(a, b);
+}
+
+struct TreeNode* LCMOfTrees(struct TreeNode* root1, struct TreeNode* root2)
+{
+    if (root1 == NULL || root2 == NULL)
+        return root1;
+    root1->val = lcmInt(root1->val, root2->val);
+    root1->left = LCMOfTrees(root1->left, root2->left);
+    root1->right = LCMOfTrees(root1->right, root2->right);
+    return root1;
+}`
+    },
+    cpp: {
+      readonly: `struct TreeNode
+{
+    int data;
+    TreeNode* left;
+    TreeNode* right;
+};`,
+      stub: `TreeNode* LCMOfTrees(TreeNode* root1, TreeNode* root2)
+{
+    /* Write your code here. */
+}`,
+      ai: `struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+};
+
+int gcdInt(int a, int b) {
+    while (b != 0) {
+        int t = a % b;
+        a = b;
+        b = t;
+    }
+    return a;
+}
+
+int lcmInt(int a, int b) {
+    return a * b / gcdInt(a, b);
+}
+
+TreeNode* LCMOfTrees(TreeNode* root1, TreeNode* root2)
+{
+    if (root1 == nullptr || root2 == nullptr)
+        return root1;
+    root1->val = lcmInt(root1->val, root2->val);
+    root1->left = LCMOfTrees(root1->left, root2->left);
+    root1->right = LCMOfTrees(root1->right, root2->right);
+    return root1;
+}`
+    },
+    java: {
+      readonly: `class TreeNode
+{
+    int data;
+    TreeNode left, right;
+}
+
+// Your methods below are placed inside: public class Main { ... }`,
+      stub: `static TreeNode LCMOfTrees(TreeNode root1, TreeNode root2)
+{
+    /* Write your code here. */
+}`,
+      ai: `static int gcdInt(int a, int b) {
+    while (b != 0) {
+        int t = a % b;
+        a = b;
+        b = t;
+    }
+    return a;
+}
+
+static int lcmInt(int a, int b) {
+    return a * b / gcdInt(a, b);
+}
+
+static TreeNode LCMOfTrees(TreeNode root1, TreeNode root2)
+{
+    if (root1 == null || root2 == null)
+        return root1;
+    root1.val = lcmInt(root1.val, root2.val);
+    root1.left = LCMOfTrees(root1.left, root2.left);
+    root1.right = LCMOfTrees(root1.right, root2.right);
+    return root1;
+}`
+    },
+    py: {
+      readonly: `class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None`,
+      stub: `def LCMOfTrees(root1, root2):
+    # Write your code here.
+    pass`,
+      ai: `def gcdInt(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+
+def lcmInt(a, b):
+    return a * b / gcdInt(a, b)
+
+
+def LCMOfTrees(root1, root2):
+    if root1 is None or root2 is None:
+        return root1
+    root1.val = lcmInt(root1.val, root2.val)
+    root1.left = LCMOfTrees(root1.left, root2.left)
+    root1.right = LCMOfTrees(root1.right, root2.right)
+    return root1`
+    }
+  },
+  fixes: {
+    c: [
+      [['struct TreeNode {\n    int val;\n    struct TreeNode *left;\n    struct TreeNode *right;\n};\n\n', ''], ['root1->val = lcmInt(root1->val, root2->val);', 'root1->data = lcmInt(root1->data, root2->data);']],
+      [['if (root1 == NULL || root2 == NULL)\n        return root1;', 'if (root1 == NULL)\n        return root2;\n    if (root2 == NULL)\n        return root1;']],
+      [['return a * b / gcdInt(a, b);', 'return a / gcdInt(a, b) * b;']]
+    ],
+    cpp: [
+      [['struct TreeNode {\n    int val;\n    TreeNode *left;\n    TreeNode *right;\n};\n\n', ''], ['root1->val = lcmInt(root1->val, root2->val);', 'root1->data = lcmInt(root1->data, root2->data);']],
+      [['if (root1 == nullptr || root2 == nullptr)\n        return root1;', 'if (root1 == nullptr)\n        return root2;\n    if (root2 == nullptr)\n        return root1;']],
+      [['return a * b / gcdInt(a, b);', 'return a / gcdInt(a, b) * b;']]
+    ],
+    java: [
+      [['root1.val = lcmInt(root1.val, root2.val);', 'root1.data = lcmInt(root1.data, root2.data);']],
+      [['if (root1 == null || root2 == null)\n        return root1;', 'if (root1 == null)\n        return root2;\n    if (root2 == null)\n        return root1;']],
+      [['return a * b / gcdInt(a, b);', 'return a / gcdInt(a, b) * b;']]
+    ],
+    py: [
+      [['root1.val = lcmInt(root1.val, root2.val)', 'root1.data = lcmInt(root1.data, root2.data)']],
+      [['if root1 is None or root2 is None:\n        return root1', 'if root1 is None:\n        return root2\n    if root2 is None:\n        return root1']],
+      [['return a * b / gcdInt(a, b)', 'return a // gcdInt(a, b) * b']]
+    ]
+  },
+  checks: {
+    c: [
+      { need: [], forbid: [/->val(?!\w)/, /structTreeNode\{/] },
+      { need: [/if\((?:root1==NULL|!root1|NULL==root1)\)\{?returnroot2;/, /if\((?:root2==NULL|!root2|NULL==root2)\)\{?returnroot1;/], forbid: [/root1==NULL\|\|root2==NULL/] },
+      { need: [/return\(?(?:a\/gcdInt\(a,b\)\*b|b\/gcdInt\(a,b\)\*a|\(int\)\(\(longlong\)a\*b\/gcdInt\(a,b\)\)|\(longlong\)a\*b\/gcdInt\(a,b\)|a\/gcdInt\(a,b\)\*\(longlong\)b)\)?;/], forbid: [/returna\*b\/gcdInt\(a,b\);/] }
+    ],
+    cpp: [
+      { need: [], forbid: [/->val(?!\w)/, /structTreeNode\{/] },
+      { need: [/if\((?:root1==nullptr|root1==NULL|!root1|nullptr==root1)\)\{?returnroot2;/, /if\((?:root2==nullptr|root2==NULL|!root2|nullptr==root2)\)\{?returnroot1;/], forbid: [/root1==(?:nullptr|NULL)\|\|root2==(?:nullptr|NULL)/] },
+      { need: [/return\(?(?:a\/gcdInt\(a,b\)\*b|b\/gcdInt\(a,b\)\*a|\(int\)\(\(longlong\)a\*b\/gcdInt\(a,b\)\)|\(longlong\)a\*b\/gcdInt\(a,b\)|a\/gcdInt\(a,b\)\*\(longlong\)b|1LL\*a\*b\/gcdInt\(a,b\))\)?;/], forbid: [/returna\*b\/gcdInt\(a,b\);/] }
+    ],
+    java: [
+      { need: [], forbid: [/\.val(?!\w)/] },
+      { need: [/if\((?:root1==null|null==root1)\)\{?returnroot2;/, /if\((?:root2==null|null==root2)\)\{?returnroot1;/], forbid: [/root1==null\|\|root2==null/] },
+      { need: [/return\(?(?:a\/gcdInt\(a,b\)\*b|b\/gcdInt\(a,b\)\*a|\(int\)\(\(long\)a\*b\/gcdInt\(a,b\)\))\)?;/], forbid: [/returna\*b\/gcdInt\(a,b\);/] }
+    ],
+    py: [
+      { need: [], forbid: [/\.val(?!\w)/] },
+      { need: [/if(?:root1isNone|notroot1):;returnroot2;/, /if(?:root2isNone|notroot2):;returnroot1;/], forbid: [/root1isNoneorroot2isNone/] },
+      { need: [/return\(?(?:a\*b\/\/gcdInt\(a,b\)|a\/\/gcdInt\(a,b\)\*b|b\/\/gcdInt\(a,b\)\*a|int\(a\*b\/gcdInt\(a,b\)\))\)?;/], forbid: [/returna\*b\/gcdInt\(a,b\);/] }
+    ]
+  },
+  compileCheck(S, lang) {
+    if ((lang === 'c' || lang === 'cpp') && /structTreeNode\{/.test(S)) return "solution.c: error: redefinition of 'struct TreeNode'\n    struct TreeNode {\n           ^~~~~~~~";
+    if ((lang === 'c' || lang === 'cpp') && /->val(?!\w)/.test(S)) return "solution.c: error: 'struct TreeNode' has no member named 'val'";
+    if (lang === 'java' && /\.val(?!\w)/.test(S)) return 'Main.java: error: cannot find symbol\n  symbol:   variable val\n  location: variable root1 of type TreeNode';
+    return null;
+  },
+  parse(s) { const r = ints(s); return { a: parseLevel(r, 'Tree 1'), b: parseLevel(r, 'Tree 2') }; },
+  simulate({ a, b }, f, lang) {
+    const t1 = buildTree(a), t2 = buildTree(b);
+    if (lang === 'py' && !f[0] && t1 && t2) return RTE + "Traceback (most recent call last):\n  File \"main.py\", in LCMOfTrees\nAttributeError: 'TreeNode' object has no attribute 'val'";
+    const gcd = (x, y) => { while (y) [x, y] = [y, x % y]; return x; };
+    const lcm = (x, y) => {
+      const g = gcd(x, y);
+      if (f[2]) return x / g * y;
+      if (lang === 'py') return { fl: x * y / g };
+      return Math.trunc(i32(x * y) / g);
+    };
+    const go = (r1, r2) => {
+      if (f[1]) { if (!r1) return r2; if (!r2) return r1; }
+      else if (!r1 || !r2) return r1;
+      r1.data = lcm(r1.data, r2.data);
+      r1.left = go(r1.left, r2.left); r1.right = go(r1.right, r2.right);
+      return r1;
+    };
+    return serTree(go(t1, t2), v => typeof v === 'object' ? v.fl + '.0' : String(v));
+  },
+  tests: [
+    '3\n2 4 6\n5\n5 3 -1 2 -1',
+    '0\n\n3\n7 -1 9',
+    '4\n60000 90000 -1 4\n3\n90000 60000 12',
+    '0\n\n0\n'
+  ],
+  hidden(r) {
+    const T = [];
+    for (let k = 0; k < 5; k++) T.push(lvl(randLevel(r, ri(r, 1, 12), 1, 60, 0.3)) + '\n' + lvl(randLevel(r, ri(r, 0, 12), 1, 60, 0.3)));
+    T.push(lvl(randLevel(r, 300, 1, 400, 0.2)) + '\n' + lvl(randLevel(r, 200, 1, 400, 0.25)));
+    const big = [], big2 = [];
+    for (let i = 0; i < 40; i++) { const g = ri(r, 2000, 50000); big.push(g * ri(r, 1, 2)); big2.push(g * ri(r, 1, 2)); }
+    T.push(lvl(big) + '\n' + lvl(big2));
+    T.push('5\n3 -1 4 -1 5\n0\n');
+    return T;
+  }
+},
+/* ------------------------------------------------------------ Q2 Max loot on a tree */
+{
+  id: 'treeloot', title: 'Maximum Loot on a Tree', tag: 'Trees', topic: 'Trees · Tree DP (take / skip states)', difficulty: 'Hard', marks: 50,
+  fn: { c: 'maxLoot', cpp: 'maxLoot', java: 'maxLoot', py: 'maxLoot' },
+  statement: `
+<p>The houses of a colony form a binary tree: house <b>0</b> is the root and every other house is connected to exactly one parent. A thief wants to rob houses, but if two <b>directly connected</b> houses (a parent and its child) are both robbed, the alarm goes off.</p>
+<p>Implement the following function:</p>
+<pre class="sig">int maxLoot(int n, int* val, int* left, int* right);</pre>
+<p><b>val[i]</b> is the money in house <i>i</i>; <b>left[i]</b> and <b>right[i]</b> are the indices of its children (<b>-1</b> if absent). Return the maximum amount the thief can rob without robbing a parent and its child together.</p>
+<p><b>Input format:</b> the first line contains <code>n</code>; each of the next <code>n</code> lines contains <code>val[i] left[i] right[i]</code>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ n ≤ 10<sup>4</sup></li><li>0 ≤ val[i] ≤ 10<sup>4</sup></li><li>The input always describes a valid tree rooted at 0.</li></ul>`,
+  concept: `<p>For every house compute two numbers bottom-up (post-order):</p>
+<pre>take[u] = val[u] + skip[left] + skip[right]            // u robbed → children must be skipped
+skip[u] = max(take[left], skip[left]) + max(take[right], skip[right])   // u skipped → each child is free
+answer  = max(take[root], skip[root])</pre>
+<p>The trap: when <code>u</code> is skipped, the children are <b>allowed</b> to be robbed — not <b>forced</b> to be.</p>`,
+  rubric: {
+    describe: [
+      { label: 'the input (a binary tree of house values)', re: /tree|node|house|val/i },
+      { label: 'the goal (maximum total money)', re: /max|maximum|largest|most|highest/i },
+      { label: 'the rule (no parent and child both robbed)', re: /adjacent|parent|child|directly (linked|connected)|not both|neighbou?r|connected houses/i },
+      { label: 'constraints / edge cases (single node, zero values, n up to 10^4)', re: /single|one node|zero|0 value|leaf|10\^?4|10000|n ?(<=|≤|up to)/i }
+    ],
+    ds: { good: /dfs|recurs|post[- ]?order|dp|dynamic|pair|two (values|states|arrays)|take|skip|include|exclude|arrays?|memo/i,
+          bad: [{ re: /bfs|queue|greedy|sort|level/i, msg: 'Picking by level or greedily fails (e.g. robbing grandchildren from different levels can beat any single level). Which traversal lets a parent use results already computed for its children?' }] },
+    approach: [
+      { label: 'bottom-up / post-order traversal', re: /post[- ]?order|bottom[- ]?up|dfs|recurs|children first|after (the )?children/i },
+      { label: 'two states per node (rob it / skip it)', re: /take|rob|include|pick|skip|exclude|two (values|states|cases)|pair|with and without/i },
+      { label: 'how the states combine (max over each child when the node is skipped)', re: /max|maximum|best of|either/i }
+    ]
+  },
+  bugs: [
+    { title: 'Skipping a node forces its children to be robbed', why: 'The AI wrote <code>skip[u] = takeL + takeR</code>. When <code>u</code> is not robbed each child may be robbed <b>or</b> skipped, whichever is better: <code>max(takeL, skipL) + max(takeR, skipR)</code>.', find: /skip|not (taken|robbed|picked)|exclud|children|max|either|better/i },
+    { title: 'Answer ignores the "skip root" case', why: '<code>ans = take[0]</code> assumes the root is always robbed. The answer is <code>max(take[0], skip[0])</code>.', find: /root|answer|final|ans|return|take\[0\]|skip\[0\]/i }
+  ],
+  code: {
+    c: {
+      readonly: `/* n houses 0..n-1, house 0 is the root.
+   val[i]   : money in house i
+   left[i]  : left child of i  (-1 if none)
+   right[i] : right child of i (-1 if none) */`,
+      stub: `int maxLoot(int n, int* val, int* left, int* right)
+{
+    /* Write your code here. */
+}`,
+      ai: `static void dfs(int u, int* val, int* left, int* right, int* take, int* skip)
+{
+    if (u == -1)
+        return;
+    dfs(left[u], val, left, right, take, skip);
+    dfs(right[u], val, left, right, take, skip);
+    int l = left[u], r = right[u];
+    int takeL = (l == -1) ? 0 : take[l];
+    int skipL = (l == -1) ? 0 : skip[l];
+    int takeR = (r == -1) ? 0 : take[r];
+    int skipR = (r == -1) ? 0 : skip[r];
+    take[u] = val[u] + skipL + skipR;
+    skip[u] = takeL + takeR;
+}
+
+int maxLoot(int n, int* val, int* left, int* right)
+{
+    int* take = (int*)malloc(sizeof(int) * n);
+    int* skip = (int*)malloc(sizeof(int) * n);
+    dfs(0, val, left, right, take, skip);
+    int ans = take[0];
+    free(take);
+    free(skip);
+    return ans;
+}`
+    },
+    cpp: {
+      readonly: `// n houses 0..n-1, house 0 is the root.
+// val[i]: money, left[i] / right[i]: children (-1 if none)`,
+      stub: `int maxLoot(int n, vector<int>& val, vector<int>& left, vector<int>& right)
+{
+    /* Write your code here. */
+}`,
+      ai: `void dfs(int u, vector<int>& val, vector<int>& left, vector<int>& right, vector<int>& take, vector<int>& skip)
+{
+    if (u == -1)
+        return;
+    dfs(left[u], val, left, right, take, skip);
+    dfs(right[u], val, left, right, take, skip);
+    int l = left[u], r = right[u];
+    int takeL = (l == -1) ? 0 : take[l];
+    int skipL = (l == -1) ? 0 : skip[l];
+    int takeR = (r == -1) ? 0 : take[r];
+    int skipR = (r == -1) ? 0 : skip[r];
+    take[u] = val[u] + skipL + skipR;
+    skip[u] = takeL + takeR;
+}
+
+int maxLoot(int n, vector<int>& val, vector<int>& left, vector<int>& right)
+{
+    vector<int> take(n), skip(n);
+    dfs(0, val, left, right, take, skip);
+    int ans = take[0];
+    return ans;
+}`
+    },
+    java: {
+      readonly: `// n houses 0..n-1, house 0 is the root.
+// val[i]: money, left[i] / right[i]: children (-1 if none)
+// Your methods below are placed inside: public class Main { ... }`,
+      stub: `static int maxLoot(int n, int[] val, int[] left, int[] right)
+{
+    /* Write your code here. */
+}`,
+      ai: `static int[] take, skip;
+
+static void dfs(int u, int[] val, int[] left, int[] right)
+{
+    if (u == -1)
+        return;
+    dfs(left[u], val, left, right);
+    dfs(right[u], val, left, right);
+    int l = left[u], r = right[u];
+    int takeL = (l == -1) ? 0 : take[l];
+    int skipL = (l == -1) ? 0 : skip[l];
+    int takeR = (r == -1) ? 0 : take[r];
+    int skipR = (r == -1) ? 0 : skip[r];
+    take[u] = val[u] + skipL + skipR;
+    skip[u] = takeL + takeR;
+}
+
+static int maxLoot(int n, int[] val, int[] left, int[] right)
+{
+    take = new int[n];
+    skip = new int[n];
+    dfs(0, val, left, right);
+    int ans = take[0];
+    return ans;
+}`
+    },
+    py: {
+      readonly: `# n houses 0..n-1, house 0 is the root.
+# val[i]: money, left[i] / right[i]: children (-1 if none)`,
+      stub: `def maxLoot(n, val, left, right):
+    # Write your code here.
+    pass`,
+      ai: `def maxLoot(n, val, left, right):
+    take = [0] * n
+    skip = [0] * n
+
+    def dfs(u):
+        if u == -1:
+            return
+        dfs(left[u])
+        dfs(right[u])
+        l, r = left[u], right[u]
+        takeL = 0 if l == -1 else take[l]
+        skipL = 0 if l == -1 else skip[l]
+        takeR = 0 if r == -1 else take[r]
+        skipR = 0 if r == -1 else skip[r]
+        take[u] = val[u] + skipL + skipR
+        skip[u] = takeL + takeR
+
+    dfs(0)
+    ans = take[0]
+    return ans`
+    }
+  },
+  fixes: {
+    c: [
+      [['skip[u] = takeL + takeR;', 'skip[u] = (takeL > skipL ? takeL : skipL) + (takeR > skipR ? takeR : skipR);']],
+      [['int ans = take[0];', 'int ans = take[0] > skip[0] ? take[0] : skip[0];']]
+    ],
+    cpp: [
+      [['skip[u] = takeL + takeR;', 'skip[u] = max(takeL, skipL) + max(takeR, skipR);']],
+      [['int ans = take[0];', 'int ans = max(take[0], skip[0]);']]
+    ],
+    java: [
+      [['skip[u] = takeL + takeR;', 'skip[u] = Math.max(takeL, skipL) + Math.max(takeR, skipR);']],
+      [['int ans = take[0];', 'int ans = Math.max(take[0], skip[0]);']]
+    ],
+    py: [
+      [['skip[u] = takeL + takeR', 'skip[u] = max(takeL, skipL) + max(takeR, skipR)']],
+      [['ans = take[0]', 'ans = max(take[0], skip[0])']]
+    ]
+  },
+  checks: {
+    all: [
+      { need: [R('skip\\[u\\]=\\(?' + MX('takeL', 'skipL') + '\\)?\\+\\(?' + MX('takeR', 'skipR') + '\\)?;')], forbid: [/skip\[u\]=takeL\+takeR;/] },
+      { need: [R('ans=\\(?' + MX('take\\[0\\]', 'skip\\[0\\]') + '\\)?;')], forbid: [/ans=take\[0\];/] }
+    ]
+  },
+  parse(s) {
+    const r = ints(s); const n = r.next();
+    if (n < 1 || n > 10000) throw new Error('n must be in [1, 10000]');
+    const val = [], left = [], right = [];
+    for (let i = 0; i < n; i++) { val.push(r.next()); left.push(r.next()); right.push(r.next()); }
+    if (val.some(v => v < 0 || v > 10000)) throw new Error('val must be in [0, 10000]');
+    const seen = new Array(n).fill(0); seen[0] = 1;
+    for (let i = 0; i < n; i++) for (const c of [left[i], right[i]]) {
+      if (c === -1) continue;
+      if (c < 1 || c >= n || seen[c]) throw new Error('Children must form a valid tree rooted at 0');
+      seen[c] = 1;
+    }
+    if (seen.some(x => !x)) throw new Error('Every node must be reachable from node 0');
+    return { n, val, left, right };
+  },
+  simulate({ n, val, left, right }, f) {
+    const order = [], st = [0];
+    while (st.length) { const u = st.pop(); order.push(u); for (const c of [left[u], right[u]]) if (c !== -1) st.push(c); }
+    const take = new Array(n).fill(0), skip = new Array(n).fill(0);
+    for (let k = order.length - 1; k >= 0; k--) {
+      const u = order[k], l = left[u], r = right[u];
+      const tL = l === -1 ? 0 : take[l], sL = l === -1 ? 0 : skip[l], tR = r === -1 ? 0 : take[r], sR = r === -1 ? 0 : skip[r];
+      take[u] = val[u] + sL + sR;
+      skip[u] = f[0] ? Math.max(tL, sL) + Math.max(tR, sR) : tL + tR;
+    }
+    return String(f[1] ? Math.max(take[0], skip[0]) : take[0]);
+  },
+  tests: [
+    '5\n3 1 2\n2 -1 3\n3 -1 4\n3 -1 -1\n1 -1 -1',
+    '5\n3 1 2\n4 3 4\n5 -1 -1\n1 -1 -1\n3 -1 -1',
+    '4\n1 1 -1\n1 2 -1\n1 3 -1\n9 -1 -1',
+    '1\n7 -1 -1'
+  ],
+  hidden(r) {
+    const T = [];
+    const mk = (n, lo, hi) => {
+      const val = [], L = new Array(n).fill(-1), Rr = new Array(n).fill(-1);
+      for (let i = 0; i < n; i++) val.push(ri(r, lo, hi));
+      for (let i = 1; i < n; i++) for (;;) { const p = ri(r, 0, i - 1); if (r() < 0.5) { if (L[p] === -1) { L[p] = i; break; } } else if (Rr[p] === -1) { Rr[p] = i; break; } }
+      return `${n}\n` + val.map((v, i) => `${v} ${L[i]} ${Rr[i]}`).join('\n');
+    };
+    for (let k = 0; k < 4; k++) T.push(mk(ri(r, 3, 30), 0, 50));
+    T.push(mk(500, 0, 10000));
+    T.push(mk(2, 5, 9));
+    const n = 3000, lines = [];
+    for (let i = 0; i < n; i++) lines.push(`${(i * 37) % 101} ${i + 1 < n ? i + 1 : -1} -1`);
+    T.push(`${n}\n` + lines.join('\n'));
+    return T;
+  }
+},
+/* ------------------------------------------------------------ Q3 Cheapest flights within K stops */
+{
+  id: 'kstops', title: 'Cheapest Flight Within K Stops', tag: 'Graphs', topic: 'Graphs · Bellman-Ford with a stop limit', difficulty: 'Hard', marks: 50,
+  fn: { c: 'findCheapestPrice', cpp: 'findCheapestPrice', java: 'findCheapestPrice', py: 'findCheapestPrice' },
+  statement: `
+<p>There are <b>n</b> cities numbered 0..n-1 and <b>m</b> one-way flights. Flight <i>e</i> goes from <code>flights[e][0]</code> to <code>flights[e][1]</code> and costs <code>flights[e][2]</code>.</p>
+<p>Implement the following function:</p>
+<pre class="sig">int findCheapestPrice(int n, int m, int flights[][3], int src, int dst, int k);</pre>
+<p>Return the cheapest price to travel from <b>src</b> to <b>dst</b> with <b>at most k stops</b> (a stop is an intermediate city, so at most <code>k + 1</code> flights). Return <b>-1</b> if there is no such route.</p>
+<p><b>Input format:</b> first line <code>n m</code>; next <code>m</code> lines <code>u v w</code>; last line <code>src dst k</code>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>2 ≤ n ≤ 100, 0 ≤ m ≤ n·(n-1), no duplicate flights</li><li>1 ≤ w ≤ 10<sup>4</sup></li><li>0 ≤ k &lt; n, src ≠ dst</li></ul>`,
+  concept: `<p>Plain Dijkstra ignores the stop limit. Use <b>Bellman-Ford limited to k + 1 rounds</b>: after round <code>t</code>, <code>dist[v]</code> is the cheapest cost using at most <code>t</code> flights.</p>
+<pre>repeat k + 1 times:
+    next = copy(dist)
+    for each flight (u, v, w):
+        if dist[u] != INF and dist[u] + w &lt; next[v]: next[v] = dist[u] + w   // read OLD dist
+    dist = next</pre>
+<p>Reading from the <b>previous</b> round's array is essential — relaxing from values updated in the same round can chain several flights in one round and silently exceed k stops.</p>`,
+  rubric: {
+    describe: [
+      { label: 'the inputs (directed weighted flights, src, dst)', re: /flights?|edges?|graph|cities|directed|one[- ]way|src|source/i },
+      { label: 'the goal (cheapest total price)', re: /cheapest|minimum (cost|price)|lowest|min cost|min price|least/i },
+      { label: 'the stop limit (at most k stops = k + 1 flights)', re: /k stops|at most k|stops|k ?\+ ?1|k\+1/i },
+      { label: 'the no-route case (return -1)', re: /-1|no (route|path|way)|unreachable|not possible|impossible|not reachable/i }
+    ],
+    ds: { good: /bellman|array|dist(ance)?s?|edge list|adjacency|dp|dynamic|bfs|queue|stops?/i,
+          bad: [{ re: /dijkstra|priority|heap/i, msg: 'Plain Dijkstra finalises the cheapest path regardless of how many flights it uses, so it can break the stop limit. What would you need to store to respect <b>k</b>?' }] },
+    approach: [
+      { label: 'exactly k + 1 rounds / levels', re: /k ?\+ ?1|k\+1|k plus one|rounds|iterations|levels|layers/i },
+      { label: 'relaxing from a copy of the previous round', re: /copy|previous|prev|temp|snapshot|old (array|values|dist)|separate array|another array|two arrays/i },
+      { label: 'what to return when dst is unreachable', re: /-1|unreachable|inf|infinity|no route|not reached/i }
+    ]
+  },
+  bugs: [
+    { title: 'Only k rounds instead of k + 1', why: '"At most k stops" means at most <code>k + 1</code> flights, so Bellman-Ford needs <code>k + 1</code> rounds. With <code>it &lt; k</code> a direct flight with k = 0 is never found.', find: /k ?\+ ?1|one more|off[- ]by[- ]one|iterations|rounds|loop|it ?< ?k|<= ?k/i },
+    { title: 'Relaxing from the array being updated', why: 'The AI relaxes from <code>next[u]</code>. Values written earlier in the same round are reused, so one round can chain several flights and exceed the stop limit. Relax from the previous round: <code>dist[u] + w</code>.', find: /next\[u\]|nxt\[u\]|copy|previous|dist\[u\]|same (round|iteration)|more (than k )?stops|chain/i },
+    { title: 'Unreachable destination returns INF', why: 'If <code>dst</code> is never reached, <code>dist[dst]</code> is still <code>INF</code> (10<sup>9</sup>). The problem asks for <b>-1</b>.', find: /-1|INF|unreachable|infinity|no route|10\^?9|1000000000/i }
+  ],
+  code: {
+    c: {
+      readonly: `/* flights[e] = {from, to, price} */`,
+      stub: `int findCheapestPrice(int n, int m, int flights[][3], int src, int dst, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `int findCheapestPrice(int n, int m, int flights[][3], int src, int dst, int k)
+{
+    const int INF = 1000000000;
+    int* dist = (int*)malloc(sizeof(int) * n);
+    int* next = (int*)malloc(sizeof(int) * n);
+    for (int i = 0; i < n; i++)
+        dist[i] = INF;
+    dist[src] = 0;
+    for (int it = 0; it < k; it++)
+    {
+        for (int i = 0; i < n; i++)
+            next[i] = dist[i];
+        for (int e = 0; e < m; e++)
+        {
+            int u = flights[e][0], v = flights[e][1], w = flights[e][2];
+            if (next[u] != INF && next[u] + w < next[v])
+                next[v] = next[u] + w;
+        }
+        for (int i = 0; i < n; i++)
+            dist[i] = next[i];
+    }
+    int ans = dist[dst];
+    free(dist);
+    free(next);
+    return ans;
+}`
+    },
+    cpp: {
+      readonly: `// flights[e] = {from, to, price}`,
+      stub: `int findCheapestPrice(int n, vector<array<int, 3>>& flights, int src, int dst, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `int findCheapestPrice(int n, vector<array<int, 3>>& flights, int src, int dst, int k)
+{
+    const int INF = 1000000000;
+    vector<int> dist(n, INF), next(n);
+    dist[src] = 0;
+    for (int it = 0; it < k; it++)
+    {
+        next = dist;
+        for (auto& f : flights)
+        {
+            int u = f[0], v = f[1], w = f[2];
+            if (next[u] != INF && next[u] + w < next[v])
+                next[v] = next[u] + w;
+        }
+        dist = next;
+    }
+    int ans = dist[dst];
+    return ans;
+}`
+    },
+    java: {
+      readonly: `// flights[e] = {from, to, price}
+// Your methods below are placed inside: public class Main { ... }`,
+      stub: `static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k)
+{
+    final int INF = 1000000000;
+    int[] dist = new int[n];
+    Arrays.fill(dist, INF);
+    dist[src] = 0;
+    for (int it = 0; it < k; it++)
+    {
+        int[] next = dist.clone();
+        for (int[] f : flights)
+        {
+            int u = f[0], v = f[1], w = f[2];
+            if (next[u] != INF && next[u] + w < next[v])
+                next[v] = next[u] + w;
+        }
+        dist = next;
+    }
+    int ans = dist[dst];
+    return ans;
+}`
+    },
+    py: {
+      readonly: `# flights[e] = [from, to, price]`,
+      stub: `def findCheapestPrice(n, flights, src, dst, k):
+    # Write your code here.
+    pass`,
+      ai: `def findCheapestPrice(n, flights, src, dst, k):
+    INF = 10 ** 9
+    dist = [INF] * n
+    dist[src] = 0
+    for _ in range(k):
+        nxt = dist[:]
+        for u, v, w in flights:
+            if nxt[u] != INF and nxt[u] + w < nxt[v]:
+                nxt[v] = nxt[u] + w
+        dist = nxt
+    ans = dist[dst]
+    return ans`
+    }
+  },
+  fixes: {
+    c: [
+      [['for (int it = 0; it < k; it++)', 'for (int it = 0; it <= k; it++)']],
+      [['if (next[u] != INF && next[u] + w < next[v])\n                next[v] = next[u] + w;', 'if (dist[u] != INF && dist[u] + w < next[v])\n                next[v] = dist[u] + w;']],
+      [['int ans = dist[dst];', 'int ans = dist[dst] == INF ? -1 : dist[dst];']]
+    ],
+    java: [
+      [['for (int it = 0; it < k; it++)', 'for (int it = 0; it <= k; it++)']],
+      [['if (next[u] != INF && next[u] + w < next[v])\n                next[v] = next[u] + w;', 'if (dist[u] != INF && dist[u] + w < next[v])\n                next[v] = dist[u] + w;']],
+      [['int ans = dist[dst];', 'int ans = dist[dst] == INF ? -1 : dist[dst];']]
+    ],
+    py: [
+      [['for _ in range(k):', 'for _ in range(k + 1):']],
+      [['if nxt[u] != INF and nxt[u] + w < nxt[v]:\n                nxt[v] = nxt[u] + w', 'if dist[u] != INF and dist[u] + w < nxt[v]:\n                nxt[v] = dist[u] + w']],
+      [['ans = dist[dst]', 'ans = -1 if dist[dst] == INF else dist[dst]']]
+    ]
+  },
+  checks: {
+    all: [
+      { need: [/for\(intit=0;it(?:<=k|<k\+1);it\+\+\)|for_inrange\(k\+1\):/], forbid: [/it<k;|for_inrange\(k\):/] },
+      { need: [/if\(?dist\[u\]!=INF(?:&&|and)dist\[u\]\+w<(?:next|nxt)\[v\]\)?:?;?\{?(?:next|nxt)\[v\]=dist\[u\]\+w;/], forbid: [/(?:next|nxt)\[u\]/] },
+      { need: [/ans=[^;]*INF[^;]*-1|ans=[^;]*-1[^;]*INF|if\(?ans(?:==|>=)INF\)?:?;?\{?ans=-1/], forbid: [] }
+    ]
+  },
+  parse(s) {
+    const r = ints(s); const n = r.next(), m = r.next();
+    if (n < 2 || n > 100) throw new Error('n must be in [2, 100]');
+    if (m < 0 || m > n * (n - 1)) throw new Error('m out of range');
+    const F = [], seen = new Set();
+    for (let i = 0; i < m; i++) {
+      const u = r.next(), v = r.next(), w = r.next();
+      if (u < 0 || v < 0 || u >= n || v >= n || u === v) throw new Error('Invalid flight ' + u + ' ' + v);
+      if (seen.has(u * 1000 + v)) throw new Error('Duplicate flight'); seen.add(u * 1000 + v);
+      if (w < 1 || w > 10000) throw new Error('price must be in [1, 10000]');
+      F.push([u, v, w]);
+    }
+    const src = r.next(), dst = r.next(), k = r.next();
+    if (src < 0 || src >= n || dst < 0 || dst >= n || src === dst) throw new Error('Invalid src/dst');
+    if (k < 0 || k >= n) throw new Error('k must be in [0, n-1]');
+    return { n, F, src, dst, k };
+  },
+  simulate({ n, F, src, dst, k }, f) {
+    const INF = 1e9; let dist = new Array(n).fill(INF); dist[src] = 0;
+    const rounds = f[0] ? k + 1 : k;
+    for (let it = 0; it < rounds; it++) {
+      const next = dist.slice();
+      for (const [u, v, w] of F) {
+        const base = f[1] ? dist[u] : next[u];
+        if (base !== INF && base + w < next[v]) next[v] = base + w;
+      }
+      dist = next;
+    }
+    return String(f[2] && dist[dst] === INF ? -1 : dist[dst]);
+  },
+  tests: [
+    '4 5\n0 1 100\n1 2 100\n2 0 100\n1 3 600\n2 3 200\n0 3 1',
+    '3 3\n0 1 100\n1 2 100\n0 2 500\n0 2 1',
+    '3 3\n0 1 100\n1 2 100\n0 2 500\n0 2 0',
+    '3 1\n0 1 5\n0 2 1'
+  ],
+  hidden(r) {
+    const T = [];
+    const gen = (n, p, k) => {
+      const E = [];
+      for (let u = 0; u < n; u++) for (let v = 0; v < n; v++) if (u !== v && r() < p) E.push([u, v, ri(r, 1, 100)]);
+      for (let i = E.length - 1; i > 0; i--) { const j = ri(r, 0, i); [E[i], E[j]] = [E[j], E[i]]; }
+      return `${n} ${E.length}\n` + E.map(e => e.join(' ')).join('\n') + `\n0 ${n - 1} ${k}`;
+    };
+    T.push(gen(6, 0.4, 1), gen(8, 0.3, 2), gen(10, 0.25, 0), gen(12, 0.2, 3), gen(30, 0.1, 5), gen(60, 0.05, 10));
+    { const E = []; for (let i = 0; i < 9; i++) E.push([i, i + 1, 1]); E.push([0, 9, 1000]); T.push(`10 ${E.length}\n` + E.map(e => e.join(' ')).join('\n') + '\n0 9 8'); }
+    T.push('4 2\n0 1 1\n2 3 1\n0 3 3');
+    return T;
+  }
+},
+/* ------------------------------------------------------------ Q4 Grid with obstacle elimination */
+{
+  id: 'gridk', title: 'Shortest Path with Obstacle Elimination', tag: 'Graphs', topic: 'Graphs · BFS over (row, col, eliminations-left) states', difficulty: 'Hard', marks: 50,
+  fn: { c: 'shortestPath', cpp: 'shortestPath', java: 'shortestPath', py: 'shortestPath' },
+  statement: `
+<p>You are given an <b>r × c</b> grid where each cell is <b>0</b> (empty) or <b>1</b> (obstacle). In one step you can move up, down, left or right. You may walk through <b>at most k</b> obstacles (each one you enter uses one elimination).</p>
+<p>Implement the following function:</p>
+<pre class="sig">int shortestPath(int r, int c, int* grid, int k);   // grid[i * c + j]</pre>
+<p>Return the minimum number of steps to go from the top-left cell <code>(0, 0)</code> to the bottom-right cell <code>(r-1, c-1)</code>, or <b>-1</b> if it is impossible.</p>
+<p><b>Input format:</b> first line <code>r c k</code>; then <code>r</code> lines of <code>c</code> values (0/1).</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ r, c ≤ 30</li><li>0 ≤ k ≤ 60</li><li>grid[0][0] = grid[r-1][c-1] = 0</li></ul>`,
+  concept: `<p>A cell alone is not a complete state: reaching it with 3 eliminations left is better than with 0. Run <b>BFS over states</b> <code>(x, y, remaining)</code> with a 3D visited array.</p>
+<pre>nk = remaining - grid[nx][ny]
+if nk &gt;= 0 and not visited[nx][ny][nk]: push</pre>
+<p>BFS explores by levels, so the first time the target is reached is the minimum number of steps. Handle the 1 × 1 grid (answer 0) separately.</p>`,
+  rubric: {
+    describe: [
+      { label: 'the input (a 0/1 grid and k)', re: /grid|matrix|0s? and 1s?|obstacles?|cells?/i },
+      { label: 'the goal (minimum number of steps)', re: /minimum|shortest|min(imum)? (number of )?steps|fewest|least/i },
+      { label: 'the elimination rule (walk through at most k obstacles)', re: /eliminat|remove|break|destroy|walk through|pass through|k obstacles|at most k/i },
+      { label: 'the edge cases (-1 if impossible, 1×1 grid)', re: /-1|impossible|not (reachable|possible)|1 ?[x×*] ?1|single cell|start (is|equals|=) (the )?end|same cell/i }
+    ],
+    ds: { good: /bfs|breadth|queue|visited|state|3d|three[- ]dimension|deque/i,
+          bad: [{ re: /dfs|depth[- ]first|backtrack|recurs/i, msg: 'DFS explores one path deeply and does not give the shortest path directly. Which traversal visits cells in order of distance?' },
+                { re: /dijkstra|priority|heap/i, msg: 'Every move costs exactly 1 step, so a priority queue is unnecessary. Which simpler structure gives shortest paths for unit weights?' }] },
+    approach: [
+      { label: 'BFS level by level', re: /bfs|level|layer|breadth/i },
+      { label: 'state includes the eliminations left (3D visited)', re: /state|remaining|eliminations? (left|remaining)|\(x, ?y, ?(k|r)|x, ?y, ?rem|3d|three|\[k\]|visited\[.*\]\[.*\]\[/i },
+      { label: 'return -1 / the 1×1 case', re: /-1|unreachable|impossible|1 ?[x×*] ?1|single cell/i }
+    ]
+  },
+  bugs: [
+    { title: 'Last elimination can never be used', why: 'The AI wrote <code>nk &gt; 0</code>. Having exactly 0 eliminations left is still a valid state, so the check must be <code>nk &gt;= 0</code>. With k = 0 the buggy code cannot move at all.', find: /nk|>= ?0|last (elimination|obstacle)|zero (eliminations|left|remaining)|> ?0|k ?= ?0/i },
+    { title: '|| instead of && for the 1×1 check', why: '<code>if (r == 1 || c == 1) return 0;</code> returns 0 for <b>any</b> single-row or single-column grid. Only a 1 × 1 grid has distance 0: use <code>&amp;&amp;</code>.', find: /1 ?[x×*] ?1|single (cell|row|column)|\|\||or\b|&&|and\b|one row|one column|r ?== ?1/i },
+    { title: 'Direction arrays never move left', why: '<code>dy = {0, 0, 1, 1}</code> contains <code>+1</code> twice, so the four moves are down, up, right, right — moving left is impossible. It must be <code>{0, 0, 1, -1}</code>.', find: /dy|direction|left|-1|moves?|neighbou?r/i }
+  ],
+  code: {
+    c: {
+      readonly: `/* grid is stored row by row: cell (i, j) is grid[i * c + j] */`,
+      stub: `int shortestPath(int r, int c, int* grid, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `int shortestPath(int r, int c, int* grid, int k)
+{
+    if (r == 1 || c == 1)
+        return 0;
+    int dx[4] = {1, -1, 0, 0};
+    int dy[4] = {0, 0, 1, 1};
+    int states = r * c * (k + 1);
+    char* seen = (char*)calloc(states, 1);
+    int* qx = (int*)malloc(sizeof(int) * states);
+    int* qy = (int*)malloc(sizeof(int) * states);
+    int* qk = (int*)malloc(sizeof(int) * states);
+    int head = 0, tail = 0, steps = 0;
+    qx[tail] = 0; qy[tail] = 0; qk[tail] = k; tail++;
+    seen[k] = 1;
+    while (head < tail)
+    {
+        int size = tail - head;
+        steps++;
+        for (int s = 0; s < size; s++)
+        {
+            int x = qx[head], y = qy[head], rem = qk[head];
+            head++;
+            for (int d = 0; d < 4; d++)
+            {
+                int nx = x + dx[d], ny = y + dy[d];
+                if (nx < 0 || ny < 0 || nx >= r || ny >= c)
+                    continue;
+                int nk = rem - grid[nx * c + ny];
+                if (nk > 0 && !seen[(nx * c + ny) * (k + 1) + nk])
+                {
+                    if (nx == r - 1 && ny == c - 1)
+                        return steps;
+                    seen[(nx * c + ny) * (k + 1) + nk] = 1;
+                    qx[tail] = nx; qy[tail] = ny; qk[tail] = nk; tail++;
+                }
+            }
+        }
+    }
+    return -1;
+}`
+    },
+    cpp: {
+      readonly: `// grid[i][j] is 0 (empty) or 1 (obstacle)`,
+      stub: `int shortestPath(vector<vector<int>>& grid, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `int shortestPath(vector<vector<int>>& grid, int k)
+{
+    int r = grid.size(), c = grid[0].size();
+    if (r == 1 || c == 1)
+        return 0;
+    int dx[4] = {1, -1, 0, 0};
+    int dy[4] = {0, 0, 1, 1};
+    vector<char> seen(r * c * (k + 1), 0);
+    queue<array<int, 3>> q;
+    q.push({0, 0, k});
+    seen[k] = 1;
+    int steps = 0;
+    while (!q.empty())
+    {
+        int size = q.size();
+        steps++;
+        for (int s = 0; s < size; s++)
+        {
+            auto [x, y, rem] = q.front();
+            q.pop();
+            for (int d = 0; d < 4; d++)
+            {
+                int nx = x + dx[d], ny = y + dy[d];
+                if (nx < 0 || ny < 0 || nx >= r || ny >= c)
+                    continue;
+                int nk = rem - grid[nx][ny];
+                if (nk > 0 && !seen[(nx * c + ny) * (k + 1) + nk])
+                {
+                    if (nx == r - 1 && ny == c - 1)
+                        return steps;
+                    seen[(nx * c + ny) * (k + 1) + nk] = 1;
+                    q.push({nx, ny, nk});
+                }
+            }
+        }
+    }
+    return -1;
+}`
+    },
+    java: {
+      readonly: `// grid[i][j] is 0 (empty) or 1 (obstacle)
+// Your methods below are placed inside: public class Main { ... }`,
+      stub: `static int shortestPath(int[][] grid, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `static int shortestPath(int[][] grid, int k)
+{
+    int r = grid.length, c = grid[0].length;
+    if (r == 1 || c == 1)
+        return 0;
+    int[] dx = {1, -1, 0, 0};
+    int[] dy = {0, 0, 1, 1};
+    boolean[] seen = new boolean[r * c * (k + 1)];
+    ArrayDeque<int[]> q = new ArrayDeque<>();
+    q.add(new int[]{0, 0, k});
+    seen[k] = true;
+    int steps = 0;
+    while (!q.isEmpty())
+    {
+        int size = q.size();
+        steps++;
+        for (int s = 0; s < size; s++)
+        {
+            int[] cur = q.poll();
+            int x = cur[0], y = cur[1], rem = cur[2];
+            for (int d = 0; d < 4; d++)
+            {
+                int nx = x + dx[d], ny = y + dy[d];
+                if (nx < 0 || ny < 0 || nx >= r || ny >= c)
+                    continue;
+                int nk = rem - grid[nx][ny];
+                if (nk > 0 && !seen[(nx * c + ny) * (k + 1) + nk])
+                {
+                    if (nx == r - 1 && ny == c - 1)
+                        return steps;
+                    seen[(nx * c + ny) * (k + 1) + nk] = true;
+                    q.add(new int[]{nx, ny, nk});
+                }
+            }
+        }
+    }
+    return -1;
+}`
+    },
+    py: {
+      readonly: `# grid[i][j] is 0 (empty) or 1 (obstacle)
+from collections import deque`,
+      stub: `def shortestPath(grid, k):
+    # Write your code here.
+    pass`,
+      ai: `def shortestPath(grid, k):
+    r, c = len(grid), len(grid[0])
+    if r == 1 or c == 1:
+        return 0
+    dx = [1, -1, 0, 0]
+    dy = [0, 0, 1, 1]
+    seen = {(0, 0, k)}
+    q = deque([(0, 0, k)])
+    steps = 0
+    while q:
+        steps += 1
+        for _ in range(len(q)):
+            x, y, rem = q.popleft()
+            for d in range(4):
+                nx, ny = x + dx[d], y + dy[d]
+                if nx < 0 or ny < 0 or nx >= r or ny >= c:
+                    continue
+                nk = rem - grid[nx][ny]
+                if nk > 0 and (nx, ny, nk) not in seen:
+                    if nx == r - 1 and ny == c - 1:
+                        return steps
+                    seen.add((nx, ny, nk))
+                    q.append((nx, ny, nk))
+    return -1`
+    }
+  },
+  fixes: {
+    c: [
+      [['if (nk > 0 &&', 'if (nk >= 0 &&']],
+      [['if (r == 1 || c == 1)', 'if (r == 1 && c == 1)']],
+      [['int dy[4] = {0, 0, 1, 1};', 'int dy[4] = {0, 0, 1, -1};']]
+    ],
+    java: [
+      [['if (nk > 0 &&', 'if (nk >= 0 &&']],
+      [['if (r == 1 || c == 1)', 'if (r == 1 && c == 1)']],
+      [['int[] dy = {0, 0, 1, 1};', 'int[] dy = {0, 0, 1, -1};']]
+    ],
+    py: [
+      [['if nk > 0 and', 'if nk >= 0 and']],
+      [['if r == 1 or c == 1:', 'if r == 1 and c == 1:']],
+      [['dy = [0, 0, 1, 1]', 'dy = [0, 0, 1, -1]']]
+    ]
+  },
+  checks: {
+    all: [
+      { need: [/if\(?nk>=0(?:&&|and)/], forbid: [/nk>0/] },
+      { need: [/if\(?r==1(?:&&|and)c==1\)?/], forbid: [/r==1(?:\|\||or)c==1/] },
+      { need: [/dy(?:\[4?\])?=(?:newint\[\])?[[{]0,0,(?:1,-1|-1,1)[\]}]/], forbid: [/dy(?:\[4?\])?=(?:newint\[\])?[[{]0,0,1,1[\]}]/] }
+    ]
+  },
+  parse(s) {
+    const t = ints(s); const r = t.next(), c = t.next(), k = t.next();
+    if (r < 1 || r > 30 || c < 1 || c > 30) throw new Error('r and c must be in [1, 30]');
+    if (k < 0 || k > 60) throw new Error('k must be in [0, 60]');
+    const g = [];
+    for (let i = 0; i < r; i++) { const row = []; for (let j = 0; j < c; j++) { const v = t.next(); if (v !== 0 && v !== 1) throw new Error('cells must be 0 or 1'); row.push(v); } g.push(row); }
+    if (g[0][0] || g[r - 1][c - 1]) throw new Error('start and end cells must be 0');
+    return { r, c, k, g };
+  },
+  simulate({ r, c, k, g }, f) {
+    if (f[1] ? (r === 1 && c === 1) : (r === 1 || c === 1)) return '0';
+    const dx = [1, -1, 0, 0], dy = f[2] ? [0, 0, 1, -1] : [0, 0, 1, 1];
+    const seen = new Uint8Array(r * c * (k + 1));
+    let q = [[0, 0, k]]; seen[k] = 1; let steps = 0;
+    while (q.length) {
+      steps++; const nq = [];
+      for (const [x, y, rem] of q) for (let d = 0; d < 4; d++) {
+        const nx = x + dx[d], ny = y + dy[d];
+        if (nx < 0 || ny < 0 || nx >= r || ny >= c) continue;
+        const nk = rem - g[nx][ny], id = (nx * c + ny) * (k + 1) + nk;
+        if ((f[0] ? nk >= 0 : nk > 0) && !seen[id]) {
+          if (nx === r - 1 && ny === c - 1) return String(steps);
+          seen[id] = 1; nq.push([nx, ny, nk]);
+        }
+      }
+      q = nq;
+    }
+    return '-1';
+  },
+  tests: [
+    '5 3 1\n0 0 0\n1 1 0\n0 0 0\n0 1 1\n0 0 0',
+    '3 3 1\n0 1 1\n1 1 1\n1 0 0',
+    '1 4 0\n0 0 0 0',
+    '3 3 0\n0 0 0\n1 1 0\n0 0 0'
+  ],
+  hidden(r) {
+    const T = ['1 1 0\n0'];
+    const gen = (R, C, k, p) => {
+      const g = []; for (let i = 0; i < R; i++) { const row = []; for (let j = 0; j < C; j++) row.push(r() < p ? 1 : 0); g.push(row); }
+      g[0][0] = 0; g[R - 1][C - 1] = 0;
+      return `${R} ${C} ${k}\n` + g.map(x => x.join(' ')).join('\n');
+    };
+    T.push(gen(4, 5, 1, 0.35), gen(6, 6, 2, 0.45), gen(8, 7, 0, 0.25), gen(10, 10, 3, 0.5), gen(20, 25, 5, 0.4), gen(30, 30, 10, 0.55));
+    // snake that forces left moves
+    T.push('5 5 0\n0 0 0 0 0\n1 1 1 1 0\n0 0 0 0 0\n0 1 1 1 1\n0 0 0 0 0');
+    T.push('6 1 1\n0\n1\n0\n0\n0\n0');
+    return T;
+  }
+},
+/* ------------------------------------------------------------ Q5 Min insertions palindrome */
+{
+  id: 'palins', title: 'Minimum Insertions to Form a Palindrome', tag: '2D DP', topic: '2D Dynamic Programming · Interval DP', difficulty: 'Hard', marks: 50,
+  fn: { c: 'minInsertions', cpp: 'minInsertions', java: 'minInsertions', py: 'minInsertions' },
+  statement: `
+<p>Given a string <b>s</b>, in one step you can insert any character at any position. Return the <b>minimum number of insertions</b> needed to make <b>s</b> a palindrome.</p>
+<p>Implement the following function:</p>
+<pre class="sig">int minInsertions(char* s);</pre>
+<p><b>Input format:</b> a single line containing <code>s</code>.</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ |s| ≤ 500</li><li><code>s</code> contains lowercase English letters only.</li></ul>`,
+  concept: `<p><code>dp[i][j]</code> = minimum insertions to make the substring <code>s[i..j]</code> a palindrome.</p>
+<pre>if s[i] == s[j]: dp[i][j] = dp[i+1][j-1]
+else:            dp[i][j] = 1 + min(dp[i+1][j], dp[i][j-1])</pre>
+<p><code>dp[i][j]</code> depends on the row <b>below</b> (<code>i+1</code>), so <code>i</code> must go from <code>n-1</code> down to 0 (or iterate by substring length). The answer is <code>dp[0][n-1]</code>. Equivalently: <code>n − LPS(s)</code>.</p>`,
+  rubric: {
+    describe: [
+      { label: 'the input (a string)', re: /string|characters?|letters?/i },
+      { label: 'the goal (minimum insertions)', re: /minimum|fewest|least|min(imum)? (number of )?insert/i },
+      { label: 'the target property (palindrome)', re: /palindrom/i },
+      { label: 'edge cases / constraints (already a palindrome, length 1, |s| ≤ 500)', re: /already|single (char|letter)|length (of )?1|one (char|letter)|500|lowercase/i }
+    ],
+    ds: { good: /2d|two[- ]dimension|dp|table|matrix|grid|dynamic|memo|lps|longest palindromic|lcs|longest common/i,
+          bad: [{ re: /greedy|two[- ]pointer|stack|hash|map|set/i, msg: 'Greedy/two-pointer choices can go wrong when the ends differ (inserting on the left vs the right changes the future). What structure lets you try both options for every substring?' }] },
+    approach: [
+      { label: 'state over substrings dp[i][j]', re: /dp\[i\]\[j\]|substring|interval|s\[i\.\.j\]|i to j|i\.\.j|range i|lps|longest palindromic/i },
+      { label: 'matching ends vs inserting', re: /s\[i\] ?==? ?s\[j\]|match|equal|same char|ends|first and last/i },
+      { label: 'the recurrence (1 + min of the two options)', re: /1 ?\+ ?min|min\(|minimum of|smaller of/i },
+      { label: 'fill order (i from n-1 down / by length)', re: /bottom|revers|backward|from the end|decreas|i from n|n ?- ?1 (down|to)|length|shorter/i }
+    ]
+  },
+  bugs: [
+    { title: 'Wrong fill order', why: 'The outer loop goes <code>i = 0 .. n-1</code>, but <code>dp[i][j]</code> reads <code>dp[i+1][..]</code>, which has not been computed yet (still 0). Iterate <code>i</code> from <code>n-1</code> down to 0.', find: /order|revers|backward|from (the )?end|n ?- ?1|decreas|i ?\+ ?1 (is )?(not|isn.?t) (computed|ready|filled)|dependenc|loop direction|bottom/i },
+    { title: 'max instead of min', why: 'When the ends differ we insert one character and take the <b>cheaper</b> of the two sub-problems: <code>1 + min(dp[i+1][j], dp[i][j-1])</code>. The AI used <code>max</code>.', find: /max|min|cheaper|smaller/i }
+  ],
+  code: {
+    c: {
+      readonly: `#include <string.h>`,
+      stub: `int minInsertions(char* s)
+{
+    /* Write your code here. */
+}`,
+      ai: `int minInsertions(char* s)
+{
+    int n = strlen(s);
+    int** dp = (int**)malloc(sizeof(int*) * n);
+    for (int i = 0; i < n; i++)
+        dp[i] = (int*)calloc(n, sizeof(int));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (s[i] == s[j])
+                dp[i][j] = dp[i + 1][j - 1];
+            else
+                dp[i][j] = 1 + (dp[i + 1][j] > dp[i][j - 1] ? dp[i + 1][j] : dp[i][j - 1]);
+        }
+    }
+    int ans = dp[0][n - 1];
+    for (int i = 0; i < n; i++)
+        free(dp[i]);
+    free(dp);
+    return ans;
+}`
+    },
+    cpp: {
+      readonly: `// s contains lowercase letters only`,
+      stub: `int minInsertions(string s)
+{
+    /* Write your code here. */
+}`,
+      ai: `int minInsertions(string s)
+{
+    int n = s.size();
+    vector<vector<int>> dp(n, vector<int>(n, 0));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (s[i] == s[j])
+                dp[i][j] = dp[i + 1][j - 1];
+            else
+                dp[i][j] = 1 + max(dp[i + 1][j], dp[i][j - 1]);
+        }
+    }
+    return dp[0][n - 1];
+}`
+    },
+    java: {
+      readonly: `// s contains lowercase letters only
+// Your methods below are placed inside: public class Main { ... }`,
+      stub: `static int minInsertions(String s)
+{
+    /* Write your code here. */
+}`,
+      ai: `static int minInsertions(String s)
+{
+    int n = s.length();
+    int[][] dp = new int[n][n];
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i + 1; j < n; j++)
+        {
+            if (s.charAt(i) == s.charAt(j))
+                dp[i][j] = dp[i + 1][j - 1];
+            else
+                dp[i][j] = 1 + Math.max(dp[i + 1][j], dp[i][j - 1]);
+        }
+    }
+    return dp[0][n - 1];
+}`
+    },
+    py: {
+      readonly: `# s contains lowercase letters only`,
+      stub: `def minInsertions(s):
+    # Write your code here.
+    pass`,
+      ai: `def minInsertions(s):
+    n = len(s)
+    dp = [[0] * n for _ in range(n)]
+    for i in range(n):
+        for j in range(i + 1, n):
+            if s[i] == s[j]:
+                dp[i][j] = dp[i + 1][j - 1]
+            else:
+                dp[i][j] = 1 + max(dp[i + 1][j], dp[i][j - 1])
+    return dp[0][n - 1]`
+    }
+  },
+  fixes: {
+    c: [
+      [['for (int i = 0; i < n; i++)\n    {\n        for (int j = i + 1;', 'for (int i = n - 1; i >= 0; i--)\n    {\n        for (int j = i + 1;']],
+      [['1 + (dp[i + 1][j] > dp[i][j - 1] ?', '1 + (dp[i + 1][j] < dp[i][j - 1] ?']]
+    ],
+    cpp: [
+      [['for (int i = 0; i < n; i++)\n    {\n        for (int j = i + 1;', 'for (int i = n - 1; i >= 0; i--)\n    {\n        for (int j = i + 1;']],
+      [['1 + max(dp[i + 1][j], dp[i][j - 1])', '1 + min(dp[i + 1][j], dp[i][j - 1])']]
+    ],
+    java: [
+      [['for (int i = 0; i < n; i++)\n    {\n        for (int j = i + 1;', 'for (int i = n - 1; i >= 0; i--)\n    {\n        for (int j = i + 1;']],
+      [['1 + Math.max(dp[i + 1][j], dp[i][j - 1])', '1 + Math.min(dp[i + 1][j], dp[i][j - 1])']]
+    ],
+    py: [
+      [['for i in range(n):\n        for j in range(i + 1, n):', 'for i in range(n - 1, -1, -1):\n        for j in range(i + 1, n):']],
+      [['1 + max(dp[i + 1][j], dp[i][j - 1])', '1 + min(dp[i + 1][j], dp[i][j - 1])']]
+    ]
+  },
+  checks: {
+    all: [
+      { need: [/for\(inti=n-1;i>=0;(?:i--|--i|i-=1)\)\{?for\(intj=i\+1|foriinrange\(n-1,-1,-1\):;forjinrange\(i\+1,n\)|foriinreversed\(range\(n\)\):;forjinrange\(i\+1,n\)/], forbid: [/for\(inti=0;i<n;i\+\+\)\{?for\(intj=i\+1|foriinrange\(n\):;forjinrange\(i\+1,n\)/] },
+      { need: [R('dp\\[i\\]\\[j\\]=(?:1\\+\\(?' + MN('dp\\[i\\+1\\]\\[j\\]', 'dp\\[i\\]\\[j-1\\]') + '\\)?|\\(?' + MN('dp\\[i\\+1\\]\\[j\\]', 'dp\\[i\\]\\[j-1\\]') + '\\)?\\+1);')], forbid: [R(MX('dp\\[i\\+1\\]\\[j\\]', 'dp\\[i\\]\\[j-1\\]'))] }
+    ]
+  },
+  parse(s) {
+    const x = s.replace(/\r/g, '').split('\n').map(y => y.trim()).filter(Boolean);
+    if (x.length !== 1 || !/^[a-z]{1,500}$/.test(x[0])) throw new Error('Input must be one line of 1..500 lowercase letters');
+    return { s: x[0] };
+  },
+  simulate({ s }, f) {
+    const n = s.length, dp = Array.from({ length: n + 1 }, () => new Array(n).fill(0));
+    const order = f[0] ? [...Array(n).keys()].reverse() : [...Array(n).keys()];
+    for (const i of order) for (let j = i + 1; j < n; j++)
+      dp[i][j] = s[i] === s[j] ? dp[i + 1][j - 1] : 1 + (f[1] ? Math.min : Math.max)(dp[i + 1][j], dp[i][j - 1]);
+    return String(dp[0][n - 1]);
+  },
+  tests: ['mbadm', 'leetcode', 'zzazz', 'abcd'],
+  hidden(r) {
+    const T = ['a', 'ab', 'aab'];
+    const rs = (len, k) => Array.from({ length: len }, () => String.fromCharCode(97 + ri(r, 0, k - 1))).join('');
+    T.push(rs(12, 3), rs(25, 2), rs(40, 4), rs(300, 3), rs(500, 26));
+    return T;
+  }
+},
+/* ------------------------------------------------------------ Q6 Sliding window maximum */
+{
+  id: 'slidemax', title: 'Sliding Window Maximum', tag: 'Advanced DSA', topic: 'Advanced DSA · Monotonic deque', difficulty: 'Hard', marks: 50,
+  fn: { c: 'maxSlidingWindow', cpp: 'maxSlidingWindow', java: 'maxSlidingWindow', py: 'maxSlidingWindow' },
+  statement: `
+<p>You are given an integer array <b>nums</b> of length <b>n</b> and a window size <b>k</b>. A window of size k slides from the very left of the array to the very right, one position at a time.</p>
+<p>Implement the following function:</p>
+<pre class="sig">int* maxSlidingWindow(int* nums, int n, int k, int* returnSize);</pre>
+<p>Return the maximum of every window (there are exactly <code>n - k + 1</code> of them), in order, and set <code>*returnSize</code> to their count. Aim for <b>O(n)</b>.</p>
+<p><b>Input format:</b> first line <code>n k</code>; second line the <code>n</code> numbers. The output is printed space-separated.</p>
+<p><b>Constraints:</b></p>
+<ul><li>1 ≤ k ≤ n ≤ 10<sup>5</sup></li><li>-10<sup>4</sup> ≤ nums[i] ≤ 10<sup>4</sup></li></ul>`,
+  concept: `<p>Keep a <b>deque of indices</b> whose values are strictly decreasing from front to back.</p>
+<pre>for i in 0..n-1:
+    if front index &lt;= i - k: pop front          // it left the window
+    while back value &lt; nums[i]: pop back       // can never be a maximum again
+    push i
+    if i &gt;= k - 1: output nums[front]          // first full window ends at k-1</pre>
+<p>Each index is pushed and popped at most once → O(n). A heap also works but costs O(n log n).</p>`,
+  rubric: {
+    describe: [
+      { label: 'the inputs (array and window size k)', re: /array|nums|list|numbers|elements/i },
+      { label: 'the window (size k sliding by one)', re: /window|slid|contiguous|subarray|consecutive/i },
+      { label: 'the output (maximum of each window, n-k+1 values)', re: /max|maximum|largest|biggest/i },
+      { label: 'edge cases (k = 1, k = n, negatives, duplicates)', re: /k ?== ?1|k ?= ?1|k ?== ?n|k ?= ?n|negative|duplicate|n ?- ?k ?\+ ?1|equal values/i }
+    ],
+    ds: { good: /deque|double[- ]ended|monoton/i,
+          bad: [{ re: /heap|priority|multiset|tree ?map|sorted|bst/i, msg: 'A heap/multiset works but is O(n log n). Can you think of a structure that removes useless elements from <b>both</b> ends in O(1)?' },
+                { re: /brute|nested|two loops|each window separately/i, msg: 'Checking every window separately is O(n·k) — too slow for n = 10<sup>5</sup>. What could you keep between windows?' }] },
+    approach: [
+      { label: 'deque of indices', re: /deque|double[- ]ended|indices|indexes/i },
+      { label: 'keep it decreasing (pop smaller from the back)', re: /decreas|monoton|smaller|pop (from )?(the )?back|remove (the )?smaller|useless/i },
+      { label: 'drop the front when it leaves the window', re: /front|expired|out of (the )?window|i ?- ?k|outside|left the window|leaves/i },
+      { label: 'when to start recording (i ≥ k-1)', re: /k ?- ?1|first (full )?window|after k|once .*k/i }
+    ]
+  },
+  bugs: [
+    { title: 'Expired index kept one step too long', why: 'Index <code>j</code> belongs to the window ending at <code>i</code> only while <code>j &gt; i - k</code>. The AI pops the front only when <code>j &lt; i - k</code>, so a value that already left the window can still be reported as the maximum. Use <code>&lt;=</code>.', find: /expire|out of (the )?window|<=|front|stale|i ?- ?k|old (index|element)/i },
+    { title: 'First window is skipped', why: 'The first full window ends at index <code>k - 1</code>, but the AI records results only when <code>i &gt;= k</code>, producing <code>n - k</code> values instead of <code>n - k + 1</code>.', find: /first window|k ?- ?1|off[- ]by[- ]one|missing (the )?first|count|number of (results|windows)|n ?- ?k ?\+ ?1|i ?>= ?k/i }
+  ],
+  code: {
+    c: {
+      readonly: `/* Return a malloc'ed array; set *returnSize to its length. */`,
+      stub: `int* maxSlidingWindow(int* nums, int n, int k, int* returnSize)
+{
+    /* Write your code here. */
+}`,
+      ai: `int* maxSlidingWindow(int* nums, int n, int k, int* returnSize)
+{
+    int* res = (int*)malloc(sizeof(int) * n);
+    int* dq = (int*)malloc(sizeof(int) * n);
+    int head = 0, tail = 0, cnt = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (head < tail && dq[head] < i - k)
+            head++;
+        while (head < tail && nums[dq[tail - 1]] < nums[i])
+            tail--;
+        dq[tail++] = i;
+        if (i >= k)
+            res[cnt++] = nums[dq[head]];
+    }
+    free(dq);
+    *returnSize = cnt;
+    return res;
+}`
+    },
+    cpp: {
+      readonly: `// Return the maxima of all windows in order`,
+      stub: `vector<int> maxSlidingWindow(vector<int>& nums, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `vector<int> maxSlidingWindow(vector<int>& nums, int k)
+{
+    int n = nums.size();
+    vector<int> res;
+    deque<int> dq;
+    for (int i = 0; i < n; i++)
+    {
+        if (!dq.empty() && dq.front() < i - k)
+            dq.pop_front();
+        while (!dq.empty() && nums[dq.back()] < nums[i])
+            dq.pop_back();
+        dq.push_back(i);
+        if (i >= k)
+            res.push_back(nums[dq.front()]);
+    }
+    return res;
+}`
+    },
+    java: {
+      readonly: `// Return the maxima of all windows in order
+// Your methods below are placed inside: public class Main { ... }`,
+      stub: `static List<Integer> maxSlidingWindow(int[] nums, int k)
+{
+    /* Write your code here. */
+}`,
+      ai: `static List<Integer> maxSlidingWindow(int[] nums, int k)
+{
+    int n = nums.length;
+    List<Integer> res = new ArrayList<>();
+    ArrayDeque<Integer> dq = new ArrayDeque<>();
+    for (int i = 0; i < n; i++)
+    {
+        if (!dq.isEmpty() && dq.peekFirst() < i - k)
+            dq.pollFirst();
+        while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i])
+            dq.pollLast();
+        dq.addLast(i);
+        if (i >= k)
+            res.add(nums[dq.peekFirst()]);
+    }
+    return res;
+}`
+    },
+    py: {
+      readonly: `# Return the maxima of all windows in order
+from collections import deque`,
+      stub: `def maxSlidingWindow(nums, k):
+    # Write your code here.
+    pass`,
+      ai: `def maxSlidingWindow(nums, k):
+    res = []
+    dq = deque()
+    for i in range(len(nums)):
+        if dq and dq[0] < i - k:
+            dq.popleft()
+        while dq and nums[dq[-1]] < nums[i]:
+            dq.pop()
+        dq.append(i)
+        if i >= k:
+            res.append(nums[dq[0]])
+    return res`
+    }
+  },
+  fixes: {
+    c: [[['dq[head] < i - k', 'dq[head] <= i - k']], [['if (i >= k)', 'if (i >= k - 1)']]],
+    cpp: [[['dq.front() < i - k', 'dq.front() <= i - k']], [['if (i >= k)', 'if (i >= k - 1)']]],
+    java: [[['dq.peekFirst() < i - k', 'dq.peekFirst() <= i - k']], [['if (i >= k)', 'if (i >= k - 1)']]],
+    py: [[['dq[0] < i - k', 'dq[0] <= i - k']], [['if i >= k:', 'if i >= k - 1:']]]
+  },
+  checks: {
+    all: [
+      { need: [/(?:dq\[head\]|dq\.front\(\)|dq\.peekFirst\(\)|dq\[0\])(?:<=i-k|\+k<=i)|i-k>=(?:dq\[head\]|dq\.front\(\)|dq\.peekFirst\(\)|dq\[0\])/], forbid: [/(?:dq\[head\]|dq\.front\(\)|dq\.peekFirst\(\)|dq\[0\])<i-k/] },
+      { need: [/if\(?(?:i>=k-1|i\+1>=k|i>k-1)\)?/], forbid: [/if\(?i>=k\)?(?!-)/] }
+    ]
+  },
+  parse(s) {
+    const r = ints(s); const n = r.next(), k = r.next();
+    if (n < 1 || n > 100000) throw new Error('n must be in [1, 100000]');
+    if (k < 1 || k > n) throw new Error('k must be in [1, n]');
+    const a = []; for (let i = 0; i < n; i++) a.push(r.next());
+    if (a.some(x => x < -10000 || x > 10000)) throw new Error('values must be in [-10000, 10000]');
+    return { n, k, a };
+  },
+  simulate({ n, k, a }, f) {
+    const dq = [], res = []; let h = 0;
+    for (let i = 0; i < n; i++) {
+      if (h < dq.length && (f[0] ? dq[h] <= i - k : dq[h] < i - k)) h++;
+      while (h < dq.length && a[dq[dq.length - 1]] < a[i]) dq.pop();
+      dq.push(i);
+      if (f[1] ? i >= k - 1 : i >= k) res.push(a[dq[h]]);
+    }
+    return res.join(' ');
+  },
+  tests: ['8 3\n1 3 -1 -3 5 3 6 7', '1 1\n5', '5 2\n9 1 1 1 1', '6 6\n-4 -2 -8 -1 -5 -3'],
+  hidden(r) {
+    const T = ['4 1\n4 3 2 1', '5 3\n5 4 3 2 1'];
+    const gen = (n, k, lo, hi) => `${n} ${k}\n` + Array.from({ length: n }, () => ri(r, lo, hi)).join(' ');
+    T.push(gen(10, 3, -5, 5), gen(20, 4, 0, 3), gen(50, 7, -100, 100), gen(1000, 30, -10000, 10000), gen(20000, 999, -10000, 10000));
+    return T;
+  }
+}
+];
+
+for (const q of QUESTIONS) {
+  q.hiddenTests = q.hidden(rng(q.id.split('').reduce((a, c) => a * 31 + c.charCodeAt(0) | 0, 7)));
+  q.bugsFor = {};
+  for (const l of ['c', 'cpp', 'java', 'py']) {
+    q.bugsFor[l] = q.bugs.slice();
+    for (const k in ((q.langBugs || {})[l] || {})) q.bugsFor[l][k] = q.langBugs[l][k];
+  }
+}
+
+</script>
+<script>
+(function () {
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const LANGS = { c: 'C', cpp: 'C++', java: 'Java', py: 'Python' };
+const DURATION = 20 * 60 * 1000, BUDGET = 2000, ALL = [true, true, true, true];
+const STAGES = ['Describe the problem', 'Data structures', 'Approach', 'Generate code', 'Review & refine'];
+
+/* ---------- persistence ---------- */
+const KEY = 'ailab.v1';
+let store = {};
+try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
+for (const k of ['code', 'timer', 'chat', 'best', 'last']) store[k] = store[k] || {};
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
+
+/* ---------- theme / layout ---------- */
+const applyTheme = () => { if (store.theme) document.documentElement.setAttribute('data-theme', store.theme); else document.documentElement.removeAttribute('data-theme'); };
+applyTheme();
+$('#themeBtn').onclick = () => { const dark = store.theme ? store.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; store.theme = dark ? 'light' : 'dark'; save(); applyTheme(); };
+function applyLayout() {
+  $('#examGrid').classList.toggle('stacked', store.layout === 'stacked');
+  document.querySelectorAll('#layoutBtns button').forEach(b => b.classList.toggle('on', b.dataset.l === (store.layout || 'side')));
+}
+document.querySelectorAll('#layoutBtns button').forEach(b => b.onclick = () => { store.layout = b.dataset.l; save(); applyLayout(); });
+applyLayout();
+$('#mode').value = store.mode || 'day';
+const applyMode = () => $('#editor').classList.toggle('night', $('#mode').value === 'night');
+$('#mode').onchange = () => { store.mode = $('#mode').value; save(); applyMode(); };
+applyMode();
+
+/* ---------- state ---------- */
+let qi = -1, lang = store.lang || 'c', leftTab = 'problem', rightTab = 'code', tick = null;
+const Q = () => QUESTIONS[qi];
+const ck = (q, l) => q.id + ':' + l;
+const fixesOf = (q, l) => q.fixes[l] || q.fixes.c;
+const checksOf = (q, l) => q.checks[l] || q.checks.all;
+const getCode = (q, l) => store.code[ck(q, l)] ?? q.code[l].stub;
+function solutionBody(q, l) { let b = q.code[l].ai; for (const edits of fixesOf(q, l)) for (const [a, c] of edits) b = b.replace(a, c); return b; }
+
+/* ---------- highlighter ---------- */
+const KW = {
+  c: 'if else for while do return break continue switch case default sizeof typedef struct const static void NULL include define',
+  cpp: 'if else for while do return break continue switch case default sizeof typedef struct const static void nullptr using namespace auto template class public private new delete true false constexpr include define',
+  java: 'if else for while do return break continue switch case default new class public private protected static final void null true false import throw throws try catch this',
+  py: 'def return if elif else for while in not and or is None True False lambda nonlocal global import from break continue pass class try except raise with as'
+};
+const TY = 'int long char double float bool boolean short unsigned vector string String array TreeNode Arrays Math Integer List ArrayList ArrayDeque deque queue list range len max min print str size_t';
+function highlight(src, l) {
+  const kw = new Set(KW[l].split(' ')), ty = new Set(TY.split(' '));
+  const re = l === 'py'
+    ? /(#[^\n]*)|("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|(\b\d[\d_]*(?:\.\d+)?(?:[eE]\d+)?\b)|(\b[A-Za-z_]\w*\b)/g
+    : /(\/\*[\s\S]*?\*\/|\/\/[^\n]*)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])')|(\b\d[\d_]*(?:\.\d+)?(?:[eE]\d+)?[LlUu]*\b)|(#?\b[A-Za-z_]\w*\b)/g;
+  let out = '', last = 0, m;
+  while ((m = re.exec(src))) {
+    out += esc(src.slice(last, m.index)); last = re.lastIndex;
+    const t = m[0];
+    if (m[1]) out += '<span class="tk-com">' + esc(t) + '</span>';
+    else if (m[2]) out += '<span class="tk-str">' + esc(t) + '</span>';
+    else if (m[3]) out += '<span class="tk-num">' + esc(t) + '</span>';
+    else {
+      const w = t.replace(/^#/, '');
+      if ((t[0] === '#' && l !== 'py') || kw.has(w)) out += '<span class="tk-kw">' + esc(t) + '</span>';
+      else if (ty.has(w)) out += '<span class="tk-ty">' + esc(t) + '</span>';
+      else if (/^\s*\(/.test(src.slice(last))) out += '<span class="tk-fn">' + esc(t) + '</span>';
+      else out += esc(t);
+    }
+  }
+  return out + esc(src.slice(last));
+}
+
+/* ---------- editor ---------- */
+const ta = $('#code'), hl = $('#hl'), gut = $('#gutter');
+function paint() {
+  hl.innerHTML = highlight(ta.value, lang) + '\n';
+  const n = ta.value.split('\n').length; let g = '';
+  for (let i = 1; i <= n; i++) g += i + '\n';
+  gut.textContent = g; syncScroll(); updatePos();
+}
+function syncScroll() { hl.scrollTop = ta.scrollTop; hl.scrollLeft = ta.scrollLeft; gut.scrollTop = ta.scrollTop; }
+function updatePos() { const pre = ta.value.slice(0, ta.selectionStart).split('\n'); $('#pos').textContent = `line: ${pre.length}, column: ${pre[pre.length - 1].length + 1}`; }
+ta.addEventListener('scroll', syncScroll);
+ta.addEventListener('click', updatePos); ta.addEventListener('keyup', updatePos);
+ta.addEventListener('input', () => { store.code[ck(Q(), lang)] = ta.value; const c = chatOf(Q()); if (c.inserted) c.editedAfterInsert = true; save(); paint(); });
+ta.addEventListener('keydown', e => {
+  if (e.key === 'Tab') { e.preventDefault(); ta.setRangeText('    ', ta.selectionStart, ta.selectionEnd, 'end'); ta.dispatchEvent(new Event('input')); }
+  else if (e.key === 'Enter') {
+    const s = ta.selectionStart, line = ta.value.slice(0, s).split('\n').pop();
+    let ind = (line.match(/^\s*/) || [''])[0];
+    if (/[{]\s*$/.test(line) || (lang === 'py' && /:\s*$/.test(line))) ind += '    ';
+    e.preventDefault(); ta.setRangeText('\n' + ind, s, ta.selectionEnd, 'end'); ta.dispatchEvent(new Event('input'));
+  }
+});
+
+/* ---------- modal / toast ---------- */
+function confirmBox(title, body, yes, onYes) {
+  $('#mTitle').textContent = title; $('#mBody').innerHTML = body; $('#mYes').textContent = yes;
+  $('#modal').classList.add('on');
+  $('#mYes').onclick = () => { $('#modal').classList.remove('on'); onYes(); };
+  $('#mNo').onclick = () => $('#modal').classList.remove('on');
+}
+let toastT;
+function toast() { $('#toast').classList.remove('hide'); clearTimeout(toastT); toastT = setTimeout(() => $('#toast').classList.add('hide'), 3500); }
+$('#toast').onclick = () => $('#toast').classList.add('hide');
+
+/* ---------- judge ---------- */
+function anchors(q, l) {
+  const norm = s => stripCode(s, l).replace(/[{}]/g, '');
+  const a = new Set(norm(q.code[l].ai).split(';')), b = new Set(norm(solutionBody(q, l)).split(';'));
+  return [...a].filter(x => x.length > 2 && b.has(x));
+}
+function compileErrors(q, l, code, S) {
+  const body = l === 'py' ? code.replace(/#[^\n]*/g, '').replace(/("|')(?:\\.|(?!\1)[^\\\n])*\1/g, '""') : code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  const pairs = { ')': '(', ']': '[', '}': '{' }, st = [], lines = body.split('\n');
+  for (let i = 0; i < lines.length; i++) for (const ch of lines[i]) {
+    if ('([{'.includes(ch)) st.push([ch, i]);
+    else if (')]}'.includes(ch)) { const top = st.pop(); if (!top || top[0] !== pairs[ch]) return l === 'py' ? `  File "main.py", line ${i + 1}\nSyntaxError: unmatched '${ch}'` : `solution:${i + 1}: error: unexpected '${ch}'`; }
+  }
+  if (st.length) return l === 'py' ? `  File "main.py", line ${st[st.length - 1][1] + 1}\nSyntaxError: '${st[st.length - 1][0]}' was never closed` : `solution:${st[st.length - 1][1] + 1}: error: expected '${{ '(': ')', '[': ']', '{': '}' }[st[st.length - 1][0]]}' before end of input`;
+  if (!S.includes(q.fn[l] + '(')) return l === 'py' ? `NameError: name '${q.fn[l]}' is not defined` : `error: undefined reference to '${q.fn[l]}'`;
+  return q.compileCheck ? q.compileCheck(S, l) : null;
+}
+function judge(q, l, code, inputs) {
+  const S = stripCode(code, l);
+  const ce = compileErrors(q, l, code, S);
+  if (ce) return { ce };
+  const flags = checksOf(q, l).map(c => c.need.every(r => r.test(S)) && !c.forbid.some(r => r.test(S)));
+  const A = anchors(q, l), flat = S.replace(/[{}]/g, '');
+  const miss = A.filter(a => !flat.includes(a));
+  const implemented = miss.length <= A.length * 0.5;
+  const res = inputs.map(inp => {
+    let parsed;
+    try { parsed = q.parse(inp.input); } catch (e) { return { input: inp.input, err: e.message }; }
+    const exp = inp.custom ? q.simulate(parsed, ALL, l) : inp.expected;
+    if (!implemented) return { input: inp.input, out: l === 'py' ? 'None' : '', exp, kind: 'ok', pass: false };
+    let out = q.simulate(parsed, flags, l), kind = 'ok';
+    if (out.startsWith(RTE)) { kind = 're'; out = out.slice(RTE.length); }
+    return { input: inp.input, out, exp, kind, pass: kind === 'ok' && out === exp };
+  });
+  return { flags, res, miss: implemented ? miss : [], implemented };
+}
+const expectedCache = {};
+function suite(q, hidden) {
+  const k = q.id + (hidden ? ':h' : ':v');
+  if (!expectedCache[k]) expectedCache[k] = (hidden ? q.hiddenTests : q.tests).map(t => ({ input: t, expected: q.simulate(q.parse(t), ALL, 'c') }));
+  return expectedCache[k];
+}
+let sel = 0;
+function renderRun(r, label) {
+  const box = $('#result');
+  if (r.ce) { box.innerHTML = `<div class="kv"><b>Compilation:</b><span class="badc">${lang === 'py' ? 'Error' : 'Compilation Failed'}</span></div><div class="alert bad">${lang === 'py' ? 'Your code raised an error before running any test.' : 'Your code did not compile.'}<pre>${esc(r.ce)}</pre></div>`; return; }
+  const n = r.res.length, p = r.res.filter(x => x.pass).length;
+  let h = `<div class="kv"><b>Compilation:</b><span class="good">✓ Compilation Successful</span></div>`;
+  if (!r.implemented) h += `<div class="alert info">Your function doesn't return a result yet. Work through the steps with the <b>AI Assistant</b> to generate code, insert it, then review it. (This practice judge recognises solutions built from the assistant's code.)</div>`;
+  else if (r.miss.length) h += `<div class="alert warn">Heads-up: you removed or rewrote parts of the generated code that were not wrong, e.g. <code>${esc(r.miss[0].slice(0, 70))}</code>. The judge models the generated program around your fixes — keep edits focused.</div>`;
+  h += `<div class="cases">` + r.res.map((x, i) => `<button data-i="${i}" class="${i === sel ? 'on' : ''}"><span class="dot ${x.pass ? 'p' : 'f'}">${x.pass ? '✓' : '✕'}</span>${label} #${i + 1}</button>`).join('') + `</div>`;
+  const x = r.res[Math.min(sel, n - 1)];
+  if (x.err) h += `<div class="alert bad">Invalid input: ${esc(x.err)}</div>`;
+  else {
+    const status = x.kind === 're' ? '<span class="badc">Runtime Error</span>' : x.pass ? '<span class="good">Passed</span>' : '<span class="badc">Failed — Wrong Answer</span>';
+    h += `<div class="kv"><b>Result:</b>${status}</div><div class="io"><div><span>Input</span><pre>${esc(x.input.length > 500 ? x.input.slice(0, 500) + '\n…' : x.input)}</pre></div><div><span>Your Output</span><pre class="${x.pass ? 'good' : 'bad'}">${esc(x.out.length > 500 ? x.out.slice(0, 500) + ' …' : x.out) || ' '}</pre></div><div><span>Expected Output</span><pre>${esc(x.exp.length > 500 ? x.exp.slice(0, 500) + ' …' : x.exp)}</pre></div></div>`;
+  }
+  if (label === 'Test Case') h += `<div class="msg">You have passed ${p} of ${n} basic test cases. The final score will, however, depend on the hidden test cases evaluated on submission.</div>`;
+  box.innerHTML = h;
+  box.querySelectorAll('.cases button').forEach(b => b.onclick = () => { sel = +b.dataset.i; renderRun(r, label); });
+}
+function run() {
+  const q = Q(); sel = 0;
+  if (!$('#ownBox').classList.contains('hide')) {
+    const inp = $('#ownIn').value;
+    if (!inp.trim()) { $('#result').innerHTML = '<div class="alert warn">Type some custom input first.</div>'; return; }
+    renderRun(judge(q, lang, ta.value, [{ input: inp.replace(/\s+$/, ''), custom: true }]), 'Custom Input');
+  } else renderRun(judge(q, lang, ta.value, suite(q, false)), 'Test Case');
+}
+
+/* ---------- AI assistant (rule-based scaffolding simulator) ---------- */
+function chatOf(q) {
+  return store.chat[q.id] || (store.chat[q.id] = { stage: 0, msgs: [], tokens: 0, tries: [0, 0, 0], cover: { describe: 0, approach: 0 }, ds: { good: false, reason: false }, vague: 0, refine: [], genLang: null, inserted: false, editedAfterInsert: false });
+}
+const tok = s => Math.ceil(String(s).length / 4);
+const now = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+function welcome(q) {
+  return `<b>Welcome to the AI Assisted Coding Assessment!</b><br>I'm your AI coding assistant for <b>${esc(q.title)}</b>. Here's how this works:<br><b>HOW IT WORKS:</b><ol>
+<li>First, <b>describe the problem</b> in your own words</li><li>I'll ask about the <b>data structures</b> you plan to use</li><li>Then I'll ask about your <b>approach</b> to solving it</li>
+<li>Based on YOUR explanation, I'll generate starter code</li><li>You can then refine the code by explaining specific changes</li><li>Use the <b>"Insert in Editor"</b> button to move code to the editor</li><li>Adjust the code for your specific problem, compile, and test</li></ol>
+<b>DO's:</b><ul><li>Describe the problem clearly: inputs, outputs, and constraints</li><li>Explain your approach and reasoning</li><li>Tell me WHAT logic to change and WHY when asking for improvements</li><li>Use "Insert in Editor" to bring code into the editor and modify it yourself</li></ul>
+<b>DON'Ts:</b><ul><li>Don't ask me for the complete solution or answer</li><li>Don't ask me to "optimize it" or "fix it" without explaining the logic</li><li>Don't ask off-topic or unrelated questions</li></ul>
+Let's begin! <b>Please describe the problem in your own words: what are the inputs, expected outputs, and key constraints?</b>`;
+}
+const RX = {
+  greet: /^(hi+|hello+|hey+|yo|ok(ay)?|thanks?|thank you|good (morning|evening|afternoon)|sure|yes|no|hmm+)[\s!.?]*$/i,
+  solution: /(complete|full|entire|whole|final|correct|working) (solution|code|answer|program)|give (me )?(the )?(answer|solution|full code)|solve (it|this|the (problem|question))( for me)?|just (write|give|do)|do it for me/i,
+  generate: /generat|write (the |me )?(the )?code|give (me )?(the )?code|code (it|now)|starter code|implement (it|the)|show (me )?(the )?code/i,
+  deflect: /you (recommend|suggest|decide|choose|tell me)|what (should|do|would) (i|you) (use|suggest|recommend)|which (one|ds|data structure|approach) should|tell me (which|what)|up to you|your choice|whatever|any (approach|ds|data structure)|best (approach|way|method) possible|you could use (the )?best|you know better/i,
+  vagueFix: /^(please )?(fix|optimi[sz]e|improve|correct|debug|refactor|make it (work|better|faster))( (it|this|the code|my code))?( please)?[\s.!]*$/i,
+  reason: /because|since|so that|so (it|we|the)|otherwise|should|instead|wrong|fails?|incorrect|must|need|when|if |breaks?|returns?|gives?|causes?|results? in|overflow|missing|never|always/i,
+  dsReason: /because|since|so that|so (we|i|it)|allows?|lets?|to (keep|store|track|avoid|get|find|process|visit|reuse|remove|pop|compute)|o\(|efficien|constant|linear|log|fast|memory|space|time|without|naturally|each|every/i
+};
+function missing(groups, t) { return groups.filter(g => !g.re.test(t)); }
+function reply(q, userText) {
+  const c = chatOf(q), t = userText.trim(), L = LANGS[lang];
+  const vague = () => { c.vague++; };
+  if (c.stage === 0) {
+    if (RX.greet.test(t)) { vague(); return 'Please describe the problem in your own words: what inputs it receives, what output is expected, and the key constraints.'; }
+    if (RX.solution.test(t) || (RX.generate.test(t) && t.length < 80)) { vague(); return "Let's continue with the current step. This is your assessment — please describe the problem in your own words: the inputs, the expected output, and the key constraints."; }
+    const miss = missing(q.rubric.describe, t), hit = q.rubric.describe.length - miss.length;
+    c.tries[0]++;
+    if ((hit >= q.rubric.describe.length - 1 && t.length >= 60) || c.tries[0] >= 4) {
+      c.cover.describe = Math.max(c.cover.describe, hit / q.rubric.describe.length);
+      c.stage = 1;
+      const note = miss.length ? ` (For the record, you didn't mention ${miss.map(m => m.label).join('; ')} — keep that in mind.)` : '';
+      return `Got it.${note} Now, what data structure(s) would you use in ${L} for this problem, and why?`;
+    }
+    c.cover.describe = Math.max(c.cover.describe, hit / q.rubric.describe.length * 0.8);
+    return `You're on the right track, but your description is missing: <b>${miss.map(m => m.label).join('</b>; <b>')}</b>. Please describe the problem again including those points — a clear frame makes the next steps easier.`;
+  }
+  if (c.stage === 1) {
+    if (RX.greet.test(t) || RX.solution.test(t) || RX.generate.test(t)) { vague(); return `Let's continue with the current step. What data structure(s) would you use in ${L}, and why?`; }
+    if (RX.deflect.test(t)) { vague(); return `This is your assessment — I need to hear YOUR choice and YOUR reasoning. What data structure(s) would you use in ${L}, and why?`; }
+    c.tries[1]++;
+    const good = q.rubric.ds.good.test(t), badHit = (q.rubric.ds.bad || []).find(b => b.re.test(t));
+    if (!good && badHit && c.tries[1] < 4) return badHit.msg;
+    if (!good && c.tries[1] < 4) return 'I didn\'t catch a concrete data structure there. Name the structure(s) you would use and explain why they fit this problem.';
+    const why = RX.dsReason.test(t) && t.length >= 40;
+    if (good && !why && c.tries[1] < 3) { c.ds.good = true; return 'Good choice — but <b>why</b>? Explain briefly what makes it suitable here (what it stores, and the time/space it gives you).'; }
+    c.ds.good = c.ds.good || good; c.ds.reason = c.ds.reason || (good && why);
+    c.stage = 2;
+    return 'Got it. Now, what approach would you take to solve this problem using those data structures? Walk me through it step by step.';
+  }
+  if (c.stage === 2) {
+    if (RX.greet.test(t) || RX.solution.test(t) || RX.generate.test(t) && t.length < 80) { vague(); return "Let's finish this step first. How would you solve it, step by step?"; }
+    if (RX.deflect.test(t) || t.length < 30) { vague(); return 'I need to hear YOUR approach — how would you solve this step by step?'; }
+    const miss = missing(q.rubric.approach, t), hit = q.rubric.approach.length - miss.length;
+    c.tries[2]++;
+    const need = Math.ceil(q.rubric.approach.length * 0.66);
+    if ((hit >= need && t.length >= 60) || c.tries[2] >= 4) {
+      c.cover.approach = Math.max(c.cover.approach, hit / q.rubric.approach.length);
+      c.stage = 3;
+      const note = miss.length ? ` One thing to keep in mind: you didn't cover ${miss.map(m => m.label).join('; ')}.` : '';
+      return `Understood.${note} Let's move on to generating the code — ask me to generate it when you're ready. I'll write it in <b>${L}</b> (the language selected in the Coding Panel).`;
+    }
+    c.cover.approach = Math.max(c.cover.approach, hit / q.rubric.approach.length * 0.8);
+    return `Your approach is missing: <b>${miss.map(m => m.label).join('</b>; <b>')}</b>. Can you explain those parts too?`;
+  }
+  if (c.stage === 3 || (c.stage === 4 && RX.generate.test(t) && !RX.vagueFix.test(t))) {
+    if (!RX.generate.test(t) && c.stage === 3) return 'When you\'re ready, ask me to generate the code (for example: "Generate the code in ' + L + ' using the approach I described").';
+    c.stage = 4; c.genLang = lang;
+    return { code: q.code[lang].ai, text: `Here is the code in <b>${L}</b> based on YOUR explanation. <b>Review it carefully before running it</b> — compare it with the problem statement and the read-only code.` };
+  }
+  // stage 4: refinement
+  if (RX.vagueFix.test(t) || RX.solution.test(t) || (/^(fix|optimi[sz]e|improve|correct)\b/i.test(t) && !RX.reason.test(t))) { vague(); return 'Tell me <b>WHAT</b> logic to change and <b>WHY</b>. I won\'t "fix it" or "optimize it" without an explanation — which line or rule is wrong, and what input breaks it?'; }
+  const bugs = q.bugsFor[lang];
+  const hits = bugs.map((b, i) => i).filter(i => bugs[i].find.test(t));
+  if (!hits.length) { c.vague += t.length < 25 ? 1 : 0; return 'I couldn\'t map that to a specific part of the code. Point to the exact line or logic you want changed and explain why (for example: which input fails and what it returns).'; }
+  if (!RX.reason.test(t) || t.length < 35) return 'Which logic exactly, and <b>why</b> is it wrong? Tell me what it should do instead, or which input breaks it.';
+  const i = hits.find(h => !c.refine.includes(h)) ?? hits[0];
+  if (!c.refine.includes(i)) c.refine.push(i);
+  const edits = fixesOf(q, lang)[i];
+  const diffTxt = edits.map(([a, b]) => a.split('\n').map(x => '- ' + x).join('\n') + (b ? '\n' + b.split('\n').map(x => '+ ' + x).join('\n') : '')).join('\n\n');
+  return { text: `Good catch — you're right. ${bugs[i].why}<br>Here is the change for your ${LANGS[lang]} code. <b>Apply it in the editor yourself</b> and re-test:`, diff: diffTxt };
+}
+function renderStages() {
+  const c = chatOf(Q());
+  $('#stagebar').innerHTML = STAGES.map((s, i) => `<span class="${i < c.stage ? 'done' : i === c.stage ? 'now' : ''}">${i + 1}. ${s}</span>`).join('');
+}
+function renderChat() {
+  const q = Q(), c = chatOf(q);
+  let h = `<div class="bubble bot">${welcome(q)}</div>`;
+  c.msgs.forEach((m, i) => {
+    if (m.me) h += `<div class="bubble me">${esc(m.text)}<span class="time">${m.time}</span></div>`;
+    else {
+      h += `<div class="bubble bot">${m.text}`;
+      if (m.code) h += `<pre>${highlight(m.code, m.lang)}</pre><div class="insert"><button class="btn primary sm" data-ins="${i}">Insert in Editor</button> <span class="muted" style="font-size:12px">${LANGS[m.lang]}</span></div>`;
+      if (m.diff) h += `<pre>${esc(m.diff)}</pre>`;
+      h += `<span class="time">${m.time}</span></div>`;
+    }
+  });
+  $('#msgs').innerHTML = h;
+  $('#msgs').querySelectorAll('[data-ins]').forEach(b => b.onclick = () => insertCode(c.msgs[+b.dataset.ins]));
+  $('#msgs').scrollTop = $('#msgs').scrollHeight;
+  $('#tokLbl').textContent = `Tokens used: ${c.tokens} / ${BUDGET}`;
+  $('#tokBar').style.width = Math.min(100, c.tokens / BUDGET * 100) + '%';
+  $('#tokBar').style.background = c.tokens > BUDGET * 0.85 ? 'var(--bad)' : 'var(--ok)';
+  const out = c.tokens >= BUDGET || !!timerOf(q).submitted;
+  $('#chatIn').disabled = out; $('#sendBtn').disabled = out;
+  $('#chatIn').placeholder = c.tokens >= BUDGET ? 'Token budget used up — continue in the editor.' : timerOf(q).submitted ? 'Submitted.' : 'Type your message here';
+  renderStages();
+}
+function insertCode(m) {
+  const q = Q();
+  const go = () => {
+    if (m.lang !== lang) { lang = m.lang; store.lang = lang; $('#lang').value = lang; loadEditor(false); }
+    ta.value = m.code; store.code[ck(q, lang)] = ta.value;
+    const c = chatOf(q); c.inserted = true; c.editedAfterInsert = false; save();
+    paint(); setRight('code'); toast();
+  };
+  if (timerOf(q).submitted) return;
+  if (ta.value.trim() && ta.value !== q.code[lang].stub && ta.value !== m.code) confirmBox('Replace editor code?', '<p>Inserting will replace the code currently in the editor.</p>', 'Insert', go); else go();
+}
+function send() {
+  const q = Q(), c = chatOf(q), t = $('#chatIn').value.trim();
+  if (!t || c.tokens >= BUDGET || timerOf(q).submitted) return;
+  $('#chatIn').value = ''; $('#charLbl').textContent = '0 / 500';
+  c.msgs.push({ me: true, text: t, time: now() }); c.tokens += tok(t);
+  const r = reply(q, t);
+  const m = typeof r === 'string' ? { text: r } : r;
+  const bot = { text: m.text, time: now() };
+  if (m.code) { bot.code = m.code; bot.lang = lang; }
+  if (m.diff) bot.diff = m.diff;
+  c.tokens += tok(m.text.replace(/<[^>]+>/g, '')) + (m.code ? tok(m.code) : 0) + (m.diff ? tok(m.diff) : 0);
+  c.msgs.push(bot); save();
+  renderChat();
+}
+$('#sendBtn').onclick = send;
+$('#chatIn').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+$('#chatIn').addEventListener('input', () => { $('#charLbl').textContent = `${$('#chatIn').value.length} / 500`; });
+
+/* ---------- submit & report ---------- */
+function processScore(q, c, flags) {
+  const s = {
+    framing: Math.round(5 * c.cover.describe * 10) / 10,
+    ds: (c.ds.good ? 3 : 0) + (c.ds.reason ? 2 : 0),
+    approach: Math.round(5 * c.cover.approach * 10) / 10,
+    prompts: c.msgs.length ? Math.max(0, 5 - c.vague) : 0,
+    review: Math.round(5 * flags.filter(Boolean).length / flags.length * 10) / 10
+  };
+  s.total = Math.round((s.framing + s.ds + s.approach + s.prompts + s.review) * 10) / 10;
+  return s;
+}
+function submit(auto) {
+  const q = Q(), t = timerOf(q);
+  if (t.submitted) return;
+  const vis = judge(q, lang, ta.value, suite(q, false));
+  t.submitted = Date.now(); t.lang = lang;
+  let pv = 0, ph = 0, flags = q.bugs.map(() => false);
+  const nv = q.tests.length, nh = q.hiddenTests.length;
+  if (!vis.ce) { const hid = judge(q, lang, ta.value, suite(q, true)); pv = vis.res.filter(x => x.pass).length; ph = hid.res.filter(x => x.pass).length; flags = vis.flags; }
+  const c = chatOf(q), proc = processScore(q, c, vis.ce ? flags : flags);
+  const testMarks = Math.round(25 * (pv + ph) / (nv + nh) * 10) / 10;
+  const total = Math.round((testMarks + proc.total) * 10) / 10;
+  store.last[q.id] = { lang, pv, ph, nv, nh, flags, ce: vis.ce || null, auto: !!auto, used: Math.min(DURATION, t.submitted - t.start), testMarks, proc, total, tokens: c.tokens, stage: c.stage, prompts: c.msgs.filter(m => m.me).length };
+  store.best[q.id] = Math.max(store.best[q.id] || 0, total);
+  save();
+  renderRun(vis, 'Test Case'); lockEditor(); updateTimer(); renderRail(); renderChat();
+  $('#reportTab').classList.remove('hide'); setLeft('report');
+}
+
+/* ---------- timer ---------- */
+function timerOf(q) { return store.timer[q.id] || (store.timer[q.id] = { start: Date.now() }); }
+const fmt = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+function updateTimer() {
+  if (qi < 0) return;
+  const t = timerOf(Q());
+  const left = t.submitted ? DURATION - (t.submitted - t.start) : DURATION - (Date.now() - t.start);
+  $('#clock').textContent = fmt(left);
+  $('#clock').classList.toggle('low', !t.submitted && left < 3 * 60 * 1000);
+  $('#timerSub').textContent = t.submitted ? 'submitted' : 'min : sec';
+  if (!t.submitted && left <= 0) submit(true);
+}
+function lockEditor() {
+  const done = !!timerOf(Q()).submitted;
+  ta.readOnly = done; $('#runBtn').disabled = done; $('#submitBtn').disabled = done; $('#lang').disabled = done; $('#customBtn').disabled = done;
+  $('#resetBtn').textContent = done ? '⟲ Retry question' : '⟲ Reset';
+}
+
+/* ---------- panels ---------- */
+function setRight(p) {
+  rightTab = p;
+  document.querySelectorAll('.rtabs button').forEach(b => b.classList.toggle('on', b.dataset.p === p));
+  $('#codePanel').classList.toggle('hide', p !== 'code'); $('#aiPanel').classList.toggle('hide', p !== 'ai');
+  if (p === 'ai') { $('#aiBadge').classList.add('hide'); renderChat(); setTimeout(() => $('#chatIn').focus(), 0); }
+}
+document.querySelectorAll('.rtabs button').forEach(b => b.onclick = () => setRight(b.dataset.p));
+function diffHtml(a, b) {
+  const A = a.split('\n'), B = b.split('\n'), n = A.length, m = B.length;
+  const T = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) T[i][j] = A[i] === B[j] ? T[i + 1][j + 1] + 1 : Math.max(T[i + 1][j], T[i][j + 1]);
+  let i = 0, j = 0, out = '';
+  while (i < n || j < m) {
+    if (i < n && j < m && A[i] === B[j]) { out += `<div class="same">${esc(A[i]) || ' '}</div>`; i++; j++; }
+    else if (j < m && (i >= n || T[i][j + 1] >= T[i + 1][j])) { out += `<div class="add">${esc(B[j])}</div>`; j++; }
+    else { out += `<div class="del">${esc(A[i])}</div>`; i++; }
+  }
+  return out;
+}
+function setLeft(t) {
+  leftTab = t;
+  document.querySelectorAll('#ltabs button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
+  const q = Q(), L = $('#leftBody');
+  const meta = `<div class="meta"><span class="pill hard">${q.difficulty}</span><span class="pill">${esc(q.tag)}</span>${q.fromVideo ? '<span class="pill video">From the sample video</span>' : ''}<span class="muted" style="font-size:13px">${esc(q.topic)}</span></div>`;
+  if (t === 'problem') {
+    const sig = (q.code[lang].stub.split('\n')[0] || '').trim() + (lang === 'py' ? '' : ';');
+    const ex = q.tests.slice(0, 2).map((s, i) => `<div><b>Sample Input ${i + 1}</b><pre>${esc(s)}</pre></div><div><b>Sample Output ${i + 1}</b><pre>${esc(suite(q, false)[i].expected)}</pre></div>`).join('');
+    L.innerHTML = meta + '<h3>Problem Statement</h3>' + q.statement.replace(/<pre class="sig">[^<]*<\/pre>/, `<pre class="sig">${esc(sig)}</pre>`) +
+      `<h3>Examples</h3><div class="ex">${ex}</div><h3>Instructions</h3><ul>
+      <li>This is a template-based question. <b>DO NOT</b> write the <code>main</code> function.</li>
+      <li>Your code is judged by an automated system — do not print extra messages.</li>
+      <li>"Save &amp; Test" only checks the basic test cases; more rigorous hidden cases are used on submission.</li>
+      <li>Use the <b>AI Assistant</b> tab: describe → data structures → approach → generate → review &amp; refine.</li></ul>`;
+  } else if (t === 'concept') {
+    L.innerHTML = meta + '<h3>Concept</h3><p class="muted">Stuck on the idea? This explains the algorithm without giving away the fixes.</p>' + q.concept;
+  } else {
+    const r = store.last[q.id]; if (!r) return setLeft('problem');
+    const l = r.lang, bugs = q.bugsFor[l], fixed = r.flags.filter(Boolean).length;
+    let h = meta + `<div class="report">
+      <div class="stat"><div class="v ${r.total >= 45 ? 'good' : ''}">${r.total}/50</div><div class="k">Total marks</div></div>
+      <div class="stat"><div class="v">${r.testMarks}/25</div><div class="k">Test cases (${r.pv + r.ph}/${r.nv + r.nh})</div></div>
+      <div class="stat"><div class="v">${r.proc.total}/25</div><div class="k">AI collaboration process</div></div>
+      <div class="stat"><div class="v">${fixed}/${bugs.length}</div><div class="k">AI mistakes fixed</div></div>
+      <div class="stat"><div class="v">${r.tokens}</div><div class="k">Tokens used</div></div>
+      <div class="stat"><div class="v">${fmt(r.used)}</div><div class="k">Time${r.auto ? ' (time up)' : ''}</div></div></div>`;
+    h += `<h3>Process breakdown</h3><table class="rub">
+      <tr><td><b>Problem framing</b><br><span class="muted">Inputs, outputs, constraints, edge cases in your description.</span></td><td>${r.proc.framing}/5</td></tr>
+      <tr><td><b>Data structure &amp; reasoning</b><br><span class="muted">A fitting structure (3) and a reason for it (2).</span></td><td>${r.proc.ds}/5</td></tr>
+      <tr><td><b>Approach</b><br><span class="muted">Coverage of the key algorithmic ideas.</span></td><td>${r.proc.approach}/5</td></tr>
+      <tr><td><b>Prompt quality</b><br><span class="muted">−1 for every vague / deflecting / "give me the answer" prompt.</span></td><td>${r.proc.prompts}/5</td></tr>
+      <tr><td><b>Review &amp; adapt</b><br><span class="muted">Share of the AI's mistakes fixed in the submitted code.</span></td><td>${r.proc.review}/5</td></tr></table>`;
+    if (r.stage < 4) h += `<div class="alert warn">You didn't reach code generation with the assistant (stopped at step ${r.stage + 1}: ${STAGES[r.stage]}).</div>`;
+    if (r.ce) h += `<div class="alert bad">The submission did not compile — no test case could pass.</div>`;
+    h += `<h3>Mistakes in the AI-generated code (${LANGS[l]})</h3><ul class="buglist">` + bugs.map((b, i) => `<li><span class="ico ${r.flags[i] ? 'p' : 'f'}">${r.flags[i] ? '✓' : '✕'}</span><div><b>${b.title}</b><div class="why">${b.why}</div></div></li>`).join('') + '</ul>';
+    h += `<h3>AI code → corrected code (${LANGS[l]})</h3><div class="diff">${diffHtml(q.code[l].ai, solutionBody(q, l))}</div>`;
+    h += `<h3>Concept</h3>${q.concept}`;
+    L.innerHTML = h;
+  }
+}
+document.querySelectorAll('#ltabs button').forEach(b => b.onclick = () => setLeft(b.dataset.t));
+
+/* ---------- navigation ---------- */
+function renderRail() {
+  $('#rail').innerHTML = QUESTIONS.map((q, i) => `<button class="${i === qi ? 'on' : ''} ${store.last[q.id] ? 'done' : ''}" data-i="${i}" title="${esc(q.title)}">${String(i + 1).padStart(2, '0')}.</button>`).join('');
+  $('#rail').querySelectorAll('button').forEach(b => b.onclick = () => openQ(+b.dataset.i));
+}
+function renderHome() {
+  $('#qgrid').innerHTML = QUESTIONS.map((q, i) => {
+    const best = store.best[q.id];
+    const st = best != null ? `<span class="score ${best >= 45 ? 'ok' : ''}">Best: ${best}/50</span>` : store.chat[q.id] ? '<span>In progress</span>' : '<span>Not attempted</span>';
+    return `<button class="qcard" data-i="${i}"><div class="row"><span class="muted"><b>Q${i + 1}</b></span><span class="pill hard">${q.difficulty}</span><span class="pill">${esc(q.tag)}</span>${q.fromVideo ? '<span class="pill video">Sample video</span>' : ''}</div>
+      <h3>${esc(q.title)}</h3><div class="topic">${esc(q.topic)}</div>
+      <div class="foot"><span>${q.marks} marks · 20 min · C / C++ / Java / Python</span>${st}</div></button>`;
+  }).join('');
+  $('#qgrid').querySelectorAll('.qcard').forEach(b => b.onclick = () => openQ(+b.dataset.i));
+}
+function goHome() {
+  qi = -1; clearInterval(tick);
+  $('#home').classList.remove('hide'); $('#exam').classList.add('hide');
+  $('#timerBox').classList.add('hide'); $('#layoutBtns').classList.add('hide');
+  renderHome(); if (location.hash) history.replaceState(null, '', location.pathname);
+}
+$('#goHome').onclick = goHome;
+function loadEditor(resetResult = true) {
+  const q = Q();
+  $('#ro').innerHTML = highlight(q.code[lang].readonly, lang);
+  ta.value = getCode(q, lang); ta.scrollTop = 0; paint();
+  if (resetResult) $('#result').innerHTML = '<span class="muted">Start compiling code by clicking "Save &amp; Test" button</span>';
+  if (leftTab === 'problem') setLeft('problem');
+}
+function openQ(i) {
+  qi = i; const q = Q();
+  if (!(store.timer[q.id] && store.timer[q.id].submitted)) store.timer[q.id] = { start: Date.now() };   // fresh 20:00 each time
+  const t = timerOf(q); save();
+  if (t.submitted && t.lang) lang = t.lang;
+  $('#lang').value = lang;
+  $('#home').classList.add('hide'); $('#exam').classList.remove('hide');
+  $('#timerBox').classList.remove('hide'); $('#layoutBtns').classList.remove('hide');
+  $('#qTitle').textContent = `${String(i + 1).padStart(2, '0')}. ${q.title}`; $('#qMarks').textContent = `${q.marks} marks`;
+  $('#reportTab').classList.toggle('hide', !store.last[q.id]);
+  $('#ownBox').classList.add('hide'); $('#ownIn').value = q.tests[0];
+  leftTab = t.submitted && store.last[q.id] ? 'report' : 'problem';
+  loadEditor(); lockEditor(); renderRail(); setLeft(leftTab);
+  setRight(chatOf(q).msgs.length || t.submitted ? 'code' : 'ai');
+  clearInterval(tick); tick = setInterval(updateTimer, 500); updateTimer();
+  if (location.hash !== '#q' + (i + 1)) history.replaceState(null, '', '#q' + (i + 1));
+  window.scrollTo(0, 0);
+}
+$('#lang').onchange = e => { lang = e.target.value; store.lang = lang; save(); loadEditor(); };
+$('#runBtn').onclick = run;
+$('#customBtn').onclick = () => { $('#ownBox').classList.toggle('hide'); $('#customBtn').classList.toggle('primary', !$('#ownBox').classList.contains('hide')); };
+$('#submitBtn').onclick = () => confirmBox('Submit your code?', `<p>Your ${LANGS[lang]} code will be run against the sample and hidden test cases, and your AI-collaboration process will be scored. You can't edit after submitting (but you can retry).</p>`, 'Submit', () => submit(false));
+$('#resetBtn').onclick = () => {
+  const q = Q();
+  if (timerOf(q).submitted) confirmBox('Retry this question?', '<p>This clears your code and the assistant chat, and starts a fresh 20-minute timer. Your best score is kept.</p>', 'Retry', () => {
+    for (const l in LANGS) delete store.code[ck(q, l)];
+    delete store.chat[q.id]; delete store.last[q.id]; store.timer[q.id] = { start: Date.now() }; save(); openQ(qi);
+  });
+  else confirmBox('Reset code?', `<p>Restore the original ${LANGS[lang]} template? The assistant chat and timer are kept.</p>`, 'Reset', () => { delete store.code[ck(q, lang)]; save(); loadEditor(); });
+};
+const m0 = location.hash.match(/^#q(\d)$/);
+if (m0 && QUESTIONS[+m0[1] - 1]) openQ(+m0[1] - 1); else goHome();
+})();
+</script>
+</body>
 </html>
