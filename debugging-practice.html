@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Debugging Assessment Practice</title>
-<meta name="description" content="Practice platform for timed debugging assessments: find and fix planted bugs in C, C++ and Java code on Trees, Graphs, 2D DP and advanced DSA.">
+<meta name="description" content="Practice platform for timed debugging assessments: find and fix planted bugs in C, C++, Java and Python code on Trees, Graphs, 2D DP and advanced DSA.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -216,7 +216,7 @@ h2.sec { margin: 38px 0 14px; font-size: 22px; }
     <h1>Debugging Assessment</h1>
     <p class="sub">What this test involves, the four steps to follow — and five hard practice questions.</p>
   </section>
-  <div class="banner"><span>1 Question per round</span><span>~ 20 Minutes</span><span>3 Languages: C, C++, Java</span></div>
+  <div class="banner"><span>1 Question per round</span><span>~ 20 Minutes</span><span>4 Languages: C, C++, Java, Python</span></div>
   <section class="steps">
     <div class="step"><div class="num">1</div><h3>Review</h3><p>Read the problem statement and the code that contains one or more issues.</p></div>
     <div class="step"><div class="num">2</div><h3>Identify</h3><p>Spot the errors in the code — logic, syntax, or runtime.</p></div>
@@ -231,7 +231,7 @@ h2.sec { margin: 38px 0 14px; font-size: 22px; }
   <h2 class="sec">Before you start</h2>
   <div class="info">
     <div class="box"><h3>How a round works</h3><ul>
-      <li>Each question has its own <b>20:00</b> timer that starts when you open it. At 0:00 your code is submitted automatically.</li>
+      <li>Every question gets a <b>fresh 20:00</b> timer each time you open it — there is no shared timer across questions. At 0:00 your code is submitted automatically.</li>
       <li>The <code>main()</code> driver is fixed — only edit the function(s) shown in the editor.</li>
       <li><b>Save &amp; Test</b> runs the sample test cases. <b>Submit</b> also runs the hidden test cases and shows your score.</li>
       <li>After submitting, review every bug with an explanation and a line-by-line diff of the solution.</li>
@@ -239,12 +239,13 @@ h2.sec { margin: 38px 0 14px; font-size: 22px; }
     <div class="box"><h3>Where bugs usually hide</h3><ul>
       <li>Loop bounds: <code>&lt;</code> vs <code>&lt;=</code>, <code>n</code> vs <code>n-1</code>, index <code>i</code> vs <code>i-1</code>.</li>
       <li>Initialisation: base cases, <code>0</code> vs <code>INT_MIN</code>, "infinity" too small.</li>
+      <li>Python traps: <code>^</code> is XOR (not power), <code>[[0]*m]*n</code> shares one row, <code>range(n)</code> stops at <code>n-1</code>.</li>
       <li>Flipped comparisons (min vs max), wrong variable after copy-paste.</li>
       <li>Overflow: 32-bit <code>int</code> where the answer needs 64 bits.</li>
       <li>Returning the wrong thing (node vs root, local vs global answer).</li>
     </ul></div>
     <div class="box"><h3>How this practice judge works</h3><ul>
-      <li>Your browser cannot compile C/C++/Java, so the judge recognises each fix in your code and runs a <b>model of your program</b>, checked against real gcc / g++ / javac output.</li>
+      <li>Your browser cannot compile C/C++/Java, so the judge recognises each fix in your code and runs a <b>model of your program</b>, checked against real gcc / g++ / javac / python3 output.</li>
       <li>So <b>Your Output</b> shows what your program would actually print — including garbage values, crashes and overflows.</li>
       <li>Make <b>minimal, line-level edits</b>, as in the real test. If a correct fix isn't recognised, compare with the solution diff.</li>
     </ul></div>
@@ -265,7 +266,7 @@ h2.sec { margin: 38px 0 14px; font-size: 22px; }
         <span class="coding">Now let's start coding :</span>
         <span class="spacer"></span>
         <label class="muted" for="lang">You are coding in</label>
-        <select id="lang"><option value="c">C (Gcc 11.3)</option><option value="cpp">C++ (G++ 11.3)</option><option value="java">Java (JDK 17)</option></select>
+        <select id="lang"><option value="c">C (Gcc 11.3)</option><option value="cpp">C++ (G++ 11.3)</option><option value="java">Java (JDK 17)</option><option value="py">Python (3.11)</option></select>
       </div>
       <details class="driver"><summary>Driver code (read-only) — input is read from STDIN and the returned value is printed to STDOUT</summary><pre id="driver"></pre></details>
       <div class="modify">› Modify or complete the below code as needed . . .</div>
@@ -303,6 +304,10 @@ function rng(seed) {
     return ((t ^ t >>> 14) >>> 0) / 4294967296;
   };
 }
+function stripCode(code, lang) {
+  if (lang === 'py') return code.replace(/#[^\n]*/g, '').split('\n').map(x => x.replace(/\s+/g, '')).filter(Boolean).join(';') + ';';
+  return code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '').replace(/\s+/g, '');
+}
 const ri = (r, lo, hi) => lo + Math.floor(r() * (hi - lo + 1));
 function ints(str) {
   const t = str.trim().split(/\s+/).filter(Boolean).map(Number);
@@ -313,6 +318,8 @@ function ints(str) {
 // optional-brace helper for checker regexes (code is compared with all whitespace/comments removed)
 const MAXLR = '(?:(?:Math\\.|std::)?max\\((?:l,r|r,l)\\)|l>r\\?l:r|r>l\\?r:l|l>=r\\?l:r|r>=l\\?r:l|l<r\\?r:l|r<l\\?l:r|l<=r\\?r:l|r<=l\\?l:r)';
 
+const PYMAX = '(?:max\\((?:l,r|r,l)\\)|lifl>=?relser|rifr>=?lelsel|rifl<=?relsel|lifr<=?lelser)';
+
 const QUESTIONS = [
 /* ================================================================ Q1 */
 {
@@ -322,7 +329,7 @@ const QUESTIONS = [
   tag: 'DP',
   difficulty: 'Medium',
   fromVideo: true,
-  fn: { c: 'KnapsackProblem', cpp: 'KnapsackProblem', java: 'KnapsackProblem' },
+  fn: { c: 'KnapsackProblem', cpp: 'KnapsackProblem', java: 'KnapsackProblem', py: 'KnapsackProblem' },
   statement: `
 <p><b>The knapsack problem:</b> Given a set of items, each with a weight and a value, determine the items to include in a collection so that the total weight is less than or equal to a given limit and the total value is as large as possible.</p>
 <p>You are required to debug the following function:</p>
@@ -351,6 +358,9 @@ const QUESTIONS = [
     'An item of weight 7 must fit into capacity 7. Check the condition that decides whether item j fits.',
     'We want the MAXIMUM value. When should dp[i] be replaced by dp[i - wt[j]] + val[j]?'
   ],
+  pyBugs: {
+    0: { title: 'Init loop skips dp[W]', why: '<code>range(W)</code> stops at <code>W - 1</code>, so <code>dp[W]</code> — the cell that is returned — stays <code>None</code>. Comparing it raises <code>TypeError</code>, otherwise the function returns <code>None</code>. Use <code>range(W + 1)</code>.' }
+  },
   bugs: [
     { title: 'Init loop skips dp[W]', why: 'The loop runs <code>i &lt; W</code>, so <code>dp[W]</code> — the very cell that is returned — is never initialised. In C it holds garbage; in C++/Java it only "works" by luck of zero-initialisation. Use <code>i &lt;= W</code>.' },
     { title: 'Wrong base value', why: '<code>dp[i] = 1</code> claims every capacity already has value 1 without taking any item. The base case of the DP is 0.' },
@@ -467,9 +477,38 @@ public class Main
     return dp[W];
 }`,
       footer: '}'
+    },
+    py: {
+      header: `import sys
+
+# def main():
+#     # Input read from STDIN
+#     p = KnapsackProblem(wt, val, n, W)
+#     # Value in p is printed to STDOUT`,
+      body: `def KnapsackProblem(wt, val, n, W):
+    # Debug the given code.
+    if wt is None or val is None:
+        return -1
+    dp = [None] * (W + 5)
+    for i in range(W):
+        dp[i] = 1
+    for i in range(W + 1):
+        for j in range(n):
+            if wt[j] < i - 1:
+                if dp[i] > dp[i - wt[j]] + val[j]:
+                    dp[i] = dp[i - wt[j]] + val[j]
+    if dp[W] == 0:
+        return -1
+    return dp[W]`
     }
   },
   fixes: {
+    py: [
+      [['for i in range(W):', 'for i in range(W + 1):']],
+      [['dp[i] = 1', 'dp[i] = 0']],
+      [['if wt[j] < i - 1:', 'if wt[j] <= i:']],
+      [['if dp[i] > dp[i - wt[j]] + val[j]:', 'if dp[i] < dp[i - wt[j]] + val[j]:']]
+    ],
     all: [
       [['for(int i = 0; i < W; i++)', 'for(int i = 0; i <= W; i++)']],
       [['dp[i] = 1;', 'dp[i] = 0;']],
@@ -478,6 +517,12 @@ public class Main
     ]
   },
   checks: {
+    py: [
+      { need: [/foriinrange\((?:0,)?W\+[1-5]\):;dp\[i\]=/], forbid: [/foriinrange\(W\):/] },
+      { need: [/dp\[i\]=0;/], forbid: [/dp\[i\]=1;/] },
+      { need: [/if\(?(?:wt\[j\]<=i|i>=wt\[j\]|wt\[j\]<i\+1|i-wt\[j\]>=0)\)?:/], forbid: [/wt\[j\]<i-1/] },
+      { need: [/ifdp\[i\]<\(?dp\[i-wt\[j\]\]\+val\[j\]\)?:|if\(?dp\[i-wt\[j\]\]\+val\[j\]\)?>dp\[i\]:|dp\[i\]=max\((?:dp\[i\],\(?dp\[i-wt\[j\]\]\+val\[j\]\)?|\(?dp\[i-wt\[j\]\]\+val\[j\]\)?,dp\[i\])\)/], forbid: [/ifdp\[i\]>/] }
+    ],
     all: [
       { need: [/for\(inti=0;i(?:<=W|<W\+[1-5]|<=W\+[0-4]);i\+\+\)\{?dp\[i\]=/], forbid: [/for\(inti=0;i<W;i\+\+\)/] },
       { need: [/dp\[i\]=0;/], forbid: [/dp\[i\]=1;/] },
@@ -500,12 +545,15 @@ public class Main
     const dp = new Array(W + 5).fill(0);
     for (let i = 0; f[0] ? i <= W : i < W; i++) dp[i] = f[1] ? 0 : 1;
     if (!f[0] && lang === 'c') return GARBAGE;
+    if (!f[0] && lang === 'py') dp[W] = null;
     for (let i = 0; i <= W; i++)
       for (let j = 0; j < n; j++)
         if (f[2] ? wt[j] <= i : wt[j] < i - 1) {
           const cand = dp[i - wt[j]] + val[j];
+          if (dp[i] === null) return RTE + `Traceback (most recent call last):\n  File "main.py", in KnapsackProblem\nTypeError: '${f[3] ? '<' : '>'}' not supported between instances of 'NoneType' and 'int'`;
           if (f[3] ? dp[i] < cand : dp[i] > cand) dp[i] = cand;
         }
+    if (dp[W] === null) return 'None';
     return String(dp[W] === 0 ? -1 : dp[W]);
   },
   tests: [
@@ -536,7 +584,7 @@ public class Main
   topic: 'Trees · DFS · Post-order DP',
   tag: 'Trees',
   difficulty: 'Hard',
-  fn: { c: 'maxPathSum', cpp: 'maxPathSum', java: 'maxPathSum' },
+  fn: { c: 'maxPathSum', cpp: 'maxPathSum', java: 'maxPathSum', py: 'maxPathSum' },
   statement: `
 <p>A <b>path</b> in a binary tree is a sequence of nodes where each pair of adjacent nodes is connected by an edge. A node can appear in the path <b>at most once</b>, and the path does <b>not</b> need to pass through the root. The <b>path sum</b> is the sum of the node values on the path.</p>
 <p>You are required to debug the following function:</p>
@@ -562,6 +610,9 @@ return val[u] + max(l, r)          // parent can extend only ONE branch</pre>
     'Draw a node with two children. If gain() returns val+l+r, the parent will extend a path that visits this node and BOTH children — is that a valid path?',
     'Run the code on a single node with value -3. What does it return and why?'
   ],
+  pyBugs: {
+    2: { title: 'Answer initialised to 0', why: 'If every node is negative the best path is the single largest (negative) node, but <code>best = 0</code> makes the function print 0. Start from <code>float("-inf")</code>.' }
+  },
   bugs: [
     { title: 'Copy-paste clamp bug', why: '<code>if(r &lt; 0) l = 0;</code> clamps the wrong variable: a negative right branch is still added, and a good left branch is thrown away. It must be <code>r = 0</code>.' },
     { title: 'Returned gain forks the path', why: 'A parent can only continue through <b>one</b> child of this node. Returning <code>val[u] + l + r</code> lets the parent build a path that visits both children — impossible in a tree path. Return <code>val[u] + max(l, r)</code>.' },
@@ -680,9 +731,43 @@ static int maxPathSum(int n, int[] val, int[] left, int[] right)
     return best;
 }`,
       footer: '}'
+    },
+    py: {
+      header: `import sys
+
+# def main():
+#     # Input read from STDIN
+#     p = maxPathSum(n, val, left, right)
+#     # Value in p is printed to STDOUT`,
+      body: `def maxPathSum(n, val, left, right):
+    # Debug the given code.
+    best = 0
+
+    def gain(u):
+        nonlocal best
+        if u == -1:
+            return 0
+        l = gain(left[u])
+        r = gain(right[u])
+        if l < 0:
+            l = 0
+        if r < 0:
+            l = 0
+        through = val[u] + l + r
+        if through > best:
+            best = through
+        return val[u] + l + r
+
+    gain(0)
+    return best`
     }
   },
   fixes: {
+    py: [
+      [['if r < 0:\n            l = 0', 'if r < 0:\n            r = 0']],
+      [['return val[u] + l + r', 'return val[u] + max(l, r)']],
+      [['best = 0', 'best = float("-inf")']]
+    ],
     c: [
       [['if(r < 0)\n        l = 0;', 'if(r < 0)\n        r = 0;']],
       [['return val[u] + l + r;', 'return val[u] + (l > r ? l : r);']],
@@ -700,6 +785,11 @@ static int maxPathSum(int n, int[] val, int[] left, int[] right)
     ]
   },
   checks: {
+    py: [
+      { need: [/ifr<0:;r=0;|r=max\((?:r,0|0,r)\);|r=(?:0ifr<0elser|rifr>0else0|rifr>=0else0);/], forbid: [/ifr<0:;l=0;/] },
+      { need: [new RegExp('returnval\\[u\\]\\+\\(?' + PYMAX + '\\)?;|return\\(?' + PYMAX + '\\)?\\+val\\[u\\];')], forbid: [/returnval\[u\]\+l\+r;/] },
+      { need: [/best=(?:float\(["']-inf["']\)|-float\(["']inf["']\)|-math\.inf|-10\*\*\d+|-\d{4,}|val\[0\]|-sys\.maxsize|-2\*\*\d+|-\(1<<\d+\));/], forbid: [/best=0;/] }
+    ],
     all: [
       { need: [/if\(r<0\)\{?r=0;|r=(?:Math\.|std::)?max\((?:r,0|0,r)\);|r=\(?r<0\)?\?0:r;|r=\(?r>0\)?\?r:0;/], forbid: [/if\(r<0\)\{?l=0/] },
       { need: [new RegExp('return\\(?val\\[u\\]\\+\\(?' + MAXLR + '\\)?\\)?;|return\\(?\\(?' + MAXLR + '\\)?\\+val\\[u\\]\\)?;')], forbid: [/returnval\[u\]\+l\+r;/] },
@@ -769,7 +859,7 @@ static int maxPathSum(int n, int[] val, int[] left, int[] right)
   topic: 'Graphs · Dijkstra · Path counting',
   tag: 'Graphs',
   difficulty: 'Hard',
-  fn: { c: 'countShortestPaths', cpp: 'countShortestPaths', java: 'countShortestPaths' },
+  fn: { c: 'countShortestPaths', cpp: 'countShortestPaths', java: 'countShortestPaths', py: 'countShortestPaths' },
   statement: `
 <p>A city has <b>n</b> intersections (numbered 1..n) joined by <b>m</b> two-way roads. Road <i>e</i> connects <code>edges[e][0]</code> and <code>edges[e][1]</code> and takes <code>edges[e][2]</code> minutes to travel.</p>
 <p>You are required to debug the following function:</p>
@@ -794,6 +884,9 @@ else if (nd == dist[v]) ways[v] = (ways[v] + ways[u]) % MOD;  // tie: ADD</pre>
     'When nd == dist[v], which branch executes? It should add paths, not overwrite them.',
     'When a strictly shorter path to v is found, should the old count of paths to v survive?'
   ],
+  pyBugs: {
+    0: { title: '<code>^</code> is XOR, not power', why: 'In Python <code>^</code> is bitwise XOR and binds looser than <code>+</code>, so <code>10 ^ 9 + 7</code> is <code>10 ^ 16 = 26</code>: every path count is taken modulo 26. Use <code>10 ** 9 + 7</code>. (Python ints never overflow, so the 32-bit bug from C/C++/Java does not exist here.)' }
+  },
   bugs: [
     { title: '32-bit distance array', why: 'Distances go up to ~10<sup>12</sup>, but <code>dist</code> stores <code>int</code>. Writing <code>nd</code> back truncates it, corrupting comparisons. Use <code>long long</code> / <code>long</code>.' },
     { title: 'INF is a reachable distance', why: '<code>INF = 10<sup>9</sup></code> is a legal edge weight and far below real distances, so real nodes look unreachable (or unreachable nodes look finished). Use something like <code>1LL &lt;&lt; 60</code>.' },
@@ -981,9 +1074,56 @@ static int countShortestPaths(int n, int m, int[][] edges)
     return (int) ways[n - 1];
 }`,
       footer: '}'
+    },
+    py: {
+      header: `import sys
+
+# def main():
+#     # Input read from STDIN
+#     p = countShortestPaths(n, m, edges)
+#     # Value in p is printed to STDOUT`,
+      body: `MOD = 10 ^ 9 + 7
+INF = 10 ** 9
+
+
+def countShortestPaths(n, m, edges):
+    # Debug the given code.
+    adj = [[-1] * n for _ in range(n)]
+    for u, v, w in edges:
+        adj[u - 1][v - 1] = w
+        adj[v - 1][u - 1] = w
+    dist = [INF] * n
+    ways = [0] * n
+    done = [False] * n
+    dist[0] = 0
+    ways[0] = 1
+    for _ in range(n):
+        u = -1
+        for i in range(n):
+            if not done[i] and (u == -1 or dist[i] < dist[u]):
+                u = i
+        if dist[u] == INF:
+            break
+        done[u] = True
+        for v in range(n):
+            if adj[u][v] < 0 or done[v]:
+                continue
+            nd = dist[u] + adj[u][v]
+            if nd <= dist[v]:
+                dist[v] = nd
+                ways[v] = (ways[v] + ways[u]) % MOD
+            elif nd == dist[v]:
+                ways[v] = (ways[v] + ways[u]) % MOD
+    return ways[n - 1]`
     }
   },
   fixes: {
+    py: [
+      [['MOD = 10 ^ 9 + 7', 'MOD = 10 ** 9 + 7']],
+      [['INF = 10 ** 9', 'INF = float("inf")']],
+      [['if nd <= dist[v]:', 'if nd < dist[v]:']],
+      [['dist[v] = nd\n                ways[v] = (ways[v] + ways[u]) % MOD', 'dist[v] = nd\n                ways[v] = ways[u]']]
+    ],
     c: [
       [['int *dist = (int*)malloc(sizeof(int) * n);', 'long long *dist = (long long*)malloc(sizeof(long long) * n);']],
       [['#define INF 1000000000', '#define INF (1LL << 60)']],
@@ -1004,6 +1144,12 @@ static int countShortestPaths(int n, int m, int[][] edges)
     ]
   },
   checks: {
+    py: [
+      { need: [/MOD=(?:10\*\*9\+7|1000000007|1_000_000_007|int\(1e9\)\+7|int\(1e9\+7\));/], forbid: [/MOD=10\^9\+7/] },
+      { need: [/INF=(?:float\(["']inf["']\)|math\.inf|10\*\*1[3-9]|1<<[5-6]\d|\d{13,}|[\d_]{17,}|sys\.maxsize|2\*\*[5-6]\d);/], forbid: [/INF=10\*\*9;/] },
+      { need: [/ifnd<dist\[v\]:/], forbid: [/nd<=dist\[v\]/] },
+      { need: [/dist\[v\]=nd;ways\[v\]=ways\[u\](?:%MOD)?;/], forbid: [/dist\[v\]=nd;ways\[v\]=\(ways\[v\]\+ways\[u\]\)/] }
+    ],
     c: [
       { need: [/longlong\*dist=[^;]*(?:sizeof\(longlong\)|sizeof\(\*dist\)|sizeof\(dist\[0\]\))[^;]*;/], forbid: [/int\*dist=/] },
       { need: [/#defineINF\(?(?:\(longlong\))?(?:1LL<<\d\d|1ll<<\d\d|LLONG_MAX(?:\/\d+)?|\d{13,}(?:LL|ll)?|[1-9]e1[3-8])\)?|constlonglongINF=/], forbid: [/#defineINF1000000000(?!\d)/] },
@@ -1043,9 +1189,9 @@ static int countShortestPaths(int n, int m, int[][] edges)
     }
     return { n, m, E };
   },
-  simulate({ n, E }, f) {
-    const MOD = 1000000007, INF = f[1] ? 2 ** 60 : 1e9;
-    const store = x => f[0] ? x : i32(x);
+  simulate({ n, E }, f, lang) {
+    const MOD = lang === 'py' && !f[0] ? 26 : 1000000007, INF = f[1] ? 2 ** 60 : 1e9;
+    const store = x => f[0] || lang === 'py' ? x : i32(x);
     const adj = Array.from({ length: n }, () => new Array(n).fill(-1));
     for (const [u, v, w] of E) { adj[u - 1][v - 1] = w; adj[v - 1][u - 1] = w; }
     const dist = new Array(n).fill(store(INF)), ways = new Array(n).fill(0), done = new Array(n).fill(false);
@@ -1102,7 +1248,7 @@ static int countShortestPaths(int n, int m, int[][] edges)
   topic: '2D Dynamic Programming · Strings',
   tag: '2D DP',
   difficulty: 'Hard',
-  fn: { c: 'editDistance', cpp: 'editDistance', java: 'editDistance' },
+  fn: { c: 'editDistance', cpp: 'editDistance', java: 'editDistance', py: 'editDistance' },
   statement: `
 <p>Given two strings <b>s</b> and <b>t</b>, return the minimum number of operations required to convert <b>s</b> into <b>t</b>. The permitted operations on <b>s</b> are:</p>
 <ul><li>Insert a character</li><li>Delete a character</li><li>Replace a character</li></ul>
@@ -1125,6 +1271,10 @@ else dp[i][j] = 1 + min(dp[i-1][j],      // delete
     'dp[i][j] covers the first i characters of s. Which character of s is the LAST one in that prefix?',
     'Look at the three arguments passed to min3. Are they three different operations?'
   ],
+  pyBugs: {
+    1: { title: 'Off-by-one character comparison', why: '<code>dp[i][j]</code> refers to prefixes of length <code>i</code> and <code>j</code>; their last characters are <code>s[i-1]</code> and <code>t[j-1]</code>. <code>t[j]</code> with <code>j = m</code> raises <code>IndexError: string index out of range</code>.' },
+    3: { title: 'All rows are the same list', why: '<code>[[0] * (m + 1)] * (n + 1)</code> copies the <b>reference</b> to one row n+1 times, so writing <code>dp[i][j]</code> also changes <code>dp[i-1][j]</code>. Build independent rows: <code>[[0] * (m + 1) for _ in range(n + 1)]</code>.' }
+  },
   bugs: [
     { title: 'Base column is 0', why: 'Converting a prefix of length <code>i</code> into the empty string needs <code>i</code> deletions, so <code>dp[i][0] = i</code>. It is inconsistent with the (correct) row <code>dp[0][j] = j</code>.' },
     { title: 'Off-by-one character comparison', why: '<code>dp[i][j]</code> refers to prefixes of length <code>i</code> and <code>j</code>; their last characters are <code>s[i-1]</code> and <code>t[j-1]</code>. Comparing <code>s[i]</code> reads the wrong character (and past the end — Java throws <code>StringIndexOutOfBoundsException</code>).' },
@@ -1250,9 +1400,38 @@ static int editDistance(String s, String t)
     return dp[n][m];
 }`,
       footer: '}'
+    },
+    py: {
+      header: `import sys
+
+# def main():
+#     # Input read from STDIN
+#     p = editDistance(s, t)
+#     # Value in p is printed to STDOUT`,
+      body: `def editDistance(s, t):
+    # Debug the given code.
+    n, m = len(s), len(t)
+    dp = [[0] * (m + 1)] * (n + 1)
+    for i in range(n + 1):
+        dp[i][0] = 0
+    for j in range(m + 1):
+        dp[0][j] = j
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            if s[i] == t[j]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i][j - 1])
+    return dp[n][m]`
     }
   },
   fixes: {
+    py: [
+      [['dp[i][0] = 0', 'dp[i][0] = i']],
+      [['if s[i] == t[j]:', 'if s[i - 1] == t[j - 1]:']],
+      [['min(dp[i - 1][j], dp[i][j - 1], dp[i][j - 1])', 'min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])']],
+      [['dp = [[0] * (m + 1)] * (n + 1)', 'dp = [[0] * (m + 1) for _ in range(n + 1)]']]
+    ],
     c: [
       [['dp[i][0] = 0;', 'dp[i][0] = i;']],
       [['if(s[i] == t[j])', 'if(s[i - 1] == t[j - 1])']],
@@ -1265,6 +1444,12 @@ static int editDistance(String s, String t)
     ]
   },
   checks: {
+    py: [
+      { need: [/dp\[i\]\[0\]=i;/], forbid: [/dp\[i\]\[0\]=0;/] },
+      { need: [/if\(?(?:s\[i-1\]==t\[j-1\]|t\[j-1\]==s\[i-1\])\)?:/], forbid: [/ifs\[i\]==t\[j\]:/] },
+      { need: [/1\+min\([^;]*dp\[i-1\]\[j-1\]/, /1\+min\([^;]*dp\[i-1\]\[j\][,)]/, /1\+min\([^;]*dp\[i\]\[j-1\]/], forbid: [/min\(dp\[i-1\]\[j\],dp\[i\]\[j-1\],dp\[i\]\[j-1\]\)/] },
+      { need: [/dp=\[(?:\[0\]\*\(m\+1\)|\[0for\w+inrange\(m\+1\)\]|\[0\]\*\(len\(t\)\+1\))for\w+inrange\((?:n|len\(s\))\+1\)\];/], forbid: [/dp=\[\[0\]\*\(m\+1\)\]\*\(n\+1\)/] }
+    ],
     all: [
       { need: [/dp\[i\]\[0\]=i;/], forbid: [/dp\[i\]\[0\]=0;/] },
       { need: [/if\((?:s\[i-1\]==t\[j-1\]|t\[j-1\]==s\[i-1\]|s\.charAt\(i-1\)==t\.charAt\(j-1\)|t\.charAt\(j-1\)==s\.charAt\(i-1\))\)/], forbid: [/s\[i\]==t\[j\]|s\.charAt\(i\)==t\.charAt\(j\)/] },
@@ -1281,6 +1466,15 @@ static int editDistance(String s, String t)
   simulate({ s, t }, f, lang) {
     const n = s.length, m = t.length;
     if (!f[1] && lang === 'java') return RTE + 'Exception in thread "main" java.lang.StringIndexOutOfBoundsException';
+    if (!f[1] && lang === 'py') return RTE + 'Traceback (most recent call last):\n  File "main.py", in editDistance\nIndexError: string index out of range';
+    if (lang === 'py' && f[3] === false) {        // dp = [[0] * (m + 1)] * (n + 1): every row is the SAME list
+      const row = new Array(m + 1).fill(0);
+      for (let i = 0; i <= n; i++) row[0] = f[0] ? i : 0;
+      for (let j = 0; j <= m; j++) row[j] = j;
+      for (let i = 1; i <= n; i++) for (let j = 1; j <= m; j++)
+        row[j] = s[i - 1] === t[j - 1] ? row[j - 1] : 1 + Math.min(row[j], row[j - 1], f[2] ? row[j - 1] : row[j - 1]);
+      return String(row[m]);
+    }
     const at = (x, i) => i < x.length ? x[i] : '\0';
     const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
     for (let i = 0; i <= n; i++) dp[i][0] = f[0] ? i : 0;
@@ -1308,7 +1502,7 @@ static int editDistance(String s, String t)
   topic: 'Graphs · MST (Kruskal) · Disjoint Set Union',
   tag: 'Advanced DSA',
   difficulty: 'Hard',
-  fn: { c: 'minimumCost', cpp: 'minimumCost', java: 'minimumCost' },
+  fn: { c: 'minimumCost', cpp: 'minimumCost', java: 'minimumCost', py: 'minimumCost' },
   statement: `
 <p>There are <b>n</b> cities numbered 1..n and <b>m</b> possible cables. Cable <i>e</i> can connect cities <code>u</code> and <code>v</code> at a cost of <code>w</code>. Choose cables so that every pair of cities is connected (directly or indirectly) with the <b>minimum total cost</b>.</p>
 <p>You are required to debug the following function:</p>
@@ -1342,6 +1536,10 @@ void unite(int a, int b) {
     'After a successful union, which two entries should be linked: the nodes or their roots?',
     'How many edges does a spanning tree on n nodes have? And what is the maximum possible total cost?'
   ],
+  pyBugs: {
+    0: { title: 'Sorted in descending order', why: '<code>reverse=True</code> puts the most expensive cables first, which builds a <b>maximum</b> spanning tree. Sort ascending by <code>e[2]</code>.' },
+    3: { title: 'parent list is one element short', why: 'Cities are numbered <code>1..n</code>, but <code>list(range(n))</code> only has indices <code>0..n-1</code> — touching city <code>n</code> raises <code>IndexError</code>. Use <code>list(range(n + 1))</code>. (Python ints never overflow, so the 64-bit total bug from C/C++/Java does not exist here.)' }
+  },
   bugs: [
     { title: 'Sorted in descending order', why: 'The comparator puts the most expensive cables first, which builds a <b>maximum</b> spanning tree. Sort ascending by <code>w</code>.' },
     { title: 'find() returns x, not the root', why: 'Path compression updates <code>parent[x]</code> correctly, but the function then returns <code>x</code> itself, so every call reports "different components". Return <code>parent[x]</code>.' },
@@ -1495,9 +1693,48 @@ static long minimumCost(int n, int m, int[][] edges)
     return total;
 }`,
       footer: '}'
+    },
+    py: {
+      header: `import sys
+
+# def main():
+#     # Input read from STDIN
+#     p = minimumCost(n, m, edges)
+#     # Value in p is printed to STDOUT`,
+      body: `def minimumCost(n, m, edges):
+    # Debug the given code.
+    edges.sort(key=lambda e: e[2], reverse=True)
+    parent = list(range(n))
+
+    def findSet(x):
+        if parent[x] != x:
+            parent[x] = findSet(parent[x])
+        return x
+
+    total = 0
+    used = 0
+    for u, v, w in edges:
+        if used == n - 1:
+            break
+        ru, rv = findSet(u), findSet(v)
+        if ru == rv:
+            continue
+        parent[u] = v
+        total += w
+        used += 1
+    if used != n:
+        return -1
+    return total`
     }
   },
   fixes: {
+    py: [
+      [['edges.sort(key=lambda e: e[2], reverse=True)', 'edges.sort(key=lambda e: e[2])']],
+      [['        return x\n', '        return parent[x]\n']],
+      [['parent[u] = v', 'parent[ru] = rv']],
+      [['parent = list(range(n))', 'parent = list(range(n + 1))']],
+      [['if used != n:', 'if used != n - 1:']]
+    ],
     c: [
       [['return y->w - x->w;', 'return x->w - y->w;']],
       [['    return x;\n}', '    return parent[x];\n}']],
@@ -1521,6 +1758,13 @@ static long minimumCost(int n, int m, int[][] edges)
     ]
   },
   checks: {
+    py: [
+      { need: [/edges\.sort\(key=lambda(\w+):\1\[2\]\);|edges\.sort\(key=lambda(\w+):\2\[2\],reverse=False\);|edges=sorted\(edges,key=lambda(\w+):\3\[2\]\);/], forbid: [/reverse=True/] },
+      { need: [/returnparent\[x\];/], forbid: [/=findSet\(parent\[x\]\);returnx;/] },
+      { need: [/parent\[ru\]=rv;|parent\[rv\]=ru;/], forbid: [/parent\[u\]=v;/] },
+      { need: [/parent=(?:list\(range\(n\+[1-9]\)\)|\[\w+for\w+inrange\(n\+[1-9]\)\]);/], forbid: [/parent=list\(range\(n\)\)/] },
+      { need: [/if\(?(?:used!=n-1|used<n-1|n-1!=used|used\+1!=n)\)?:/], forbid: [/ifused!=n:/] }
+    ],
     c: [
       { need: [/returnx->w-y->w;|return\(x->w>y->w\)-\(x->w<y->w\);|returnx->w<y->w\?-1:|returnx->w>y->w\?1:/], forbid: [/returny->w-x->w;/] },
       { need: [/returnparent\[x\];/], forbid: [/=findSet\(parent\[x\]\);\}?returnx;/] },
@@ -1562,13 +1806,15 @@ static long minimumCost(int n, int m, int[][] edges)
     const edges = E.map(e => e.slice()).sort((a, b) => f[0] ? a[2] - b[2] : b[2] - a[2]);
     const parent = new Array(n + 1);
     for (let i = 1; i <= n; i++) parent[i] = i;
+    const IDX = {}, short = lang === 'py' && !f[3];   // Python: parent = list(range(n)) has no index n
+    const P = y => { if (short && y === n) throw IDX; return parent[y]; };
     const find = x => {
       if (!f[1]) {                    // buggy findSet: walks the whole chain (recursively), changes nothing, returns x
         let y = x, steps = 0;
-        while (parent[y] !== y) { y = parent[y]; if (++steps > n) throw CYCLE; }
+        while (P(y) !== y) { y = parent[y]; if (++steps > n) throw CYCLE; }
         return x;
       }
-      let r = x; while (parent[r] !== r) r = parent[r];
+      let r = x; while (P(r) !== r) r = parent[r];
       while (parent[x] !== r) { const nx = parent[x]; parent[x] = r; x = nx; }
       return r;
     };
@@ -1576,13 +1822,17 @@ static long minimumCost(int n, int m, int[][] edges)
     for (let e = 0; e < m && used < n - 1; e++) {
       const [u, v, w] = edges[e];
       let ru, rv;
-      try { ru = find(u); rv = find(v); } catch (err) {
+      try {
+        ru = find(u); rv = find(v);
+        if (ru !== rv && short && (f[2] ? ru : u) === n) throw IDX;
+      } catch (err) {
+        if (err === IDX) return RTE + 'Traceback (most recent call last):\n  File "main.py", in minimumCost\nIndexError: list index out of range';
         if (err !== CYCLE) throw err;
-        return RTE + (lang === 'java' ? 'Exception in thread "main" java.lang.StackOverflowError\n\tat Main.findSet(Main.java)' : 'Segmentation fault (core dumped) — stack overflow: findSet() recursed forever because parent[] contains a cycle');
+        return RTE + (lang === 'java' ? 'Exception in thread "main" java.lang.StackOverflowError\n\tat Main.findSet(Main.java)' : lang === 'py' ? 'Traceback (most recent call last):\n  File "main.py", in findSet\nRecursionError: maximum recursion depth exceeded' : 'Segmentation fault (core dumped) — stack overflow: findSet() recursed forever because parent[] contains a cycle');
       }
       if (ru === rv) continue;
       if (f[2]) parent[ru] = rv; else parent[u] = v;
-      total = f[3] ? total + w : i32(total + w);
+      total = f[3] || lang === 'py' ? total + w : i32(total + w);
       used++;
     }
     if (f[4] ? used !== n - 1 : used !== n) return '-1';
@@ -1617,6 +1867,8 @@ static long minimumCost(int n, int m, int[][] edges)
 ];
 
 for (const q of QUESTIONS) {
+  q.bugsPy = q.bugs.slice();
+  for (const k in (q.pyBugs || {})) q.bugsPy[k] = q.pyBugs[k];
   q.hiddenTests = q.hidden(rng(q.id.split('').reduce((a, c) => a * 31 + c.charCodeAt(0) | 0, 7)));
 }
 
@@ -1625,8 +1877,7 @@ for (const q of QUESTIONS) {
 (function () {
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const strip = code => code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '').replace(/\s+/g, '');
-const LANGS = { c: 'C', cpp: 'C++', java: 'Java' };
+const LANGS = { c: 'C', cpp: 'C++', java: 'Java', py: 'Python' };
 const DURATION = 20 * 60 * 1000;
 
 /* ---------- persistence ---------- */
@@ -1650,6 +1901,8 @@ const Q = () => QUESTIONS[qi];
 const ck = (q, l) => q.id + ':' + l;
 const getCode = (q, l) => store.code[ck(q, l)] ?? q.code[l].body;
 const bugsOf = (q, l) => q.checks[l] || q.checks.all;
+const bugList = (q, l) => l === 'py' ? q.bugsPy : q.bugs;
+const ALL = [true, true, true, true, true];
 const fixesOf = (q, l) => q.fixes[l] || q.fixes.c || q.fixes.all;
 function solutionBody(q, l) {
   let b = q.code[l].body;
@@ -1661,12 +1914,15 @@ function solutionBody(q, l) {
 const KW = {
   c: 'if else for while do return break continue switch case default sizeof typedef struct const static void NULL define include',
   cpp: 'if else for while do return break continue switch case default sizeof typedef struct const static void nullptr using namespace auto template class public private new delete true false constexpr define include',
-  java: 'if else for while do return break continue switch case default new class public private protected static final void null true false import throw throws try catch extends implements this'
+  java: 'if else for while do return break continue switch case default new class public private protected static final void null true false import throw throws try catch extends implements this',
+  py: 'def return if elif else for while in not and or is None True False lambda nonlocal global import from break continue pass class try except raise with as'
 };
-const TY = 'int long char double float bool boolean short unsigned vector string String array Edge Arrays Math Integer Long size_t int64_t';
+const TY = 'int long char double float bool boolean short unsigned vector string String array Edge Arrays Math Integer Long size_t int64_t list range len max min print str sys math';
 function highlight(src, l) {
   const kw = new Set(KW[l].split(' ')), ty = new Set(TY.split(' '));
-  const re = /(\/\*[\s\S]*?\*\/|\/\/[^\n]*)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])')|(\b\d[\d_]*(?:\.\d+)?(?:[eE]\d+)?[LlUu]*\b)|(#?\b[A-Za-z_]\w*\b)/g;
+  const re = l === 'py'
+    ? /(#[^\n]*)|("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|(\b\d[\d_]*(?:\.\d+)?(?:[eE]\d+)?\b)|(\b[A-Za-z_]\w*\b)/g
+    : /(\/\*[\s\S]*?\*\/|\/\/[^\n]*)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])')|(\b\d[\d_]*(?:\.\d+)?(?:[eE]\d+)?[LlUu]*\b)|(#?\b[A-Za-z_]\w*\b)/g;
   let out = '', last = 0, m;
   while ((m = re.exec(src))) {
     out += esc(src.slice(last, m.index)); last = re.lastIndex;
@@ -1676,7 +1932,7 @@ function highlight(src, l) {
     else if (m[3]) out += '<span class="tk-num">' + esc(t) + '</span>';
     else {
       const w = t.replace(/^#/, '');
-      if (t[0] === '#' || kw.has(w)) out += '<span class="tk-kw">' + esc(t) + '</span>';
+      if ((t[0] === '#' && l !== 'py') || kw.has(w)) out += '<span class="tk-kw">' + esc(t) + '</span>';
       else if (ty.has(w)) out += '<span class="tk-ty">' + esc(t) + '</span>';
       else if (/^\s*\(/.test(src.slice(last))) out += '<span class="tk-fn">' + esc(t) + '</span>';
       else out += esc(t);
@@ -1706,7 +1962,7 @@ ta.addEventListener('keydown', e => {
   } else if (e.key === 'Enter') {
     const s = ta.selectionStart, line = ta.value.slice(0, s).split('\n').pop();
     let ind = (line.match(/^\s*/) || [''])[0];
-    if (/[{]\s*$/.test(line)) ind += '    ';
+    if (/[{]\s*$/.test(line) || (lang === 'py' && /:\s*$/.test(line))) ind += '    ';
     e.preventDefault();
     ta.setRangeText('\n' + ind, s, ta.selectionEnd, 'end');
     ta.dispatchEvent(new Event('input'));
@@ -1724,28 +1980,29 @@ function confirmBox(title, body, yes, onYes) {
 /* ---------- judge ---------- */
 function anchors(q, l) {
   // statements of the original code that no fix touches: removing them is suspicious
-  const norm = s => strip(s).replace(/[{}]/g, '');
+  const norm = s => stripCode(s, l).replace(/[{}]/g, '');
   const a = new Set(norm(q.code[l].body).split(';')), b = new Set(norm(solutionBody(q, l)).split(';'));
   return [...a].filter(x => x && b.has(x));
 }
 function compileErrors(q, l, code, S) {
-  const body = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+  const body = l === 'py' ? code.replace(/#[^\n]*/g, '').replace(/("|')(?:\\.|(?!\1)[^\\\n])*\1/g, '""') : code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
   const pairs = { ')': '(', ']': '[', '}': '{' }, st = [];
   const lines = body.split('\n');
   for (let i = 0; i < lines.length; i++) for (const ch of lines[i]) {
     if ('([{'.includes(ch)) st.push([ch, i]);
     else if (')]}'.includes(ch)) {
       const top = st.pop();
-      if (!top || top[0] !== pairs[ch]) return `solution.${l === 'java' ? 'java' : l}:${i + 1}: error: unexpected '${ch}'`;
+      if (!top || top[0] !== pairs[ch]) return l === 'py' ? `  File "main.py", line ${i + 1}\nSyntaxError: unmatched '${ch}'` : `solution.${l === 'java' ? 'java' : l}:${i + 1}: error: unexpected '${ch}'`;
     }
   }
+  if (st.length && l === 'py') return `  File "main.py", line ${st[st.length - 1][1] + 1}\nSyntaxError: '${st[st.length - 1][0]}' was never closed`;
   if (st.length) return `solution.${l === 'java' ? 'java' : l}:${st[st.length - 1][1] + 1}: error: expected '${{ '(': ')', '[': ']', '{': '}' }[st[st.length - 1][0]]}' before end of input`;
-  if (!S.includes(q.fn[l] + '(')) return `error: undefined reference to '${q.fn[l]}'`;
+  if (!S.includes(q.fn[l] + '(')) return l === 'py' ? `NameError: name '${q.fn[l]}' is not defined` : `error: undefined reference to '${q.fn[l]}'`;
   return q.compileCheck ? q.compileCheck(S, l) : null;
 }
 function garbageFor(input) { let h = 7; for (const c of input) h = (h * 31 + c.charCodeAt(0)) | 0; return String(-(Math.abs(h) % 2000000000) - 21474); }
 function judge(q, l, code, inputs) {
-  const S = strip(code);
+  const S = stripCode(code, l);
   const ce = compileErrors(q, l, code, S);
   if (ce) return { ce };
   const flags = bugsOf(q, l).map(c => c.need.every(r => r.test(S)) && !c.forbid.some(r => r.test(S)));
@@ -1753,7 +2010,7 @@ function judge(q, l, code, inputs) {
   const res = inputs.map(inp => {
     let parsed;
     try { parsed = q.parse(inp.input); } catch (e) { return { input: inp.input, err: e.message }; }
-    const exp = inp.custom ? q.simulate(parsed, q.bugs.map(() => true), l) : inp.expected;
+    const exp = inp.custom ? q.simulate(parsed, ALL, l) : inp.expected;
     let out = q.simulate(parsed, flags, l), kind = 'ok';
     if (out === GARBAGE) { out = garbageFor(inp.input); kind = 'garbage'; }
     else if (out.startsWith(RTE)) { kind = 're'; out = out.slice(RTE.length); }
@@ -1765,7 +2022,7 @@ const expectedCache = {};
 function suite(q, hidden) {
   const k = q.id + (hidden ? ':h' : ':v');
   if (!expectedCache[k]) {
-    const all = q.bugs.map(() => true);
+    const all = ALL;
     expectedCache[k] = (hidden ? q.hiddenTests : q.tests).map(t => ({ input: t, expected: q.simulate(q.parse(t), all, 'c') }));
   }
   return expectedCache[k];
@@ -1776,11 +2033,11 @@ let lastRun = null, sel = 0;
 function renderRun(r, label) {
   const box = $('#result');
   if (r.ce) {
-    box.innerHTML = `<div class="kv"><b>Compilation:</b><span class="badc">Compilation Failed</span></div><div class="alert bad">Your code did not compile.<pre>${esc(r.ce)}</pre></div>`;
+    box.innerHTML = lang === 'py' ? `<div class="kv"><b>Syntax check:</b><span class="badc">Failed</span></div><div class="alert bad">Your code raised an error before running any test.<pre>${esc(r.ce)}</pre></div>` : `<div class="kv"><b>Compilation:</b><span class="badc">Compilation Failed</span></div><div class="alert bad">Your code did not compile.<pre>${esc(r.ce)}</pre></div>`;
     return;
   }
   const n = r.res.length, p = r.res.filter(x => x.pass).length;
-  let h = `<div class="kv"><b>Compilation:</b><span class="good">✓ Compilation Successful</span><b>Exit code:</b><span>0</span><b>Warnings:</b><span>0 warning(s)</span></div>`;
+  let h = lang === 'py' ? `<div class="kv"><b>Syntax check:</b><span class="good">✓ Passed</span></div>` : `<div class="kv"><b>Compilation:</b><span class="good">✓ Compilation Successful</span><b>Exit code:</b><span>0</span><b>Warnings:</b><span>0 warning(s)</span></div>`;
   if (r.miss && r.miss.length) h += `<div class="alert warn">Heads-up: you removed or changed original code that did not contain a bug, e.g. <code>${esc(r.miss[0].slice(0, 70))}</code>. Keep edits minimal — the judge models the original program around your fixes.</div>`;
   h += `<div class="cases">` + r.res.map((x, i) => `<button data-i="${i}" class="${i === sel ? 'on' : ''}"><span class="dot ${x.pass ? 'p' : 'f'}">${x.pass ? '✓' : '✕'}</span>${label} #${i + 1}</button>`).join('') + `</div>`;
   const x = r.res[Math.min(sel, n - 1)];
@@ -1814,7 +2071,7 @@ function submit(auto) {
   if (t.submitted) return;
   const vis = judge(q, lang, code, suite(q, false));
   t.submitted = Date.now(); t.lang = lang; save();
-  let score = 0, pv = 0, ph = 0, nh = q.hiddenTests.length, nv = q.tests.length, flags = q.bugs.map(() => false);
+  let score = 0, pv = 0, ph = 0, nh = q.hiddenTests.length, nv = q.tests.length, flags = bugList(q, lang).map(() => false);
   if (!vis.ce) {
     const hid = judge(q, lang, code, suite(q, true));
     pv = vis.res.filter(x => x.pass).length; ph = hid.res.filter(x => x.pass).length; flags = vis.flags;
@@ -1855,10 +2112,10 @@ function setLeft(t) {
   leftTab = t;
   document.querySelectorAll('#ltabs button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
   const q = Q(), L = $('#leftBody');
-  const head = `<h2>Q${qi + 1}. ${esc(q.title)}</h2><div class="meta"><span class="pill ${q.difficulty.toLowerCase()}">${q.difficulty}</span><span class="pill">${esc(q.tag)}</span>${q.fromVideo ? '<span class="pill video">From the sample video</span>' : ''}<span class="pill">🐞 ${q.bugs.length} bugs planted</span></div>`;
+  const head = `<h2>Q${qi + 1}. ${esc(q.title)}</h2><div class="meta"><span class="pill ${q.difficulty.toLowerCase()}">${q.difficulty}</span><span class="pill">${esc(q.tag)}</span>${q.fromVideo ? '<span class="pill video">From the sample video</span>' : ''}<span class="pill">🐞 ${bugList(q, lang).length} bugs planted (${LANGS[lang]})</span></div>`;
   if (t === 'problem') {
     const ex = q.tests.slice(0, 2).map((s, i) => `<div><div class="lab">Sample Input ${i + 1}</div><pre>${esc(s)}</pre></div><div><div class="lab">Sample Output ${i + 1}</div><pre>${esc(suite(q, false)[i].expected)}</pre></div>`).join('');
-    const sig = (q.code[lang].body.split('\n').find(x => x.includes(q.fn[lang] + '(')) || '').trim() + ';';
+    const sig = (q.code[lang].body.split('\n').find(x => x.includes(q.fn[lang] + '(')) || '').trim() + (lang === 'py' ? '' : ';');
     L.innerHTML = head + q.statement.replace(/<pre class="sig">[^<]*<\/pre>/, `<pre class="sig">${esc(sig)}</pre>`) + `<div class="ex">${ex}</div>`;
   } else if (t === 'concept') {
     L.innerHTML = head + `<p class="muted">Read this if you're stuck on <i>what the code should do</i>. It explains the algorithm without pointing at specific lines.</p>` + q.concept;
@@ -1871,18 +2128,18 @@ function setLeft(t) {
   } else if (t === 'review') {
     const r = store.last[q.id];
     if (!r) { setLeft('problem'); return; }
-    const l = r.lang, fixed = r.flags.filter(Boolean).length;
+    const l = r.lang, fixed = r.flags.filter(Boolean).length, BL = bugList(q, l);
     let h = head + `<div class="report">
       <div class="stat"><div class="v ${r.score === 100 ? 'good' : ''}">${r.score}%</div><div class="k">Score</div></div>
       <div class="stat"><div class="v">${r.pv}/${r.nv}</div><div class="k">Sample tests</div></div>
       <div class="stat"><div class="v">${r.ph}/${r.nh}</div><div class="k">Hidden tests</div></div>
-      <div class="stat"><div class="v">${fixed}/${q.bugs.length}</div><div class="k">Bugs fixed</div></div>
+      <div class="stat"><div class="v">${fixed}/${BL.length}</div><div class="k">Bugs fixed</div></div>
       <div class="stat"><div class="v">${fmt(r.used)}</div><div class="k">Time used${r.auto ? ' (time up)' : ''}</div></div>
     </div>`;
     if (r.ce) h += `<div class="alert bad">Submission did not compile, so no test case passed.</div>`;
-    else if (r.score === 100 && fixed === q.bugs.length) h += `<div class="alert ok">Excellent — every bug fixed and every hidden test passed.</div>`;
-    else if (fixed === q.bugs.length) h += `<div class="alert warn">All planted bugs were fixed, but some tests still fail — you probably changed something else. Compare with the diff below.</div>`;
-    h += `<h3>Bug report (${LANGS[l]})</h3><ul class="buglist">` + q.bugs.map((b, i) => `<li><span class="ico ${r.flags[i] ? 'p' : 'f'}">${r.flags[i] ? '✓' : '✕'}</span><div><b>${b.title}</b><div class="why">${b.why}</div></div></li>`).join('') + `</ul>`;
+    else if (r.score === 100 && fixed === BL.length) h += `<div class="alert ok">Excellent — every bug fixed and every hidden test passed.</div>`;
+    else if (fixed === BL.length) h += `<div class="alert warn">All planted bugs were fixed, but some tests still fail — you probably changed something else. Compare with the diff below.</div>`;
+    h += `<h3>Bug report (${LANGS[l]})</h3><ul class="buglist">` + BL.map((b, i) => `<li><span class="ico ${r.flags[i] ? 'p' : 'f'}">${r.flags[i] ? '✓' : '✕'}</span><div><b>${b.title}</b><div class="why">${b.why}</div></div></li>`).join('') + `</ul>`;
     h += `<h3 style="margin-top:18px">Solution diff (${LANGS[l]})</h3><div class="diff">${diffHtml(q.code[l].body, solutionBody(q, l))}</div>`;
     h += `<p><button class="btn" id="loadSol">Load the corrected code into the editor</button></p>`;
     L.innerHTML = h;
@@ -1911,11 +2168,11 @@ function renderNav() {
 function renderHome() {
   $('#qgrid').innerHTML = QUESTIONS.map((q, i) => {
     const best = store.best[q.id], t = store.timer[q.id];
-    const st = best != null ? `<span class="score ${best === 100 ? 'ok' : ''}">Best: ${best}%</span>` : t && !t.submitted ? '<span>In progress</span>' : '<span>Not attempted</span>';
+    const st = best != null ? `<span class="score ${best === 100 ? 'ok' : ''}">Best: ${best}%</span>` : store.code[q.id + ':c'] || store.code[q.id + ':cpp'] || store.code[q.id + ':java'] || store.code[q.id + ':py'] ? '<span>In progress</span>' : '<span>Not attempted</span>';
     return `<button class="qcard" data-i="${i}">
       <div class="row"><span class="qno">Q${i + 1}</span><span class="pill ${q.difficulty.toLowerCase()}">${q.difficulty}</span><span class="pill">${esc(q.tag)}</span>${q.fromVideo ? '<span class="pill video">Sample video</span>' : ''}</div>
       <h3>${esc(q.title)}</h3><div class="topic">${esc(q.topic)}</div>
-      <div class="foot"><span>🐞 ${q.bugs.length} bugs · C / C++ / Java · 20 min</span>${st}</div></button>`;
+      <div class="foot"><span>🐞 ${q.bugs.length} bugs · C / C++ / Java / Python · 20 min</span>${st}</div></button>`;
   }).join('');
   $('#qgrid').querySelectorAll('.qcard').forEach(b => b.onclick = () => openQ(+b.dataset.i));
 }
@@ -1931,12 +2188,14 @@ function loadEditor() {
   const q = Q();
   const c = q.code[lang];
   $('#driver').textContent = c.header + (c.footer ? '\n\n    /* ...your method(s) below live inside class Main... */' : '');
+  if (leftTab === 'problem' || leftTab === 'hints' || leftTab === 'concept') setLeft(leftTab);
   ta.value = getCode(q, lang);
   ta.scrollTop = 0;
   paint();
 }
 function openQ(i) {
   qi = i; const q = Q();
+  if (!(store.timer[q.id] && store.timer[q.id].submitted)) store.timer[q.id] = { start: Date.now() };   // fresh 20:00 for this question
   const t = timerOf(q); save();
   if (t.submitted && t.lang) lang = t.lang;
   $('#lang').value = lang;
