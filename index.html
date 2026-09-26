@@ -2276,7 +2276,7 @@ function goHome() {
   qi = -1; clearInterval(tick);
   $('#home').classList.remove('hide'); $('#exam').classList.add('hide');
   $('#timerBox').classList.add('hide'); $('#layoutBtns').classList.add('hide');
-  renderHome(); if (location.hash) history.replaceState(null, '', location.pathname);
+  renderHome(); if (location.hash) try { history.replaceState(null, '', location.pathname); } catch (e) {}
 }
 $('#goHome').onclick = goHome;
 function loadEditor(resetResult = true) {
@@ -2301,7 +2301,7 @@ function openQ(i) {
   loadEditor(); lockEditor(); renderRail(); setLeft(leftTab);
   setRight(chatOf(q).msgs.length || t.submitted ? 'code' : 'ai');
   clearInterval(tick); tick = setInterval(updateTimer, 500); updateTimer();
-  if (location.hash !== '#q' + (i + 1)) history.replaceState(null, '', '#q' + (i + 1));
+  if (location.hash !== '#q' + (i + 1)) try { history.replaceState(null, '', '#q' + (i + 1)); } catch (e) {}
   window.scrollTo(0, 0);
 }
 $('#lang').onchange = e => { lang = e.target.value; store.lang = lang; save(); loadEditor(); };
