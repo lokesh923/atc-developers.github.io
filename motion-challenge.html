@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Motion Challenge Practice</title>
+<meta name="description" content="Practice the motionChallenge sliding-puzzle game from the Capgemini (AON) cognitive assessment: get the ball into the hole in the fewest moves.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #0b2d5b; --navy2: #123f7a; --ink: #1d2733; --muted: #66727f; --bg: #e9eef4; --card: #ffffff; --line: #dfe5ec; --cell: #e3e5e8; --cell2: #d5d8dc; --ok: #1e8e3e; --bad: #c5221f; --soft: #f3f6fa; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --cell: #243140; --cell2: #2d3b4b; --soft: #1a2430; --ok: #4cc26b; --bad: #ff7b72; color-scheme: dark; } }
+:root[data-theme="dark"] { --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --cell: #243140; --cell2: #2d3b4b; --soft: #1a2430; --ok: #4cc26b; --bad: #ff7b72; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 Roboto, system-ui, sans-serif; overflow-x: hidden; }
+button { font: inherit; cursor: pointer; }
+.phone { max-width: 440px; margin: 0 auto; min-height: 100vh; background: var(--card); display: flex; flex-direction: column; box-shadow: 0 0 30px rgba(0,0,0,.08); }
+.bar { background: var(--navy); color: #fff; display: flex; align-items: center; gap: 12px; padding: 12px 16px; position: sticky; top: 0; z-index: 5; }
+.bar a { color: #fff; text-decoration: none; font-size: 20px; line-height: 1; }
+.bar .t { font-weight: 500; font-size: 17px; flex: 1; }
+.bar .lv { font-size: 13px; opacity: .9; }
+.bar .th { background: none; border: 0; color: #fff; font-size: 16px; }
+.screen { padding: 20px 18px 28px; flex: 1; display: flex; flex-direction: column; }
+.hide { display: none !important; }
+h1 { font-size: 26px; line-height: 1.2; margin: 10px 0 18px; }
+.info { display: grid; gap: 10px; margin-bottom: 18px; }
+.info div { display: flex; gap: 14px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; font-size: 14px; color: var(--muted); }
+.info span { font-size: 22px; width: 28px; text-align: center; }
+.modes { display: grid; gap: 10px; margin: 6px 0 18px; }
+.mode { border: 2px solid var(--line); background: var(--card); color: var(--ink); border-radius: 10px; padding: 12px 14px; text-align: left; }
+.mode.on { border-color: var(--navy2); background: var(--soft); }
+.mode b { display: block; }
+.mode small { color: var(--muted); }
+.btn { background: var(--navy); color: #fff; border: 0; border-radius: 6px; padding: 11px 26px; font-weight: 500; }
+.btn.ghost { background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+.btn:disabled { opacity: .5; }
+.center { text-align: center; }
+.tbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.track { flex: 1; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.track i { display: block; height: 100%; background: #3a3f45; width: 100%; transition: width .5s linear; }
+:root[data-theme="dark"] .track i { background: #9aa8b8; }
+.tlabel { font-variant-numeric: tabular-nums; font-size: 14px; min-width: 44px; text-align: right; }
+.board { position: relative; width: 100%; max-width: 340px; margin: 0 auto; aspect-ratio: 4 / 6; background: var(--card); touch-action: none; user-select: none; }
+.cell { position: absolute; background: var(--cell); border-radius: 3px; }
+.hole { position: absolute; background: var(--cell2); border-radius: 3px; display: grid; place-items: center; }
+.hole::after { content: ""; width: 78%; height: 78%; border-radius: 50%; background: #111; box-shadow: inset 0 0 0 3px #333; }
+.piece { position: absolute; border-radius: 6px; display: grid; place-items: center; color: rgba(255,255,255,.85); font-size: 15px; font-weight: 700; transition: left .12s ease, top .12s ease; cursor: grab; }
+.piece.drag { transition: none; cursor: grabbing; z-index: 3; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+.piece.sel { outline: 3px solid #f2b400; outline-offset: 2px; }
+.piece.hint { animation: pulse .7s ease-in-out 3; }
+@keyframes pulse { 50% { transform: scale(1.06); outline: 3px solid #f2b400; } }
+.ball { border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff6b6b, #e0202a 60%, #b3121b); }
+.ball.in { transition: all .35s ease; transform: scale(.35); opacity: .2; }
+.target { position: absolute; border-radius: 3px; background: rgba(242,180,0,.25); border: 2px dashed #f2b400; z-index: 2; cursor: pointer; }
+.under { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 16px; flex-wrap: wrap; }
+.moves { width: 34px; height: 34px; border-radius: 50%; background: #3a3f45; color: #fff; display: grid; place-items: center; font-weight: 700; }
+.skip { background: var(--navy); color: #fff; border: 0; border-radius: 6px; padding: 8px 18px; }
+.note { font-size: 13px; color: var(--muted); text-align: center; margin-top: 12px; min-height: 20px; }
+.overlay { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(11,45,91,.88); color: #fff; z-index: 20; font-size: 26px; font-weight: 300; text-align: center; padding: 20px; }
+.overlay small { display: block; font-size: 15px; opacity: .85; margin-top: 8px; }
+.done { background: var(--navy); color: #fff; margin: -20px -18px 0; padding: 40px 18px 30px; text-align: center; }
+.done .tick { width: 70px; height: 70px; border: 2px solid #fff; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 12px; font-size: 32px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+.stat { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.stat b { font-size: 22px; display: block; }
+.stat span { font-size: 12px; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+td, th { padding: 7px 6px; border-top: 1px solid var(--line); text-align: left; }
+th { font-size: 12px; color: var(--muted); font-weight: 500; }
+.tips { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 14px; margin-top: 16px; }
+.tips ul { margin: 6px 0 0; padding-left: 18px; }
+.good { color: var(--ok); font-weight: 700; } .bad { color: var(--bad); font-weight: 700; }
+.row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+select { font: inherit; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="bar"><a href="capgemini.html" title="All games">☰</a><span class="t">motionChallenge</span><span class="lv hide" id="lvl">★ Level 1</span><button class="th" id="themeBtn" title="Toggle theme">◐</button></div>
+
+  <section class="screen" id="intro">
+    <h1>Welcome<br>to motionChallenge</h1>
+    <div class="info">
+      <div><span>💡</span>Your ability to plan ahead is measured.</div>
+      <div><span>🎯</span>Solve as many puzzles as you can using the fewest moves.</div>
+      <div><span>⏳</span>You have 6 minutes once the assessment starts.</div>
+      <div><span>❗</span>Make sure you are not interrupted.</div>
+    </div>
+    <p style="margin:0 0 8px"><b>How to play:</b> drag any block (or the red ball) up, down, left or right. It slides as far as you drag it until something is in the way, and each slide counts as <b>one move</b>. Get the ball into the black hole. Blocks can't enter the hole. You can also tap a piece and then tap a highlighted cell.</p>
+    <div class="modes">
+      <button class="mode on" data-m="test"><b>Timed test · 6:00</b><small>Levels get harder as you go. Skip if you're stuck — the timer keeps running.</small></button>
+      <button class="mode" data-m="practice"><b>Practice · untimed</b><small>Choose any level. Reset, hints and the optimal solution are available.</small></button>
+    </div>
+    <div class="center"><button class="btn" id="startBtn">Start ›</button></div>
+  </section>
+
+  <section class="screen hide" id="game">
+    <div class="tbar" id="timeRow"><div class="track"><i id="tfill"></i></div><span class="tlabel" id="tlabel">06:00</span></div>
+    <div class="row hide" id="pracRow" style="margin:0 0 12px">
+      <select id="lvSel"></select>
+      <button class="btn ghost" id="resetBtn">Reset</button>
+      <button class="btn ghost" id="hintBtn">Hint</button>
+      <button class="btn ghost" id="solBtn">Show solution</button>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="under"><span class="moves" id="moves">0</span><button class="skip" id="skipBtn">skip ⏭</button></div>
+    <div class="note" id="note"></div>
+  </section>
+
+  <section class="screen hide" id="result"></section>
+</div>
+<div class="overlay hide" id="overlay"></div>
+
+<script>
+const BANK = [{"opt":2,"hole":3,"p":[[3,3,1,1],[2,1,1,2],[4,1,1,2],[5,0,1,3],[1,2,1,2]]},{"opt":2,"hole":3,"p":[[3,1,1,1],[0,1,2,1],[1,2,2,1],[4,1,1,2],[5,1,1,2],[2,0,1,2]]},{"opt":2,"hole":3,"p":[[3,0,1,1],[1,1,1,2],[5,3,1,1],[4,2,2,1],[2,0,1,3],[0,0,1,3]]},{"opt":2,"hole":3,"p":[[4,3,1,1],[2,2,3,1],[3,0,1,2],[1,1,1,3],[4,0,2,2],[0,0,1,3],[5,2,1,2],[2,0,1,2]]},{"opt":2,"hole":3,"p":[[4,1,1,1],[0,2,2,1],[1,1,1,1],[2,0,1,1],[3,0,3,1],[2,1,1,1]]},{"opt":2,"hole":0,"p":[[3,2,1,1],[3,1,2,1],[5,1,1,2],[2,3,3,1],[3,0,2,1],[1,0,2,1]]},{"opt":3,"hole":3,"p":[[4,2,1,1],[4,1,2,1],[3,2,1,2],[5,2,1,2],[1,1,2,1],[0,1,1,2]]},{"opt":3,"hole":3,"p":[[3,2,1,1],[2,2,1,1],[3,0,1,1],[4,0,1,3],[1,3,2,1],[1,1,2,1]]},{"opt":3,"hole":0,"p":[[3,1,1,1],[1,0,1,2],[3,3,1,1],[0,3,2,1],[0,1,1,2]]},{"opt":3,"hole":3,"p":[[5,2,1,1],[1,1,2,1],[1,2,2,1],[4,2,1,2],[5,1,1,1],[4,0,2,1],[0,0,1,1]]},{"opt":3,"hole":0,"p":[[4,3,1,1],[0,1,1,2],[2,0,1,3],[3,2,1,2],[5,0,1,2]]},{"opt":3,"hole":3,"p":[[3,0,1,1],[2,3,1,1],[3,1,2,1],[5,1,1,1],[0,1,2,2],[3,3,3,1]]},{"opt":3,"hole":3,"p":[[4,3,1,1],[4,0,1,2],[1,0,1,3],[1,3,2,1],[5,3,1,1]]},{"opt":3,"hole":3,"p":[[4,2,1,1],[1,0,2,2],[4,3,2,1],[2,2,2,1],[5,0,1,3],[3,1,2,1]]},{"opt":3,"hole":0,"p":[[5,0,1,1],[2,0,2,2],[0,1,1,3],[5,1,1,2],[1,1,1,2],[3,2,2,1]]},{"opt":3,"hole":3,"p":[[5,1,1,1],[1,2,2,1],[3,0,2,2],[0,0,2,1],[4,2,2,1]]},{"opt":4,"hole":3,"p":[[4,0,1,1],[1,0,2,2],[1,2,1,1],[4,1,2,1],[2,2,3,1]]},{"opt":4,"hole":3,"p":[[3,1,1,1],[4,0,2,1],[1,0,1,3],[3,3,3,1],[2,2,2,1],[4,1,1,2]]},{"opt":4,"hole":3,"p":[[4,3,1,1],[1,1,1,3],[3,0,2,1],[2,2,1,2],[2,1,3,1],[3,2,3,1]]},{"opt":4,"hole":3,"p":[[5,2,1,1],[4,3,2,1],[1,1,1,2],[5,0,1,2],[3,2,2,1],[1,3,2,1]]},{"opt":4,"hole":0,"p":[[3,0,1,1],[1,0,2,1],[1,1,1,3],[3,1,1,2],[2,1,1,2]]},{"opt":4,"hole":3,"p":[[5,1,1,1],[2,2,1,1],[0,1,2,1],[3,1,1,2],[4,1,1,2],[1,2,1,2],[5,2,1,2]]},{"opt":4,"hole":3,"p":[[4,2,1,1],[5,1,1,1],[2,1,2,2],[2,0,3,1],[0,0,1,2],[1,3,2,1]]},{"opt":4,"hole":0,"p":[[3,2,1,1],[1,1,2,1],[0,1,1,2],[2,0,2,1],[4,1,1,2],[5,0,1,3]]},{"opt":4,"hole":3,"p":[[3,0,1,1],[3,1,3,1],[0,1,1,2],[3,2,3,1],[2,3,3,1],[1,1,2,1]]},{"opt":4,"hole":3,"p":[[4,1,1,1],[0,2,2,1],[4,2,2,2],[0,0,1,2],[3,0,1,2],[1,0,1,2],[4,0,1,1]]},{"opt":4,"hole":0,"p":[[5,3,1,1],[3,1,1,1],[0,3,2,1],[4,2,1,1],[0,2,3,1],[4,0,2,1]]},{"opt":4,"hole":3,"p":[[5,3,1,1],[3,2,3,1],[0,1,1,2],[1,0,3,1],[1,2,2,2],[2,1,2,1],[4,1,1,1]]},{"opt":5,"hole":3,"p":[[4,0,1,1],[2,1,1,3],[4,1,1,2],[0,2,2,1],[1,0,2,1],[5,0,1,3],[4,3,2,1]]},{"opt":5,"hole":3,"p":[[5,2,1,1],[2,2,2,2],[1,2,1,1],[4,2,1,2],[0,1,3,1],[3,1,2,1],[1,3,1,1]]},{"opt":5,"hole":3,"p":[[4,2,1,1],[2,1,2,1],[3,0,3,1],[1,2,2,1],[5,1,1,3],[3,3,2,1],[0,0,1,3],[2,0,1,1]]},{"opt":5,"hole":3,"p":[[3,0,1,1],[3,1,2,1],[3,2,1,2],[4,3,1,1],[2,0,1,1],[4,0,2,1],[2,1,1,3],[0,0,1,2],[5,1,1,2]]},{"opt":5,"hole":3,"p":[[3,0,1,1],[4,0,1,2],[3,3,3,1],[1,1,1,2],[3,2,2,1],[5,0,1,2],[2,2,1,2],[0,1,1,2]]},{"opt":5,"hole":0,"p":[[4,1,1,1],[0,1,2,1],[3,1,1,2],[2,0,1,2],[5,0,1,2],[0,2,1,2],[4,2,2,2],[4,0,1,1]]},{"opt":5,"hole":0,"p":[[4,2,1,1],[2,1,3,1],[2,2,2,2],[5,1,1,3],[4,0,2,1]]},{"opt":5,"hole":3,"p":[[5,1,1,1],[3,1,1,2],[4,0,1,2],[1,2,2,1],[0,0,1,2],[2,0,1,2],[1,3,2,1]]},{"opt":5,"hole":0,"p":[[4,0,1,1],[0,3,2,1],[4,1,1,2],[1,2,2,1],[1,0,2,2],[3,0,1,3],[5,0,1,3]]},{"opt":5,"hole":3,"p":[[3,1,1,1],[5,1,1,3],[0,0,2,1],[2,1,1,2],[0,2,2,1],[3,0,1,1],[1,3,3,1],[4,1,1,2]]},{"opt":5,"hole":0,"p":[[4,2,1,1],[0,1,1,2],[3,0,1,2],[5,1,1,3],[2,1,1,1],[2,3,2,1],[0,3,2,1],[1,0,2,1],[4,0,2,1]]},{"opt":5,"hole":0,"p":[[5,3,1,1],[4,2,1,2],[1,2,2,1],[3,0,2,1],[0,1,1,2],[1,0,1,2]]},{"opt":6,"hole":3,"p":[[5,3,1,1],[2,0,2,2],[1,2,2,2],[5,0,1,3],[4,2,1,2],[0,0,1,2]]},{"opt":6,"hole":0,"p":[[3,3,1,1],[4,3,1,1],[2,2,2,1],[3,1,3,1],[1,1,1,1],[0,1,1,3],[2,0,1,2],[3,0,3,1]]},{"opt":6,"hole":3,"p":[[5,3,1,1],[4,1,1,1],[2,2,3,1],[0,0,1,3],[1,0,2,2],[1,2,1,2],[4,0,2,1],[3,3,2,1]]},{"opt":6,"hole":3,"p":[[5,1,1,1],[0,2,2,1],[3,0,1,3],[2,0,1,2],[2,2,1,2],[0,0,2,2],[4,0,1,3]]},{"opt":6,"hole":0,"p":[[5,2,1,1],[1,1,2,1],[3,0,3,1],[0,2,1,2],[4,1,1,3],[2,2,1,1],[3,2,1,2]]},{"opt":6,"hole":3,"p":[[4,2,1,1],[5,0,1,2],[2,1,2,2],[4,3,2,1],[0,0,2,1],[2,3,2,1],[1,2,1,2]]},{"opt":6,"hole":0,"p":[[3,1,1,1],[1,0,1,3],[4,3,2,1],[0,3,3,1],[4,0,1,1],[4,2,2,1],[2,2,2,1],[2,1,1,1]]},{"opt":6,"hole":3,"p":[[4,2,1,1],[2,1,1,2],[0,0,1,3],[5,0,1,2],[1,0,2,1],[4,3,2,1],[3,0,1,3]]},{"opt":6,"hole":3,"p":[[4,3,1,1],[5,1,1,2],[2,0,2,2],[1,2,1,2],[2,2,1,2],[0,0,2,2]]},{"opt":6,"hole":3,"p":[[4,2,1,1],[1,1,2,1],[3,1,2,1],[1,2,1,2],[2,2,2,2],[1,0,2,1],[0,1,1,1]]},{"opt":6,"hole":3,"p":[[3,0,1,1],[1,2,1,1],[5,0,1,3],[3,3,2,1],[4,0,1,3],[2,1,2,1],[0,0,3,1],[0,1,1,2],[1,1,1,1]]},{"opt":6,"hole":3,"p":[[3,3,1,1],[2,1,1,1],[3,0,2,2],[1,3,2,1],[1,2,2,1],[1,1,1,1],[3,2,2,1],[0,0,3,1],[5,1,1,2]]},{"opt":7,"hole":3,"p":[[5,0,1,1],[0,1,3,1],[0,2,1,1],[1,0,2,1],[4,1,1,3],[1,2,3,1],[5,1,1,2]]},{"opt":7,"hole":3,"p":[[3,1,1,1],[1,3,3,1],[1,0,2,2],[1,2,2,1],[4,1,1,3],[0,0,1,2],[5,2,1,2]]},{"opt":7,"hole":0,"p":[[5,2,1,1],[4,0,1,2],[1,0,1,1],[2,2,3,1],[1,1,3,1],[1,2,1,2],[5,0,1,2]]},{"opt":7,"hole":3,"p":[[3,3,1,1],[3,0,2,1],[1,2,2,2],[3,1,1,2],[0,1,2,1],[0,0,3,1],[5,1,1,3],[2,1,1,1]]},{"opt":7,"hole":0,"p":[[5,1,1,1],[0,1,2,2],[3,0,2,2],[4,3,2,1],[3,2,3,1],[1,3,1,1],[0,3,1,1]]},{"opt":7,"hole":3,"p":[[3,0,1,1],[0,2,2,1],[5,1,1,1],[1,1,3,1],[4,3,1,1],[3,2,1,1],[4,0,1,3],[2,3,2,1],[0,0,3,1]]},{"opt":7,"hole":3,"p":[[5,3,1,1],[4,2,2,1],[1,1,1,1],[3,0,3,1],[0,1,1,2],[3,1,1,2],[1,3,3,1],[2,0,1,2]]},{"opt":7,"hole":3,"p":[[3,0,1,1],[5,1,1,2],[3,3,2,1],[1,1,1,2],[2,1,1,1],[3,1,1,1],[2,2,3,1],[0,1,1,2]]},{"opt":7,"hole":3,"p":[[3,0,1,1],[4,1,1,1],[2,0,1,3],[4,3,2,1],[4,2,2,1],[0,1,2,2],[0,0,2,1],[4,0,2,1],[1,3,2,1]]},{"opt":7,"hole":0,"p":[[4,3,1,1],[0,1,2,1],[3,0,3,1],[4,2,1,1],[0,2,1,2],[5,1,1,2],[2,1,2,2],[4,1,1,1],[1,2,1,2]]},{"opt":8,"hole":3,"p":[[3,1,1,1],[3,2,1,2],[0,2,2,1],[1,1,1,1],[4,2,2,2],[0,0,3,1],[1,3,2,1],[3,0,3,1],[2,2,1,1]]},{"opt":8,"hole":0,"p":[[5,1,1,1],[3,0,1,3],[1,0,1,3],[1,3,3,1],[4,1,1,3]]},{"opt":8,"hole":3,"p":[[5,2,1,1],[0,2,3,1],[3,0,2,2],[5,0,1,2],[0,0,1,2],[2,3,3,1],[1,1,2,1]]},{"opt":8,"hole":0,"p":[[4,3,1,1],[2,2,1,1],[0,3,2,1],[1,0,1,3],[3,1,1,2],[4,1,2,2],[3,0,2,1],[2,3,1,1]]},{"opt":8,"hole":3,"p":[[5,1,1,1],[2,2,1,2],[3,2,1,2],[4,1,1,3],[0,0,3,1],[3,0,2,1]]},{"opt":8,"hole":3,"p":[[4,1,1,1],[1,2,3,1],[0,0,2,1],[4,2,2,2],[2,0,2,2]]},{"opt":8,"hole":3,"p":[[5,3,1,1],[4,0,1,2],[2,2,2,2],[2,0,2,1],[4,2,1,2],[1,1,1,3],[2,1,2,1],[0,1,1,2]]},{"opt":8,"hole":3,"p":[[5,3,1,1],[5,0,1,2],[4,1,1,1],[1,3,2,1],[3,2,2,2],[2,0,2,1],[1,2,2,1],[2,1,2,1],[0,0,2,1]]},{"opt":9,"hole":0,"p":[[5,1,1,1],[2,0,1,2],[4,3,1,1],[3,1,1,3],[0,2,1,2],[1,2,2,2],[3,0,3,1]]},{"opt":9,"hole":3,"p":[[3,2,1,1],[4,0,1,2],[2,3,3,1],[1,2,1,1],[2,0,1,3],[0,0,2,1],[4,2,2,1]]},{"opt":9,"hole":3,"p":[[3,1,1,1],[0,2,3,1],[5,3,1,1],[4,0,2,2],[0,0,1,2],[1,0,1,2],[3,2,2,2]]},{"opt":9,"hole":3,"p":[[4,0,1,1],[3,0,1,3],[1,1,2,1],[5,1,1,2],[1,3,2,1],[3,3,3,1],[1,0,2,1]]},{"opt":9,"hole":3,"p":[[5,2,1,1],[4,2,1,2],[4,1,2,1],[1,0,1,1],[1,2,1,2],[2,1,2,2],[3,0,1,1],[2,3,2,1]]},{"opt":9,"hole":0,"p":[[4,1,1,1],[4,2,2,1],[1,1,1,3],[3,3,3,1],[4,0,2,1],[1,0,3,1],[3,1,1,2],[2,1,1,2]]},{"opt":10,"hole":3,"p":[[4,2,1,1],[1,0,1,2],[3,1,2,1],[2,0,1,2],[3,0,2,1],[5,0,1,3],[3,3,2,1],[2,2,1,2],[0,0,1,2]]},{"opt":10,"hole":0,"p":[[3,2,1,1],[2,1,1,3],[5,0,1,3],[3,0,2,2],[0,2,1,1],[1,0,1,3],[3,3,2,1]]},{"opt":10,"hole":3,"p":[[5,1,1,1],[2,3,3,1],[2,1,1,2],[5,0,1,1],[2,0,2,1],[3,1,2,1],[3,2,2,1],[0,1,2,1],[1,2,1,2]]},{"opt":10,"hole":3,"p":[[4,0,1,1],[3,0,1,2],[4,1,2,1],[0,0,3,1],[0,2,2,1],[3,2,1,2],[4,2,1,2],[0,1,3,1],[2,3,1,1]]},{"opt":11,"hole":3,"p":[[5,1,1,1],[0,2,2,1],[2,0,1,3],[1,3,2,1],[3,2,3,1],[3,3,2,1],[0,0,1,2]]},{"opt":11,"hole":3,"p":[[4,2,1,1],[1,0,2,2],[4,1,2,1],[1,2,2,2],[3,2,1,2],[3,0,3,1],[5,2,1,1]]},{"opt":11,"hole":0,"p":[[5,1,1,1],[1,0,1,3],[3,2,2,1],[2,1,1,3],[3,0,3,1],[0,3,2,1],[0,1,1,2]]},{"opt":15,"hole":0,"p":[[5,2,1,1],[2,3,1,1],[1,1,1,2],[3,2,2,1],[2,0,1,3],[4,0,2,2],[0,3,2,1],[3,3,2,1],[3,0,1,2]]},{"opt":24,"hole":3,"p":[[4,3,1,1],[4,1,2,1],[1,0,1,2],[3,0,1,3],[1,2,1,1],[1,3,3,1],[4,0,2,1],[2,0,1,2],[4,2,2,1]]},{"opt":41,"hole":3,"p":[[5,0,1,1],[5,2,1,1],[2,0,1,3],[3,3,3,1],[3,1,2,2],[1,1,1,2],[1,3,2,1],[0,0,1,3]]}];
+(function () {
+const R = 6, C = 4, TIME = 6 * 60 * 1000;
+const $ = s => document.querySelector(s);
+const PALETTE = ['#f2a900', '#29abe2', '#6b2c91', '#5cb82a', '#e8702a', '#2a8f8f', '#d63f8c', '#8a6d3b'];
+let store = {}; try { store = JSON.parse(localStorage.getItem('cg.motion') || '{}') || {}; } catch (e) {}
+const save = () => { try { localStorage.setItem('cg.motion', JSON.stringify(store)); } catch (e) {} };
+const applyTheme = () => store.theme ? document.documentElement.setAttribute('data-theme', store.theme) : document.documentElement.removeAttribute('data-theme');
+applyTheme();
+$('#themeBtn').onclick = () => { const d = store.theme ? store.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; store.theme = d ? 'light' : 'dark'; save(); applyTheme(); };
+
+/* ---------- puzzle logic ---------- */
+const cellsOf = (p, r, c) => { const o = []; for (let i = 0; i < p.h; i++) for (let j = 0; j < p.w; j++) o.push((r + i) * C + c + j); return o; };
+function occupancy(pieces, pos) { const occ = new Int8Array(R * C).fill(-1); pos.forEach(([r, c], i) => cellsOf(pieces[i], r, c).forEach(x => occ[x] = i)); return occ; }
+// all destinations of piece i (one slide in a straight line)
+function destinations(pz, pos, i) {
+  const occ = occupancy(pz.pieces, pos), p = pz.pieces[i], out = [];
+  for (const [dr, dc] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+    let [r, c] = pos[i];
+    for (;;) {
+      r += dr; c += dc;
+      if (r < 0 || c < 0 || r + p.h > R || c + p.w > C) break;
+      const cs = cellsOf(p, r, c);
+      if (cs.some(x => occ[x] !== -1 && occ[x] !== i)) break;
+      if (i > 0 && cs.includes(pz.hole)) break;
+      out.push([r, c]);
+      if (i === 0 && r * C + c === pz.hole) break;
+    }
+  }
+  return out;
+}
+function solvePath(pz, start) {
+  const key = s => s.map(x => x[0] * C + x[1]).join(',');
+  const prev = new Map([[key(start), null]]);
+  let frontier = [start];
+  while (frontier.length) {
+    const next = [];
+    for (const s of frontier) for (let i = 0; i < pz.pieces.length; i++) for (const d of destinations(pz, s, i)) {
+      const ns = s.slice(); ns[i] = d; const k = key(ns);
+      if (prev.has(k)) continue;
+      prev.set(k, { from: key(s), s, i, d });
+      if (i === 0 && d[0] * C + d[1] === pz.hole) {
+        const path = []; let cur = k;
+        while (prev.get(cur)) { const e = prev.get(cur); path.unshift({ i: e.i, d: e.d }); cur = e.from; }
+        return path;
+      }
+      next.push(ns);
+      if (prev.size > 200000) return null;
+    }
+    frontier = next;
+  }
+  return null;
+}
+
+/* ---------- state ---------- */
+let mode = 'test', pz = null, pos = [], moves = 0, levelIdx = 0, t0 = 0, tick = null, results = [], busy = false, sel = -1, practiceSolved = false;
+const byOpt = {}; BANK.forEach((b, k) => (byOpt[Math.min(b.opt, 12)] = byOpt[Math.min(b.opt, 12)] || []).push(k));
+const LEVELS = [2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10, 11, 12, 12];
+let order = [];
+function buildOrder() {
+  const used = new Set(); order = LEVELS.map(o => { const pool = byOpt[o].filter(k => !used.has(k)); const k = pool[Math.floor(Math.random() * pool.length)]; used.add(k); return k; });
+}
+function load(k) {
+  const b = BANK[k];
+  pz = { k, opt: b.opt, hole: b.hole, pieces: b.p.map(([r, c, h, w]) => ({ h, w })) };
+  pos = b.p.map(([r, c]) => [r, c]);
+  moves = 0; sel = -1; practiceSolved = false;
+  render(true);
+  $('#moves').textContent = 0; $('#note').textContent = mode === 'practice' ? `Minimum possible: ${b.opt} moves` : '';
+}
+
+/* ---------- rendering ---------- */
+const board = $('#board');
+let els = [], cw = 0, ch = 0, gap = 4;
+function geom() { const W = board.clientWidth; cw = (W - gap * (C - 1)) / C; ch = cw; board.style.height = (ch * R + gap * (R - 1)) + 'px'; }
+const X = c => c * (cw + gap), Y = r => r * (ch + gap);
+function render(full) {
+  geom();
+  if (full) {
+    board.innerHTML = '';
+    for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+      const d = document.createElement('div'); d.className = r * C + c === pz.hole ? 'hole' : 'cell';
+      Object.assign(d.style, { left: X(c) + 'px', top: Y(r) + 'px', width: cw + 'px', height: ch + 'px' });
+      d.dataset.cell = r * C + c; board.appendChild(d);
+    }
+    els = pz.pieces.map((p, i) => {
+      const d = document.createElement('div'); d.className = 'piece' + (i === 0 ? ' ball' : '');
+      if (i > 0) { d.style.background = PALETTE[(i - 1) % PALETTE.length]; d.textContent = p.h > p.w ? '≡' : p.w > p.h ? '|||' : '·'; }
+      d.dataset.i = i; board.appendChild(d); return d;
+    });
+  }
+  pz.pieces.forEach((p, i) => {
+    const [r, c] = pos[i], d = els[i], inset = i === 0 ? cw * 0.1 : 2;
+    Object.assign(d.style, { left: X(c) + inset + 'px', top: Y(r) + inset + 'px', width: X(c + p.w) - X(c) - gap - inset * 2 + 'px', height: Y(r + p.h) - Y(r) - gap - inset * 2 + 'px' });
+    d.classList.toggle('sel', i === sel);
+  });
+  board.querySelectorAll('.target').forEach(t => t.remove());
+  if (sel >= 0) for (const [r, c] of destinations(pz, pos, sel)) {
+    const p = pz.pieces[sel], t = document.createElement('div'); t.className = 'target';
+    Object.assign(t.style, { left: X(c) + 'px', top: Y(r) + 'px', width: X(c + p.w) - X(c) - gap + 'px', height: Y(r + p.h) - Y(r) - gap + 'px' });
+    t.onclick = e => { e.stopPropagation(); doMove(sel, [r, c]); };
+    board.appendChild(t);
+  }
+}
+window.addEventListener('resize', () => pz && render(false));
+
+/* ---------- moves ---------- */
+function doMove(i, d) {
+  if (busy) return;
+  if (d[0] === pos[i][0] && d[1] === pos[i][1]) { render(false); return; }
+  pos[i] = d; moves++; sel = -1;
+  $('#moves').textContent = moves;
+  render(false);
+  if (i === 0 && d[0] * C + d[1] === pz.hole) solved();
+}
+let drag = null;
+board.addEventListener('pointerdown', e => {
+  const el = e.target.closest('.piece'); if (!el || busy) return;
+  const i = +el.dataset.i;
+  drag = { i, x: e.clientX, y: e.clientY, axis: null, dests: destinations(pz, pos, i), moved: false };
+  el.setPointerCapture(e.pointerId);
+});
+board.addEventListener('pointermove', e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (!drag.axis && Math.hypot(dx, dy) > 8) { drag.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; els[drag.i].classList.add('drag'); }
+  if (!drag.axis) return;
+  drag.moved = true;
+  const [r0, c0] = pos[drag.i], p = pz.pieces[drag.i];
+  const line = drag.dests.filter(([r, c]) => drag.axis === 'x' ? r === r0 : c === c0);
+  const vals = line.map(([r, c]) => drag.axis === 'x' ? c : r).concat(drag.axis === 'x' ? c0 : r0);
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const inset = drag.i === 0 ? cw * 0.1 : 2;
+  if (drag.axis === 'x') { const px = Math.max(X(lo), Math.min(X(hi), X(c0) + dx)); els[drag.i].style.left = px + inset + 'px'; els[drag.i].style.top = Y(r0) + inset + 'px'; drag.cur = [r0, Math.round(px / (cw + gap))]; }
+  else { const py = Math.max(Y(lo), Math.min(Y(hi), Y(r0) + dy)); els[drag.i].style.top = py + inset + 'px'; els[drag.i].style.left = X(c0) + inset + 'px'; drag.cur = [Math.round(py / (ch + gap)), c0]; }
+});
+board.addEventListener('pointerup', () => {
+  if (!drag) return;
+  const d = drag; drag = null; els[d.i].classList.remove('drag');
+  if (!d.moved) { sel = sel === d.i ? -1 : d.i; render(false); return; }
+  const ok = d.cur && (d.cur[0] !== pos[d.i][0] || d.cur[1] !== pos[d.i][1]) && d.dests.some(([r, c]) => r === d.cur[0] && c === d.cur[1]);
+  if (ok) doMove(d.i, d.cur); else render(false);
+});
+board.addEventListener('click', e => { if (!e.target.closest('.piece') && !e.target.closest('.target') && sel >= 0) { sel = -1; render(false); } });
+
+/* ---------- flow ---------- */
+function overlay(html, ms) { $('#overlay').innerHTML = html; $('#overlay').classList.remove('hide'); return new Promise(r => setTimeout(() => { $('#overlay').classList.add('hide'); r(); }, ms)); }
+async function solved() {
+  busy = true;
+  els[0].classList.add('in');
+  const rec = { level: levelIdx + 1, opt: pz.opt, moves, solved: true, k: pz.k };
+  if (mode === 'test') {
+    results.push(rec);
+    await new Promise(r => setTimeout(r, 450));
+    await overlay(`Level ${levelIdx + 2} Unlocked<small>Solved in ${moves} moves</small>`, 1100);
+    nextLevel();
+  } else {
+    practiceSolved = true;
+    $('#note').innerHTML = moves <= pz.opt ? `<span class="good">Perfect! ${moves} moves = the minimum.</span>` : `Solved in <b>${moves}</b> moves — the minimum is <b>${pz.opt}</b>. Try again or use “Show solution”.`;
+    store.best = store.best || {}; store.best[pz.k] = Math.min(store.best[pz.k] ?? 99, moves); save();
+    busy = false;
+  }
+}
+function nextLevel() {
+  levelIdx++;
+  busy = false;
+  if (levelIdx >= order.length) return finish();
+  $('#lvl').textContent = `★ Level ${levelIdx + 1}`;
+  load(order[levelIdx]);
+}
+$('#skipBtn').onclick = () => {
+  if (busy) return;
+  if (mode === 'practice') { const v = +$('#lvSel').value; $('#lvSel').value = Math.min(BANK.length - 1, v + 1); load(+$('#lvSel').value); return; }
+  results.push({ level: levelIdx + 1, opt: pz.opt, moves, solved: false, k: pz.k });
+  nextLevel();
+};
+function updateTime() {
+  const left = Math.max(0, TIME - (Date.now() - t0));
+  const s = Math.ceil(left / 1000);
+  $('#tlabel').textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  $('#tfill').style.width = (left / TIME * 100) + '%';
+  if (left <= 0) { if (pz && !busy) results.push({ level: levelIdx + 1, opt: pz.opt, moves, solved: false, k: pz.k, timeout: true }); finish(); }
+}
+function finish() {
+  clearInterval(tick); busy = true;
+  $('#game').classList.add('hide'); $('#lvl').classList.add('hide');
+  const solvedR = results.filter(r => r.solved), totMoves = solvedR.reduce((a, r) => a + r.moves, 0), totOpt = solvedR.reduce((a, r) => a + r.opt, 0);
+  const eff = totMoves ? Math.round(100 * totOpt / totMoves) : 0;
+  const perfect = solvedR.filter(r => r.moves === r.opt).length;
+  store.history = (store.history || []).concat([{ at: Date.now(), solved: solvedR.length, eff }]).slice(-20); save();
+  const best = Math.max(...store.history.map(h => h.solved));
+  $('#result').innerHTML = `<div class="done"><div class="tick">✓</div><div style="font-size:20px;font-weight:500">motionChallenge</div><div>COMPLETE</div></div>
+    <div class="stats">
+      <div class="stat"><b>${solvedR.length}</b><span>Puzzles solved</span></div>
+      <div class="stat"><b>${eff}%</b><span>Move efficiency (minimum ÷ your moves)</span></div>
+      <div class="stat"><b>${perfect}</b><span>Solved in the minimum moves</span></div>
+      <div class="stat"><b>${best}</b><span>Your best (puzzles solved)</span></div>
+    </div>
+    <table><tr><th>Level</th><th>Result</th><th>Your moves</th><th>Minimum</th></tr>
+    ${results.map(r => `<tr><td>${r.level}</td><td>${r.solved ? '<span class="good">Solved</span>' : r.timeout ? 'Time up' : '<span class="bad">Skipped</span>'}</td><td>${r.solved ? r.moves : '—'}</td><td>${r.opt}</td></tr>`).join('')}</table>
+    <div class="tips"><b>How to improve</b><ul>
+      <li>Before touching anything, trace the ball's route to the hole and find the <b>one block</b> in the way. Then ask what blocks <i>that</i> block — plan backwards.</li>
+      <li>Every slide counts as one move, however far it goes. Slide pieces all the way in one go instead of nudging.</li>
+      <li>The score rewards <b>both</b> puzzles solved and few moves. Skip a puzzle quickly if you have no plan after ~20 seconds.</li>
+      <li>Use Practice mode's <b>Show solution</b> on a level you skipped to learn the pattern.</li></ul></div>
+    <div class="row"><button class="btn" onclick="location.reload()">Try again</button><a class="btn ghost" style="text-decoration:none" href="capgemini.html">All games</a></div>`;
+  $('#result').classList.remove('hide');
+}
+window.__motion = { solvePath, destinations, get pz() { return pz; }, get pos() { return pos; }, doMove, load, BANK };
+document.querySelectorAll('.mode').forEach(b => b.onclick = () => { mode = b.dataset.m; document.querySelectorAll('.mode').forEach(x => x.classList.toggle('on', x === b)); });
+$('#lvSel').innerHTML = BANK.map((b, k) => `<option value="${k}">Puzzle ${k + 1} · min ${b.opt} moves${store.best && store.best[k] != null ? ' · best ' + store.best[k] : ''}</option>`).join('');
+$('#lvSel').onchange = () => load(+$('#lvSel').value);
+$('#resetBtn').onclick = () => { busy = false; load(pz.k); };
+$('#hintBtn').onclick = () => {
+  if (practiceSolved) return;
+  const path = solvePath(pz, pos.map(x => x.slice()));
+  if (!path || !path.length) return;
+  const h = path[0]; sel = h.i; render(false); els[h.i].classList.add('hint');
+  setTimeout(() => els[h.i] && els[h.i].classList.remove('hint'), 2200);
+  $('#note').textContent = `Hint: move the highlighted piece (${path.length} moves left if you play perfectly).`;
+};
+$('#solBtn').onclick = async () => {
+  if (busy) return;
+  load(pz.k); busy = true;
+  const path = solvePath(pz, pos.map(x => x.slice()));
+  $('#note').textContent = `Optimal solution: ${path.length} moves`;
+  for (const st of path) { await new Promise(r => setTimeout(r, 650)); pos[st.i] = st.d; moves++; $('#moves').textContent = moves; render(false); }
+  els[0].classList.add('in'); busy = false; practiceSolved = true;
+};
+$('#startBtn').onclick = async () => {
+  $('#intro').classList.add('hide'); $('#game').classList.remove('hide'); $('#lvl').classList.remove('hide');
+  if (mode === 'test') {
+    $('#timeRow').classList.remove('hide'); $('#pracRow').classList.add('hide'); $('#skipBtn').textContent = 'skip ⏭';
+    buildOrder(); levelIdx = 0; results = []; $('#lvl').textContent = '★ Level 1';
+    load(order[0]); t0 = Date.now(); updateTime(); tick = setInterval(updateTime, 500);
+  } else {
+    $('#timeRow').classList.add('hide'); $('#pracRow').classList.remove('hide'); $('#skipBtn').textContent = 'next ⏭'; $('#lvl').textContent = '★ Practice';
+    load(+$('#lvSel').value);
+  }
+};
+})();
+</script>
+</body>
+</html>

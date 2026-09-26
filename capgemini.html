@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capgemini Game Practice</title>
+<meta name="description" content="Practice the three game-based assessments used in the Capgemini (AON) cognitive round: motionChallenge, gridChallenge and the ADEPT-15 behaviour questionnaire.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #0b2d5b; --blue: #0b3a78; --accent: #19a8dc; --ink: #1d2733; --muted: #66727f; --bg: #eef2f7; --card: #ffffff; --line: #dfe5ec; --soft: #f3f6fa; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --blue: #6fa8ff; --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --soft: #1a2430; color-scheme: dark; } }
+:root[data-theme="dark"] { --blue: #6fa8ff; --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --soft: #1a2430; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 Roboto, system-ui, sans-serif; overflow-x: hidden; }
+.bar { background: var(--navy); color: #fff; }
+.bar .wrap { display: flex; align-items: center; gap: 12px; min-height: 56px; }
+.bar b { font-size: 18px; font-weight: 500; flex: 1; }
+.bar a { color: #fff; font-size: 13px; text-decoration: none; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; padding: 5px 10px; }
+.bar button { background: none; border: 0; color: #fff; font-size: 16px; cursor: pointer; }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 16px; }
+h1 { font-size: clamp(26px, 5vw, 40px); margin: 30px 0 6px; border-left: 6px solid var(--accent); padding-left: 14px; line-height: 1.15; }
+.sub { color: var(--muted); margin: 0 0 22px 20px; font-size: 16px; }
+.flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 22px; font-size: 14px; color: var(--muted); }
+.flow span { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; color: var(--ink); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: var(--ink); box-shadow: 0 1px 3px rgba(16,24,40,.08); }
+.card:hover { border-color: var(--accent); }
+.art { height: 150px; display: grid; place-items: center; background: var(--soft); border-bottom: 1px solid var(--line); }
+.body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.body h2 { margin: 0; font-size: 20px; }
+.tag { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .5px; }
+.body p { margin: 0; color: var(--muted); font-size: 14px; }
+.meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 10px; font-size: 12.5px; }
+.meta span { background: var(--soft); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+.go { margin-top: 10px; background: var(--navy); color: #fff; border-radius: 6px; padding: 9px 14px; text-align: center; font-weight: 500; }
+.best { font-size: 12.5px; color: var(--blue); font-weight: 500; min-height: 18px; }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin: 22px 0; }
+.box h3 { margin: 0 0 6px; font-size: 16px; }
+.box ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.foot { color: var(--muted); font-size: 12.5px; text-align: center; margin: 26px 0 34px; }
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap"><b>Capgemini Game-Based Assessment · Practice</b><a href="index.html">AI coding practice</a><a href="debugging-practice.html">Debugging practice</a><button id="themeBtn" title="Toggle theme">◐</button></div></div>
+<main class="wrap">
+  <h1>Cognitive &amp; Behavioural Games</h1>
+  <p class="sub">Practice the three activities of the Capgemini assessment round (delivered on the AON platform) — with unlimited new puzzles, rounds and statement pairs.</p>
+  <div class="flow">Typical order: <span>1 · gridChallenge</span>→<span>2 · motionChallenge</span>→<span>3 · ADEPT-15 questionnaire</span></div>
+  <div class="cards">
+    <a class="card" href="grid-challenge.html">
+      <div class="art"><svg width="150" height="120" viewBox="0 0 150 120" aria-hidden="true"><g fill="#c9cbce"><circle cx="22" cy="18" r="9"/><circle cx="60" cy="14" r="9"/><circle cx="100" cy="22" r="9"/><circle cx="18" cy="60" r="9"/><circle cx="58" cy="54" r="9"/><circle cx="96" cy="64" r="9"/><circle cx="26" cy="100" r="9"/><circle cx="66" cy="96" r="9"/></g><circle cx="100" cy="100" r="10" fill="#0b3a78"/><text x="100" y="104" font-size="11" fill="#fff" text-anchor="middle" font-family="Roboto">1</text><g fill="#0b3a78"><rect x="120" y="10" width="8" height="8"/><rect x="132" y="10" width="8" height="8"/><rect x="120" y="22" width="8" height="8"/><rect x="132" y="34" width="8" height="8"/></g></svg></div>
+      <div class="body"><span class="tag">Working memory &amp; attention</span><h2>gridChallenge</h2>
+        <p>Remember where dots appear, and in what order, while judging whether patterns are symmetrical. The sequence grows by one dot after every perfect round.</p>
+        <div class="meta"><span>~9 min · 12 rounds</span><span>Unlimited new rounds</span><span>Adaptive</span></div>
+        <div class="best" id="bestGrid"></div><div class="go">Start practising ›</div></div>
+    </a>
+    <a class="card" href="motion-challenge.html">
+      <div class="art"><svg width="110" height="130" viewBox="0 0 110 130" aria-hidden="true"><g fill="#e3e5e8"><rect x="2" y="2" width="24" height="24" rx="3"/><rect x="29" y="2" width="24" height="24" rx="3"/><rect x="56" y="2" width="24" height="24" rx="3"/><rect x="2" y="29" width="24" height="24" rx="3"/><rect x="29" y="56" width="24" height="24" rx="3"/><rect x="2" y="83" width="24" height="24" rx="3"/><rect x="56" y="83" width="24" height="24" rx="3"/></g><rect x="83" y="2" width="24" height="24" rx="3" fill="#d5d8dc"/><circle cx="95" cy="14" r="9" fill="#111"/><rect x="2" y="2" width="24" height="78" rx="5" fill="#f2a900"/><rect x="56" y="29" width="51" height="24" rx="5" fill="#5cb82a"/><rect x="29" y="56" width="24" height="51" rx="5" fill="#29abe2"/><rect x="83" y="83" width="24" height="44" rx="5" fill="#6b2c91"/><circle cx="14" cy="115" r="10" fill="#e0202a"/></svg></div>
+      <div class="body"><span class="tag">Planning &amp; problem solving</span><h2>motionChallenge</h2>
+        <p>Slide blocks to clear a path so the red ball can reach the hole, in as few moves as possible. Includes 86 puzzles with known optimal solutions, plus hints.</p>
+        <div class="meta"><span>6:00 timed test</span><span>86 puzzles · min 2–12+ moves</span><span>Hints &amp; solutions</span></div>
+        <div class="best" id="bestMotion"></div><div class="go">Start practising ›</div></div>
+    </a>
+    <a class="card" href="behaviour-assessment.html">
+      <div class="art"><svg width="170" height="110" viewBox="0 0 170 110" aria-hidden="true"><rect x="8" y="10" width="3" height="40" fill="#1d2733"/><rect x="159" y="10" width="3" height="40" fill="#1d2733"/><g fill="#9aa4ae"><rect x="16" y="14" width="56" height="6" rx="3"/><rect x="16" y="26" width="46" height="6" rx="3"/><rect x="98" y="14" width="56" height="6" rx="3"/><rect x="108" y="26" width="46" height="6" rx="3"/></g><g fill="none" stroke="#b9c0c8" stroke-width="2"><circle cx="26" cy="78" r="8"/><circle cx="48" cy="78" r="8"/><circle cx="122" cy="78" r="8"/><circle cx="144" cy="78" r="8"/><circle cx="100" cy="78" r="8"/></g><circle cx="70" cy="78" r="8" fill="#0b3a78"/><circle cx="85" cy="78" r="3" fill="#c7ccd2"/></svg></div>
+      <div class="body"><span class="tag">Personality · work style</span><h2>ADEPT-15 questionnaire</h2>
+        <p>Pairs of statements: choose which one describes you better, and how strongly. Covers all 15 aspects, with a practice profile and a consistency check at the end.</p>
+        <div class="meta"><span>90 statements</span><span>30 or 50 pairs</span><span>No right answers</span></div>
+        <div class="best" id="bestAdept"></div><div class="go">Start practising ›</div></div>
+    </a>
+  </div>
+  <div class="box"><h3>About these practice games</h3><ul>
+    <li>They are independent practice versions built from recordings of the real games. They are not affiliated with Capgemini or AON, and scores are practice indicators only.</li>
+    <li>Everything runs in your browser and works on phones. Progress is stored on this device only.</li>
+    <li>In the real test, read each welcome screen carefully, use a quiet place and a stable connection, and don't refresh during a game.</li></ul></div>
+  <p class="foot">Practice resource · no data leaves your browser</p>
+</main>
+<script>
+(function () {
+  const get = k => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch (e) { return {}; } };
+  const hub = get('cg.hub');
+  const apply = () => hub.theme ? document.documentElement.setAttribute('data-theme', hub.theme) : document.documentElement.removeAttribute('data-theme');
+  apply();
+  document.getElementById('themeBtn').onclick = () => { const d = hub.theme ? hub.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; hub.theme = d ? 'light' : 'dark'; try { localStorage.setItem('cg.hub', JSON.stringify(hub)); } catch (e) {} apply(); };
+  const g = get('cg.grid').history || [], m = get('cg.motion').history || [], a = get('cg.adept').history || [];
+  if (g.length) document.getElementById('bestGrid').textContent = `Best: sequence of ${Math.max(...g.map(x => x.maxSpan))} dots · ${g.length} attempt(s)`;
+  if (m.length) document.getElementById('bestMotion').textContent = `Best: ${Math.max(...m.map(x => x.solved))} puzzles solved · ${m.length} attempt(s)`;
+  if (a.length) document.getElementById('bestAdept').textContent = `Last consistency: ${a[a.length - 1].consistency}% · ${a.length} attempt(s)`;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Grid Challenge Practice</title>
+<meta name="description" content="Practice the gridChallenge working-memory game from the Capgemini (AON) cognitive assessment: remember where and in which order dots appeared while judging symmetry.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #0b2d5b; --navy2: #123f7a; --ink: #1d2733; --muted: #66727f; --bg: #e9eef4; --card: #ffffff; --line: #dfe5ec; --dot: #c9cbce; --fill: #0b3a78; --ok: #1e8e3e; --bad: #c5221f; --soft: #f3f6fa; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --dot: #3a4757; --fill: #6fa8ff; --soft: #1a2430; --ok: #4cc26b; --bad: #ff7b72; color-scheme: dark; } }
+:root[data-theme="dark"] { --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --dot: #3a4757; --fill: #6fa8ff; --soft: #1a2430; --ok: #4cc26b; --bad: #ff7b72; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 Roboto, system-ui, sans-serif; overflow-x: hidden; }
+button { font: inherit; cursor: pointer; }
+.phone { max-width: 440px; margin: 0 auto; min-height: 100vh; background: var(--card); display: flex; flex-direction: column; box-shadow: 0 0 30px rgba(0,0,0,.08); }
+.bar { background: var(--navy); color: #fff; display: flex; align-items: center; gap: 12px; padding: 12px 16px; position: sticky; top: 0; z-index: 5; }
+.bar a { color: #fff; text-decoration: none; font-size: 20px; line-height: 1; }
+.bar .t { font-weight: 500; font-size: 17px; flex: 1; }
+.bar .lv { font-size: 13px; opacity: .9; }
+.bar .th { background: none; border: 0; color: #fff; font-size: 16px; }
+.screen { padding: 20px 18px 28px; flex: 1; display: flex; flex-direction: column; }
+.hide { display: none !important; }
+h1 { font-size: 26px; line-height: 1.2; margin: 10px 0 18px; }
+.info { display: grid; gap: 10px; margin-bottom: 18px; }
+.info div { display: flex; gap: 14px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; font-size: 14px; color: var(--muted); }
+.info span { font-size: 22px; width: 28px; text-align: center; }
+.modes { display: grid; gap: 10px; margin: 6px 0 18px; }
+.mode { border: 2px solid var(--line); background: var(--card); color: var(--ink); border-radius: 10px; padding: 12px 14px; text-align: left; }
+.mode.on { border-color: var(--navy2); background: var(--soft); }
+.mode b { display: block; } .mode small { color: var(--muted); }
+.btn { background: var(--navy); color: #fff; border: 0; border-radius: 6px; padding: 11px 26px; font-weight: 500; }
+.btn.ghost { background: var(--soft); color: var(--ink); border: 1px solid var(--line); text-decoration: none; }
+.btn:disabled { opacity: .45; }
+.center { text-align: center; }
+.tbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; min-height: 22px; }
+.track { flex: 1; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.track i { display: block; height: 100%; background: #3a3f45; width: 100%; }
+:root[data-theme="dark"] .track i { background: #9aa8b8; }
+.tlabel { font-variant-numeric: tabular-nums; font-size: 14px; min-width: 44px; text-align: right; }
+.q { text-align: center; font-size: 16px; margin: 4px 0 14px; min-height: 48px; }
+.card { border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,.06); width: 100%; max-width: 320px; margin: 0 auto; aspect-ratio: 5 / 7; position: relative; background: var(--card); }
+.dot { position: absolute; width: 13%; aspect-ratio: 1; border-radius: 50%; background: var(--dot); transform: translate(-50%, -50%); border: 0; padding: 0; display: grid; place-items: center; color: #fff; font-size: 12px; font-weight: 700; }
+.dot.on { background: var(--fill); }
+.dot.pick { background: var(--fill); box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--fill); }
+.dot.right { background: var(--ok); } .dot.wrong { background: var(--bad); } .dot.missed { box-shadow: 0 0 0 3px var(--ok); }
+.sym { position: absolute; inset: 9% 8%; display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); gap: 4px; }
+.sym::after { content: ""; position: absolute; left: 50%; top: -2%; bottom: -2%; border-left: 1px solid var(--muted); }
+.sym i { display: grid; place-items: center; }
+.sym i::before { content: ""; width: 22%; aspect-ratio: 1; border-radius: 50%; background: var(--fill); opacity: .8; }
+.sym i.f::before { width: 88%; border-radius: 2px; opacity: 1; }
+.answer { display: flex; justify-content: center; gap: 30px; margin-top: 18px; min-height: 42px; }
+.answer button { background: var(--navy); color: #fff; border: 0; border-radius: 6px; padding: 9px 28px; min-width: 96px; }
+.feedback { text-align: center; font-size: 14px; margin-top: 12px; min-height: 22px; }
+.good { color: var(--ok); font-weight: 700; } .bad { color: var(--bad); font-weight: 700; }
+.done { background: var(--navy); color: #fff; margin: -20px -18px 0; padding: 40px 18px 30px; text-align: center; }
+.done h2 { margin: 0 0 6px; font-size: 30px; font-weight: 400; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+.stat { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.stat b { font-size: 22px; display: block; } .stat span { font-size: 12px; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+td, th { padding: 7px 6px; border-top: 1px solid var(--line); text-align: left; }
+th { font-size: 12px; color: var(--muted); font-weight: 500; }
+.tips { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 14px; margin-top: 16px; }
+.tips ul { margin: 6px 0 0; padding-left: 18px; }
+.row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+.kbd { font-size: 12px; color: var(--muted); text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="bar"><a href="capgemini.html" title="All games">☰</a><span class="t">gridChallenge</span><span class="lv hide" id="lvl">★ Level 1</span><button class="th" id="themeBtn" title="Toggle theme">◐</button></div>
+
+  <section class="screen" id="intro">
+    <h1>Welcome<br>to gridChallenge</h1>
+    <div class="info">
+      <div><span>💡</span>Your ability to focus your attention is measured.</div>
+      <div><span>🎯</span>Recall the correct sequence of dots while solving various tasks.</div>
+      <div><span>⏳</span>This assessment takes about 9 minutes to complete.</div>
+      <div><span>❗</span>Make sure you are not interrupted.</div>
+    </div>
+    <p style="margin:0 0 8px"><b>How it works:</b> one dot lights up on the grid; remember <b>where</b> it was. Then decide whether a pattern is <b>symmetrical</b> (the right half mirrors the left half). This repeats. At the end, tap the dots <b>in the order they appeared</b> and press Submit. A fully correct round moves you up a level (one more dot); a mistake moves you down.</p>
+    <div class="modes">
+      <button class="mode on" data-m="test"><b>Full test · 12 rounds (~9 min)</b><small>No feedback until the end, like the real assessment.</small></button>
+      <button class="mode" data-m="practice"><b>Practice · 6 rounds</b><small>Shows what you got right after every round.</small></button>
+    </div>
+    <div class="center"><button class="btn" id="startBtn">Start ›</button></div>
+  </section>
+
+  <section class="screen hide" id="game">
+    <div class="tbar"><div class="track"><i id="tfill"></i></div><span class="tlabel" id="tlabel"></span></div>
+    <div class="q" id="q"></div>
+    <div class="card" id="card"></div>
+    <div class="answer" id="answer"></div>
+    <div class="feedback" id="fb"></div>
+    <div class="kbd" id="kbd"></div>
+  </section>
+
+  <section class="screen hide" id="result"></section>
+</div>
+
+<script>
+(function () {
+const $ = s => document.querySelector(s);
+const SHOW = 1300, SYM_TIME = 4500, RECALL_BASE = 8000, RECALL_PER = 2500;
+let store = {}; try { store = JSON.parse(localStorage.getItem('cg.grid') || '{}') || {}; } catch (e) {}
+const save = () => { try { localStorage.setItem('cg.grid', JSON.stringify(store)); } catch (e) {} };
+const applyTheme = () => store.theme ? document.documentElement.setAttribute('data-theme', store.theme) : document.documentElement.removeAttribute('data-theme');
+applyTheme();
+$('#themeBtn').onclick = () => { const d = store.theme ? store.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; store.theme = d ? 'light' : 'dark'; save(); applyTheme(); };
+
+let mode = 'test', rounds = 12, span = 3, layout = [], log = [], timerEnd = 0, timerDur = 0, raf = 0, streakFail = 0;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const rand = n => Math.floor(Math.random() * n);
+
+/* irregular 16-dot field: 4 x 4 cells, jittered */
+function makeLayout() {
+  const pts = [];
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) pts.push({ x: 14 + c * 24 + (Math.random() - .5) * 11, y: 11 + r * 26 + (Math.random() - .5) * 13 });
+  return pts;
+}
+function drawField(onIdx, clickable) {
+  const card = $('#card'); card.innerHTML = '';
+  layout.forEach((p, i) => {
+    const b = document.createElement(clickable ? 'button' : 'div');
+    b.className = 'dot' + (i === onIdx ? ' on' : ''); b.style.left = p.x + '%'; b.style.top = p.y + '%'; b.dataset.i = i;
+    if (clickable) b.setAttribute('aria-label', 'Dot ' + (i + 1));
+    card.appendChild(b);
+  });
+}
+/* symmetry pattern: 8 x 8, symmetric about the vertical centre line (or not) */
+function makeSym() {
+  const g = Array.from({ length: 8 }, () => new Array(8).fill(0));
+  for (let r = 0; r < 8; r++) for (let c = 0; c < 4; c++) { g[r][c] = Math.random() < .5 ? 1 : 0; g[r][7 - c] = g[r][c]; }
+  const symmetric = Math.random() < .5;
+  if (!symmetric) { const flips = 1 + rand(2); for (let k = 0; k < flips; k++) { const r = rand(8), c = 4 + rand(4); g[r][c] ^= 1; } }
+  const real = g.every(row => row.every((v, c) => v === row[7 - c]));
+  return { g, symmetric: real };
+}
+function drawSym(s) {
+  $('#card').innerHTML = '<div class="sym">' + s.g.flat().map(v => `<i class="${v ? 'f' : ''}"></i>`).join('') + '</div>';
+}
+/* timer bar */
+function startTimer(ms) { timerDur = ms; timerEnd = performance.now() + ms; cancelAnimationFrame(raf); const step = () => { const left = Math.max(0, timerEnd - performance.now()); $('#tfill').style.width = (left / timerDur * 100) + '%'; $('#tlabel').textContent = '00:' + String(Math.ceil(left / 1000)).padStart(2, '0'); if (left > 0) raf = requestAnimationFrame(step); }; step(); }
+function stopTimer() { cancelAnimationFrame(raf); }
+
+function askSym(s) {
+  return new Promise(resolve => {
+    const t0 = performance.now();
+    $('#answer').innerHTML = '<button id="no">NO</button><button id="yes">YES</button>';
+    $('#kbd').textContent = 'Keyboard: N / ← = No · Y / → = Yes';
+    const finish = ans => { clearTimeout(to); document.removeEventListener('keydown', key); $('#answer').innerHTML = ''; $('#kbd').textContent = ''; resolve({ ans, rt: performance.now() - t0, correct: ans === s.symmetric }); };
+    const key = e => { if (/^(n|arrowleft)$/i.test(e.key)) finish(false); else if (/^(y|arrowright)$/i.test(e.key)) finish(true); };
+    document.addEventListener('keydown', key);
+    $('#no').onclick = () => finish(false); $('#yes').onclick = () => finish(true);
+    const to = setTimeout(() => finish(null), SYM_TIME);
+    startTimer(SYM_TIME);
+  });
+}
+function recall(n) {
+  return new Promise(resolve => {
+    drawField(-1, true);
+    const picks = [];
+    $('#q').textContent = 'Where on the grid and which order did the dots appear?';
+    $('#answer').innerHTML = '<button id="undo" class="btn ghost" style="min-width:auto">Undo</button><button id="submit">SUBMIT</button>';
+    const paint = () => document.querySelectorAll('#card .dot').forEach(d => { const k = picks.indexOf(+d.dataset.i); d.className = 'dot' + (k >= 0 ? ' pick' : ''); d.textContent = k >= 0 ? k + 1 : ''; });
+    $('#card').onclick = e => { const d = e.target.closest('.dot'); if (!d) return; const i = +d.dataset.i, k = picks.indexOf(i); if (k === picks.length - 1) picks.pop(); else if (k < 0 && picks.length < n) picks.push(i); paint(); };
+    $('#undo').onclick = () => { picks.pop(); paint(); };
+    const ms = RECALL_BASE + RECALL_PER * n;
+    const done = () => { clearTimeout(to); $('#card').onclick = null; $('#answer').innerHTML = ''; stopTimer(); resolve(picks.slice()); };
+    $('#submit').onclick = done;
+    const to = setTimeout(done, ms);
+    startTimer(ms);
+  });
+}
+
+async function round(idx) {
+  $('#lvl').textContent = `★ Level ${Math.max(1, span - 2)}`;
+  $('#fb').textContent = '';
+  const seq = [], syms = [];
+  while (seq.length < span) { const i = rand(16); if (!seq.includes(i)) seq.push(i); }
+  for (let k = 0; k < span; k++) {
+    $('#q').textContent = '';
+    drawField(seq[k], false); startTimer(SHOW); await sleep(SHOW);
+    drawField(-1, false); await sleep(250);
+    const s = makeSym(); $('#q').textContent = 'Is it symmetrical?'; drawSym(s);
+    syms.push(await askSym(s));
+    $('#card').innerHTML = ''; await sleep(200);
+  }
+  const picks = await recall(span);
+  const posOk = seq.map((v, k) => picks[k] === v);
+  const allOk = posOk.every(Boolean) && picks.length === span;
+  const symOk = syms.filter(s => s.correct).length;
+  log.push({ round: idx + 1, span, recalled: posOk.filter(Boolean).length, allOk, symOk, symN: syms.length, rt: syms.filter(s => s.ans !== null).map(s => s.rt), timeouts: syms.filter(s => s.ans === null).length });
+  if (mode === 'practice') {
+    document.querySelectorAll('#card .dot').forEach(d => { const i = +d.dataset.i, k = picks.indexOf(i); d.textContent = ''; if (k >= 0) { d.className = 'dot ' + (seq[k] === i ? 'right' : 'wrong'); d.textContent = k + 1; } else if (seq.includes(i)) { d.className = 'dot missed'; d.textContent = seq.indexOf(i) + 1; } });
+    $('#q').textContent = allOk ? 'Correct order!' : 'Green ring = where the dot actually was (with its order).';
+    $('#fb').innerHTML = `Recall: <span class="${allOk ? 'good' : 'bad'}">${posOk.filter(Boolean).length}/${span}</span> · Symmetry: <span class="${symOk === span ? 'good' : 'bad'}">${symOk}/${span}</span>`;
+    await sleep(2600);
+  } else await sleep(400);
+  if (allOk) { span = Math.min(8, span + 1); streakFail = 0; } else { streakFail++; span = Math.max(2, span - 1); }
+}
+
+async function run() {
+  $('#intro').classList.add('hide'); $('#game').classList.remove('hide'); $('#lvl').classList.remove('hide');
+  layout = makeLayout(); span = 3; log = [];
+  for (let i = 0; i < rounds; i++) await round(i);
+  results();
+}
+function results() {
+  $('#game').classList.add('hide'); $('#lvl').classList.add('hide');
+  const maxSpan = Math.max(0, ...log.filter(l => l.allOk).map(l => l.span));
+  const recallAcc = Math.round(100 * log.reduce((a, l) => a + l.recalled, 0) / log.reduce((a, l) => a + l.span, 0));
+  const symAcc = Math.round(100 * log.reduce((a, l) => a + l.symOk, 0) / log.reduce((a, l) => a + l.symN, 0));
+  const rts = log.flatMap(l => l.rt), avgRt = rts.length ? (rts.reduce((a, b) => a + b, 0) / rts.length / 1000).toFixed(2) : '—';
+  const perfect = log.filter(l => l.allOk).length;
+  store.history = (store.history || []).concat([{ at: Date.now(), maxSpan, recallAcc, symAcc }]).slice(-20); save();
+  const best = Math.max(...store.history.map(h => h.maxSpan));
+  $('#result').innerHTML = `<div class="done"><h2>Good Job!</h2><div>gridChallenge complete</div></div>
+    <div class="stats">
+      <div class="stat"><b>${maxSpan || '—'}</b><span>Longest sequence recalled perfectly</span></div>
+      <div class="stat"><b>${recallAcc}%</b><span>Dots recalled in the right place &amp; order</span></div>
+      <div class="stat"><b>${symAcc}%</b><span>Symmetry answers correct</span></div>
+      <div class="stat"><b>${avgRt}s</b><span>Average symmetry response time</span></div>
+      <div class="stat"><b>${perfect}/${log.length}</b><span>Perfect rounds</span></div>
+      <div class="stat"><b>${best}</b><span>Your best sequence length</span></div>
+    </div>
+    <table><tr><th>Round</th><th>Dots</th><th>Recall</th><th>Symmetry</th></tr>
+    ${log.map(l => `<tr><td>${l.round}</td><td>${l.span}</td><td class="${l.allOk ? 'good' : 'bad'}">${l.recalled}/${l.span}</td><td>${l.symOk}/${l.symN}${l.timeouts ? ` <small>(${l.timeouts} timed out)</small>` : ''}</td></tr>`).join('')}</table>
+    <div class="tips"><b>How to improve</b><ul>
+      <li>Chunk the positions into a <b>path or shape</b> ("top-left → middle → bottom-right") instead of separate dots.</li>
+      <li>Rehearse the path silently while you do the symmetry task. Don't let the pattern push the dots out of your head.</li>
+      <li>For symmetry, compare the rows pair by pair from the <b>outer</b> columns inwards; one mismatched cell means "No".</li>
+      <li>Both parts count: guessing on symmetry to protect the dots lowers your score, so keep accuracy high on both.</li></ul></div>
+    <div class="row"><button class="btn" onclick="location.reload()">Try again</button><a class="btn ghost" href="capgemini.html">All games</a></div>`;
+  $('#result').classList.remove('hide');
+}
+document.querySelectorAll('.mode').forEach(b => b.onclick = () => { mode = b.dataset.m; rounds = mode === 'test' ? 12 : 6; document.querySelectorAll('.mode').forEach(x => x.classList.toggle('on', x === b)); });
+$('#startBtn').onclick = run;
+window.__grid = { get log() { return log; } };
+})();
+</script>
+</body>
+</html>

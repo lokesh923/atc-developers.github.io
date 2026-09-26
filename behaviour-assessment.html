@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Behaviour Assessment Practice</title>
+<meta name="description" content="Practice the ADEPT-15 style forced-choice behaviour questionnaire used in the Capgemini (AON) assessment and see a practice work-style profile.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #0b2d5b; --navy2: #123f7a; --blue: #0b3a78; --ink: #1d2733; --muted: #66727f; --bg: #e9eef4; --card: #ffffff; --line: #dfe5ec; --soft: #f3f6fa; --ok: #1e8e3e; --warn: #a15c00; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --blue: #6fa8ff; --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --soft: #1a2430; --ok: #4cc26b; --warn: #f2b35b; color-scheme: dark; } }
+:root[data-theme="dark"] { --blue: #6fa8ff; --ink: #e6edf5; --muted: #9aa8b8; --bg: #0b1016; --card: #151c25; --line: #263342; --soft: #1a2430; --ok: #4cc26b; --warn: #f2b35b; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 Roboto, system-ui, sans-serif; overflow-x: hidden; }
+button { font: inherit; cursor: pointer; }
+.phone { max-width: 440px; margin: 0 auto; min-height: 100vh; background: var(--card); display: flex; flex-direction: column; box-shadow: 0 0 30px rgba(0,0,0,.08); }
+.bar { background: var(--navy); color: #fff; display: flex; align-items: center; gap: 12px; padding: 12px 16px; position: sticky; top: 0; z-index: 5; }
+.bar a { color: #fff; text-decoration: none; font-size: 20px; line-height: 1; }
+.bar .t { font-weight: 500; font-size: 17px; flex: 1; }
+.bar .lv { font-size: 13px; opacity: .9; }
+.bar .th { background: none; border: 0; color: #fff; font-size: 16px; }
+.screen { padding: 22px 18px 28px; flex: 1; display: flex; flex-direction: column; }
+.hide { display: none !important; }
+h1 { color: var(--blue); font-size: 30px; line-height: 1.15; margin: 20px 0 6px; }
+h1 + h2 { color: var(--blue); font-weight: 400; font-size: 20px; margin: 0 0 18px; letter-spacing: .3px; }
+.intro p { color: var(--muted); }
+.modes { display: grid; gap: 10px; margin: 8px 0 20px; }
+.mode { border: 2px solid var(--line); background: var(--card); color: var(--ink); border-radius: 10px; padding: 12px 14px; text-align: left; }
+.mode.on { border-color: var(--navy2); background: var(--soft); }
+.mode b { display: block; } .mode small { color: var(--muted); }
+.btn { background: var(--navy); color: #fff; border: 0; border-radius: 4px; padding: 11px 34px; font-weight: 500; }
+.btn.ghost { background: var(--soft); color: var(--ink); border: 1px solid var(--line); text-decoration: none; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.center { text-align: center; }
+.lead { font-size: 15px; margin: 0 0 6px; }
+.prog { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.prog .track { flex: 1; height: 5px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--blue); }
+.pair { padding: 16px 0 14px; border-bottom: 1px solid var(--line); }
+.stmts { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.stmts div { font-size: 14px; line-height: 1.4; padding: 2px 10px; min-height: 60px; }
+.stmts div:first-child { border-left: 3px solid var(--ink); border-right: 1px solid var(--line); }
+.stmts div:last-child { border-right: 3px solid var(--ink); text-align: right; }
+.stmts .agree { font-weight: 700; }
+.scale { display: flex; align-items: center; justify-content: center; gap: 0; margin-top: 12px; }
+.scale .arr { color: var(--muted); font-size: 18px; padding: 0 4px; user-select: none; }
+.opt { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #b9c0c8; background: var(--card); padding: 0; margin: 0 5px; position: relative; }
+.opt.on { border-color: var(--blue); background: radial-gradient(circle, var(--blue) 0 55%, var(--card) 57%); }
+.opt:focus-visible { outline: 3px solid #f2b400; outline-offset: 2px; }
+.mid { width: 10px; height: 10px; border-radius: 50%; background: #c7ccd2; margin: 0 6px; }
+.labels { display: grid; grid-template-columns: repeat(7, 1fr); font-size: 11px; color: var(--muted); text-align: center; margin: 4px auto 0; max-width: 330px; line-height: 1.2; }
+.nav { display: flex; justify-content: center; margin-top: 18px; }
+.next { width: 54px; height: 44px; border-radius: 6px; border: 0; background: var(--navy); color: #fff; font-size: 22px; }
+.next:disabled { background: var(--line); color: var(--muted); }
+.hint { text-align: center; font-size: 12px; color: var(--muted); margin-top: 8px; min-height: 18px; }
+.done { background: var(--navy); color: #fff; margin: -22px -18px 0; padding: 40px 18px 30px; text-align: center; }
+.done .tick { width: 70px; height: 70px; border: 2px solid #fff; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 12px; font-size: 32px; }
+.done h2 { margin: 0; font-weight: 500; }
+.note { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--muted); margin: 16px 0; }
+.style { margin: 18px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); font-weight: 700; }
+.asp { margin: 10px 0 14px; }
+.asp .head { display: flex; justify-content: space-between; font-size: 14px; }
+.asp .head b { font-weight: 500; }
+.sten { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; margin: 5px 0 3px; }
+.sten i { height: 10px; border-radius: 2px; background: var(--line); }
+.sten i.on { background: var(--blue); }
+.ends { display: flex; justify-content: space-between; gap: 12px; font-size: 11.5px; color: var(--muted); }
+.ends span:last-child { text-align: right; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 4px; }
+.stat { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.stat b { font-size: 20px; display: block; } .stat span { font-size: 12px; color: var(--muted); }
+.tips { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 14px; margin-top: 16px; }
+.tips ul { margin: 6px 0 0; padding-left: 18px; }
+.row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+.warnc { color: var(--warn); font-weight: 700; } .good { color: var(--ok); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="bar"><a href="capgemini.html" title="All games">☰</a><span class="t">Behaviour Assessment</span><span class="lv hide" id="pg"></span><button class="th" id="themeBtn" title="Toggle theme">◐</button></div>
+
+  <section class="screen intro" id="intro">
+    <h1>Welcome to<br>ADEPT-15-style</h1>
+    <h2>BEHAVIOUR ASSESSMENT · PRACTICE</h2>
+    <p>This questionnaire describes your work-related behaviour. It is not a test, so there are no right or wrong answers.</p>
+    <p>It is made up of pairs of statements. For each pair, show which one you agree with more, and how strongly, by choosing one of the six circles. The middle point is not an option. There are five pairs on each screen, and you can't skip an item to move on to the next page.</p>
+    <div class="modes">
+      <button class="mode on" data-m="short"><b>Short practice · 30 pairs</b><small>6 screens, about 6–8 minutes.</small></button>
+      <button class="mode" data-m="full"><b>Full practice · 50 pairs</b><small>10 screens, about 12–15 minutes. Uses the whole statement bank.</small></button>
+    </div>
+    <div class="center"><button class="btn" id="startBtn">next ›</button></div>
+  </section>
+
+  <section class="screen hide" id="quiz">
+    <div class="prog"><span id="pgTxt"></span><div class="track"><i id="pgFill"></i></div></div>
+    <p class="lead">Select the statement you agree with more.</p>
+    <div id="pairs"></div>
+    <div class="nav"><button class="next" id="nextBtn" disabled title="Next page">›</button></div>
+    <div class="hint" id="hint"></div>
+  </section>
+
+  <section class="screen hide" id="result"></section>
+</div>
+
+<script>
+(function () {
+const $ = s => document.querySelector(s);
+let store = {}; try { store = JSON.parse(localStorage.getItem('cg.adept') || '{}') || {}; } catch (e) {}
+const save = () => { try { localStorage.setItem('cg.adept', JSON.stringify(store)); } catch (e) {} };
+const applyTheme = () => store.theme ? document.documentElement.setAttribute('data-theme', store.theme) : document.documentElement.removeAttribute('data-theme');
+applyTheme();
+$('#themeBtn').onclick = () => { const d = store.theme ? store.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; store.theme = d ? 'light' : 'dark'; save(); applyTheme(); };
+
+/* 15 aspects in 6 work styles */
+const STYLES = [
+  ['Task style', ['drive', 'structure']],
+  ['Adaptation style', ['conceptual', 'flexibility', 'mastery']],
+  ['Achievement style', ['ambition', 'power']],
+  ['Interaction style', ['assertiveness', 'liveliness']],
+  ['Emotional style', ['composure', 'positivity', 'awareness']],
+  ['Teamwork style', ['cooperativeness', 'sensitivity', 'humility']]
+];
+const ASPECT = {
+  drive: ['Drive', 'Balances work with other priorities; steady pace', 'Works hard, pushes to finish, highly persistent'],
+  structure: ['Structure', 'Flexible about detail; comfortable without a plan', 'Organised, plans ahead, attentive to detail'],
+  conceptual: ['Conceptual', 'Practical and hands-on', 'Enjoys ideas, theory and creative thinking'],
+  flexibility: ['Flexibility', 'Prefers routine and predictability', 'Adapts easily to change and ambiguity'],
+  mastery: ['Mastery', 'Content with current skills', 'Keeps learning and improving'],
+  ambition: ['Ambition', 'Less driven by status or competition', 'Competitive; wants to advance'],
+  power: ['Power', 'Prefers contributing to leading', 'Seeks influence and responsibility'],
+  assertiveness: ['Assertiveness', 'Diplomatic; avoids confrontation', 'Direct; speaks up and challenges'],
+  liveliness: ['Liveliness', 'Reserved; prefers smaller groups', 'Outgoing and energised by people'],
+  composure: ['Composure', 'Emotions show quickly under stress', 'Calm and steady under pressure'],
+  positivity: ['Positivity', 'Realistic, sometimes sceptical', 'Optimistic and upbeat'],
+  awareness: ['Awareness', 'Focuses outward; less self-reflective', 'Understands own feelings and their effect'],
+  cooperativeness: ['Cooperativeness', 'Independent; likes working alone', 'Team-oriented; enjoys collaborating'],
+  sensitivity: ['Sensitivity', 'Objective and tough-minded', 'Empathetic and caring'],
+  humility: ['Humility', 'Comfortable promoting own achievements', 'Modest; shares credit']
+};
+/* statement bank: [aspect, key (+1 agrees = high, -1 agrees = low), text] */
+const BANK = [
+  ['drive', 1, 'I push myself to finish a task even when I am tired.'], ['drive', 1, 'People would describe me as a very hard worker.'], ['drive', 1, 'I set demanding goals for myself.'], ['drive', 1, 'I keep going until a job is completely done.'], ['drive', -1, 'I prefer a relaxed pace at work.'], ['drive', -1, 'I do not mind leaving some work for tomorrow.'],
+  ['structure', 1, 'I always prefer to keep things in their proper place.'], ['structure', 1, 'I plan my work carefully before I start.'], ['structure', 1, 'I double-check details to avoid mistakes.'], ['structure', 1, 'I like to follow a clear schedule.'], ['structure', -1, 'I am comfortable working without a detailed plan.'], ['structure', -1, 'Small details rarely hold my attention.'],
+  ['conceptual', 1, 'I often feel inspired to do something creative.'], ['conceptual', 1, 'I enjoy discussing abstract ideas and theories.'], ['conceptual', 1, 'I like finding new ways of looking at a problem.'], ['conceptual', 1, 'I am curious about how complex systems work.'], ['conceptual', -1, 'I prefer practical tasks to theoretical ones.'], ['conceptual', -1, 'I would rather use a proven method than invent a new one.'],
+  ['flexibility', 1, 'I adapt quickly when plans suddenly change.'], ['flexibility', 1, 'I enjoy work where every day is different.'], ['flexibility', 1, 'Uncertainty does not bother me much.'], ['flexibility', 1, 'I am happy to switch tasks at short notice.'], ['flexibility', -1, 'I work best with a stable routine.'], ['flexibility', -1, 'Unexpected changes to my plans frustrate me.'],
+  ['mastery', 1, 'I am always looking for ways to improve my skills.'], ['mastery', 1, 'I enjoy learning things that are difficult to master.'], ['mastery', 1, 'I ask for feedback so I can get better.'], ['mastery', 1, 'I read about my field even when it is not required.'], ['mastery', -1, 'I am satisfied with the skills I already have.'], ['mastery', -1, 'Training courses rarely interest me.'],
+  ['ambition', 1, 'I want to reach a senior position in my career.'], ['ambition', 1, 'I like to compare my performance with others.'], ['ambition', 1, 'Winning matters a lot to me.'], ['ambition', 1, 'I actively look for opportunities to get promoted.'], ['ambition', -1, 'Job titles are not important to me.'], ['ambition', -1, 'I do not see work as a competition.'],
+  ['power', 1, 'I like to be the one who makes the final decision.'], ['power', 1, 'I naturally take charge in a group.'], ['power', 1, 'I enjoy having influence over how things are done.'], ['power', 1, 'I would like to lead a large team one day.'], ['power', -1, 'I am happy to let others lead.'], ['power', -1, 'I prefer contributing to a team over directing it.'],
+  ['assertiveness', 1, 'I never hold back my opinions.'], ['assertiveness', 1, 'I will challenge a decision if I think it is wrong.'], ['assertiveness', 1, 'I say what I think, even to senior people.'], ['assertiveness', 1, 'I am comfortable negotiating hard for what I want.'], ['assertiveness', -1, 'I am not very assertive because I do not want to upset anyone.'], ['assertiveness', -1, 'I avoid arguments whenever possible.'],
+  ['liveliness', 1, 'I enjoy being the centre of attention.'], ['liveliness', 1, 'I get energy from meeting lots of people.'], ['liveliness', 1, 'I start conversations with strangers easily.'], ['liveliness', 1, 'I sometimes like to meet new people.'], ['liveliness', -1, 'I prefer a quiet evening to a big social event.'], ['liveliness', -1, 'I tend to stay in the background at gatherings.'],
+  ['composure', 1, 'I stay calm when things go wrong.'], ['composure', 1, 'Pressure rarely affects the quality of my work.'], ['composure', 1, 'People often have a hard time guessing how I am feeling in a given situation.'], ['composure', 1, 'I recover quickly from setbacks.'], ['composure', -1, 'I tend to react strongly to things.'], ['composure', -1, 'I worry a lot before important events.'],
+  ['positivity', 1, 'More often than not, I tend to have a positive point of view.'], ['positivity', 1, 'I expect things to work out well.'], ['positivity', 1, 'I usually see the bright side of a difficult situation.'], ['positivity', 1, 'I am rarely in a bad mood.'], ['positivity', -1, 'I tend to notice what could go wrong.'], ['positivity', -1, 'I am sceptical when people are very enthusiastic.'],
+  ['awareness', 1, 'I understand why I feel the way I do.'], ['awareness', 1, 'I think about how my mood affects the people around me.'], ['awareness', 1, 'I know my own strengths and weaknesses well.'], ['awareness', 1, 'I reflect on my behaviour after a disagreement.'], ['awareness', -1, 'I rarely think about my own feelings.'], ['awareness', -1, 'I seldom analyse why I reacted in a certain way.'],
+  ['cooperativeness', 1, 'I enjoy working with other people to achieve a common goal.'], ['cooperativeness', 1, 'I involve others before making decisions.'], ['cooperativeness', 1, 'Team success matters more to me than individual success.'], ['cooperativeness', 1, 'I like sharing ideas with colleagues.'], ['cooperativeness', -1, 'I prefer to work on my own.'], ['cooperativeness', -1, 'Group work often slows me down.'],
+  ['sensitivity', 1, 'I am good at sensing what others are feeling.'], ['sensitivity', 1, 'I go out of my way to help colleagues who are struggling.'], ['sensitivity', 1, 'I consider how decisions will affect people.'], ['sensitivity', 1, 'People often come to me with their problems.'], ['sensitivity', -1, 'I focus on facts rather than on how people feel.'], ['sensitivity', -1, 'I can make tough decisions without getting emotional.'],
+  ['humility', 1, 'I prefer to let my results speak for themselves.'], ['humility', 1, 'I share credit with the whole team.'], ['humility', 1, 'I feel uncomfortable talking about my achievements.'], ['humility', 1, 'I readily admit when I do not know something.'], ['humility', -1, 'I make sure people know about my successes.'], ['humility', -1, 'I think I am better at my job than most people.']
+];
+const SCALE = [-3, -2, -1, 1, 2, 3];   // negative = agree with the LEFT statement
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* build forced-choice pairs: different aspects, same keying (positive with positive, negative with negative) */
+function buildPairs(nPairs) {
+  const video = [[60, 72], [6, 12], [42, 46], [78, 51], [56, 58]];  // the five pairs shown in the sample video, first page
+  const used = new Set(video.flat());
+  const pairs = video.map(([a, b]) => ({ a, b }));
+  const pos = shuffle(BANK.map((_, i) => i).filter(i => BANK[i][1] > 0 && !used.has(i)));
+  const neg = shuffle(BANK.map((_, i) => i).filter(i => BANK[i][1] < 0 && !used.has(i)));
+  const pairUp = pool => { const out = []; while (pool.length > 1) { const a = pool.shift(); const j = pool.findIndex(b => BANK[b][0] !== BANK[a][0]); if (j < 0) break; out.push({ a, b: pool.splice(j, 1)[0] }); } return out; };
+  let rest = shuffle(pairUp(pos).concat(pairUp(neg)));
+  const needed = nPairs - 5 - 5;  // 5 repeated pairs for consistency
+  rest = rest.slice(0, needed);
+  const body = pairs.concat(rest);
+  // 5 repeats of earlier pairs with sides swapped, placed in the last pages
+  const reps = shuffle(body.slice(0, 5 + Math.floor(needed / 2)).slice()).slice(0, 5).map(p => ({ a: p.b, b: p.a, rep: body.indexOf(p) }));
+  const tail = shuffle(body.slice(5).concat(reps));
+  return pairs.concat(tail);
+}
+
+let mode = 'short', pairs = [], answers = [], page = 0;
+const PER = 5;
+function renderPage() {
+  const n = Math.ceil(pairs.length / PER);
+  $('#pg').textContent = `${page + 1} / ${n}`;
+  $('#pgTxt').textContent = `Page ${page + 1} of ${n}`;
+  $('#pgFill').style.width = ((page) / n * 100) + '%';
+  const html = [];
+  for (let k = page * PER; k < Math.min(pairs.length, (page + 1) * PER); k++) {
+    const p = pairs[k], v = answers[k];
+    html.push(`<div class="pair" data-k="${k}"><div class="stmts"><div class="${v < 0 ? 'agree' : ''}">${BANK[p.a][2]}</div><div class="${v > 0 ? 'agree' : ''}">${BANK[p.b][2]}</div></div>
+      <div class="scale" role="radiogroup" aria-label="Which statement do you agree with more?"><span class="arr">‹</span>
+      ${SCALE.slice(0, 3).map(s => `<button class="opt ${v === s ? 'on' : ''}" data-v="${s}" role="radio" aria-checked="${v === s}" aria-label="${s === -3 ? 'Strongly agree' : s === -2 ? 'Agree' : 'Slightly agree'} with the left statement"></button>`).join('')}
+      <span class="mid"></span>
+      ${SCALE.slice(3).map(s => `<button class="opt ${v === s ? 'on' : ''}" data-v="${s}" role="radio" aria-checked="${v === s}" aria-label="${s === 3 ? 'Strongly agree' : s === 2 ? 'Agree' : 'Slightly agree'} with the right statement"></button>`).join('')}
+      <span class="arr">›</span></div>
+      <div class="labels"><span>Strongly Agree</span><span></span><span>Slightly Agree</span><span></span><span>Slightly Agree</span><span></span><span>Strongly Agree</span></div></div>`);
+  }
+  $('#pairs').innerHTML = html.join('');
+  $('#pairs').querySelectorAll('.opt').forEach(b => b.onclick = () => { const k = +b.closest('.pair').dataset.k; answers[k] = +b.dataset.v; renderPage(); });
+  const complete = pairs.slice(page * PER, (page + 1) * PER).every((_, i) => answers[page * PER + i] !== undefined);
+  $('#nextBtn').disabled = !complete;
+  $('#hint').textContent = complete ? '' : 'Answer all five pairs to continue.';
+}
+$('#nextBtn').onclick = () => {
+  const n = Math.ceil(pairs.length / PER);
+  if (page < n - 1) { page++; renderPage(); window.scrollTo(0, 0); } else report();
+};
+
+function report() {
+  $('#quiz').classList.add('hide'); $('#pg').classList.add('hide');
+  const sum = {}, cnt = {};
+  pairs.forEach((p, k) => {
+    if (p.rep !== undefined) return;
+    const v = answers[k];
+    const la = BANK[p.a], rb = BANK[p.b];
+    // agreement: left gets -v, right gets +v (range -3..3)
+    sum[la[0]] = (sum[la[0]] || 0) + la[1] * -v; cnt[la[0]] = (cnt[la[0]] || 0) + 1;
+    sum[rb[0]] = (sum[rb[0]] || 0) + rb[1] * v; cnt[rb[0]] = (cnt[rb[0]] || 0) + 1;
+  });
+  const sten = a => cnt[a] ? Math.max(1, Math.min(10, Math.round(5.5 + (sum[a] / cnt[a]) * 1.5))) : null;
+  // consistency: repeated pairs (sides swapped) should get the mirrored answer
+  const reps = pairs.map((p, k) => ({ p, k })).filter(x => x.p.rep !== undefined);
+  const diffs = reps.map(x => Math.abs(answers[x.k] + answers[x.p.rep]));   // perfect mirror = 0
+  const sameSide = reps.filter(x => Math.sign(answers[x.k]) === -Math.sign(answers[x.p.rep])).length;
+  const consistency = reps.length ? Math.round(100 * (1 - diffs.reduce((a, b) => a + b, 0) / (reps.length * 6))) : 100;
+  const extreme = Math.round(100 * answers.filter(v => Math.abs(v) === 3).length / answers.length);
+  const left = Math.round(100 * answers.filter(v => v < 0).length / answers.length);
+  store.history = (store.history || []).concat([{ at: Date.now(), consistency }]).slice(-20); save();
+  let h = `<div class="done"><div class="tick">✓</div><h2>Behaviour assessment</h2><div>COMPLETE</div></div>
+    <div class="note"><b>This is a practice profile, not an official score.</b> The real questionnaire is adaptive and scored by the assessment provider. There are no right or wrong answers, and employers compare profiles with the role, not against a pass mark. Use this to get used to the format and to check that your answers are consistent.</div>
+    <div class="stats">
+      <div class="stat"><b class="${consistency >= 75 ? 'good' : 'warnc'}">${consistency}%</b><span>Consistency on ${reps.length} repeated pairs (${sameSide}/${reps.length} chose the same statement)</span></div>
+      <div class="stat"><b class="${extreme > 60 ? 'warnc' : ''}">${extreme}%</b><span>Answers at "Strongly agree"</span></div>
+      <div class="stat"><b>${left}% / ${100 - left}%</b><span>Left / right side chosen</span></div>
+      <div class="stat"><b>${answers.length}</b><span>Pairs answered</span></div>
+    </div>`;
+  for (const [name, list] of STYLES) {
+    h += `<div class="style">${name}</div>`;
+    for (const a of list) {
+      const s = sten(a), [label, lo, hi] = ASPECT[a];
+      h += `<div class="asp"><div class="head"><b>${label}</b><span>${s ?? '—'}/10</span></div><div class="sten">${Array.from({ length: 10 }, (_, i) => `<i class="${s && i < s ? 'on' : ''}"></i>`).join('')}</div><div class="ends"><span>${lo}</span><span>${hi}</span></div></div>`;
+    }
+  }
+  h += `<div class="tips"><b>Tips for the real questionnaire</b><ul>
+    <li>Answer as you <b>actually behave at work</b>. The test repeats ideas in different pairs, so inconsistent or "ideal-looking" answers are easy to spot.</li>
+    <li>Both statements in a pair are often positive. Choose the one that is <b>more</b> true of you, and use "Slightly" when it's close.</li>
+    <li>Using only the extreme circles (${extreme}% here) makes a profile look less nuanced. Use the whole scale.</li>
+    <li>Read every statement: some are phrased in reverse (e.g. "I am not very assertive…").</li>
+    <li>Don't overthink it. The real test has no time limit per item, but a steady pace keeps your answers natural.</li></ul></div>
+    <div class="row"><button class="btn" onclick="location.reload()">Take it again</button><a class="btn ghost" href="capgemini.html">All games</a></div>`;
+  $('#result').innerHTML = h; $('#result').classList.remove('hide'); window.scrollTo(0, 0);
+}
+document.querySelectorAll('.mode').forEach(b => b.onclick = () => { mode = b.dataset.m; document.querySelectorAll('.mode').forEach(x => x.classList.toggle('on', x === b)); });
+$('#startBtn').onclick = () => {
+  pairs = buildPairs(mode === 'short' ? 30 : 50); answers = new Array(pairs.length).fill(undefined); page = 0;
+  $('#intro').classList.add('hide'); $('#quiz').classList.remove('hide'); $('#pg').classList.remove('hide');
+  renderPage();
+};
+window.__adept = { get pairs() { return pairs; }, BANK };
+})();
+</script>
+</body>
+</html>
