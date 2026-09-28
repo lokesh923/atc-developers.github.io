@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logical Reasoning Test</title>
+<meta name="description" content="Logical reasoning practice test: 20 questions covering 20 topics — series, coding-decoding, blood relations, directions, seating, syllogisms, puzzles and more — with full solutions.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --ink: #0f172a; --muted: #64748b; --bg: #f1f5f9; --card: #ffffff; --line: #e2e8f0; --soft: #f8fafc; --brand: #0070ad; --brand2: #0b3b5e; --accent: #12abdb; --ok: #15803d; --ok-soft: #dcfce7; --bad: #b91c1c; --bad-soft: #fee2e2; --warn: #b45309; --warn-soft: #fef3c7; --mark: #7e22ce; --mark-soft: #f3e8ff; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink: #e2e8f0; --muted: #94a3b8; --bg: #0b1220; --card: #111a2b; --line: #1f2b40; --soft: #0f1829; --brand: #3aa0e0; --ok: #4ade80; --ok-soft: #12301f; --bad: #f87171; --bad-soft: #3a1717; --warn: #fbbf24; --warn-soft: #3a2a0c; --mark: #d8b4fe; --mark-soft: #2e1065; color-scheme: dark; } }
+:root[data-theme="dark"] { --ink: #e2e8f0; --muted: #94a3b8; --bg: #0b1220; --card: #111a2b; --line: #1f2b40; --soft: #0f1829; --brand: #3aa0e0; --ok: #4ade80; --ok-soft: #12301f; --bad: #f87171; --bad-soft: #3a1717; --warn: #fbbf24; --warn-soft: #3a2a0c; --mark: #d8b4fe; --mark-soft: #2e1065; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 Inter, "Segoe UI", system-ui, sans-serif; overflow-x: hidden; }
+button, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+.hide { display: none !important; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 18px 16px 40px; }
+.shell { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(15,23,42,.06); }
+.hero { background: linear-gradient(110deg, #1e1b4b 0%, #312e81 45%, #0a7fc0 100%); color: #fff; padding: 30px 30px 26px; position: relative; }
+.hero h1 { margin: 0 0 8px; font-size: clamp(22px, 3.6vw, 32px); font-weight: 800; }
+.hero p { margin: 0; max-width: 820px; opacity: .92; }
+.hero .th { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); color: #fff; border-radius: 8px; width: 34px; height: 32px; }
+.inner { padding: 24px 28px 28px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.tile { border: 1px solid var(--line); background: var(--soft); border-radius: 12px; padding: 14px; text-align: center; }
+.tile span { display: block; font-size: 12px; letter-spacing: .8px; text-transform: uppercase; color: var(--muted); }
+.tile b { font-size: 24px; }
+h3.h { margin: 26px 0 12px; font-size: 17px; }
+.topics { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.topic { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; background: var(--card); text-align: left; font-size: 14px; }
+.topic:hover { border-color: var(--accent); }
+.topic i { font-style: normal; flex: 0 0 26px; height: 26px; border-radius: 7px; background: var(--soft); border: 1px solid var(--line); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--brand); }
+.topic small { display: block; color: var(--muted); font-size: 12px; }
+.start { margin-top: 22px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; }
+.box { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--card); }
+.box h4 { margin: 0 0 10px; }
+.modes { display: grid; gap: 10px; }
+.mode { text-align: left; border: 2px solid var(--line); background: var(--card); border-radius: 10px; padding: 11px 13px; }
+.mode.on { border-color: var(--brand); background: var(--soft); }
+.mode b { display: block; } .mode small { color: var(--muted); }
+.field { display: grid; gap: 4px; margin-top: 10px; font-size: 14px; }
+.field select { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--card); }
+.rules { margin: 0; padding-left: 18px; font-size: 14px; color: var(--muted); }
+.btn { background: var(--brand); color: #fff; border: 0; border-radius: 10px; padding: 10px 20px; font-weight: 600; }
+.btn.ghost { background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+.btn.mk { background: var(--mark-soft); color: var(--mark); border: 1px solid transparent; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.cta { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+.note { font-size: 12.5px; color: var(--muted); }
+/* test */
+.tbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid var(--line); }
+.tbar .in { max-width: 1100px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.tbar b { font-weight: 700; }
+.clock { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 18px; background: var(--brand2); color: #fff; padding: 4px 12px; border-radius: 8px; }
+.clock.low { background: var(--bad); }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 16px; align-items: start; }
+.qcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+.qhead { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+.qno { background: #6366f1; color: #fff; border-radius: 6px; padding: 1px 9px; font-weight: 700; }
+.chip { font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 10px; background: var(--soft); border: 1px solid var(--line); color: var(--brand); }
+.stem { font-size: 17px; font-weight: 500; margin: 0 0 16px; white-space: pre-line; }
+.opts { display: grid; gap: 10px; }
+.opt { display: flex; gap: 12px; text-align: left; border: 1.5px solid var(--line); background: var(--card); border-radius: 10px; padding: 11px 14px; }
+.opt:hover { border-color: var(--accent); }
+.opt .l { font-weight: 700; width: 20px; color: var(--muted); }
+.opt.sel { border-color: var(--brand); background: var(--soft); } .opt.sel .l { color: var(--brand); }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); } .opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.foot { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; align-items: center; }
+.foot .sp { flex: 1; }
+.sol { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+.sol h5 { margin: 0 0 6px; color: #10b981; font-size: 16px; }
+.pal { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; position: sticky; top: 76px; }
+.pal h4 { margin: 0 0 10px; font-size: 15px; }
+.grid5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.pb { height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--soft); font-weight: 600; font-size: 13px; }
+.pb.ans { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.pb.mk { background: var(--mark-soft); color: var(--mark); border-color: transparent; }
+.pb.cur { box-shadow: 0 0 0 2px var(--brand); }
+.legend { display: grid; gap: 4px; font-size: 12px; color: var(--muted); margin: 12px 0; }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; background: var(--soft); border: 1px solid var(--line); }
+.legend .a::before { background: var(--ok-soft); border-color: var(--ok); } .legend .m::before { background: var(--mark-soft); border-color: var(--mark); }
+/* report */
+.score { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 22px; align-items: center; }
+.ring { width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; }
+.ring div { width: 118px; height: 118px; border-radius: 50%; background: var(--card); display: grid; place-items: center; text-align: center; }
+.ring b { font-size: 30px; display: block; line-height: 1; } .ring small { color: var(--muted); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.stat { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.stat b { font-size: 20px; display: block; } .stat span { font-size: 12px; color: var(--muted); }
+.tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-top: 16px; }
+.tres { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 13.5px; display: flex; justify-content: space-between; gap: 8px; }
+.tres.ok { background: var(--ok-soft); border-color: transparent; } .tres.no { background: var(--bad-soft); border-color: transparent; } .tres.sk { background: var(--warn-soft); border-color: transparent; }
+.rvq { border-top: 1px solid var(--line); padding: 14px 0; font-size: 14.5px; }
+.rvq .q { white-space: pre-line; }
+.good { color: var(--ok); font-weight: 700; } .badc { color: var(--bad); font-weight: 700; } .warnc { color: var(--warn); font-weight: 700; }
+.alert { border-radius: 10px; padding: 10px 12px; font-size: 14px; margin: 14px 0; background: var(--soft); border: 1px solid var(--line); }
+@media (max-width: 860px) { .tiles, .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .start, .layout { grid-template-columns: minmax(0, 1fr); } .pal { position: static; } .score { grid-template-columns: minmax(0, 1fr); justify-items: center; } .inner { padding: 18px; } .hero { padding: 24px 18px 20px; } }
+@media print { .tbar, .cta, .hero .th, button { display: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap" id="landing">
+  <div class="shell">
+    <div class="hero"><button class="th" id="themeBtn" title="Toggle theme">◐</button>
+      <h1>Logical Reasoning Test</h1>
+      <p>20 questions covering every major reasoning topic asked in campus placement tests (Capgemini, TCS, Infosys, Accenture and others), with a step-by-step solution for each.</p></div>
+    <div class="inner">
+      <div class="tiles">
+        <div class="tile"><span>Questions</span><b>20</b></div>
+        <div class="tile"><span>Duration</span><b>25 Mins</b></div>
+        <div class="tile"><span>Topics</span><b>20</b></div>
+        <div class="tile"><span>Question bank</span><b id="bankN">60</b></div>
+      </div>
+      <h3 class="h">Topics covered (one question from each in the full test)</h3>
+      <div class="topics" id="topics"></div>
+      <div class="start">
+        <div class="box"><h4>Choose a mode</h4>
+          <div class="modes">
+            <button class="mode on" data-m="full"><b>Full test · 20 questions · 25:00</b><small>One question from every topic, drawn at random from the bank. You can move between questions, mark them for review and change answers until you submit.</small></button>
+            <button class="mode" data-m="topic"><b>Topic practice · untimed</b><small>All the questions of one topic, with the answer and solution shown after each one.</small></button>
+            <button class="mode" data-m="all"><b>Full bank practice · 60 questions</b><small>Every question in the bank, shuffled, with instant solutions.</small></button>
+          </div>
+          <label class="field hide" id="topicPick">Topic<select id="topicSel"></select></label>
+        </div>
+        <div class="box"><h4>Rules &amp; tips</h4>
+          <ul class="rules">
+            <li>Each correct answer scores 1 mark; there is no negative marking.</li>
+            <li>The timer does not pause. At 00:00 the test is submitted automatically.</li>
+            <li>Use the palette to jump between questions; purple marks “review later”.</li>
+            <li>Average about 75 seconds per question. Skip long puzzles and return to them.</li>
+            <li>Rough work: draw arrows for directions, a family tree for blood relations and a row or circle for seating.</li>
+          </ul>
+          <div class="cta"><button class="btn" id="startBtn">Start Test →</button><span class="note" id="hist"></span></div>
+        </div>
+      </div>
+      <p class="note" style="text-align:center;margin-top:16px">Independent practice test · progress is saved in this browser only.</p>
+    </div>
+  </div>
+</div>
+
+<div id="test" class="hide">
+  <div class="tbar"><div class="in"><b>Logical Reasoning</b><span class="note" id="tinfo"></span><span class="clock" id="clock">25:00</span></div></div>
+  <div class="wrap"><div class="layout"><div id="stage"></div><aside class="pal" id="pal"></aside></div></div>
+</div>
+
+<div class="wrap hide" id="report"></div>
+
+<script>
+const TOPICS = ['Number Series', 'Letter Series', 'Coding–Decoding', 'Blood Relations', 'Direction Sense', 'Linear Seating', 'Circular Seating', 'Syllogism', 'Statement & Assumption', 'Statement & Conclusion', 'Cause–Effect & Course of Action', 'Analogy', 'Classification (Odd One Out)', 'Order & Ranking', 'Calendar', 'Clock', 'Data Sufficiency', 'Puzzles', 'Inequalities', 'Venn Diagrams & Math Operations'];
+const SYL = ['Only conclusion I follows', 'Only conclusion II follows', 'Either I or II follows', 'Neither I nor II follows', 'Both I and II follow'];
+const ASM = ['Only assumption I is implicit', 'Only assumption II is implicit', 'Either I or II is implicit', 'Neither I nor II is implicit', 'Both I and II are implicit'];
+const DS = ['Statement I alone is sufficient', 'Statement II alone is sufficient', 'Either statement alone is sufficient', 'Both statements together are needed', 'Neither statement is sufficient, even together'];
+const LR = [
+  // 0 Number series
+  { t: 0, q: 'Find the next number: 3, 7, 15, 31, 63, ?', o: ['125', '127', '129', '131'], a: 1, e: 'Each term = previous × 2 + 1.\n63 × 2 + 1 = 127.' },
+  { t: 0, q: 'Find the next number: 2, 6, 12, 20, 30, 42, ?', o: ['52', '54', '56', '60'], a: 2, e: 'The terms are n(n + 1): 1×2, 2×3, 3×4 … 6×7.\nNext = 7 × 8 = 56. (Also: the differences 4, 6, 8, 10, 12 grow by 2, so next difference = 14 → 42 + 14 = 56.)' },
+  { t: 0, q: 'Find the wrong number in the series: 2, 5, 10, 17, 26, 38, 50', o: ['17', '26', '38', '50'], a: 2, e: 'The pattern is n² + 1: 1+1, 4+1, 9+1, 16+1, 25+1, 36+1, 49+1 = 2, 5, 10, 17, 26, 37, 50.\nSo 38 should be 37.' },
+  // 1 Letter series
+  { t: 1, q: 'Find the next term: B, E, H, K, N, ?', o: ['P', 'Q', 'R', 'O'], a: 1, e: 'Each letter moves 3 places forward: B(2) → E(5) → H(8) → K(11) → N(14) → Q(17).' },
+  { t: 1, q: 'Find the next term: AZ, BY, CX, DW, ?', o: ['EV', 'EU', 'FV', 'EW'], a: 0, e: 'The first letter moves forward (A, B, C, D, E) and the second moves backward (Z, Y, X, W, V). Each pair adds up to 27 (A+Z = 1+26).\nNext = EV.' },
+  { t: 1, q: 'Find the next term: Z, X, U, Q, L, ?', o: ['G', 'F', 'E', 'H'], a: 1, e: 'Positions: Z = 26, X = 24, U = 21, Q = 17, L = 12.\nThe gaps are −2, −3, −4, −5, so the next gap is −6: 12 − 6 = 6 = F.' },
+  // 2 Coding-decoding
+  { t: 2, q: 'If CAT is coded as DBU, how is DOG coded?', o: ['EPH', 'EPG', 'CNF', 'FQI'], a: 0, e: 'Each letter moves one place forward: C→D, A→B, T→U.\nSo D→E, O→P, G→H = EPH.' },
+  { t: 2, q: 'If ROSE is coded as 6821, CHAIR as 73456 and PREACH as 961473, what is the code for SEARCH?', o: ['214673', '216473', '214763', '241673'], a: 0, e: 'Match letters to digits: R=6, O=8, S=2, E=1, C=7, H=3, A=4, I=5, P=9.\nSEARCH = S2 E1 A4 R6 C7 H3 = 214673.' },
+  { t: 2, q: 'In a code language, “ta ki ro” means “sun is hot”, “ki pe mo” means “moon is cold”, and “la ta ro” means “hot sun rises”. What is the code for “is”?', o: ['ta', 'ki', 'ro', 'pe'], a: 1, e: 'The word “is” appears in the first two sentences only; the only code common to both is “ki”.\nSo “is” = ki. (“ta” and “ro” are common to sentences 1 and 3, so they stand for “sun” and “hot”.)' },
+  // 3 Blood relations
+  { t: 3, q: 'Pointing to a man, Riya says, “He is the son of my grandfather\'s only son.” How is the man related to Riya?', o: ['Cousin', 'Brother', 'Uncle', 'Father'], a: 1, e: 'Riya\'s grandfather\'s only son is Riya\'s father.\nThe son of Riya\'s father is Riya\'s brother.' },
+  { t: 3, q: 'A is B\'s sister. C is B\'s mother. D is C\'s father. E is D\'s mother. How is A related to D?', o: ['Granddaughter', 'Daughter', 'Grandmother', 'Niece'], a: 0, e: 'A and B are children of C. C is D\'s child.\nSo A is the daughter of D\'s child, i.e. D\'s granddaughter (A is female — a sister).' },
+  { t: 3, q: 'P + Q means P is the father of Q; P × Q means P is the sister of Q; P − Q means P is the mother of Q. What does A + B × C − D mean?', o: ['A is the grandfather of D', 'A is the father of D', 'A is the uncle of D', 'A is the great-grandfather of D'], a: 0, e: 'A + B: A is B\'s father. B × C: B is C\'s sister, so A is also C\'s father. C − D: C is D\'s mother.\nSo A is the father of D\'s mother → A is D\'s (maternal) grandfather.' },
+  // 4 Direction sense
+  { t: 4, q: 'Ravi walks 10 m north, turns right and walks 5 m, then turns right again and walks 10 m. Where is he now with respect to his starting point?', o: ['5 m East', '5 m West', '10 m North', '15 m East'], a: 0, e: 'North 10 → right turn = East 5 → right turn = South 10.\nThe north and south movements cancel out, leaving him 5 m East of the start.' },
+  { t: 4, q: 'A person facing North turns 90° clockwise, then 180° anticlockwise, and then 45° clockwise. Which direction is he facing now?', o: ['North-East', 'North-West', 'South-West', 'West'], a: 1, e: 'North → 90° clockwise = East → 180° anticlockwise = West → 45° clockwise = North-West.' },
+  { t: 4, q: 'A man walks 6 km East and then 8 km North. How far is he from the starting point, and in which direction?', o: ['10 km North-East', '14 km North-East', '10 km North-West', '2 km East'], a: 0, e: 'The two walks form a right angle: distance = √(6² + 8²) = √100 = 10 km.\nHe is to the East and North of the start → North-East.' },
+  // 5 Linear seating
+  { t: 5, q: 'Five friends A, B, C, D and E sit in a row facing North. C is in the middle. A is to the immediate left of C. B is at one end, to the right of E. Who is at the extreme left end?', o: ['A', 'B', 'D', 'E'], a: 2, e: 'Positions 1–5 from the left: C = 3, A = 2.\nB is at an end and to the right of E → B = 5, E = 4.\nThe only seat left is 1 → D.\nArrangement: D A C E B.' },
+  { t: 5, q: 'Six people P, Q, R, S, T and U sit in a row facing North. R is third from the left. T is to the immediate right of R. P is at the right end. Q sits somewhere between S and R. Who sits between T and P?', o: ['Q', 'S', 'U', 'R'], a: 2, e: 'R = 3, T = 4, P = 6. Q is between S and R, so S = 1 and Q = 2.\nThe remaining seat 5 goes to U.\nArrangement: S Q R T U P → U is between T and P.' },
+  { t: 5, q: 'A, B, C, D and E sit in a row. E is at the left end. A is not at either end. D is to the immediate right of B, and C is to the immediate right of D. Who sits in the middle?', o: ['A', 'B', 'C', 'D'], a: 1, e: 'B, D, C must sit together in that order. E = 1.\nIf B D C took seats 2–4, A would be at seat 5 (an end) — not allowed.\nSo B D C = seats 3–5 and A = 2: E A B D C → B is in the middle.' },
+  // 6 Circular seating
+  { t: 6, q: 'Six people A–F sit around a round table. A sits opposite D. B sits next to both A and C. E sits opposite B. Who sits opposite C?', o: ['A', 'D', 'E', 'F'], a: 3, e: 'Number the seats 1–6 around the table. A = 1, so D = 4 (opposite).\nB is next to A → B = 2; C is on B\'s other side → C = 3.\nE opposite B → E = 5, leaving F = 6.\nOpposite C (seat 3) is seat 6 → F. (The mirror arrangement gives the same answer.)' },
+  { t: 6, q: 'Five friends — Anu, Bina, Chetan, Dev and Esha — sit around a circular table. Anu sits between Bina and Chetan. Dev sits next to Chetan but not next to Anu. Who sits next to Bina, apart from Anu?', o: ['Chetan', 'Dev', 'Esha', 'Cannot be determined'], a: 2, e: 'Going round the table: Bina – Anu – Chetan – Dev, and the fifth seat (between Dev and Bina) is Esha.\nSo Bina\'s neighbours are Anu and Esha.' },
+  { t: 6, q: 'Seven people sit in a circle. Ram is third to the left of Shyam. How many people sit between Ram and Shyam on the other side of the circle?', o: ['2', '3', '4', '1'], a: 1, e: 'Third to the left means 2 people sit between them on that side.\nApart from Ram and Shyam there are 5 others, so on the other side there are 5 − 2 = 3 people.' },
+  // 7 Syllogism
+  { t: 7, q: 'Statements: All pens are books. Some books are bags.\nConclusions:\nI. Some pens are bags.\nII. Some bags are books.', o: SYL, a: 1, e: '“Some books are bags” can be converted to “Some bags are books”, so II follows.\nThe books that are bags need not include any pens, so I does not follow.' },
+  { t: 7, q: 'Statements: All cats are dogs. All dogs are animals.\nConclusions:\nI. All cats are animals.\nII. Some animals are cats.', o: SYL, a: 4, e: 'All cats ⊂ dogs ⊂ animals, so “All cats are animals” follows.\nSince every cat is an animal, at least some animals are cats, so II also follows.' },
+  { t: 7, q: 'Statements: No apple is a mango. Some mangoes are bananas.\nConclusions:\nI. Some bananas are not apples.\nII. No banana is an apple.', o: SYL, a: 0, e: 'The bananas that are mangoes cannot be apples (no mango is an apple), so “Some bananas are not apples” follows.\nOther bananas may or may not be apples, so “No banana is an apple” does not follow.' },
+  // 8 Statement & assumption
+  { t: 8, q: 'Statement: “Please attend the training on Monday to learn the new billing tool.”\nAssumptions:\nI. Employees need to learn the new billing tool.\nII. The training will help employees learn the tool.', o: ASM, a: 4, e: 'The request makes sense only if employees need the skill (I) and if the training actually helps them learn it (II). Both are implicit.' },
+  { t: 8, q: 'Statement: “Our company should hire more data scientists to analyse customer data.”\nAssumptions:\nI. The company has customer data that can be analysed.\nII. Data scientists are inexpensive to hire.', o: ASM, a: 0, e: 'Hiring people to analyse customer data assumes that such data exists (I).\nNothing in the statement assumes anything about cost (II).' },
+  { t: 8, q: 'Statement: “Take the ring road to reach the airport faster.”\nAssumptions:\nI. There is more than one route to the airport.\nII. The person wants to reach the airport quickly.', o: ASM, a: 4, e: 'Recommending a “faster” route implies there are other routes (I), and that speed matters to the listener (II). Both are implicit.' },
+  // 9 Statement & conclusion
+  { t: 9, q: 'Statement: All employees who complete the certification get a 10% raise. Neha got a 10% raise.\nConclusions:\nI. Neha completed the certification.\nII. Only certified employees get raises.', o: SYL, a: 3, e: 'The statement says certification → raise, not raise → certification. Neha could have got a raise for another reason, so I does not follow.\nThe statement also does not say that raises are limited to certified employees, so II does not follow.' },
+  { t: 9, q: 'Statement: Road accidents on the highway have increased sharply since the speed limit was raised.\nConclusions:\nI. Raising the speed limit may have contributed to the increase.\nII. All accidents on the highway are caused by speeding.', o: SYL, a: 0, e: 'The timing suggests a possible link, so I (“may have contributed”) follows.\n“All accidents” is an extreme claim the statement does not support, so II does not follow.' },
+  { t: 9, q: 'Statement: Company X\'s profits fell by 30% after it stopped advertising.\nConclusions:\nI. Advertising is the only factor that affects profits.\nII. Advertising may have been helping Company X\'s sales.', o: SYL, a: 1, e: '“Only factor” is too strong — other things could also have changed — so I does not follow.\nThe fall after stopping advertising reasonably suggests advertising may have helped, so II follows.' },
+  // 10 Cause-effect & course of action
+  { t: 10, q: 'Statement: Many employees arrive late because of heavy traffic near the office.\nCourses of action:\nI. Introduce flexible working hours.\nII. Dismiss employees who arrive late.', o: ['Only I follows', 'Only II follows', 'Either I or II follows', 'Neither I nor II follows', 'Both I and II follow'], a: 0, e: 'Flexible hours address the actual cause (traffic) in a practical way, so I follows.\nDismissing staff for a problem outside their control is extreme and impractical, so II does not follow.' },
+  { t: 10, q: 'Statements:\nI. The central bank raised interest rates.\nII. Home-loan applications dropped sharply.', o: ['I is the cause and II is its effect', 'II is the cause and I is its effect', 'Both are independent causes', 'Both are effects of a common cause'], a: 0, e: 'Higher interest rates make loans more expensive, which reduces home-loan applications. So I is the cause and II the effect.' },
+  { t: 10, q: 'Statements:\nI. Several schools in the city were closed today.\nII. Heavy rain flooded many roads in the city.', o: ['I is the cause and II is its effect', 'II is the cause and I is its effect', 'Both are independent causes', 'Both are effects of a common cause'], a: 1, e: 'The flooding (II) made it unsafe to travel, which led to the school closures (I). II is the cause, I the effect.' },
+  // 11 Analogy
+  { t: 11, q: 'Doctor : Hospital :: Teacher : ?', o: ['Student', 'School', 'Book', 'Principal'], a: 1, e: 'A doctor works in a hospital; a teacher works in a school (the relationship is professional → workplace).' },
+  { t: 11, q: '3 : 27 :: 5 : ?', o: ['25', '75', '125', '150'], a: 2, e: '27 = 3³, so the second number is the cube of the first: 5³ = 125.' },
+  { t: 11, q: 'ACE : BDF :: GIK : ?', o: ['HJL', 'HIJ', 'GJL', 'IKM'], a: 0, e: 'Each letter moves one place forward: A→B, C→D, E→F.\nSo G→H, I→J, K→L = HJL.' },
+  // 12 Classification
+  { t: 12, q: 'Find the odd one out: Keyboard, Mouse, Scanner, Monitor', o: ['Keyboard', 'Mouse', 'Scanner', 'Monitor'], a: 3, e: 'Keyboard, mouse and scanner are input devices; the monitor is an output device.' },
+  { t: 12, q: 'Find the odd one out: 17, 23, 29, 35, 41', o: ['17', '23', '35', '41'], a: 2, e: 'All the others are prime numbers; 35 = 5 × 7 is not prime.' },
+  { t: 12, q: 'Find the odd one out: BDF, HJL, NPR, TUW', o: ['BDF', 'HJL', 'NPR', 'TUW'], a: 3, e: 'In BDF, HJL and NPR each letter skips one letter (B _ D _ F).\nIn TUW, T → U has no gap, so it breaks the pattern.' },
+  // 13 Order & ranking
+  { t: 13, q: 'In a class of 40 students, Raj is 12th from the top. What is his rank from the bottom?', o: ['28th', '29th', '30th', '27th'], a: 1, e: 'Rank from bottom = total − rank from top + 1 = 40 − 12 + 1 = 29.' },
+  { t: 13, q: 'In a row, A is 9th from the left and B is 12th from the right. When they swap places, A becomes 15th from the left. How many people are in the row?', o: ['24', '25', '26', '27'], a: 2, e: 'After the swap, A is in B\'s old seat, which is 15th from the left and 12th from the right.\nTotal = 15 + 12 − 1 = 26.' },
+  { t: 13, q: 'P is taller than Q. R is shorter than S but taller than P. T is the shortest of all. Who is the tallest?', o: ['P', 'R', 'S', 'Q'], a: 2, e: 'From the clues: S > R > P > Q, and T is the shortest.\nOrder: S > R > P > Q > T, so S is the tallest.' },
+  // 14 Calendar
+  { t: 14, q: '1 January 2023 was a Sunday. What day of the week was 1 January 2024?', o: ['Sunday', 'Monday', 'Tuesday', 'Saturday'], a: 1, e: '2023 is not a leap year: 365 days = 52 weeks + 1 odd day.\nSo the day moves forward by 1: Sunday → Monday.' },
+  { t: 14, q: 'What day of the week was 15 August 1947?', o: ['Thursday', 'Friday', 'Saturday', 'Sunday'], a: 1, e: 'Count odd days: 1600 years → 0; 300 years → 1; 46 years (11 leap + 35 ordinary) → 11×2 + 35 = 57 → 1; Jan–Jul 1947 → 3+0+3+2+3+2+3 = 16 → 2; plus 15 days → 1.\nTotal = 0 + 1 + 1 + 2 + 1 = 5 → Friday (0 = Sunday).' },
+  { t: 14, q: 'How many odd days are there in a leap year?', o: ['0', '1', '2', '3'], a: 2, e: 'A leap year has 366 days = 52 weeks + 2 days, so it has 2 odd days.' },
+  // 15 Clock
+  { t: 15, q: 'What is the angle between the hour and minute hands at 3:40?', o: ['120°', '130°', '140°', '150°'], a: 1, e: 'Angle = |30H − 5.5M| = |30×3 − 5.5×40| = |90 − 220| = 130°.' },
+  { t: 15, q: 'How many times do the hour and minute hands of a clock coincide in 24 hours?', o: ['24', '22', '23', '48'], a: 1, e: 'The hands coincide 11 times every 12 hours (once in the 11–1 o\'clock window, at 12:00), so 22 times in 24 hours.' },
+  { t: 15, q: 'A clock seen in a mirror shows 8:20. What is the actual time?', o: ['3:40', '4:40', '3:20', '4:20'], a: 0, e: 'Actual time = 11:60 − mirror time = 11:60 − 8:20 = 3:40.' },
+  // 16 Data sufficiency
+  { t: 16, q: 'What is the value of x?\nI. 2x + 3 = 11\nII. x² = 16', o: DS, a: 0, e: 'From I: 2x = 8 → x = 4 (unique), so I alone is sufficient.\nFrom II: x = 4 or −4 (not unique), so II alone is not sufficient.' },
+  { t: 16, q: 'Is P the brother of Q?\nI. P is the son of Q\'s father.\nII. Q is the daughter of P\'s mother.', o: DS, a: 0, e: 'I: P is male and shares Q\'s father, so P is Q\'s brother → sufficient.\nII: shows they are siblings, but not P\'s gender (P could be a sister) → not sufficient.' },
+  { t: 16, q: 'How old is Amit?\nI. Amit is 5 years older than Sumit.\nII. The sum of Amit\'s and Sumit\'s ages is 35.', o: DS, a: 3, e: 'Neither statement alone gives a number. Together: A − S = 5 and A + S = 35 → A = 20.\nSo both statements together are needed.' },
+  // 17 Puzzles
+  { t: 17, q: 'Five people A, B, C, D and E live on floors 1–5 of a building (one per floor; floor 1 is the lowest). B lives on floor 1. E lives immediately above B. C lives above D but below A. Who lives on the top floor?', o: ['A', 'C', 'D', 'E'], a: 0, e: 'B = 1, E = 2. The remaining floors 3, 4, 5 go to D, C, A with D < C < A.\nSo D = 3, C = 4, A = 5 → A lives on the top floor.' },
+  { t: 17, q: 'P, Q, R and S each like a different fruit: apple, banana, mango and grapes. P likes neither apple nor mango. Q likes banana. R does not like apple. Which fruit does R like?', o: ['Apple', 'Banana', 'Mango', 'Grapes'], a: 2, e: 'Q = banana. Apple is not liked by P or R, so S = apple.\nP cannot have apple or mango (and banana is taken), so P = grapes.\nThat leaves mango for R.' },
+  { t: 17, q: 'Four meetings W, X, Y and Z are held on Monday to Thursday, one per day. Y is on Monday. X is held on a later day than W. Z is not on Thursday. On which day is X held?', o: ['Tuesday', 'Wednesday', 'Thursday', 'Cannot be determined'], a: 2, e: 'Y = Monday, so W, X and Z share Tuesday–Thursday. Z is not on Thursday, and X must come after W, so W cannot be on Thursday either.\nThat leaves Thursday for X (either Z-Tue/W-Wed or W-Tue/Z-Wed).' },
+  // 18 Inequalities
+  { t: 18, q: 'If A > B ≥ C = D < E, which of the following is definitely true?', o: ['A > D', 'E > B', 'C > E', 'B = E'], a: 0, e: 'A > B ≥ C = D gives A > D for certain.\nE is only compared with D, so its relation to B or C is unknown.' },
+  { t: 18, q: 'Given P ≤ Q < R > S ≥ T, which conclusions are definitely true?\nI. R > P\nII. S < Q', o: SYL, a: 0, e: 'I: P ≤ Q < R → R > P, true.\nII: S and Q are both only compared with R (both smaller), so their relation is unknown.' },
+  { t: 18, q: '“P @ Q” means P > Q, “P # Q” means P < Q and “P $ Q” means P = Q. If M @ N, N $ O and O # K, which statement is definitely true?', o: ['M @ O', 'K # N', 'M $ K', 'O @ M'], a: 0, e: 'Decode: M > N, N = O, O < K → M > N = O < K.\nSo M > O, i.e. “M @ O”. K > N (not K < N), and M vs K is unknown.' },
+  // 19 Venn & math operations
+  { t: 19, q: 'If “+” means “×”, “−” means “+”, “×” means “÷” and “÷” means “−”, find the value of 8 + 3 − 12 × 4 ÷ 2.', o: ['25', '23', '27', '31'], a: 0, e: 'Replace the symbols: 8 × 3 + 12 ÷ 4 − 2.\nApply BODMAS: 24 + 3 − 2 = 25.' },
+  { t: 19, q: 'In a group of 60 people, 35 like tea, 30 like coffee and 10 like both. How many like neither?', o: ['0', '5', '10', '15'], a: 1, e: 'People who like at least one = 35 + 30 − 10 = 55.\nNeither = 60 − 55 = 5.' },
+  { t: 19, q: 'Which Venn diagram best represents the relationship between India, Asia and the World?', o: ['Three concentric circles, one inside the other', 'Three separate circles', 'Two overlapping circles inside a third', 'One circle inside another, with the third separate'], a: 0, e: 'India is part of Asia, and Asia is part of the World: India ⊂ Asia ⊂ World → three concentric circles.' }
+];
+
+</script>
+<script>
+(function () {
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const L = 'ABCDE', DUR = 25 * 60 * 1000;
+let store = {}; try { store = JSON.parse(localStorage.getItem('lr.v1') || '{}') || {}; } catch (e) {}
+const save = () => { try { localStorage.setItem('lr.v1', JSON.stringify(store)); } catch (e) {} };
+const applyTheme = () => store.theme ? document.documentElement.setAttribute('data-theme', store.theme) : document.documentElement.removeAttribute('data-theme');
+applyTheme();
+$('#themeBtn').onclick = () => { const d = store.theme ? store.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; store.theme = d ? 'light' : 'dark'; save(); applyTheme(); };
+
+$('#bankN').textContent = LR.length;
+$('#topics').innerHTML = TOPICS.map((t, i) => `<button class="topic" data-t="${i}"><i>${i + 1}</i><span>${t}<small>${LR.filter(q => q.t === i).length} questions · ${store.topic && store.topic[i] ? 'best ' + store.topic[i] : 'practise'}</small></span></button>`).join('');
+$('#topicSel').innerHTML = TOPICS.map((t, i) => `<option value="${i}">${i + 1}. ${t}</option>`).join('');
+if (store.history && store.history.length) { const h = store.history[store.history.length - 1]; $('#hist').textContent = `Last test: ${h.score}/20 · ${store.history.length} attempt(s)`; }
+const setMode = m => { document.querySelectorAll('.mode').forEach(x => x.classList.toggle('on', x.dataset.m === m)); $('#topicPick').classList.toggle('hide', m !== 'topic'); $('#startBtn').textContent = m === 'full' ? 'Start Test →' : 'Start Practice →'; };
+document.querySelectorAll('.mode').forEach(b => b.onclick = () => setMode(b.dataset.m));
+document.querySelectorAll('.topic').forEach(b => b.onclick = () => { setMode('topic'); $('#topicSel').value = b.dataset.t; $('#startBtn').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+
+let T = null;
+function start() {
+  const mode = document.querySelector('.mode.on').dataset.m;
+  let qs;
+  if (mode === 'full') qs = TOPICS.map((_, t) => shuffle(LR.map((q, i) => i).filter(i => LR[i].t === t))[0]);
+  else if (mode === 'topic') qs = LR.map((q, i) => i).filter(i => LR[i].t === +$('#topicSel').value);
+  else qs = shuffle(LR.map((q, i) => i));
+  T = { mode, qs: qs.map(i => { const q = LR[i], fixed = /^(Only|Either|Neither|Both|Statement|I is|II is|I alone|II alone)/.test(q.o[0]); const perm = fixed ? q.o.map((_, k) => k) : shuffle(q.o.map((_, k) => k)); return { i, perm }; }), ans: [], mark: [], cur: 0, start: Date.now(), done: false };
+  $('#landing').classList.add('hide'); $('#report').classList.add('hide'); $('#test').classList.remove('hide');
+  $('#clock').classList.toggle('hide', mode !== 'full'); $('#pal').classList.toggle('hide', mode !== 'full');
+  $('#test .layout').style.gridTemplateColumns = mode === 'full' ? '' : 'minmax(0, 1fr)';
+  if (mode === 'full') { T.tick = setInterval(tick, 500); tick(); window.onbeforeunload = e => { e.preventDefault(); e.returnValue = ''; }; }
+  show(0);
+}
+function tick() { if (!T || T.done) return; const left = Math.max(0, DUR - (Date.now() - T.start)), s = Math.ceil(left / 1000); $('#clock').textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); $('#clock').classList.toggle('low', left < 3 * 60000); if (left <= 0) finish(true); }
+const Q = k => { const x = T.qs[k], q = LR[x.i]; return { q, o: x.perm.map(p => q.o[p]), a: x.perm.indexOf(q.a) }; };
+function show(k) {
+  T.cur = k;
+  const { q, o, a } = Q(k), practice = T.mode !== 'full', picked = T.ans[k];
+  $('#tinfo').textContent = `· Question ${k + 1} of ${T.qs.length}` + (T.mode === 'topic' ? ` · ${TOPICS[q.t]}` : '');
+  $('#stage').innerHTML = `<div class="qcard"><div class="qhead"><span class="qno">${k + 1}.</span><span class="chip">${TOPICS[q.t]}</span></div>
+    <p class="stem">${esc(q.q)}</p><div class="opts" id="opts">${o.map((x, i) => `<button class="opt ${picked === i ? 'sel' : ''}" data-i="${i}"><span class="l">${L[i]}.</span><span>${esc(x)}</span></button>`).join('')}</div>
+    <div id="sol"></div>
+    <div class="foot">${practice ? '' : `<button class="btn ghost" id="prev" ${k === 0 ? 'disabled' : ''}>← Previous</button><button class="btn ghost" id="clear">Clear</button><button class="btn mk" id="mark">${T.mark[k] ? 'Unmark' : 'Mark for review'}</button>`}<span class="sp"></span><button class="btn" id="nextB">${k === T.qs.length - 1 ? (practice ? 'Finish' : 'Submit test') : 'Next →'}</button></div></div>`;
+  $('#opts').onclick = e => {
+    const b = e.target.closest('.opt'); if (!b) return;
+    if (practice && T.ans[k] != null) return;
+    T.ans[k] = +b.dataset.i;
+    document.querySelectorAll('#opts .opt').forEach(x => x.classList.toggle('sel', +x.dataset.i === T.ans[k]));
+    if (practice) reveal(k); else palette();
+  };
+  if (practice && picked != null) reveal(k);
+  $('#nextB').onclick = () => { if (k === T.qs.length - 1) { if (practice) finish(false); else confirmSubmit(); } else show(k + 1); };
+  if (!practice) {
+    $('#prev').onclick = () => show(k - 1);
+    $('#clear').onclick = () => { delete T.ans[k]; show(k); };
+    $('#mark').onclick = () => { T.mark[k] = !T.mark[k]; show(k); };
+    palette();
+  }
+  window.scrollTo(0, 0);
+}
+function reveal(k) {
+  const { q, o, a } = Q(k), p = T.ans[k];
+  document.querySelectorAll('#opts .opt').forEach(x => { const i = +x.dataset.i; if (i === a) x.classList.add('right'); else if (i === p) x.classList.add('wrong'); });
+  $('#sol').innerHTML = `<div class="sol"><h5>Answer &amp; Solution</h5><div><b>Answer: Option ${L[a]}</b> — ${esc(o[a])} ${p === a ? '<span class="good">✓ Correct</span>' : '<span class="badc">✕ Incorrect</span>'}</div><div style="margin-top:6px;white-space:pre-line">${esc(q.e)}</div></div>`;
+}
+function palette() {
+  const n = T.qs.length, answered = T.ans.filter(x => x != null).length, marked = T.mark.filter(Boolean).length;
+  $('#pal').innerHTML = `<h4>Question palette</h4><div class="grid5">${T.qs.map((_, k) => `<button class="pb ${T.ans[k] != null ? 'ans' : ''} ${T.mark[k] ? 'mk' : ''} ${k === T.cur ? 'cur' : ''}" data-k="${k}" title="${TOPICS[LR[T.qs[k].i].t]}">${k + 1}</button>`).join('')}</div>
+    <div class="legend"><span class="a">Answered (${answered})</span><span>Not answered (${n - answered})</span><span class="m">Marked for review (${marked})</span></div><button class="btn" style="width:100%" id="subBtn">Submit test</button>`;
+  $('#pal').querySelectorAll('.pb').forEach(b => b.onclick = () => show(+b.dataset.k));
+  $('#subBtn').onclick = confirmSubmit;
+}
+function confirmSubmit() {
+  const un = T.qs.length - T.ans.filter(x => x != null).length;
+  if (confirm(un ? `You have ${un} unanswered question(s). Submit anyway?` : 'Submit the test now?')) finish(false);
+}
+function finish(timeUp) {
+  if (T.done) return; T.done = true; clearInterval(T.tick); window.onbeforeunload = null;
+  const n = T.qs.length, used = Date.now() - T.start;
+  const res = T.qs.map((x, k) => { const { q, o, a } = Q(k); return { k, q, o, a, p: T.ans[k], ok: T.ans[k] === a }; });
+  const score = res.filter(r => r.ok).length, wrong = res.filter(r => r.p != null && !r.ok).length, skip = res.filter(r => r.p == null).length;
+  const pct = Math.round(score / n * 100);
+  if (T.mode === 'full') { store.history = (store.history || []).concat([{ at: Date.now(), score }]).slice(-20); }
+  if (T.mode === 'topic') { const t = +$('#topicSel').value; store.topic = store.topic || {}; store.topic[t] = Math.max(store.topic[t] ? +String(store.topic[t]).split('/')[0] : 0, score) + '/' + n; }
+  save();
+  const color = pct >= 75 ? 'var(--ok)' : pct >= 50 ? '#d97706' : 'var(--bad)';
+  const verdict = pct >= 85 ? 'Excellent — placement ready' : pct >= 70 ? 'Good — polish the weak topics' : pct >= 50 ? 'Average — practise topic-wise' : 'Needs work — start with topic practice';
+  const weak = res.filter(r => !r.ok).map(r => TOPICS[r.q.t]);
+  let h = `<div class="shell"><div class="hero"><h1>${T.mode === 'full' ? 'Test Result' : 'Practice Result'}</h1><p>${T.mode === 'full' ? `Logical reasoning · ${Math.floor(used / 60000)} min ${Math.round(used / 1000) % 60} s used${timeUp ? ' · auto-submitted at 00:00' : ''}` : T.mode === 'topic' ? 'Topic practice · ' + TOPICS[+$('#topicSel').value] : 'Full bank practice'}</p></div><div class="inner">
+    <div class="score"><div class="ring" style="background:conic-gradient(${color} ${pct * 3.6}deg, var(--line) 0)"><div><span><b>${score}/${n}</b><small>${pct}%</small></span></div></div>
+    <div><h2 style="margin:0 0 10px">${verdict}</h2><div class="stats"><div class="stat"><b class="good">${score}</b><span>Correct</span></div><div class="stat"><b class="badc">${wrong}</b><span>Wrong</span></div><div class="stat"><b class="warnc">${skip}</b><span>Not answered</span></div><div class="stat"><b>${Math.round(used / 1000 / n)}s</b><span>Avg. time / question</span></div></div></div></div>`;
+  if (T.mode === 'full') h += `<div class="tgrid">${res.map(r => `<div class="tres ${r.ok ? 'ok' : r.p == null ? 'sk' : 'no'}"><span>${TOPICS[r.q.t]}</span><b>${r.ok ? '✓' : r.p == null ? '–' : '✕'}</b></div>`).join('')}</div>`;
+  if (weak.length && T.mode !== 'topic') h += `<div class="alert"><b>Topics to revise:</b> ${[...new Set(weak)].join(', ')}. Use <b>Topic practice</b> on these.</div>`;
+  h += `<h3>Review with solutions</h3>${res.map(r => `<div class="rvq"><div class="q"><b>Q${r.k + 1}.</b> <span class="chip">${TOPICS[r.q.t]}</span><br>${esc(r.q.q)}</div>
+    <div style="margin-top:6px">Your answer: ${r.p == null ? '<span class="warnc">Not answered</span>' : `${L[r.p]}. ${esc(r.o[r.p])} ${r.ok ? '<span class="good">✓</span>' : '<span class="badc">✕</span>'}`}</div>
+    ${r.ok ? '' : `<div>Correct answer: <b>${L[r.a]}. ${esc(r.o[r.a])}</b></div>`}<div style="color:var(--muted);white-space:pre-line;margin-top:4px">${esc(r.q.e)}</div></div>`).join('')}
+    <div class="cta" style="justify-content:center"><button class="btn" id="again">${T.mode === 'full' ? 'New test (new questions)' : 'Practise again'}</button><button class="btn ghost" id="home">Back to start</button><button class="btn ghost" onclick="window.print()">Print / Save PDF</button></div></div></div>`;
+  $('#test').classList.add('hide'); $('#report').innerHTML = h; $('#report').classList.remove('hide'); window.scrollTo(0, 0);
+  $('#again').onclick = start;
+  $('#home').onclick = () => location.reload();
+}
+$('#startBtn').onclick = start;
+window.__lr = { get T() { return T; }, finish };
+})();
+</script>
+</body>
+</html>
