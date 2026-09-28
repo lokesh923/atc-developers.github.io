@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Communication Assessment Mock</title>
+<meta name="description" content="Capgemini-style communication assessment mock test: 28 questions in 60 minutes across grammar, situational response, reading, listening, speaking and business writing.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f172a; --muted: #64748b; --bg: #f1f5f9; --card: #ffffff; --line: #e2e8f0; --soft: #f8fafc;
+  --brand: #0070ad; --brand2: #0b3b5e; --accent: #12abdb; --ok: #15803d; --ok-soft: #dcfce7; --bad: #b91c1c; --bad-soft: #fee2e2; --warn: #b45309; --warn-soft: #fef3c7;
+  --c1: #dbeafe; --c1i: #1d4ed8; --c2: #e0e7ff; --c2i: #4338ca; --c3: #d1fae5; --c3i: #047857; --c4: #fef3c7; --c4i: #b45309; --c5: #f3e8ff; --c5i: #7e22ce; --c6: #ffe4e6; --c6i: #be123c;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ink: #e2e8f0; --muted: #94a3b8; --bg: #0b1220; --card: #111a2b; --line: #1f2b40; --soft: #0f1829; --brand: #3aa0e0; --ok: #4ade80; --ok-soft: #12301f; --bad: #f87171; --bad-soft: #3a1717; --warn: #fbbf24; --warn-soft: #3a2a0c;
+  --c1: #172554; --c1i: #93c5fd; --c2: #1e1b4b; --c2i: #a5b4fc; --c3: #052e24; --c3i: #6ee7b7; --c4: #3a2a0c; --c4i: #fcd34d; --c5: #2e1065; --c5i: #d8b4fe; --c6: #4c0519; --c6i: #fda4af; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --ink: #e2e8f0; --muted: #94a3b8; --bg: #0b1220; --card: #111a2b; --line: #1f2b40; --soft: #0f1829; --brand: #3aa0e0; --ok: #4ade80; --ok-soft: #12301f; --bad: #f87171; --bad-soft: #3a1717; --warn: #fbbf24; --warn-soft: #3a2a0c;
+  --c1: #172554; --c1i: #93c5fd; --c2: #1e1b4b; --c2i: #a5b4fc; --c3: #052e24; --c3i: #6ee7b7; --c4: #3a2a0c; --c4i: #fcd34d; --c5: #2e1065; --c5i: #d8b4fe; --c6: #4c0519; --c6i: #fda4af; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 Inter, "Segoe UI", system-ui, sans-serif; overflow-x: hidden; }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+.hide { display: none !important; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 18px 16px 40px; }
+.shell { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(15,23,42,.06); }
+.hero { background: linear-gradient(110deg, #062540 0%, #0a4a7a 45%, #0a7fc0 100%); color: #fff; padding: 30px 30px 26px; position: relative; }
+.hero h1 { margin: 0 0 8px; font-size: clamp(22px, 3.6vw, 32px); font-weight: 800; letter-spacing: -.3px; }
+.hero p { margin: 0; max-width: 820px; opacity: .92; }
+.hero .th { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); color: #fff; border-radius: 8px; width: 34px; height: 32px; }
+.inner { padding: 24px 28px 28px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.tile { border: 1px solid var(--line); background: var(--soft); border-radius: 12px; padding: 14px; text-align: center; }
+.tile span { display: block; font-size: 12px; letter-spacing: .8px; text-transform: uppercase; color: var(--muted); }
+.tile b { font-size: 24px; font-weight: 700; }
+.tile .or { color: #d97706; } .tile .bl { color: var(--brand); }
+h3.h { display: flex; align-items: center; gap: 8px; margin: 26px 0 12px; font-size: 17px; }
+.matrix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.sec { display: flex; gap: 14px; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--card); }
+.num { flex: 0 0 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; font-weight: 700; }
+.n1 { background: var(--c1); color: var(--c1i); } .n2 { background: var(--c2); color: var(--c2i); } .n3 { background: var(--c3); color: var(--c3i); } .n4 { background: var(--c4); color: var(--c4i); } .n5 { background: var(--c5); color: var(--c5i); } .n6 { background: var(--c6); color: var(--c6i); }
+.sec b { display: block; font-weight: 600; }
+.sec small { color: var(--muted); display: block; line-height: 1.45; }
+.sec em { color: var(--c5i); font-style: normal; font-weight: 600; }
+.ready { margin-top: 22px; border: 1px solid #bfdbfe; background: #f0f7ff; border-radius: 12px; padding: 16px; }
+:root[data-theme="dark"] .ready { background: #0d1a2e; border-color: #1e3a5f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ready { background: #0d1a2e; border-color: #1e3a5f; } }
+.ready h4 { margin: 0 0 10px; }
+.checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.chk { display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; flex-wrap: wrap; }
+.chk .lbl { flex: 1; min-width: 150px; }
+.chk .st { font-size: 12px; color: var(--muted); width: 100%; }
+.chk .st.ok { color: var(--ok); } .chk .st.bad { color: var(--bad); }
+.meter { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; width: 100%; }
+.meter i { display: block; height: 100%; width: 0; background: var(--ok); transition: width .08s; }
+.sbtn { border: 1px solid var(--line); background: var(--soft); border-radius: 8px; padding: 6px 12px; font-weight: 600; font-size: 14px; }
+.note { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+.start { margin-top: 22px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; }
+.box { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--card); }
+.box h4 { margin: 0 0 10px; }
+.modes { display: grid; gap: 10px; }
+.mode { text-align: left; border: 2px solid var(--line); background: var(--card); border-radius: 10px; padding: 11px 13px; }
+.mode.on { border-color: var(--brand); background: var(--soft); }
+.mode b { display: block; } .mode small { color: var(--muted); }
+.field { display: grid; gap: 4px; margin-top: 10px; font-size: 14px; }
+.field input, .field select { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--card); }
+.rules { margin: 0; padding-left: 18px; font-size: 14px; color: var(--muted); }
+.rules li { margin: 3px 0; }
+.btn { background: var(--brand); color: #fff; border: 0; border-radius: 10px; padding: 11px 22px; font-weight: 600; }
+.btn.ghost { background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.cta { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+.disc { font-size: 12px; color: var(--muted); text-align: center; margin-top: 16px; }
+
+/* test */
+.tbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid var(--line); }
+.tbar .in { max-width: 1080px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.tbar .ttl { font-weight: 700; }
+.tbar .sname { color: var(--muted); font-size: 14px; }
+.clock { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 18px; background: var(--brand2); color: #fff; padding: 4px 12px; border-radius: 8px; }
+.clock.low { background: var(--bad); }
+.segs { display: grid; grid-template-columns: 10fr 6fr 4fr 4fr 2fr 2fr; gap: 4px; max-width: 1080px; margin: 0 auto; padding: 0 16px 10px; }
+.seg { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.seg i { display: block; height: 100%; background: var(--brand); width: 0; }
+.qcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(15,23,42,.05); }
+.qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.qno { background: #f87171; color: #fff; border-radius: 6px; padding: 1px 9px; font-weight: 700; }
+.chip { font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 10px; }
+.stem { font-size: 18px; font-weight: 600; margin: 0 0 16px; }
+.scen { background: var(--soft); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
+.scen .who { font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); font-weight: 700; }
+.opts { display: grid; gap: 10px; }
+.opt { display: flex; gap: 12px; align-items: flex-start; text-align: left; border: 1.5px solid var(--line); background: var(--card); border-radius: 10px; padding: 11px 14px; }
+.opt:hover { border-color: var(--accent); }
+.opt .l { font-weight: 700; width: 20px; color: var(--muted); }
+.opt.sel { border-color: var(--brand); background: var(--soft); }
+.opt.sel .l { color: var(--brand); }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); } .opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.two { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; }
+.passage { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; max-height: 62vh; overflow-y: auto; white-space: pre-line; font-size: 14.5px; }
+.passage h4 { margin: 0 0 8px; }
+.player { border: 1px solid var(--line); background: var(--soft); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.player .row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.play { width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--brand); color: #fff; font-size: 20px; }
+.play:disabled { background: var(--line); color: var(--muted); }
+.wave { display: flex; gap: 3px; align-items: center; height: 34px; flex: 1; min-width: 120px; }
+.wave i { width: 4px; border-radius: 3px; background: var(--accent); height: 20%; opacity: .5; }
+.wave.on i { animation: w 0.9s ease-in-out infinite; opacity: 1; }
+@keyframes w { 0%, 100% { height: 18%; } 50% { height: 95%; } }
+.speaker { font-size: 13px; color: var(--muted); min-height: 20px; }
+.plays { font-size: 13px; font-weight: 600; }
+.tscript { font-size: 14px; background: var(--card); border: 1px dashed var(--line); border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+.tscript p { margin: 4px 0; }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.foot .hint { font-size: 13px; color: var(--muted); }
+.sol { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
+.sol h5 { margin: 0 0 6px; color: #10b981; font-size: 16px; }
+.sol .ans { font-weight: 600; }
+.intro { text-align: center; padding: 40px 20px; }
+.intro .big { font-size: 42px; }
+.intro h2 { margin: 6px 0; }
+.intro ul { text-align: left; display: inline-block; color: var(--muted); }
+/* speaking + writing */
+.task { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
+.rec { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.recdot { width: 12px; height: 12px; border-radius: 50%; background: var(--bad); animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+.transcript { min-height: 140px; border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--card); white-space: pre-wrap; }
+.transcript .interim { color: var(--muted); }
+textarea.write { width: 100%; min-height: 300px; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--card); line-height: 1.55; resize: vertical; }
+textarea.say { width: 100%; min-height: 160px; border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--card); }
+.counter { display: flex; gap: 12px; align-items: center; font-size: 14px; margin-top: 8px; flex-wrap: wrap; }
+.counter b.ok { color: var(--ok); } .counter b.low { color: var(--warn); } .counter b.over { color: var(--bad); }
+.bar2 { flex: 1; min-width: 120px; height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar2 i { display: block; height: 100%; background: var(--ok); }
+.alert { border-radius: 10px; padding: 10px 12px; font-size: 14px; margin: 10px 0; }
+.alert.warn { background: var(--warn-soft); color: var(--warn); } .alert.info { background: var(--c1); color: var(--c1i); } .alert.ok { background: var(--ok-soft); color: var(--ok); }
+/* report */
+.score { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 22px; align-items: center; }
+.ring { width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; }
+.ring div { width: 118px; height: 118px; border-radius: 50%; background: var(--card); display: grid; place-items: center; text-align: center; }
+.ring b { font-size: 30px; display: block; line-height: 1; } .ring small { color: var(--muted); }
+.badge { display: inline-block; font-weight: 700; border-radius: 999px; padding: 4px 14px; }
+.dims { display: grid; gap: 10px; margin-top: 18px; }
+.dim .t { display: flex; justify-content: space-between; font-size: 14px; }
+.dim .b { height: 9px; background: var(--line); border-radius: 99px; overflow: hidden; position: relative; }
+.dim .b i { display: block; height: 100%; border-radius: 99px; }
+.dim .b::after { content: ""; position: absolute; left: 75%; top: -3px; bottom: -3px; border-left: 2px dashed var(--muted); }
+details.rv { border: 1px solid var(--line); border-radius: 12px; margin-top: 12px; background: var(--card); }
+details.rv summary { padding: 12px 16px; cursor: pointer; font-weight: 600; }
+.rvq { border-top: 1px solid var(--line); padding: 12px 16px; font-size: 14px; }
+.rvq .you { font-weight: 600; }
+.good { color: var(--ok); font-weight: 700; } .badc { color: var(--bad); font-weight: 700; }
+table.rub { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0; }
+table.rub td { border-top: 1px solid var(--line); padding: 6px 4px; }
+table.rub td:last-child { text-align: right; white-space: nowrap; font-weight: 600; }
+pre.model { white-space: pre-wrap; background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 12px; font: 13.5px/1.55 Inter, system-ui, sans-serif; }
+@media (max-width: 820px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .matrix, .checks, .start, .two { grid-template-columns: minmax(0, 1fr); } .score { grid-template-columns: minmax(0, 1fr); justify-items: center; } .inner { padding: 18px; } .hero { padding: 24px 18px 20px; } .passage { max-height: none; } }
+@media print { .tbar, .cta, .hero .th, button { display: none !important; } body { background: #fff; } details.rv { break-inside: avoid; } details.rv:not([open]) > * { display: block; } }
+</style>
+</head>
+<body>
+
+<!-- ===================== LANDING ===================== -->
+<div class="wrap" id="landing">
+  <div class="shell">
+    <div class="hero">
+      <button class="th" id="themeBtn" title="Toggle theme">◐</button>
+      <h1>Capgemini Communication Assessment Mock Test</h1>
+      <p>This 60-minute standardized evaluation tests spoken, listening, reading and corporate writing competencies through 28 questions mapped to 6 rigorous workplace dimensions.</p>
+    </div>
+    <div class="inner">
+      <div class="tiles">
+        <div class="tile"><span>Total questions</span><b>28 Items</b></div>
+        <div class="tile"><span>Duration</span><b>60 Mins</b></div>
+        <div class="tile"><span>Attempt rule</span><b class="or">1 Non-stop</b></div>
+        <div class="tile"><span>Target threshold</span><b class="bl">CEFR B2 / 75%</b></div>
+      </div>
+
+      <h3 class="h">☰ Section Matrix &amp; Rules</h3>
+      <div class="matrix">
+        <div class="sec"><span class="num n1">1</span><div><b>Grammar &amp; Sentence Correction (10 Qs)</b><small>Spot errors, verb tense agreement, prepositions, idiomatic usage, and correct sentence rewrite.</small></div></div>
+        <div class="sec"><span class="num n2">2</span><div><b>Situational Awareness &amp; Response (6 Qs)</b><small>Workplace escalations, stakeholder alignment, and professional email/chat reply judgment.</small></div></div>
+        <div class="sec"><span class="num n3">3</span><div><b>Reading Comprehension (4 Qs)</b><small>Technical &amp; enterprise passages with deep analytical and inference-based comprehension questions.</small></div></div>
+        <div class="sec"><span class="num n4">4</span><div><b>Listening Comprehension (4 Qs)</b><small>Audio clips simulating multinational project stand-ups and client calls (2 play limit per question).</small></div></div>
+        <div class="sec"><span class="num n5">5</span><div><b>Spoken Communication Simulation (2 Qs)</b><small>Extempore speaking into your mic. <em>Minimum 100 spoken words required</em> for scoring fluency &amp; clarity.</small></div></div>
+        <div class="sec"><span class="num n6">6</span><div><b>Business Communication Writing (2 Tasks)</b><small>Formal client emails, issue remediation memos, and meeting summaries with live word counter.</small></div></div>
+      </div>
+
+      <div class="ready">
+        <h4>🎧 System &amp; Hardware Readiness Check</h4>
+        <div class="checks">
+          <div class="chk"><span class="lbl">🔊 Speaker / Headphone Audio</span><button class="sbtn" id="testAudio">▶ Test Audio</button><span class="st" id="audioSt">Plays a short sentence using your browser's voice.</span></div>
+          <div class="chk"><span class="lbl">🎤 Microphone Authorization</span><button class="sbtn" id="checkMic">● Check Mic</button><span class="st" id="micSt">Allow microphone access when your browser asks.</span><div class="meter"><i id="micLvl"></i></div></div>
+        </div>
+        <p class="note">* Chrome, Edge or Safari are recommended for Speech Recognition and Audio Synthesis. Make sure microphone permission is allowed. Without a microphone you can still type your spoken answers (marked as “typed”).</p>
+      </div>
+
+      <div class="start">
+        <div class="box">
+          <h4>Choose how to practise</h4>
+          <div class="modes">
+            <button class="mode on" data-m="full"><b>Full Mock Test · 28 questions · 60:00</b><small>One continuous, non-stop attempt. No going back, and no answers until the final report.</small></button>
+            <button class="mode" data-m="practice"><b>Section Practice · untimed</b><small>Practise one section at a time. See the answer and solution immediately after each question.</small></button>
+          </div>
+          <label class="field hide" id="secPick">Section
+            <select id="secSel">
+              <option value="grammar">1 · Grammar &amp; Sentence Correction</option>
+              <option value="situational">2 · Situational Awareness &amp; Response</option>
+              <option value="reading">3 · Reading Comprehension</option>
+              <option value="listening">4 · Listening Comprehension</option>
+              <option value="spoken">5 · Spoken Communication Simulation</option>
+              <option value="writing">6 · Business Communication Writing</option>
+            </select></label>
+          <label class="field">Your name (shown on the report)<input id="cand" maxlength="40" placeholder="Candidate"></label>
+          <label class="field">Speech recognition accent<select id="accent"><option value="en-IN">English (India)</option><option value="en-US">English (US)</option><option value="en-GB">English (UK)</option></select></label>
+        </div>
+        <div class="box">
+          <h4>Rules</h4>
+          <ul class="rules">
+            <li>The timer starts with question 1 and does not pause, even between sections.</li>
+            <li>Questions appear one at a time; after you move on you cannot return.</li>
+            <li>Listening clips can be played at most <b>2 times</b> per question.</li>
+            <li>Speaking: 30 s preparation, up to 2 min speaking, at least 100 words.</li>
+            <li>Writing: follow the word range; the counter updates live.</li>
+            <li>At 00:00 the test is submitted automatically.</li>
+          </ul>
+          <div class="cta"><button class="btn" id="startBtn">Start Assessment →</button><span class="note" id="histNote"></span></div>
+        </div>
+      </div>
+      <p class="disc">Independent practice mock based on the published pattern — not affiliated with or endorsed by Capgemini. Scores are practice estimates.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TEST ===================== -->
+<div id="test" class="hide">
+  <div class="tbar"><div class="in"><span class="ttl">Communication Assessment</span><span class="sname" id="sname"></span><span class="sname" id="qcount"></span><span class="clock" id="clock">60:00</span></div>
+    <div class="segs" id="segs"></div></div>
+  <div class="wrap"><div id="stage"></div></div>
+</div>
+
+<!-- ===================== REPORT ===================== -->
+<div class="wrap hide" id="report"></div>
+
+<script>
+/* ===================== QUESTION BANKS ===================== */
+/* Grammar & Sentence Correction: [stem, [A..E], answerIndex, explanation]. When E is "No correction required", the stem is a sentence to correct. */
+const NC = 'No correction required';
+const GRAMMAR = [
+  ["You need not come unless you want to.", ["You don't need to come unless you want to", "You come only when you want to", "You come unless you don't want to", "You needn't come until you don't want to", NC], 0, "The original is grammatical but formal/archaic. “You don't need to come unless you want to” keeps the same meaning in clear modern English. The other rewrites change the meaning or the logic, and “No correction required” is not preferred because the modern version is clearer."],
+  ["Neither the manager nor the team members was informed about the change.", ["Neither the manager nor the team members were informed about the change.", "Neither the manager or the team members were informed about the change.", "Neither the manager nor the team members has been informed about the change.", "Neither of the manager nor team members were informed about the change.", NC], 0, "With “neither … nor”, the verb agrees with the nearer subject. “team members” is plural, so the verb is “were”. “Neither … or” is incorrect; always pair “neither” with “nor”."],
+  ["She has been working here since five years.", ["She is working here since five years.", "She has been working here for five years.", "She has been working here from five years.", "She works here since five years.", NC], 1, "Use “for” with a period of time (five years) and “since” with a point in time (since 2021). The present perfect continuous is correct."],
+  ["Each of the developers have submitted the timesheet.", ["Each of the developers has submitted the timesheet.", "Each of the developer have submitted the timesheet.", "Each developers has submitted the timesheet.", "All of the developer has submitted the timesheet.", NC], 0, "“Each” is singular, so the verb must be singular: “Each of the developers has submitted…”. The noun after “each of the” stays plural."],
+  ["The report, along with the charts, were sent yesterday.", ["The report, along with the charts, was sent yesterday.", "The report, along with the charts, have been sent yesterday.", "The report along with the charts were being sent yesterday.", "The reports, along with the chart, was sent yesterday.", NC], 0, "Phrases like “along with”, “as well as” and “together with” do not change the subject. The subject is “The report” (singular) → “was sent”."],
+  ["I look forward to hear from you.", ["I look forward to hearing from you.", "I am looking forward to hear from you.", "I look forward for hearing from you.", "I looked forward to hear from you.", NC], 0, "In “look forward to”, “to” is a preposition, so it is followed by a gerund (-ing form): “look forward to hearing”."],
+  ["We discussed about the budget in the meeting.", ["We discussed on the budget in the meeting.", "We discussed the budget in the meeting.", "We have discussed about the budget in the meeting.", "We did discussion about the budget in the meeting.", NC], 1, "“Discuss” is a transitive verb and takes a direct object — no preposition: “discussed the budget”. (But: “a discussion about the budget”.)"],
+  ["If I would have known about the outage, I would have informed the client.", ["If I had known about the outage, I would have informed the client.", "If I knew about the outage, I would have informed the client.", "If I would know about the outage, I would inform the client.", "Had I would known about the outage, I would have informed the client.", NC], 0, "A third conditional (unreal past) uses “If + past perfect, would have + past participle”. “Would” never goes in the if-clause."],
+  ["The client insisted on meeting the project lead personally.", ["The client insisted to meet the project lead personally.", "The client insisted for meeting the project lead personally.", "The client insisted on to meet the project lead personally.", "The client insisted meeting the project lead personally.", NC], 4, "“Insist on + -ing” is correct, so no correction is needed."],
+  ["Please revert back to me by Friday.", ["Please revert to me back by Friday.", "Please get back to me by Friday.", "Please revert me back by Friday.", "Please do revert back by Friday.", NC], 1, "“Revert back” is redundant, and “revert” (= return to a previous state) is not standard for “reply” in international business English. “Please get back to me / reply by Friday” is clear."],
+  ["He is senior than me in the team.", ["He is more senior than me in the team.", "He is senior to me in the team.", "He is senior from me in the team.", "He is seniormost than me in the team.", NC], 1, "Latin comparatives (senior, junior, superior, inferior, prior) take “to”, not “than”: “senior to me”."],
+  ["Hardly had the meeting started when the fire alarm rang.", ["Hardly the meeting had started when the fire alarm rang.", "Hardly had the meeting started than the fire alarm rang.", "Hardly did the meeting start when the fire alarm rang.", "Hardly had the meeting started, the fire alarm rang.", NC], 4, "“Hardly/Scarcely … when” with inversion (“Hardly had the meeting started”) is correct. “Than” goes with “No sooner”, not “Hardly”."],
+  ["One of the servers are down since morning.", ["One of the servers is down since morning.", "One of the servers has been down since morning.", "One of the server has been down since morning.", "One of the servers have been down since morning.", NC], 1, "“One of the + plural noun” takes a singular verb. And “since morning” (continuing up to now) needs the present perfect: “has been down since morning”."],
+  ["She is good in handling difficult clients.", ["She is good at handling difficult clients.", "She is good with handle difficult clients.", "She is good for handling difficult clients.", "She is good to handling difficult clients.", NC], 0, "The adjective “good” takes “at” for skills: “good at handling”."],
+  ["Kindly do the needful and oblige.", ["Kindly do the needful at the earliest.", "Please take the necessary action.", "Please do needful and oblige.", "Kindly oblige by doing the needful.", NC], 1, "“Do the needful” and “oblige” are outdated regional expressions that international clients may not understand. Be specific and neutral: “Please take the necessary action (by …)”."],
+  ["The number of defects have reduced this sprint.", ["The number of defects has reduced this sprint.", "The number of defect have reduced this sprint.", "A number of defects has reduced this sprint.", "The numbers of defects has reduced this sprint.", NC], 0, "“The number of …” is singular → “has”. (“A number of …” means “many” and is plural.)"],
+  ["I am having two years of experience in Java.", ["I have two years of experience in Java.", "I am having two year experience in Java.", "I have been having two years of experience in Java.", "I had two years of experience in Java now.", NC], 0, "“Have” meaning possession is a stative verb and is not used in the continuous form: “I have two years of experience”."],
+  ["Let's discuss this in today's meeting, isn't it?", ["Let's discuss this in today's meeting, don't we?", "Let's discuss this in today's meeting, shall we?", "Let's discuss this in today's meeting, won't it?", "Let's discuss this in today's meeting, isn't we?", NC], 1, "The question tag for “Let's …” is always “shall we?”. “Isn't it” is not a universal tag in standard English."],
+  ["The team comprises of five engineers.", ["The team comprises five engineers.", "The team is comprising of five engineers.", "The team comprise of five engineers.", "The team consists five engineers.", NC], 0, "“Comprise” takes no “of”: “The team comprises five engineers” (or “consists of” / “is composed of”)."],
+  ["No sooner did the build fail than the alerts were triggered.", ["No sooner the build failed than the alerts were triggered.", "No sooner did the build fail when the alerts were triggered.", "No sooner had the build fail than the alerts triggered.", "As soon as the build failed than the alerts were triggered.", NC], 4, "“No sooner + inverted auxiliary + … than” is correct as written."],
+  ["We need to cope up with the new requirements.", ["We need to cope with the new requirements.", "We need to cope up the new requirements.", "We need coping with the new requirements.", "We need to cope on with the new requirements.", NC], 0, "The verb is “cope with”; “cope up” is incorrect."],
+  ["Despite of the delay, the release went smoothly.", ["In spite the delay, the release went smoothly.", "Despite the delay, the release went smoothly.", "Despite of delay, the release went smoothly.", "Although of the delay, the release went smoothly.", NC], 1, "Use “Despite the delay” or “In spite of the delay” — never “despite of”."],
+  ["He told that the deployment was successful.", ["He told that the deployment is successful.", "He said that the deployment was successful.", "He told about that the deployment was successful.", "He said me that the deployment was successful.", NC], 1, "“Tell” needs a person as object (He told me that…). Without an object, use “say”: “He said that…”."],
+  ["Whom should I contact regarding the access request?", ["Who should I contact regarding the access request?", "Whom should I contact to regarding the access request?", "Whom I should contact regarding the access request?", "To who should I contact regarding the access request?", NC], 4, "“Whom” is the object of “contact”, so the sentence is correct as written. (“Who” is common in speech, but “whom” is formally correct.)"],
+  ["Our team have completed the migration yesterday.", ["Our team has completed the migration yesterday.", "Our team completed the migration yesterday.", "Our team had completed the migration yesterday.", "Our team was completing the migration yesterday.", NC], 1, "A finished past time (“yesterday”) needs the simple past, not the present perfect: “completed … yesterday”."],
+  ["The manager gave me an advice on time management.", ["The manager gave me some advice on time management.", "The manager gave me advices on time management.", "The manager gave me an advise on time management.", "The manager advised me an advice on time management.", NC], 0, "“Advice” is uncountable: use “some advice” or “a piece of advice”, never “an advice/advices”. (“Advise” is the verb.)"],
+  ["Between you and I, the deadline is unrealistic.", ["Between you and me, the deadline is unrealistic.", "Between me and you, the deadline is being unrealistic.", "Among you and I, the deadline is unrealistic.", "Between you and myself, the deadline is unrealistic.", NC], 0, "“Between” is a preposition, so it takes object pronouns: “between you and me”."],
+  ["The meeting has been postponed to next Monday.", ["The meeting has been postponed for next Monday.", "The meeting has postponed to next Monday.", "The meeting is postponed on next Monday.", "The meeting has been preponed to next Monday.", NC], 4, "The sentence is correct: “postponed to/until next Monday”."],
+  ["The new policy will come ____ effect from 1 April.", ["in", "into", "on", "to", "at"], 1, "The fixed phrase is “come into effect” (= start to apply)."],
+  ["Please find the attached herewith for your reference.", ["Please find herewith attached for your reference.", "Please find the document attached for your reference.", "Please find attached herewith the attachment.", "Kindly find the attached herewith.", NC], 1, "“The attached” needs a noun, and “herewith” is redundant. “Please find the document attached” (or “I have attached the document”) is clear and correct."],
+  ["I have went through the document.", ["I have gone through the document.", "I had went through the document.", "I have go through the document.", "I have been went through the document.", NC], 0, "The present perfect uses the past participle: go → went → gone. “I have gone through the document.”"],
+  ["Can you borrow me your charger?", ["Can you lend me your charger?", "Can you borrow your charger to me?", "Can I lend your charger?", "Can you lend me your charger to borrow?", NC], 0, "You “lend” something to someone; you “borrow” something from someone. “Can you lend me…?” or “Can I borrow…?”."],
+  ["Its important that the team review it's backlog every sprint.", ["It's important that the team review its backlog every sprint.", "Its important that the team reviews its backlog every sprint.", "It's important that the team review it's backlog every sprint.", "It is important that the team reviewed it's backlog every sprint.", NC], 0, "“It's” = it is; “its” = possessive. After “It's important that…”, the subjunctive base form “review” is correct in formal English."],
+  ["I will call you once I will reach the office.", ["I will call you once I reach the office.", "I call you once I will reach the office.", "I will call you once I would reach the office.", "I will be calling you once I will reach the office.", NC], 0, "In time clauses (when, once, after, as soon as), use the present tense for a future meaning: “once I reach”."],
+  ["Due to heavy traffic, I reached late at the office.", ["Due to heavy traffic, I reached to the office late.", "Due to heavy traffic, I reached the office late.", "Due to heavy traffic, I late reached at the office.", "Due to heavy traffic, I have reached late in office.", NC], 1, "“Reach” takes a direct object (no “at/to”): “reached the office late”."],
+  ["By the time the client joined the call, we ____ the demo.", ["already start", "have already started", "had already started", "were already start", "already starting"], 2, "An action completed before another past action uses the past perfect: “had already started”."],
+  ["In the sentence “Let's get the ball rolling on the migration plan”, “get the ball rolling” means:", ["to postpone something", "to start something", "to take a risk", "to finish quickly", "to delegate work"], 1, "“Get the ball rolling” = to start an activity or process."],
+  ["In “Let's touch base after the client call”, “touch base” means:", ["meet in the office lobby", "briefly reconnect to update each other", "escalate an issue", "close the account", "sign the contract"], 1, "“Touch base” = to make brief contact to share an update."],
+  ["Every employee must submit his or her appraisal form before 5 p.m.", ["Every employee must submits his or her appraisal form before 5 p.m.", "Every employees must submit their appraisal form before 5 p.m.", "Every employee must submit his or her appraisal form till 5 p.m.", "Every employee must to submit their appraisal form before 5 p.m.", NC], 4, "“Every employee” is singular with a modal + base verb (“must submit”) — the sentence is correct."],
+  ["The data from both regions ____ that customer churn is rising.", ["suggest", "suggests", "are suggesting that", "is suggest", "suggesting"], 1, "“Data” is commonly treated as a mass (singular) noun in business English: “The data … suggests”. (In strict scientific usage “data suggest” is also seen, but among these options only “suggests” is grammatical and idiomatic.)"],
+  ["Choose the correctly punctuated sentence.", ["However the client approved the design, we still need sign-off.", "The client approved the design; however, we still need sign-off.", "The client approved the design, however we still need sign-off.", "The client approved the design however, we still need sign-off.", "The client, approved the design however we still need sign-off."], 1, "“However” joining two independent clauses needs a semicolon before it and a comma after it (or a full stop)."],
+  ["The deadline is very tight, so we must work efficiently to meet it.", ["The deadline is very tight, so we must work efficiently to meet with it.", "The deadline is very much tight, so we must work efficiently to meet it.", "The deadline is very tight so, we must work efficiently to meet it.", "The deadline being very tight, so we must work efficiently to meet it.", NC], 4, "The sentence is correct: a comma before the coordinating conjunction “so”, and “meet a deadline” takes no preposition."]
+];
+
+/* Situational Awareness & Response: {s: situation, q: question, o: options, a: index, e: explanation, ch: 'chat'|'email'} */
+const SITUATIONAL = [
+  { ch: 'email', s: "A client writes: “This is the third time the report has been late. This is unacceptable.” The delay was caused by a data feed issue on your side that is now fixed.", q: "Which reply is the most appropriate?", o: ["“The delay was not our fault; the data feed failed.”", "“I sincerely apologise for the repeated delays. The cause was a data-feed issue on our side, which is now fixed, and we have added an automated check. Today's report will reach you by 3 p.m. IST.”", "“Sorry!! Will send ASAP.”", "“Please be patient; these things happen in every project.”"], a: 1, e: "Acknowledge and apologise, take ownership, give the cause briefly, explain the fix/prevention, and commit to a specific time. The other replies blame someone else, are informal and vague, or dismiss the client's concern." },
+  { ch: 'chat', s: "Your manager messages at 6:30 p.m.: “Can you take up the urgent hotfix tonight?” You already have a medical appointment at 7:30 p.m.", q: "Best response?", o: ["Ignore the message until tomorrow.", "“No, I can't.”", "“I have a medical appointment at 7:30 today. I can work on it until 7:00 and hand over my notes to Ravi, or pick it up first thing at 8 a.m. — which works better?”", "“Okay” — and then miss the appointment without saying anything."], a: 2, e: "Be transparent about the constraint and offer options so the manager can decide. Ignoring or a flat refusal harms trust; silently over-committing is unsustainable." },
+  { ch: 'email', s: "You realise that yesterday you sent a client a spreadsheet containing another client's pricing.", q: "What should you do first?", o: ["Say nothing and hope they don't notice.", "Immediately inform your manager and the data-protection/security contact, then follow the incident process (which may include asking the recipient to delete the file).", "Email the client asking them to delete it, without telling anyone internally.", "Send a corrected file and a new email so the old one gets buried."], a: 1, e: "A data leak is a security incident. Escalate internally at once so it is handled correctly (legal/contractual obligations). Hiding it or handling it alone makes it worse." },
+  { ch: 'chat', s: "A colleague from another team pings: “Hey, can you share your VPN password? Mine expired and I need to finish something quickly.”", q: "Best reply?", o: ["Share it — it's only for a few minutes.", "“Sorry, I can't share my credentials — it's against security policy. The IT service desk can reset yours quickly; here's the link.”", "Share it but change your password afterwards.", "Ignore the message."], a: 1, e: "Never share credentials. Decline politely, cite the policy, and point them to the proper channel." },
+  { ch: 'email', s: "During a status call the client asks for a new dashboard that is not in the agreed scope and says, “It should be quick, right?”", q: "Most professional response?", o: ["“Sure, we'll add it this week.”", "“That's outside scope; we can't do it.”", "“That sounds valuable. It isn't in the current scope, so let me assess the effort and impact on the timeline and share a short change-request note by Thursday.”", "“Ask my manager.”"], a: 2, e: "Stay positive, be clear that it is out of scope, and route it through the change-request process with a specific next step. Agreeing immediately creates scope creep; a flat refusal or “ask my manager” is unhelpful." },
+  { ch: 'chat', s: "Two managers give you conflicting top-priority tasks for the same afternoon.", q: "What is the best approach?", o: ["Do the task from the more senior manager and ignore the other.", "Work on both at half speed.", "Tell both managers about the conflict — ideally in one message or call — and ask them to agree on the priority.", "Complain to colleagues about poor planning."], a: 2, e: "Make the conflict visible to both stakeholders and let them align. Choosing silently or splitting effort causes surprises for someone." },
+  { ch: 'email', s: "You sent an important request to a client team five days ago and got no reply. The deadline is in three days.", q: "Best follow-up?", o: ["“Why haven't you replied yet?”", "“Following up on my email of 12 May about the test-environment access (details below). We need it by Friday, 17 May to keep the UAT start on track. Could you confirm, or let me know who else I should contact?”", "Wait silently until the deadline passes.", "Forward the email to their CEO."], a: 1, e: "A polite, specific follow-up that restates the request, the deadline and the impact, and offers an alternative contact, gets action without blame." },
+  { ch: 'chat', s: "In a stand-up, a teammate says your module caused a production bug. You believe the cause is actually in their API change.", q: "Best response in the meeting?", o: ["“That's wrong, it's your API.”", "Stay silent and fix it yourself tonight.", "“Thanks for flagging it. I see a possible link to the recent API change too — shall we look at the logs together right after this stand-up?”", "Complain to the manager privately after the meeting."], a: 2, e: "Stay factual and collaborative, avoid blame in public, and propose a quick joint investigation." },
+  { ch: 'email', s: "Production is down and the client's operations head emails asking for an update. You don't yet know the root cause.", q: "Which update is best?", o: ["Wait until the root cause is known before replying.", "“We are working on it.”", "“We are aware of the outage affecting order processing since 10:05 IST. The team is investigating; the service has been switched to the backup queue to limit impact. Next update at 11:00 IST or sooner.”", "“It's probably the network provider's fault.”"], a: 2, e: "During incidents, communicate early and regularly: what is affected, since when, what is being done, and when the next update will come. Don't speculate about blame." },
+  { ch: 'chat', s: "A new joiner in your team keeps asking you basic questions while you are on a tight deadline.", q: "Best way to respond?", o: ["Ignore their messages.", "“Can we set up 20 minutes at 4 p.m. to go through your questions together? Meanwhile, the onboarding wiki covers the setup steps — here's the link.”", "“Figure it out yourself.”", "Answer every question instantly and miss your deadline."], a: 1, e: "Support the colleague while protecting your deadline: schedule time and share resources." },
+  { ch: 'email', s: "You need to request two days of leave next month during a planned release week.", q: "Which email is most appropriate?", o: ["“I'm taking leave on 14–15 June.”", "“Hi Priya, I'd like to request leave on 14–15 June for a family function. I know it's release week, so I'll complete my test cases by 12 June and Arjun has agreed to cover deployment support. Please let me know if this works.”", "“Need leave, please approve urgently.”", "Apply in the HR tool without informing the manager."], a: 1, e: "A request (not an announcement) that states the dates and reason, recognises the business impact, and offers a coverage plan." },
+  { ch: 'chat', s: "A US client asks for a call at 9 a.m. their time, which is 7:30 p.m. for you in India. You can attend but would prefer another time.", q: "Best reply?", o: ["“That's too late for me.”", "“9 a.m. EST works. If it helps in future, 8 a.m. EST (5:30 p.m. IST) would also suit me well — happy to go with whatever is easier for you.”", "Accept, then join 15 minutes late.", "Decline without explanation."], a: 1, e: "Accommodate the client while politely suggesting an alternative for the future — flexible, clear and respectful of both time zones." },
+  { ch: 'email', s: "You discover a mistake in the estimate you gave the client last week: the work will take 3 days longer.", q: "Best action?", o: ["Work late every day to hide the gap.", "Inform the client only when the deadline is missed.", "Tell your lead first, then send the client a revised estimate that explains the change briefly, its impact and options (e.g. phased delivery).", "Blame the requirements team."], a: 2, e: "Flag risks early and transparently, with a plan. Surprises at the deadline damage trust much more than an early correction." },
+  { ch: 'chat', s: "A peer asks for feedback on their presentation, which is well designed but far too long.", q: "Most helpful feedback?", o: ["“It's too long and boring.”", "“Looks great!”", "“The visuals are really clear. It runs about 25 minutes for a 10-minute slot — you could move slides 6–12 to an appendix and keep one summary chart.”", "Say nothing and let the manager point it out."], a: 2, e: "Good feedback is specific, balanced and actionable: what works, what to change, and how." },
+  { ch: 'email', s: "After a client meeting, you are asked to send the minutes.", q: "What should the email mainly contain?", o: ["A word-for-word transcript of everything said.", "Only the decisions, with no owners.", "Date and attendees, key discussion points, decisions, action items with owners and due dates, and the next meeting date.", "Just the slides that were presented."], a: 2, e: "Minutes should be concise and actionable: decisions plus action items with owners and dates are the core." },
+  { ch: 'chat', s: "A friend who works at a competitor asks casually what new product your client is launching.", q: "Best response?", o: ["Share a few general details — it's only a friend.", "“Sorry, I can't discuss client work — it's confidential. How's your new role going?”", "Tell them to ask your manager.", "Share it but ask them to keep it secret."], a: 1, e: "Client information is confidential. Decline politely and move the conversation on." },
+  { ch: 'email', s: "A client asks, “When exactly will the fix be deployed?” You don't know yet because testing is still in progress.", q: "Best reply?", o: ["Guess a date to keep the client happy.", "“Soon.”", "“Testing is in progress and should finish by Wednesday. I'll confirm the exact deployment slot by Wednesday 5 p.m. IST at the latest.”", "“I don't know.”"], a: 2, e: "Never guess. Explain the current status and commit to when you will give the exact answer." },
+  { ch: 'chat', s: "In a team chat a colleague posts a joke that some team members could find offensive.", q: "Most appropriate action?", o: ["React with a laughing emoji to avoid awkwardness.", "Publicly insult the colleague.", "Message the colleague privately that the joke could upset people and suggest removing it; if it continues, raise it with the manager or HR.", "Leave the group."], a: 2, e: "Address it respectfully and privately first; escalate through the proper channel if needed. Inclusion is part of professional conduct." }
+];
+
+/* Reading Comprehension passages: {t: title, p: passage, qs: [{q, o, a, e}]} */
+const READING = [
+  { t: 'Cloud migration update', p: "Northwind Logistics is moving its order-management system from an on-premises data centre to a public cloud platform. The programme is planned in three waves. Wave 1, completed in March, moved the reporting databases, which are read-only and therefore low-risk. Wave 2 will migrate the order-capture APIs; because these handle live customer transactions, the team will run the old and new systems in parallel for two weeks and compare every transaction before switching traffic. Wave 3 will decommission the data centre, but only after the finance team confirms that all regulatory archives have been copied and verified.\n\nThe steering committee has approved an additional budget of 8% for Wave 2 to fund the parallel run. However, it has also asked the programme to reduce cloud costs after go-live by switching development environments off at night. Early estimates suggest this alone could save around 30% of non-production spending.", qs: [
+    { q: "Why was Wave 1 considered low-risk?", o: ["It was completed quickly.", "The reporting databases are read-only.", "It had an extra budget.", "It ran in parallel with the old system."], a: 1, e: "The passage says Wave 1 moved reporting databases, “which are read-only and therefore low-risk”." },
+    { q: "What is the main purpose of the two-week parallel run?", o: ["To train new staff.", "To compare transactions before switching live traffic.", "To copy regulatory archives.", "To reduce cloud costs."], a: 1, e: "Both systems run in parallel so every transaction can be compared before switching traffic." },
+    { q: "Which condition must be met before Wave 3 can happen?", o: ["The finance team confirms archives are copied and verified.", "Development environments are switched off.", "The steering committee approves 8% more budget.", "Customers approve the new APIs."], a: 0, e: "Wave 3 happens “only after the finance team confirms that all regulatory archives have been copied and verified”." },
+    { q: "What can be inferred about the steering committee?", o: ["It is not concerned about costs.", "It wants to cancel Wave 3.", "It balances risk reduction with cost control.", "It prefers the on-premises data centre."], a: 2, e: "It funds the parallel run (reducing risk) but also asks for night-time shutdowns (controlling cost)." }
+  ] },
+  { t: 'Hybrid work policy', p: "From 1 July, employees at Contoso Services may work remotely for up to three days a week. Teams must agree on at least one common \"anchor day\" when everyone is in the office, to support collaboration and mentoring. Client-facing roles may have different arrangements if a client contract requires on-site presence.\n\nThe company will provide a one-time allowance of ₹15,000 for home-office equipment, claimable within 60 days of the policy start date with receipts. Employees are responsible for ensuring a secure, private workspace; confidential client documents must not be printed at home. Managers will review the arrangement every quarter and may adjust it if productivity or service quality is affected, after discussing concerns with the employee.", qs: [
+    { q: "What is the purpose of the anchor day?", o: ["To reduce office costs.", "To support collaboration and mentoring.", "To meet client contracts.", "To review productivity."], a: 1, e: "Anchor days exist “to support collaboration and mentoring”." },
+    { q: "An employee buys a chair on 20 September and claims the allowance. What is the likely outcome?", o: ["Approved, because receipts are provided.", "Rejected, because the 60-day window from 1 July has passed.", "Approved only for client-facing roles.", "Rejected, because chairs are not equipment."], a: 1, e: "Claims must be made within 60 days of 1 July (by about 30 August)." },
+    { q: "Which statement is TRUE according to the passage?", o: ["All employees must work from the office three days a week.", "Confidential client documents may be printed at home if shredded.", "Client contracts can override the standard arrangement.", "Managers can change arrangements without any discussion."], a: 2, e: "Client-facing roles may differ “if a client contract requires on-site presence”. Managers must discuss concerns first; printing is not allowed." },
+    { q: "The word “adjust” in the last sentence is closest in meaning to:", o: ["cancel", "modify", "approve", "report"], a: 1, e: "“Adjust the arrangement” means change/modify it." }
+  ] },
+  { t: 'Incident post-mortem summary', p: "On 4 May, customers of the mobile banking app were unable to log in for 47 minutes. The root cause was an expired TLS certificate on an internal authentication service. The certificate had been set to renew automatically, but the renewal job had failed silently for three weeks because a service account password had been rotated without updating the job's configuration.\n\nThe team restored service by manually installing a new certificate. The post-mortem, which followed a blameless format, identified three actions: add monitoring that alerts 30 days before any certificate expires; store service-account credentials in the central secrets vault so that rotations update dependent jobs automatically; and add a runbook step for manual renewal. The review noted that on-call engineers diagnosed the issue quickly because recent training had covered certificate errors.", qs: [
+    { q: "What was the underlying reason the certificate expired?", o: ["The on-call team ignored alerts.", "The automatic renewal job had been failing after a password rotation.", "The certificate was never set to renew.", "Customers used an outdated app."], a: 1, e: "The renewal job failed silently because a password was rotated without updating its configuration." },
+    { q: "What does a “blameless” post-mortem focus on?", o: ["Identifying who made the mistake.", "Improving systems and processes rather than blaming individuals.", "Calculating financial penalties.", "Informing customers."], a: 1, e: "Blameless reviews focus on causes and fixes in systems/processes, not on punishing individuals." },
+    { q: "Which action directly prevents the silent-failure problem from recurring?", o: ["A manual renewal runbook.", "Storing credentials in the secrets vault so rotations update dependent jobs.", "More training for on-call engineers.", "Restoring service manually."], a: 1, e: "Centralising credentials means a rotation no longer breaks the renewal job." },
+    { q: "What contributed to the quick diagnosis?", o: ["The monitoring alert 30 days earlier.", "Recent training on certificate errors.", "The secrets vault.", "Customer complaints."], a: 1, e: "The passage credits recent training that covered certificate errors." }
+  ] },
+  { t: 'Vendor selection memo', p: "The procurement team evaluated three vendors for the new customer-support chatbot. Vendor A offered the lowest licence cost but supports only English, while 40% of our customers contact us in Hindi or Tamil. Vendor B supports twelve languages and integrates with our ticketing system out of the box; its licence is 18% more expensive than Vendor A's, but implementation is estimated at six weeks instead of twelve. Vendor C scored highest on analytics but requires customer data to be stored outside India, which conflicts with our data-residency commitments to banking clients.\n\nThe team recommends Vendor B. Although its licence is more expensive, the faster implementation and avoided integration work reduce the total cost of ownership over three years by an estimated 9% compared with Vendor A.", qs: [
+    { q: "Why was Vendor C rejected?", o: ["Its analytics were weak.", "It conflicts with data-residency commitments.", "It supports only English.", "It is the most expensive."], a: 1, e: "Vendor C stores data outside India, which conflicts with data-residency commitments." },
+    { q: "What is the main argument for Vendor B despite its higher licence cost?", o: ["It has the best analytics.", "Lower total cost of ownership thanks to faster implementation and built-in integration.", "It is based in India.", "Customers requested it."], a: 1, e: "Faster implementation and avoided integration work reduce three-year TCO by about 9%." },
+    { q: "What can be inferred about Vendor A?", o: ["It would not serve a large share of customers in their preferred language.", "It stores data outside India.", "It integrates with ticketing out of the box.", "It takes six weeks to implement."], a: 0, e: "It supports only English, while 40% of customers use Hindi or Tamil." },
+    { q: "“Out of the box” most nearly means:", o: ["after customisation", "ready to use without extra development", "outside the company", "free of charge"], a: 1, e: "“Out of the box” = works immediately, without extra work." }
+  ] },
+  { t: 'Agile team working agreement', p: "The Payments squad agreed on the following working norms for the next quarter. Stand-ups start at 10:00 IST and are limited to 15 minutes; detailed problem-solving moves to a follow-up call with only the people involved. Pull requests should be reviewed within one working day, and any change touching payment calculations needs two approvals, one of them from a senior engineer. The squad avoids meetings on Wednesday afternoons to protect focus time.\n\nIf a sprint goal is at risk, the team member who notices it should raise it in the squad channel the same day rather than waiting for the retrospective. The agreement will be revisited at the next quarterly planning session, and any member can propose changes at any retrospective.", qs: [
+    { q: "What happens when a stand-up discussion becomes too detailed?", o: ["The stand-up is extended.", "It moves to a follow-up call with only the people involved.", "It is postponed to Wednesday.", "It is raised at the retrospective."], a: 1, e: "Detailed problem-solving moves to a follow-up call with only those involved." },
+    { q: "A change to payment calculations has one approval from a junior engineer. What is required?", o: ["It can be merged.", "One more approval, from a senior engineer.", "Approval from the whole squad.", "A retrospective discussion."], a: 1, e: "Such changes need two approvals, one of them from a senior engineer." },
+    { q: "How should a risk to the sprint goal be handled?", o: ["Raised in the squad channel the same day.", "Discussed at the next retrospective.", "Reported at quarterly planning.", "Kept within the individual's tasks."], a: 0, e: "Raise it in the squad channel the same day rather than waiting." },
+    { q: "Which statement best describes the agreement?", o: ["It is fixed for a year.", "It can only be changed by the manager.", "It is flexible and can be revised by team members.", "It applies only to senior engineers."], a: 2, e: "It is revisited quarterly and any member can propose changes at any retrospective." }
+  ] }
+];
+
+/* Listening clips: lines [speaker, text]; speakers map to voice settings */
+const LISTENING = [
+  { t: 'Daily stand-up · Payments squad', sp: { Anita: 'f', Rahul: 'm', Mark: 'm2' }, lines: [
+    ['Anita', "Good morning everyone. Let's keep this quick. Rahul, can you start?"],
+    ['Rahul', "Sure. Yesterday I finished the refund API and raised the pull request. Today I'll fix the review comments. I'm blocked on the sandbox credentials from the bank, so I can't run the end-to-end test yet."],
+    ['Anita', "Okay, I'll chase the bank for the credentials after this call. Mark?"],
+    ['Mark', "I'm still on the settlement report. The client changed the currency format again, so I need one more day. I should be done by Thursday."],
+    ['Anita', "Thanks. So the demo moves from Wednesday to Friday. I'll inform the client today."]
+  ], qs: [
+    { q: "What is blocking Rahul?", o: ["Review comments on his pull request.", "Missing sandbox credentials from the bank.", "The currency format change.", "The client demo."], a: 1, e: "Rahul says he is blocked on the sandbox credentials from the bank." },
+    { q: "Why does Mark need more time?", o: ["He was on leave.", "The client changed the currency format again.", "His pull request was rejected.", "He is waiting for credentials."], a: 1, e: "Mark: “The client changed the currency format again, so I need one more day.”" },
+    { q: "What decision does Anita announce?", o: ["The demo moves from Wednesday to Friday.", "Rahul will present the demo.", "The refund API is cancelled.", "Mark will help Rahul."], a: 0, e: "“So the demo moves from Wednesday to Friday. I'll inform the client today.”" }
+  ] },
+  { t: 'Client call · Delayed data migration', sp: { Sarah: 'f', Vikram: 'm' }, lines: [
+    ['Sarah', "Vikram, we were expecting the customer data migration to finish last Friday. What happened?"],
+    ['Vikram', "I understand the concern, Sarah. During validation we found that about two percent of records had duplicate customer IDs. Rather than migrate bad data, we paused to clean it."],
+    ['Sarah', "How long will that take? Our marketing campaign starts on the twentieth."],
+    ['Vikram', "The clean-up will be complete by Wednesday, and the final migration will run over the weekend. You'll have the data by Monday the eighteenth, two days before your campaign."],
+    ['Sarah', "Alright. Please send me a written summary today, and I'd like a short update every evening until it's done."]
+  ], qs: [
+    { q: "Why was the migration paused?", o: ["The server crashed.", "About two percent of records had duplicate customer IDs.", "The client asked to stop it.", "The marketing campaign was cancelled."], a: 1, e: "Vikram explains that about 2% of records had duplicate customer IDs." },
+    { q: "When will the client receive the data?", o: ["Last Friday.", "Wednesday.", "Monday the eighteenth.", "The twentieth."], a: 2, e: "“You'll have the data by Monday the eighteenth, two days before your campaign.”" },
+    { q: "What does Sarah request at the end?", o: ["A discount.", "A written summary today and a short update every evening.", "A new project manager.", "A meeting with the CEO."], a: 1, e: "She asks for a written summary today and a short update every evening until done." }
+  ] },
+  { t: 'Voicemail · Office relocation', sp: { Neha: 'f' }, lines: [
+    ['Neha', "Hi team, this is Neha from Facilities. A quick reminder about the office move this weekend. Please pack your desk items in the labelled boxes by Friday at four p.m. Laptops should go home with you, not into the boxes. The new office on the fifth floor opens on Monday at nine a.m. Your access cards will work automatically, but visitor passes must be requested at least one day in advance through the portal. If you have any accessibility needs, email me before Thursday so we can arrange your desk."]
+  ], qs: [
+    { q: "What should employees do with their laptops?", o: ["Pack them in labelled boxes.", "Leave them on their desks.", "Take them home.", "Hand them to Facilities."], a: 2, e: "“Laptops should go home with you, not into the boxes.”" },
+    { q: "How early must visitor passes be requested?", o: ["At least one day in advance.", "By Friday at four p.m.", "On Monday morning.", "No request is needed."], a: 0, e: "Visitor passes must be requested at least one day in advance through the portal." },
+    { q: "By when should accessibility needs be emailed?", o: ["Before Thursday.", "By Friday at four.", "On Monday.", "Before the end of the month."], a: 0, e: "“Email me before Thursday so we can arrange your desk.”" }
+  ] },
+  { t: 'Project kick-off · Roles and timeline', sp: { James: 'm2', Priya: 'f' }, lines: [
+    ['James', "Welcome to the kick-off for the insurance claims portal. The goal is to reduce claim processing time from ten days to three."],
+    ['Priya', "Thanks, James. The first phase covers motor claims only. Health claims come in phase two, after the regulator approves the new document rules."],
+    ['James', "Right. Priya will be the single point of contact for requirements. Please don't send requirement changes directly to the developers."],
+    ['Priya', "We'll have a demo every two weeks, and user acceptance testing starts in the second week of August."]
+  ], qs: [
+    { q: "What is the main goal of the project?", o: ["To cut claim processing time from ten days to three.", "To launch health claims first.", "To hire new developers.", "To replace the regulator's rules."], a: 0, e: "“The goal is to reduce claim processing time from ten days to three.”" },
+    { q: "Why are health claims in phase two?", o: ["They are less important.", "They depend on the regulator approving new document rules.", "The developers are busy.", "The client asked for motor claims only."], a: 1, e: "Health claims come after the regulator approves the new document rules." },
+    { q: "How should requirement changes be sent?", o: ["Directly to developers.", "Through Priya, the single point of contact.", "In the fortnightly demo only.", "By email to James."], a: 1, e: "Priya is the single point of contact; changes should not go directly to developers." }
+  ] },
+  { t: 'HR call · Performance review cycle', sp: { Meera: 'f', Arjun: 'm' }, lines: [
+    ['Arjun', "Hi Meera, I had a question about the review cycle. When is the self-assessment due?"],
+    ['Meera', "Hi Arjun. The self-assessment window opens on the first and closes on the fifteenth. After that, your manager has two weeks to add comments."],
+    ['Arjun', "Can I attach feedback from the client I worked with?"],
+    ['Meera', "Yes, please do. Client feedback is valuable, but make sure it comes from an official email, not a chat screenshot."],
+    ['Arjun', "Got it. And if I miss the deadline?"],
+    ['Meera', "The form locks automatically, so you'd need your manager to request a reopening. It's better not to leave it to the last day."]
+  ], qs: [
+    { q: "When does the self-assessment window close?", o: ["On the first.", "On the fifteenth.", "Two weeks after the fifteenth.", "On the last day of the month."], a: 1, e: "It “opens on the first and closes on the fifteenth”." },
+    { q: "What does Meera say about client feedback?", o: ["It is not allowed.", "Chat screenshots are preferred.", "It should come from an official email.", "Only managers can attach it."], a: 2, e: "It should come from an official email, not a chat screenshot." },
+    { q: "What happens if Arjun misses the deadline?", o: ["He cannot be reviewed this year.", "The form locks and his manager must request a reopening.", "HR fills it in for him.", "Nothing; it stays open."], a: 1, e: "“The form locks automatically, so you'd need your manager to request a reopening.”" }
+  ] },
+  { t: 'Support escalation call', sp: { Linda: 'f', Karthik: 'm' }, lines: [
+    ['Linda', "Karthik, our warehouse scanners have been failing to sync since this morning. This is critical for us."],
+    ['Karthik', "I'm sorry for the disruption, Linda. I've raised it as a priority-one incident. Can you confirm whether all three warehouses are affected, or only Pune?"],
+    ['Linda', "Only Pune. The other two are fine."],
+    ['Karthik', "Thanks, that helps. It points to the local network gateway rather than our application. Our network engineer will connect remotely within fifteen minutes. As a workaround, the scanners can store records offline and sync once the connection is back."],
+    ['Linda', "Okay. Please call me as soon as it's resolved."]
+  ], qs: [
+    { q: "How did Karthik classify the issue?", o: ["As a low-priority request.", "As a priority-one incident.", "As a feature request.", "As a user training issue."], a: 1, e: "He raised it as a priority-one incident." },
+    { q: "Why does Karthik suspect the local network gateway?", o: ["Because only the Pune warehouse is affected.", "Because the scanners are old.", "Because Linda said so.", "Because the application was updated."], a: 0, e: "Only Pune is affected while the other warehouses work, which points to a local cause." },
+    { q: "What workaround is offered?", o: ["Use paper records.", "Scanners store records offline and sync later.", "Move stock to another warehouse.", "Restart all scanners every hour."], a: 1, e: "Scanners can store records offline and sync once the connection is back." }
+  ] }
+];
+
+/* Spoken prompts: {t, prompt, hints: [labels], kw: regex list for coverage} */
+const SPOKEN = [
+  { t: 'Introduce yourself', prompt: "Introduce yourself as you would to a new project team: your background, key skills, a project you are proud of, and what you hope to contribute.", pts: [["background / education", /studied|graduat|degree|college|universit|engineering|b\.?tech|background|from/i], ["skills", /skill|java|python|c\+\+|sql|cloud|develop|design|communication|team/i], ["a project", /project|built|developed|worked on|internship|created/i], ["contribution / goals", /contribut|hope|goal|look forward|want to|aim|add value|learn/i]] },
+  { t: 'Explain a project delay', prompt: "Your client's release will be one week late because of a third-party API issue. Explain the situation to the client, the impact, and your recovery plan.", pts: [["apology / acknowledgement", /sorry|apolog|understand|regret/i], ["cause", /api|third[- ]party|vendor|issue|because|due to/i], ["impact", /week|delay|impact|release|date/i], ["recovery plan", /plan|will|next step|mitigat|workaround|update|by (monday|friday|\w+day)/i]] },
+  { t: 'Describe a challenge you solved', prompt: "Describe a difficult technical or team challenge you faced, what you did, and what you learned from it.", pts: [["the situation", /challenge|problem|issue|difficult|situation/i], ["your actions", /i (did|decided|started|created|spoke|analy[sz]ed|fixed|organi[sz]ed)|so i|my approach/i], ["the result", /result|outcome|finally|as a result|succeed|improv|reduced|increased/i], ["what you learned", /learn|lesson|realis|realiz|taught me|now i/i]] },
+  { t: 'Your favourite technology', prompt: "Talk about a technology you find exciting (for example cloud, AI or cybersecurity): what it is, how businesses use it, and one risk or challenge.", pts: [["what it is", /is a|refers to|means|technology|platform/i], ["business use", /business|compan|customer|use|industr|bank|retail/i], ["risk / challenge", /risk|challenge|concern|security|privacy|cost|bias/i], ["your opinion", /i think|i believe|in my opinion|i feel|excit/i]] },
+  { t: 'Handling a difficult customer', prompt: "A customer is angry because their issue has not been resolved for a week. Speak to them: calm the situation, explain what you will do, and set expectations.", pts: [["empathy", /understand|sorry|apolog|frustrat/i], ["ownership", /i will|i'll|personally|take ownership|responsib/i], ["action", /check|escalat|fix|resolve|team|investigat/i], ["timeline / follow-up", /today|tomorrow|by|hours|update|call you|follow up/i]] },
+  { t: 'Teamwork experience', prompt: "Describe a time you worked in a team with people who had different opinions. How did you reach a decision?", pts: [["the team situation", /team|group|members|colleague/i], ["the disagreement", /different|disagree|opinion|conflict|views/i], ["how you resolved it", /discuss|listen|compromise|data|vote|meeting|agreed/i], ["outcome / learning", /result|outcome|learn|successful|finally/i]] },
+  { t: 'Why this role', prompt: "Explain why you want to work in the IT services industry and what makes you a good fit for a client-facing role.", pts: [["motivation", /because|interest|passion|motivat|excit|want/i], ["industry knowledge", /client|service|industr|technology|digital|global/i], ["your strengths", /strength|skill|communicat|adapt|learn|problem/i], ["client-facing fit", /client|customer|stakeholder|present|explain/i]] },
+  { t: 'Remote vs office work', prompt: "Give your opinion on remote work versus working from the office for software teams. Support your view with reasons and an example.", pts: [["clear opinion", /i think|i believe|in my opinion|i prefer|i feel/i], ["reasons", /because|since|reason|as a result|therefore/i], ["an example", /for example|for instance|such as|when i/i], ["balance / conclusion", /however|on the other hand|overall|conclusion|hybrid|balance/i]] },
+  { t: 'Explain a technical concept simply', prompt: "Explain what an API is to a non-technical business manager, using a simple everyday example.", pts: [["definition", /api|application programming interface|interface|connect/i], ["everyday analogy", /like a|imagine|for example|waiter|restaurant|menu|bridge|messenger/i], ["business value", /business|customer|faster|integrat|data|partner/i], ["simple language", /simply|in short|basically|in simple terms/i]] },
+  { t: 'Weekend plan for a team outing', prompt: "Your team wants to plan an outing. Propose a plan: where, when, budget, and how you will make sure everyone can take part.", pts: [["place", /place|park|resort|restaurant|visit|go to/i], ["time", /saturday|sunday|weekend|morning|evening|date/i], ["budget", /budget|cost|rupees|₹|per person|price/i], ["inclusion", /everyone|all|dietary|vegetarian|accessib|option|include/i]] }
+];
+
+/* Business writing tasks */
+const WRITING = [
+  { t: 'Email: Delay in UAT build', task: "You are the project lead. Write an email to your client, Ms. Laura Chen, informing her that the User Acceptance Testing (UAT) build will be delivered on 22 May instead of 18 May because of a critical defect found in regression testing. Apologise, explain the cause and the fix, propose an adjusted UAT schedule, and ask her to confirm.", min: 120, max: 200, pts: [["apology", /apolog|sorry|regret/i], ["new date (22 May)", /22(nd)? may|may 22/i], ["cause (critical defect / regression)", /defect|regression|bug|issue/i], ["adjusted UAT schedule", /schedule|plan|timeline|uat (will|can)|revised|adjusted/i], ["request to confirm", /confirm|let (me|us) know|approval|agree/i]],
+    model: "Subject: Revised UAT build delivery – 22 May\n\nDear Ms. Chen,\n\nI am writing to let you know that the UAT build planned for 18 May will now be delivered on 22 May. I sincerely apologise for the change.\n\nDuring final regression testing we found a critical defect in the payment reconciliation module that could cause mismatched totals. We have identified the root cause, the fix is being tested, and we have added automated checks to prevent a recurrence.\n\nTo protect your timeline, we propose starting UAT on 23 May and extending the window by two days, so sign-off would move from 30 May to 1 June. Our team will be available for daily defect triage calls during UAT.\n\nCould you please confirm by Friday whether this revised schedule works for your team?\n\nKind regards,\nRohan Mehta\nProject Lead" },
+  { t: 'Memo: Issue remediation plan', task: "Write an internal memo to the delivery team about repeated missed code-review timelines (reviews are taking 3–4 days instead of 1). Describe the issue and its impact, and set out at least three remediation steps with owners, plus when the situation will be reviewed.", min: 120, max: 220, pts: [["the issue", /review|pull request|pr|delay|3|three|four/i], ["impact", /impact|delay|release|sprint|quality|velocity/i], ["remediation steps", /step|will|first|second|third|1\.|2\.|3\./i], ["owners", /owner|responsible|lead|will (own|drive)|\(\w+\)/i], ["review date", /review|revisit|check|by (the end|friday|monday|\d)/i]],
+    model: "Subject: Remediation plan – code review delays\n\nTo: Delivery Team\nFrom: Anjali Rao, Delivery Manager\nDate: 3 June\n\nOver the last three sprints, code reviews have taken 3–4 working days instead of our agreed one day. As a result, two releases slipped and developers lost context while waiting for feedback.\n\nWith immediate effect we will:\n1. Rotate a daily \"review champion\" who clears pending pull requests before noon (owner: Team Leads).\n2. Limit pull requests to about 400 changed lines so reviews are faster (owner: all developers).\n3. Add an automated reminder in the team channel for reviews older than 24 hours (owner: DevOps – Karan).\n\nWe will review progress at the retrospective on 24 June using average review time as the measure.\n\nThank you for your support.\nAnjali Rao" },
+  { t: 'Meeting summary email', task: "Write a meeting summary email to all attendees of today's sprint planning meeting. Include the sprint goal, three key decisions, action items with owners and due dates, and the date of the next meeting.", min: 110, max: 200, pts: [["sprint goal", /goal|objective/i], ["decisions", /decid|decision|agreed/i], ["action items with owners", /action|owner|will|responsible|\(\w+\)|–\s*\w+/i], ["due dates", /by (mon|tue|wed|thu|fri|\d)|due|deadline|\d{1,2}(st|nd|rd|th)? (jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i], ["next meeting", /next (meeting|review|sync|planning)|reconvene|follow-up meeting/i]],
+    model: "Subject: Summary – Sprint 14 planning (10 July)\n\nHi all,\n\nThank you for joining today's sprint planning. Here is a summary.\n\nSprint goal: release the new invoice download feature to all premium customers.\n\nKey decisions:\n1. Mobile push notifications move to Sprint 15.\n2. We will use the existing PDF service instead of building a new one.\n3. Code freeze is on 22 July.\n\nAction items:\n- Finalise API contract – Neha – by 12 July\n- Update test cases – Sameer – by 15 July\n- Confirm hosting costs with finance – Rohit – by 16 July\n\nOur next meeting is the sprint review on 24 July at 11:00 IST.\n\nPlease reply if I have missed anything.\n\nBest regards,\nKavya" },
+  { t: 'Email: Requesting access from client', task: "Write an email to the client's IT manager, Mr. David Brooks, requesting VPN and test-environment access for three new team members joining on Monday. Explain why the access is needed, give the details they need, mention any security compliance, and state the deadline.", min: 100, max: 180, pts: [["request for access", /request|access|vpn|environment/i], ["three members / details", /three|3|names|team members|joining/i], ["reason", /because|so that|in order to|to (start|begin|work)|need/i], ["security compliance", /secur|nda|policy|complian|training/i], ["deadline", /by (friday|monday|\d)|before|deadline|monday/i]],
+    model: "Subject: Access request – three new team members joining Monday\n\nDear Mr. Brooks,\n\nI hope you are well. I am writing to request VPN and test-environment access for three new team members who will join the project on Monday, 14 October.\n\nThey will work on regression testing for the billing release, so they need access to the QA environment and the test-management tool. Their details are:\n- Aisha Khan – QA Engineer – aisha.khan@example.com\n- Rahul Verma – QA Engineer – rahul.verma@example.com\n- Sneha Iyer – Automation Engineer – sneha.iyer@example.com\n\nAll three have signed the NDA and completed your security awareness training; the certificates are attached.\n\nCould you please arrange the access by Friday, 11 October, so they can start on Monday? Please let me know if you need any further information.\n\nKind regards,\nMeenal Joshi\nTest Manager" },
+  { t: 'Email: Responding to a client complaint', task: "A client has complained that your support team took 48 hours to respond to a high-priority ticket (the SLA is 4 hours). Write a reply that apologises, explains what went wrong, describes corrective actions, and offers a follow-up call.", min: 110, max: 200, pts: [["apology", /apolog|sorry|regret/i], ["what went wrong", /because|due to|cause|missed|routing|queue|reason/i], ["SLA reference", /sla|4 hours|four hours|48 hours/i], ["corrective actions", /will|have (added|changed|introduced|fixed|corrected|updated)|(corrected|introduced|implemented|added) (the|an|a)|going forward|prevent|action/i], ["follow-up call", /call|meeting|discuss|speak/i]],
+    model: "Subject: Your high-priority ticket #45821 – our apologies and next steps\n\nDear Mr. Fernandes,\n\nThank you for raising this with us, and please accept my sincere apologies. Your high-priority ticket should have received a response within our 4-hour SLA, but it took 48 hours.\n\nWe have found that the ticket was routed to a general queue because of an incorrect priority rule that was introduced during a tool update last week.\n\nWe have corrected the rule, checked all open tickets for the same issue, and added an alert that notifies the support lead whenever a high-priority ticket is unassigned for more than 30 minutes.\n\nI would welcome the chance to discuss this with you. Would a 20-minute call on Thursday or Friday afternoon suit you?\n\nKind regards,\nSunita Pillai\nSupport Manager" },
+  { t: 'Email: Proposing a process improvement', task: "Write an email to your manager proposing to automate the weekly status report, which currently takes the team about 6 hours to prepare manually. Explain the problem, your proposed solution, the benefits, and ask for approval or a short meeting.", min: 110, max: 200, pts: [["the problem", /manual|6 hours|six hours|time|effort|problem/i], ["proposed solution", /automat|script|dashboard|tool|propose/i], ["benefits", /save|benefit|accura|faster|reduce|error/i], ["effort / cost", /effort|days|cost|week|build/i], ["request approval / meeting", /approv|meeting|discuss|let me know|feedback/i]],
+    model: "Subject: Proposal – automating the weekly status report\n\nHi Deepak,\n\nOur weekly status report currently takes the team about six hours to prepare, mostly copying data from Jira and the test tool into slides.\n\nI propose building a simple dashboard that pulls this data automatically and exports the report in the current format. I estimate it would take me about three days to build and test.\n\nThe benefits would be:\n- around six hours saved every week\n- fewer copy-paste errors\n- up-to-date figures that the client can view at any time\n\nCould we discuss this for 15 minutes this week? If you approve, I can start after the current sprint ends.\n\nThanks and regards,\nNikhil" }
+];
+
+</script>
+<script>
+(function () {
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const words = t => (t.trim().match(/[A-Za-z0-9'’-]+/g) || []).length;
+const L = 'ABCDE';
+const SECTIONS = [
+  { id: 'grammar', name: 'Grammar & Sentence Correction', short: 'Grammar', n: 10, cls: 'n1', icon: '✍️', intro: ['Choose the best correction for each sentence (or “No correction required”).', 'Some questions test prepositions, tense and idioms.'] },
+  { id: 'situational', name: 'Situational Awareness & Response', short: 'Situational', n: 6, cls: 'n2', icon: '💬', intro: ['Read each workplace chat or email situation.', 'Choose the most professional and effective response.'] },
+  { id: 'reading', name: 'Reading Comprehension', short: 'Reading', n: 4, cls: 'n3', icon: '📄', intro: ['Read the passage carefully; it stays visible next to the question.', 'Some questions need inference, not just finding words.'] },
+  { id: 'listening', name: 'Listening Comprehension', short: 'Listening', n: 4, cls: 'n4', icon: '🎧', intro: ['Press play to hear the audio clip. You can play it at most 2 times per question.', 'Use headphones and take notes if you like.'] },
+  { id: 'spoken', name: 'Spoken Communication Simulation', short: 'Speaking', n: 2, cls: 'n5', icon: '🎤', intro: ['You get 30 seconds to prepare, then up to 2 minutes to speak.', 'Speak clearly for at least 100 words. Your speech is transcribed live.'] },
+  { id: 'writing', name: 'Business Communication Writing', short: 'Writing', n: 2, cls: 'n6', icon: '📧', intro: ['Write a professional email or memo for each task.', 'Include a subject line, greeting, clear purpose, key points, call to action and sign-off.'] }
+];
+const DUR = 60 * 60 * 1000;
+
+let store = {}; try { store = JSON.parse(localStorage.getItem('comm.v1') || '{}') || {}; } catch (e) {}
+const save = () => { try { localStorage.setItem('comm.v1', JSON.stringify(store)); } catch (e) {} };
+const applyTheme = () => store.theme ? document.documentElement.setAttribute('data-theme', store.theme) : document.documentElement.removeAttribute('data-theme');
+applyTheme();
+$('#themeBtn').onclick = () => { const d = store.theme ? store.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; store.theme = d ? 'light' : 'dark'; save(); applyTheme(); };
+if (store.name) $('#cand').value = store.name;
+if (store.history && store.history.length) { const h = store.history[store.history.length - 1]; $('#histNote').textContent = `Last attempt: ${h.pct}% (${h.cefr}) · ${store.history.length} attempt(s)`; }
+
+/* ---------------- speech: synthesis ---------------- */
+const TTS = 'speechSynthesis' in window;
+let voices = [];
+function loadVoices() { if (TTS) voices = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang)); }
+if (TTS) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function voiceFor(kind) {
+  if (!voices.length) return null;
+  const fem = voices.filter(v => /female|zira|samantha|susan|hazel|heera|veena|karen|moira|tessa|serena|victoria|allison|ava|aria|jenny|libby|sonia|natasha|google uk english female|google us english/i.test(v.name));
+  const mal = voices.filter(v => /male|david|mark|daniel|george|ravi|rishi|alex|fred|guy|ryan|thomas|google uk english male/i.test(v.name) && !/female/i.test(v.name));
+  if (kind === 'f') return fem[0] || voices[0];
+  if (kind === 'm') return mal[0] || voices[Math.min(1, voices.length - 1)];
+  return mal[1] || mal[0] || voices[Math.min(2, voices.length - 1)];
+}
+function speakLines(lines, sp, onLine) {
+  // resolves when finished; robust to browsers that never fire onend
+  return new Promise(resolve => {
+    if (!TTS) { resolve(false); return; }
+    speechSynthesis.cancel();
+    let i = 0, done = false;
+    const next = () => {
+      if (done) return;
+      if (i >= lines.length) { done = true; resolve(true); return; }
+      const [who, text] = lines[i++]; onLine && onLine(who);
+      const u = new SpeechSynthesisUtterance(text);
+      const kind = sp[who] || 'f'; const v = voiceFor(kind);
+      if (v) u.voice = v;
+      u.lang = (v && v.lang) || 'en-US'; u.rate = 0.97; u.pitch = kind === 'f' ? 1.1 : kind === 'm' ? 0.9 : 0.8;
+      const guard = setTimeout(() => { u.onend = null; next(); }, (text.split(/\s+/).length / 2.3 + 2) * 1000);
+      u.onend = () => { clearTimeout(guard); setTimeout(next, 350); };
+      u.onerror = () => { clearTimeout(guard); next(); };
+      speechSynthesis.speak(u);
+    };
+    next();
+  });
+}
+$('#testAudio').onclick = async () => {
+  if (!TTS) { $('#audioSt').textContent = 'Speech synthesis is not available in this browser — listening clips will show a transcript.'; $('#audioSt').className = 'st bad'; return; }
+  $('#audioSt').textContent = 'Playing… you should hear: “Audio check complete. You are ready for the listening section.”'; $('#audioSt').className = 'st';
+  await speakLines([['A', 'Audio check complete. You are ready for the listening section.']], { A: 'f' });
+  $('#audioSt').textContent = '✓ Audio played. If you did not hear anything, check your volume or output device.'; $('#audioSt').className = 'st ok';
+};
+
+/* ---------------- speech: recognition + mic ---------------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let micOK = null;
+$('#checkMic').onclick = async () => {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { $('#micSt').textContent = 'Microphone API not available — you can type spoken answers instead.'; $('#micSt').className = 'st bad'; micOK = false; return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    micOK = true;
+    const ctx = new (window.AudioContext || window.webkitAudioContext)(), src = ctx.createMediaStreamSource(stream), an = ctx.createAnalyser(); an.fftSize = 512; src.connect(an);
+    const buf = new Uint8Array(an.fftSize); let t0 = performance.now(), peak = 0;
+    $('#micSt').textContent = 'Say something… (measuring for 5 seconds)'; $('#micSt').className = 'st';
+    const loop = () => { an.getByteTimeDomainData(buf); let m = 0; for (const v of buf) m = Math.max(m, Math.abs(v - 128)); peak = Math.max(peak, m); $('#micLvl').style.width = Math.min(100, m * 1.6) + '%';
+      if (performance.now() - t0 < 5000) requestAnimationFrame(loop); else { stream.getTracks().forEach(t => t.stop()); ctx.close(); $('#micLvl').style.width = '0';
+        $('#micSt').textContent = (peak > 12 ? '✓ Microphone is working.' : '⚠ Very low input — move closer to the mic or check the input device.') + (SR ? ' Live speech-to-text is supported.' : ' Live speech-to-text is NOT supported in this browser — you will type spoken answers.');
+        $('#micSt').className = 'st ' + (peak > 12 ? 'ok' : 'bad'); } };
+    loop();
+  } catch (e) { micOK = false; $('#micSt').textContent = '✕ Microphone permission denied or no mic found — you can still type spoken answers.'; $('#micSt').className = 'st bad'; }
+};
+
+/* ---------------- building a test ---------------- */
+function buildItems(mode, section) {
+  const items = [];
+  const g = shuffle(GRAMMAR.map((x, i) => i)), s = shuffle(SITUATIONAL.map((x, i) => i));
+  const addG = n => g.slice(0, n).forEach(i => items.push({ sec: 'grammar', type: 'mcq', gi: i }));
+  const addS = n => s.slice(0, n).forEach(i => items.push({ sec: 'situational', type: 'mcq', si: i }));
+  const addR = (np, per) => shuffle(READING.map((x, i) => i)).slice(0, np).forEach(p => shuffle(READING[p].qs.map((x, i) => i)).slice(0, per).sort((a, b) => a - b).forEach(q => items.push({ sec: 'reading', type: 'mcq', rp: p, rq: q })));
+  const addL = (nc, per) => shuffle(LISTENING.map((x, i) => i)).slice(0, nc).forEach(c => shuffle(LISTENING[c].qs.map((x, i) => i)).slice(0, per).sort((a, b) => a - b).forEach(q => items.push({ sec: 'listening', type: 'mcq', lc: c, lq: q })));
+  const addP = n => shuffle(SPOKEN.map((x, i) => i)).slice(0, n).forEach(i => items.push({ sec: 'spoken', type: 'speak', pi: i }));
+  const addW = n => shuffle(WRITING.map((x, i) => i)).slice(0, n).forEach(i => items.push({ sec: 'writing', type: 'write', wi: i }));
+  if (mode === 'full') {
+    // always include the "introduce yourself" prompt, as in the real pattern
+    addG(10); addS(6); addR(2, 2); addL(2, 2);
+    const others = shuffle(SPOKEN.map((x, i) => i).filter(i => i !== 0));
+    items.push({ sec: 'spoken', type: 'speak', pi: 0 }, { sec: 'spoken', type: 'speak', pi: others[0] });
+    addW(2);
+  } else ({ grammar: () => addG(10), situational: () => addS(6), reading: () => addR(1, 4), listening: () => addL(1, 3), spoken: () => addP(1), writing: () => addW(1) })[section]();
+  return items;
+}
+function rawMCQ(it) {
+  if (it.sec === 'grammar') { const [stem, o, a, e] = GRAMMAR[it.gi]; return { stem, o, a, e }; }
+  if (it.sec === 'situational') { const x = SITUATIONAL[it.si]; return { stem: x.q, o: x.o, a: x.a, e: x.e, scen: x.s, ch: x.ch }; }
+  if (it.sec === 'reading') { const p = READING[it.rp], q = p.qs[it.rq]; return { stem: q.q, o: q.o, a: q.a, e: q.e }; }
+  const c = LISTENING[it.lc], q = c.qs[it.lq]; return { stem: q.q, o: q.o, a: q.a, e: q.e };
+}
+// options are shuffled once per attempt ("No correction required" stays last as option E)
+function mcqData(it) {
+  const d = rawMCQ(it);
+  if (!it.perm) { const n = d.o.length, fixedLast = d.o[n - 1] === NC; const head = shuffle([...Array(fixedLast ? n - 1 : n).keys()]); it.perm = fixedLast ? head.concat(n - 1) : head; }
+  const o = it.perm.map(i => d.o[i]), a = it.perm.indexOf(d.a);
+  return Object.assign({}, d, { o, a });
+}
+
+/* ---------------- scoring: speaking & writing ---------------- */
+const FILLERS = /\b(um+|uh+|erm|hmm+|like|you know|basically|actually|i mean|kind of|sort of)\b/gi;
+const CONNECT = /\b(first(ly)?|second(ly)?|then|next|because|however|for example|for instance|finally|also|therefore|as a result|in addition|moreover|on the other hand|overall|in conclusion)\b/gi;
+function scoreSpeech(text, secs, typed, prompt) {
+  const w = words(text), tokens = (text.toLowerCase().match(/[a-z']+/g) || []);
+  const first = tokens.slice(0, 100), ttr = first.length ? new Set(first).size / first.length : 0;
+  const fillers = (text.match(FILLERS) || []).length, fillRate = w ? fillers / w * 100 : 0;
+  const conn = new Set((text.match(CONNECT) || []).map(x => x.toLowerCase())).size;
+  const wpm = !typed && secs > 5 ? Math.round(w / secs * 60) : null;
+  const cov = prompt.pts.filter(p => p[1].test(text));
+  const parts = [
+    ['Length (≥ 100 words)', Math.round(30 * Math.min(1, w / 100)), 30, `${w} words`],
+    ['Pace (110–170 words/min)', wpm === null ? 10 : wpm >= 110 && wpm <= 170 ? 15 : wpm >= 90 && wpm <= 190 ? 10 : 5, 15, wpm === null ? (typed ? 'typed — not measured' : 'n/a') : `${wpm} wpm`],
+    ['Fluency (few fillers)', fillRate <= 2 ? 15 : fillRate <= 5 ? 10 : fillRate <= 8 ? 5 : 0, 15, `${fillers} filler word(s)`],
+    ['Vocabulary range', ttr >= .6 ? 15 : ttr >= .5 ? 11 : ttr >= .4 ? 7 : 3, 15, `${Math.round(ttr * 100)}% unique words`],
+    ['Content coverage', Math.round(15 * cov.length / prompt.pts.length), 15, `${cov.length}/${prompt.pts.length}: ${prompt.pts.map(p => (p[1].test(text) ? '✓ ' : '✕ ') + p[0]).join(', ')}`],
+    ['Organisation (linking words)', conn >= 4 ? 10 : conn >= 2 ? 6 : conn >= 1 ? 3 : 0, 10, `${conn} different linking word(s)`]
+  ];
+  let total = parts.reduce((a, p) => a + p[1], 0);
+  if (w < 100) total = Math.min(total, Math.round(w * 0.6));   // below the 100-word minimum: capped in proportion to length
+  return { total, parts, w };
+}
+function scoreWriting(text, task) {
+  const t = text.trim(), w = words(t), lines = t.split(/\n/).map(x => x.trim()).filter(Boolean);
+  const body = lines.filter(x => !/^(subject|to|from|date|cc)\s*:/i.test(x));
+  const cov = task.pts.filter(p => p[1].test(t));
+  const informal = (t.match(/\b(u|ur|pls|plz|thx|gonna|wanna|asap!+|lol|btw)\b|!!+/gi) || []).length;
+  const lowerI = (t.match(/(^|\s)i(\s|'|’)/g) || []).length;
+  const caps = (t.match(/\b[A-Z]{4,}\b/g) || []).filter(x => !/^(UAT|IST|EST|NDA|SLA|VPN|API|QA|HR|CEO|PDF|IT|UTC|GMT)$/.test(x)).length;
+  const inRange = w >= task.min && w <= task.max, near = w >= task.min * 0.8 && w <= task.max * 1.2;
+  const parts = [
+    ['Subject line', /^subject\s*:\s*\S+/im.test(t) ? 10 : 0, 10],
+    ['Greeting / addressee', /^(dear|hi|hello|good (morning|afternoon|evening)|to\s*:|team|all\b)/im.test(t) ? 10 : 0, 10],
+    ['Clear opening / purpose', /(i am writing|i'm writing|i would like to|this is to|i want to|i wanted to|following|thank you for|i hope|please find|regarding|with reference to|over the last|to inform|currently|i propose|i noticed|we have (found|noticed)|as discussed|further to)/i.test(body.slice(0, 3).join(' ')) ? 10 : 0, 10],
+    ['Required content', Math.round(35 * cov.length / task.pts.length), 35, `${cov.length}/${task.pts.length}: ${task.pts.map(p => (p[1].test(t) ? '✓ ' : '✕ ') + p[0]).join(', ')}`],
+    ['Call to action / next step', /(could (you|we)|would (you|a|an)|please (confirm|let|reply|share|review|approve|arrange|advise|follow|ensure)|let me know|kindly confirm|would .{0,40}(suit|work)|look forward to|reply if|can we (discuss|meet)|we will review|if you have (any )?questions|reach out|thank you for your (support|cooperation))/i.test(t) ? 10 : 0, 10],
+    ['Closing & sign-off', /(regards|sincerely|best|thanks|thank you|cheers|warm wishes)[^\n]*\n+\s*[A-Z][\w .'-]{1,40}\s*$/im.test(t) ? 10 : /(regards|sincerely|best wishes)/i.test(t) ? 5 : 0, 10],
+    ['Length in range', inRange ? 10 : near ? 5 : 0, 10, `${w} words (target ${task.min}–${task.max})`],
+    ['Professional tone & mechanics', Math.max(0, 5 - informal * 2 - lowerI - caps), 5, informal || lowerI || caps ? `${informal} informal item(s), ${lowerI} lowercase “i”, ${caps} ALL-CAPS word(s)` : 'no issues found']
+  ];
+  const total = Math.min(100, parts.reduce((a, p) => a + p[1], 0));
+  return { total, parts, w };
+}
+
+/* ---------------- state & timer ---------------- */
+let T = null;     // current attempt
+function now() { return Date.now(); }
+function startAttempt() {
+  const mode = document.querySelector('.mode.on').dataset.m, section = $('#secSel').value;
+  store.name = $('#cand').value.trim(); save();
+  T = { mode, section, items: buildItems(mode, section), idx: -1, ans: [], start: now(), lang: $('#accent').value, name: store.name || 'Candidate', done: false, shownIntro: {} };
+  $('#landing').classList.add('hide'); $('#test').classList.remove('hide'); $('#report').classList.add('hide');
+  const secs = mode === 'full' ? SECTIONS : SECTIONS.filter(s => s.id === section);
+  $('#segs').style.gridTemplateColumns = secs.map(s => `${s.n}fr`).join(' ');
+  $('#segs').innerHTML = secs.map(s => `<div class="seg" data-s="${s.id}" title="${s.name}"><i></i></div>`).join('');
+  $('#clock').classList.toggle('hide', mode !== 'full');
+  if (mode === 'full') { window.onbeforeunload = e => { e.preventDefault(); e.returnValue = ''; }; T.tick = setInterval(tick, 500); tick(); }
+  next();
+}
+function tick() {
+  if (!T || T.done) return;
+  const left = Math.max(0, DUR - (now() - T.start)), s = Math.ceil(left / 1000);
+  $('#clock').textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  $('#clock').classList.toggle('low', left < 5 * 60 * 1000);
+  if (left <= 0) finish(true);
+}
+function updateBars() {
+  const secs = [...document.querySelectorAll('.seg')];
+  secs.forEach(el => { const id = el.dataset.s, all = T.items.filter(x => x.sec === id).length, done = T.items.slice(0, T.idx).filter(x => x.sec === id).length; el.firstChild.style.width = (all ? done / all * 100 : 0) + '%'; });
+  const it = T.items[T.idx]; if (!it) return;
+  const S = SECTIONS.find(s => s.id === it.sec);
+  $('#sname').textContent = '· ' + S.name;
+  $('#qcount').textContent = `· Question ${T.idx + 1} of ${T.items.length}`;
+}
+function next() {
+  stopAll();
+  T.idx++;
+  if (T.idx >= T.items.length) return finish(false);
+  const it = T.items[T.idx];
+  updateBars();
+  if (!T.shownIntro[it.sec]) { T.shownIntro[it.sec] = true; return sectionIntro(it.sec); }
+  render(it);
+  window.scrollTo(0, 0);
+}
+function sectionIntro(id) {
+  const S = SECTIONS.find(s => s.id === id), n = T.items.filter(x => x.sec === id).length;
+  $('#stage').innerHTML = `<div class="qcard intro"><div class="big">${S.icon}</div><span class="num ${S.cls}" style="display:inline-grid;margin:6px 0">${SECTIONS.indexOf(S) + 1}</span><h2>${S.name}</h2><p class="hint">${n} question${n > 1 ? 's' : ''}${T.mode === 'full' ? ' · the timer keeps running' : ''}</p><ul>${S.intro.map(x => `<li>${x}</li>`).join('')}</ul><div><button class="btn" id="goSec">Begin section →</button></div></div>`;
+  $('#goSec').onclick = () => { render(T.items[T.idx]); window.scrollTo(0, 0); };
+}
+function chip(sec) { const S = SECTIONS.find(s => s.id === sec); return `<span class="chip num ${S.cls}" style="height:auto;flex:none;width:auto">${S.short}</span>`; }
+
+/* ---------------- renderers ---------------- */
+function render(it) {
+  if (it.type === 'mcq') return renderMCQ(it);
+  if (it.type === 'speak') return renderSpeak(it);
+  return renderWrite(it);
+}
+function renderMCQ(it) {
+  const d = mcqData(it), practice = T.mode === 'practice';
+  let left = '';
+  if (it.sec === 'reading') { const p = READING[it.rp]; left = `<div class="passage"><h4>${esc(p.t)}</h4>${esc(p.p)}</div>`; }
+  let top = '';
+  if (it.sec === 'situational') top = `<div class="scen"><div class="who">${d.ch === 'chat' ? '💬 Chat' : '📧 Email'} situation</div>${esc(d.scen)}</div>`;
+  if (it.sec === 'listening') {
+    const c = LISTENING[it.lc];
+    top = `<div class="player"><div class="row"><button class="play" id="playBtn" title="Play audio">▶</button><div class="wave" id="wave">${'<i></i>'.repeat(28)}</div><span class="plays" id="plays">Plays left: 2/2</span></div><div class="speaker" id="spk">${esc(c.t)} · press play to listen</div>${!TTS ? `<div class="tscript"><b>Audio is not supported in this browser — transcript:</b>${c.lines.map(l => `<p><b>${l[0]}:</b> ${esc(l[1])}</p>`).join('')}</div>` : ''}</div>`;
+  }
+  const q = `${top}<p class="stem">${esc(d.stem)}</p><div class="opts" id="opts">${d.o.map((o, i) => `<button class="opt" data-i="${i}"><span class="l">${L[i]}.</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div id="solBox"></div>
+    <div class="foot"><span class="hint">${practice ? 'Select an option to see the answer & solution.' : 'Select an option, then continue. You cannot come back to this question.'}</span><button class="btn" id="nextBtn" disabled>${T.idx === T.items.length - 1 ? 'Finish' : 'Save & Next →'}</button></div>`;
+  $('#stage').innerHTML = `<div class="qcard"><div class="qhead"><span class="qno">${T.idx + 1}.</span>${chip(it.sec)}</div>${left ? `<div class="two">${left}<div>${q}</div></div>` : q}</div>`;
+  let pick = null, locked = false;
+  $('#opts').onclick = e => {
+    const b = e.target.closest('.opt'); if (!b || locked) return;
+    pick = +b.dataset.i;
+    document.querySelectorAll('#opts .opt').forEach(x => x.classList.toggle('sel', +x.dataset.i === pick));
+    $('#nextBtn').disabled = false;
+    if (practice) {
+      locked = true;
+      document.querySelectorAll('#opts .opt').forEach(x => { const i = +x.dataset.i; if (i === d.a) x.classList.add('right'); else if (i === pick) x.classList.add('wrong'); });
+      $('#solBox').innerHTML = solutionHTML(d, pick, it);
+    }
+  };
+  $('#nextBtn').onclick = () => { T.ans[T.idx] = { pick, score: pick === d.a ? 1 : 0 }; next(); };
+  if (it.sec === 'listening') setupPlayer(it);
+}
+function solutionHTML(d, pick, it) {
+  let extra = '';
+  if (it.sec === 'listening') { const c = LISTENING[it.lc]; extra = `<details style="margin-top:8px"><summary>Show transcript</summary><div class="tscript">${c.lines.map(l => `<p><b>${l[0]}:</b> ${esc(l[1])}</p>`).join('')}</div></details>`; }
+  return `<div class="sol"><h5>Answer &amp; Solution</h5><div><span style="color:#10b981;font-weight:600">Answer:</span> <span class="ans">Option ${L[d.a]}</span> — ${esc(d.o[d.a])} ${pick === d.a ? '<span class="good">✓ You got it right</span>' : `<span class="badc">✕ You chose ${L[pick]}</span>`}</div><div style="margin-top:6px"><span style="color:#10b981;font-weight:600">Solution:</span> ${esc(d.e)}</div>${extra}</div>`;
+}
+function setupPlayer(it) {
+  const c = LISTENING[it.lc]; let plays = 0, playing = false;
+  const btn = $('#playBtn');
+  if (!TTS) { btn.disabled = true; $('#plays').textContent = 'Transcript mode'; return; }
+  btn.onclick = async () => {
+    if (playing || plays >= 2) return;
+    playing = true; plays++; btn.disabled = true; $('#wave').classList.add('on');
+    $('#plays').textContent = `Plays left: ${2 - plays}/2`;
+    await speakLines(c.lines, c.sp, who => { if ($('#spk')) $('#spk').textContent = `🔊 ${who} is speaking…`; });
+    playing = false;
+    if (!$('#playBtn')) return;
+    $('#wave').classList.remove('on'); $('#spk').textContent = plays >= 2 ? 'You have used both plays for this question.' : 'Finished. You can play it once more.';
+    btn.disabled = plays >= 2;
+  };
+}
+function stopAll() {
+  if (TTS) speechSynthesis.cancel();
+  if (T && T.rec) { try { T.rec.stop(); } catch (e) {} T.rec = null; }
+  if (T && T.timers) { T.timers.forEach(clearInterval); T.timers = []; }
+}
+
+/* speaking */
+function renderSpeak(it) {
+  const p = SPOKEN[it.pi], practice = T.mode === 'practice';
+  const canSR = !!SR && micOK !== false;
+  $('#stage').innerHTML = `<div class="qcard"><div class="qhead"><span class="qno">${T.idx + 1}.</span>${chip(it.sec)}<b>${esc(p.t)}</b></div>
+    <div class="task"><b>Speak on the following topic:</b><br>${esc(p.prompt)}<div class="hint" style="margin-top:6px;font-size:13px;color:var(--muted)">Tip: cover ${p.pts.map(x => x[0]).join(' · ')}</div></div>
+    <div id="spArea"></div><div id="solBox"></div>
+    <div class="foot"><span class="hint" id="spHint">Minimum 100 words.</span><button class="btn" id="nextBtn" disabled>${T.idx === T.items.length - 1 ? 'Finish' : 'Save & Next →'}</button></div></div>`;
+  T.timers = T.timers || [];
+  const state = { text: '', secs: 0, typed: !canSR };
+  const finishSpeak = () => {
+    stopAll();
+    const text = state.typed ? ($('#sayBox') ? $('#sayBox').value : state.text) : state.text;
+    const sc = scoreSpeech(text, state.secs, state.typed, p);
+    T.ans[T.idx] = { text, secs: state.secs, typed: state.typed, score: sc.total / 100, detail: sc };
+    if (practice) { $('#solBox').innerHTML = rubricHTML('Your speaking score', sc.total, sc.parts); $('#nextBtn').disabled = false; $('#nextBtn').onclick = next; }
+    else next();
+  };
+  $('#nextBtn').onclick = finishSpeak;
+  if (!canSR) {
+    $('#spArea').innerHTML = `<div class="alert warn">${!SR ? 'Live speech-to-text is not supported in this browser (use Chrome or Edge for the full experience).' : 'Microphone access was denied.'} Type what you would say instead — your answer is marked as <b>typed</b> and pace cannot be measured.</div><textarea class="say" id="sayBox" placeholder="Type your spoken answer here (at least 100 words)…"></textarea><div class="counter"><span>Words: <b id="wc">0</b> / 100 minimum</span><div class="bar2"><i id="wbar" style="width:0"></i></div></div>`;
+    $('#sayBox').oninput = () => { const w = words($('#sayBox').value); $('#wc').textContent = w; $('#wc').className = w >= 100 ? 'ok' : 'low'; $('#wbar').style.width = Math.min(100, w) + '%'; $('#nextBtn').disabled = w < 1; };
+    $('#nextBtn').textContent = practice ? 'Check my answer' : $('#nextBtn').textContent;
+    return;
+  }
+  // prep phase
+  let prep = 30;
+  $('#spArea').innerHTML = `<div class="rec"><b>Preparation time: <span id="prep">30</span>s</b><button class="btn ghost" id="skipPrep">Start speaking now</button></div><div class="transcript" id="trans"><span class="interim">Your live transcript will appear here.</span></div><div class="counter"><span>Words: <b id="wc">0</b> / 100 minimum</span><div class="bar2"><i id="wbar" style="width:0"></i></div><span id="recTime"></span></div>`;
+  const pt = setInterval(() => { prep--; if ($('#prep')) $('#prep').textContent = prep; if (prep <= 0) { clearInterval(pt); beginRec(); } }, 1000);
+  T.timers.push(pt);
+  $('#skipPrep').onclick = () => { clearInterval(pt); beginRec(); };
+  function beginRec() {
+    if (!$('#spArea')) return;
+    $('#spArea').querySelector('.rec').innerHTML = `<span class="recdot"></span><b>Recording…</b><span id="left">2:00</span><button class="btn ghost" id="stopRec">Stop &amp; submit answer</button><button class="btn ghost" id="typeInstead" title="Use this if your microphone or speech-to-text is not working">Mic not working? Type instead</button>`;
+    $('#nextBtn').disabled = false;
+    let finalText = '', interim = '', t0 = performance.now(), active = true;
+    const rec = new SR(); T.rec = rec; rec.lang = T.lang; rec.continuous = true; rec.interimResults = true;
+    const paint = () => { const tx = (finalText + ' ' + interim).trim(); const w = words(tx); if (!$('#trans')) return; $('#trans').innerHTML = esc(finalText) + ' <span class="interim">' + esc(interim) + '</span>'; $('#wc').textContent = w; $('#wc').className = w >= 100 ? 'ok' : 'low'; $('#wbar').style.width = Math.min(100, w) + '%'; $('#nextBtn').disabled = w < 1; };
+    rec.onresult = e => { interim = ''; for (let i = e.resultIndex; i < e.results.length; i++) { if (e.results[i].isFinal) finalText += ' ' + e.results[i][0].transcript.trim(); else interim += e.results[i][0].transcript; } paint(); };
+    rec.onend = () => { if (active && T.rec === rec) { try { rec.start(); } catch (e) {} } };
+    const toTyped = why => {
+      if (state.typed || !$('#spArea')) return;
+      active = false; state.typed = true; try { rec.stop(); } catch (e) {}
+      const soFar = (finalText + ' ' + interim).trim();
+      $('#spArea').innerHTML = `<div class="alert warn">${esc(why)} Type what you would say below — your answer is marked as <b>typed</b>.</div><textarea class="say" id="sayBox" placeholder="Type your spoken answer (at least 100 words)…"></textarea><div class="counter"><span>Words: <b id="wc">0</b> / 100 minimum</span><div class="bar2"><i id="wbar" style="width:0"></i></div></div>`;
+      $('#sayBox').value = soFar;
+      $('#sayBox').oninput = () => { const w = words($('#sayBox').value); $('#wc').textContent = w; $('#wc').className = w >= 100 ? 'ok' : 'low'; $('#wbar').style.width = Math.min(100, w) + '%'; };
+      $('#sayBox').oninput(); $('#nextBtn').disabled = false; $('#nextBtn').onclick = finishSpeak;
+    };
+    rec.onerror = e => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed' || e.error === 'audio-capture' || e.error === 'network') { micOK = e.error === 'network' ? micOK : false; toTyped(`Speech recognition is unavailable (${e.error}).`); } };
+    try { rec.start(); } catch (e) {}
+    const lt = setInterval(() => { const s = Math.max(0, 120 - Math.floor((performance.now() - t0) / 1000)); if ($('#left')) $('#left').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; if (s <= 0) stop(); }, 500);
+    T.timers.push(lt);
+    const stop = () => { active = false; clearInterval(lt); state.secs = (performance.now() - t0) / 1000; state.text = (finalText + ' ' + interim).trim(); finishSpeak(); };
+    $('#stopRec').onclick = stop;
+    $('#typeInstead').onclick = () => { clearInterval(lt); state.secs = (performance.now() - t0) / 1000; toTyped('Switched to typing.'); };
+    $('#nextBtn').onclick = stop;
+  }
+}
+
+/* writing */
+function renderWrite(it) {
+  const w = WRITING[it.wi], practice = T.mode === 'practice';
+  $('#stage').innerHTML = `<div class="qcard"><div class="qhead"><span class="qno">${T.idx + 1}.</span>${chip(it.sec)}<b>${esc(w.t)}</b></div>
+    <div class="task">${esc(w.task)}<div style="margin-top:6px;font-size:13px;color:var(--muted)">Word range: <b>${w.min}–${w.max}</b> words. Structure: Subject → Greeting → Opening → Key message → Call to action → Sign-off.</div></div>
+    <textarea class="write" id="wr" spellcheck="true" placeholder="Subject: …&#10;&#10;Dear …,&#10;&#10;"></textarea>
+    <div class="counter"><span>Words: <b id="wc">0</b> (${w.min}–${w.max})</span><div class="bar2"><i id="wbar" style="width:0"></i></div></div>
+    <div id="solBox"></div>
+    <div class="foot"><span class="hint">${practice ? 'Submit to see your rubric score and a model answer.' : 'Your email is scored on structure, content, tone and length.'}</span><button class="btn" id="nextBtn" disabled>${practice ? 'Check my answer' : T.idx === T.items.length - 1 ? 'Finish' : 'Save & Next →'}</button></div></div>`;
+  const ta = $('#wr');
+  ta.oninput = () => { const n = words(ta.value); $('#wc').textContent = n; $('#wc').className = n < w.min ? 'low' : n > w.max ? 'over' : 'ok'; $('#wbar').style.width = Math.min(100, n / w.max * 100) + '%'; $('#wbar').style.background = n > w.max ? 'var(--bad)' : n < w.min ? 'var(--warn)' : 'var(--ok)'; $('#nextBtn').disabled = n < 1; };
+  $('#nextBtn').onclick = () => {
+    const sc = scoreWriting(ta.value, w);
+    T.ans[T.idx] = { text: ta.value, score: sc.total / 100, detail: sc };
+    if (practice && !ta.readOnly) { ta.readOnly = true; $('#solBox').innerHTML = rubricHTML('Your writing score', sc.total, sc.parts) + `<details open style="margin-top:10px"><summary><b>Model answer</b></summary><pre class="model">${esc(w.model)}</pre></details>`; $('#nextBtn').textContent = 'Continue →'; }
+    else next();
+  };
+}
+function rubricHTML(title, total, parts) {
+  return `<div class="sol"><h5>${title}: ${total}/100</h5><table class="rub">${parts.map(p => `<tr><td>${esc(p[0])}${p[3] ? `<br><small style="color:var(--muted)">${esc(p[3])}</small>` : ''}</td><td>${p[1]}/${p[2]}</td></tr>`).join('')}</table></div>`;
+}
+
+/* ---------------- finish & report ---------------- */
+function cefr(p) { return p >= 90 ? 'C1' : p >= 75 ? 'B2' : p >= 55 ? 'B1' : p >= 35 ? 'A2' : 'A1'; }
+function finish(timeUp) {
+  if (T.done) return;
+  // record the in-progress answer if time ran out mid-question
+  const cur = T.items[T.idx];
+  if (timeUp && cur && !T.ans[T.idx]) {
+    if (cur.type === 'write' && $('#wr')) { const sc = scoreWriting($('#wr').value, WRITING[cur.wi]); T.ans[T.idx] = { text: $('#wr').value, score: sc.total / 100, detail: sc }; }
+  }
+  T.done = true; stopAll(); clearInterval(T.tick); window.onbeforeunload = null;
+  const used = Math.min(DUR, now() - T.start);
+  const secs = T.mode === 'full' ? SECTIONS : SECTIONS.filter(s => s.id === T.section);
+  const dims = secs.map(S => {
+    const idx = T.items.map((x, i) => i).filter(i => T.items[i].sec === S.id);
+    const got = idx.reduce((a, i) => a + (T.ans[i] ? T.ans[i].score : 0), 0);
+    return { S, n: idx.length, got, pct: idx.length ? Math.round(got / idx.length * 100) : 0 };
+  });
+  const pct = Math.round(dims.reduce((a, d) => a + d.pct, 0) / dims.length);
+  const level = cefr(pct), pass = pct >= 75;
+  if (T.mode === 'full') { store.history = (store.history || []).concat([{ at: now(), pct, cefr: level }]).slice(-20); save(); }
+  const color = p => p >= 75 ? 'var(--ok)' : p >= 55 ? '#d97706' : 'var(--bad)';
+  const answered = T.ans.filter(Boolean).length;
+  let h = `<div class="shell"><div class="hero"><h1>${T.mode === 'full' ? 'Assessment Report' : 'Practice Report'} — ${esc(T.name)}</h1><p>${T.mode === 'full' ? `Full mock · ${answered}/${T.items.length} answered · time used ${Math.floor(used / 60000)} min ${Math.round(used / 1000) % 60} s${timeUp ? ' · auto-submitted at 00:00' : ''}` : `Section practice · ${SECTIONS.find(s => s.id === T.section).name}`}</p></div><div class="inner">
+    <div class="score"><div class="ring" style="background:conic-gradient(${color(pct)} ${pct * 3.6}deg, var(--line) 0)"><div><span><b>${pct}%</b><small>overall</small></span></div></div>
+    <div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="badge" style="background:${pass ? 'var(--ok-soft)' : 'var(--warn-soft)'};color:${pass ? 'var(--ok)' : 'var(--warn)'}">Estimated CEFR ${level}</span><span class="badge" style="background:var(--soft);border:1px solid var(--line)">${pass ? '✓ Meets the B2 / 75% target' : '✕ Below the B2 / 75% target'}</span></div>
+    <p class="hint" style="color:var(--muted);margin:8px 0 0">Overall = average of the ${dims.length} dimension score${dims.length > 1 ? 's' : ''}. The dashed line on each bar marks the 75% target. This is a practice estimate, not an official CEFR certification.</p></div></div>
+    <div class="dims">${dims.map(d => `<div class="dim"><div class="t"><span><span class="num ${d.S.cls}" style="display:inline-grid;width:22px;height:22px;font-size:12px;border-radius:6px;margin-right:6px">${SECTIONS.indexOf(d.S) + 1}</span>${d.S.name}</span><b>${d.pct}%</b></div><div class="b"><i style="width:${d.pct}%;background:${color(d.pct)}"></i></div></div>`).join('')}</div>`;
+  const weakest = dims.slice().sort((a, b) => a.pct - b.pct)[0];
+  const TIPS = { grammar: 'Revise subject–verb agreement (each/one of/neither…nor), tense with time words (since/for/yesterday), fixed prepositions (good at, insist on, comprise) and redundant phrases (revert back, discuss about).', situational: 'Pick answers that acknowledge the issue, take ownership, stay factual, give a specific next step with a time, and follow policy (security, confidentiality, escalation).', reading: 'Read the question first, then scan the passage for evidence. For inference questions, choose the option the passage supports — not the one that merely repeats its words.', listening: 'On the first play, listen for the overall situation. On the second play, focus on numbers, dates, names and decisions. Note down key facts as you listen.', spoken: 'Plan quickly: opening, 2–3 points with an example, and a conclusion. Use linking words (firstly, for example, however, finally), avoid fillers, and keep a steady pace of 120–160 words per minute.', writing: 'Always use the structure Subject → Greeting → Purpose → Key points → Call to action → Sign-off. Cover every point in the task, stay within the word range, and avoid informal words.' };
+  h += `<div class="alert info" style="margin-top:16px"><b>Focus area: ${weakest.S.name} (${weakest.pct}%).</b> ${TIPS[weakest.S.id]}</div>`;
+  // review
+  for (const d of dims) {
+    const idx = T.items.map((x, i) => i).filter(i => T.items[i].sec === d.S.id);
+    h += `<details class="rv"${T.mode === 'practice' ? ' open' : ''}><summary>${d.S.icon} ${d.S.name} — ${Math.round(d.got * 10) / 10}/${d.n} (${d.pct}%)</summary>`;
+    for (const i of idx) {
+      const it = T.items[i], a = T.ans[i];
+      if (it.type === 'mcq') {
+        const q = mcqData(it);
+        const ctx = it.sec === 'reading' ? `<div style="font-size:12px;color:var(--muted)">Passage: ${esc(READING[it.rp].t)}</div>` : it.sec === 'listening' ? `<div style="font-size:12px;color:var(--muted)">Clip: ${esc(LISTENING[it.lc].t)}</div>` : it.sec === 'situational' ? `<div style="font-size:13px;color:var(--muted)">${esc(q.scen)}</div>` : '';
+        h += `<div class="rvq">${ctx}<div><b>Q${i + 1}.</b> ${esc(q.stem)}</div><div class="you">Your answer: ${a && a.pick != null ? `${L[a.pick]}. ${esc(q.o[a.pick])} ${a.score ? '<span class="good">✓</span>' : '<span class="badc">✕</span>'}` : '<span class="badc">Not answered</span>'}</div>${!a || !a.score ? `<div>Correct: <b>${L[q.a]}. ${esc(q.o[q.a])}</b></div>` : ''}<div style="color:var(--muted)">${esc(q.e)}</div>${it.sec === 'listening' ? `<details><summary>Transcript</summary><div class="tscript">${LISTENING[it.lc].lines.map(l => `<p><b>${l[0]}:</b> ${esc(l[1])}</p>`).join('')}</div></details>` : ''}</div>`;
+      } else if (it.type === 'speak') {
+        const p = SPOKEN[it.pi];
+        h += `<div class="rvq"><div><b>Q${i + 1}. ${esc(p.t)}</b> — ${esc(p.prompt)}</div>${a ? `<div class="you">Score: ${a.detail.total}/100${a.typed ? ' (typed)' : ''}</div><div class="tscript">${esc(a.text) || '<i>No speech captured.</i>'}</div>${rubricHTML('Breakdown', a.detail.total, a.detail.parts)}` : '<div class="badc">Not answered</div>'}</div>`;
+      } else {
+        const w = WRITING[it.wi];
+        h += `<div class="rvq"><div><b>Q${i + 1}. ${esc(w.t)}</b> — ${esc(w.task)}</div>${a ? `<div class="you">Score: ${a.detail.total}/100</div><pre class="model">${esc(a.text) || '(empty)'}</pre>${rubricHTML('Breakdown', a.detail.total, a.detail.parts)}` : '<div class="badc">Not answered</div>'}<details><summary><b>Model answer</b></summary><pre class="model">${esc(w.model)}</pre></details></div>`;
+      }
+    }
+    h += `</details>`;
+  }
+  h += `<div class="cta" style="justify-content:center;margin-top:20px"><button class="btn" id="againBtn">${T.mode === 'full' ? 'Take a new mock (new questions)' : 'Practise again'}</button><button class="btn ghost" id="homeBtn">Back to start</button><button class="btn ghost" onclick="window.print()">Print / Save PDF</button></div></div></div>`;
+  $('#test').classList.add('hide'); $('#report').innerHTML = h; $('#report').classList.remove('hide'); window.scrollTo(0, 0);
+  $('#againBtn').onclick = () => startAttempt();
+  $('#homeBtn').onclick = () => { $('#report').classList.add('hide'); $('#landing').classList.remove('hide'); };
+}
+
+/* ---------------- landing wiring ---------------- */
+document.querySelectorAll('.mode').forEach(b => b.onclick = () => { document.querySelectorAll('.mode').forEach(x => x.classList.toggle('on', x === b)); $('#secPick').classList.toggle('hide', b.dataset.m !== 'practice'); $('#startBtn').textContent = b.dataset.m === 'full' ? 'Start Assessment →' : 'Start Practice →'; });
+$('#startBtn').onclick = () => {
+  if (document.querySelector('.mode.on').dataset.m === 'full') {
+    if (!confirm('Start the 60-minute non-stop mock test now? The timer cannot be paused and you cannot go back to previous questions.')) return;
+  }
+  startAttempt();
+};
+window.__comm = { get T() { return T; }, next, scoreWriting, scoreSpeech, SECTIONS };
+})();
+</script>
+</body>
+</html>
