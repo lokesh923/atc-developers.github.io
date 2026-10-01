@@ -185,3 +185,8 @@ table.gt th{background:var(--accent-soft);font-size:.78rem;text-transform:upperc
 .gfig{margin:6px 0;text-align:center}
 .gfig img{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px}
 .gfig figcaption{font-size:.85rem;color:var(--muted);margin-top:4px}
+.shprow{gap:10px;align-items:center}.shp{display:inline-flex;width:62px;height:62px;border:1px solid var(--line);border-radius:8px;align-items:center;justify-content:center;background:var(--surface)}
+.shp.qm{font-weight:700;font-size:1.4rem;color:var(--signal)}.opt svg{flex:none}
+table.grid-num{margin:8px 0}table.grid-num td{border:2px solid var(--ink);width:56px;height:44px;text-align:center;font-family:var(--f-mono);font-weight:700;font-size:1.1rem}
+
+.shp svg .a,.opt svg .a{fill:var(--accent)}.shp svg .paper,.opt svg .paper{fill:var(--surface)}.shp svg .sline,.opt svg .sline{stroke:var(--ink);stroke-width:1.6}.shp svg .mk,.opt svg .mk{fill:var(--ink)}

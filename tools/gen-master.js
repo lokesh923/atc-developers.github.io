@@ -1,0 +1,1 @@
+['./gen-master-r.js'].concat(require('fs').existsSync(__dirname + '/gen-master-t.js') ? ['./gen-master-t.js'] : [], require('fs').existsSync(__dirname + '/gen-master-v.js') ? ['./gen-master-v.js'] : [], require('fs').existsSync(__dirname + '/gen-master-pz.js') ? ['./gen-master-pz.js'] : []).forEach(f => require(f));

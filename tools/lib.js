@@ -19,6 +19,7 @@ const P = (pts, c = 'paper sline') => `<polygon points='${pts.map(p => p.map(r1)
 const SER = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
 
 // ---------- charts ----------
+function legend(names, w) { let x = w - 14; const parts = []; for (let k = names.length - 1; k >= 0; k--) { const tw = names[k].length * 6.4 + 22; x -= tw; parts.push(R(x, 4, 10, 10, SER[k], '') + T(x + 14, 13, names[k], { a: 'start', s: 11 })); x -= 12; } return parts.join(''); }
 function barChart({ cats, series, max, step, w = 460, h = 280, ylabel = '', names, title = 'Bar chart', stacked = false }) {
   const x0 = 56, y0 = h - 34, top = 22, plotW = w - x0 - 14, plotH = y0 - top;
   let s = '';
@@ -46,7 +47,7 @@ function barChart({ cats, series, max, step, w = 460, h = 280, ylabel = '', name
     s += T(cx, y0 + 16, c, { s: 12 });
   });
   s += L(x0, y0, w - 14, y0, 'sline') + L(x0, top, x0, y0, 'sline');
-  if (names) names.forEach((nm, k) => { const lx = w - 14 - (names.length - k) * 78; s += R(lx, 4, 10, 10, SER[k], '') + T(lx + 14, 13, nm, { a: 'start', s: 11 }); });
+  if (names) s += legend(names, w);
   return fig(w, h, s, title);
 }
 
@@ -66,7 +67,7 @@ function lineChart({ cats, series, min, max, step, w = 460, h = 280, ylabel = ''
   });
   cats.forEach((c, i) => { s += T(px(i), y0 + 16, c, { s: 12 }); });
   s += L(x0, y0, w - 14, y0, 'sline') + L(x0, top, x0, y0, 'sline');
-  if (names) names.forEach((nm, k) => { const lx = w - 14 - (names.length - k) * 90; s += R(lx, 4, 10, 10, SER[k], '') + T(lx + 14, 13, nm, { a: 'start', s: 11 }); });
+  if (names) s += legend(names, w);
   return fig(w, h, s, title);
 }
 
@@ -122,10 +123,11 @@ function circleSeats({ seats, labels = true, w = 360, h = 330, facing = 'centre'
   seats.forEach((p, i) => {
     const a = -Math.PI / 2 + i * 2 * Math.PI / n, x = cx + rs * Math.cos(a), y = cy + rs * Math.sin(a);
     s += C(x, y, 19) + T(x, y + 5, p || '?', { s: 15, b: 1 });
+    if (facing === 'mixed') { const out = i % 2 === 1, d = out ? 1 : -1, x1 = cx + (rs + d * -0) * Math.cos(a), x0 = cx + (rs + d * 19) * Math.cos(a), y0 = cy + (rs + d * 19) * Math.sin(a), x2 = cx + (rs + d * 31) * Math.cos(a), y2 = cy + (rs + d * 31) * Math.sin(a); s += A(x0, y0, x2, y2, 'ln sb'); }
     if (labels) { const lr = rs + 30, c = Math.cos(a); s += T(cx + lr * c + (Math.abs(c) > 0.3 ? Math.sign(c) * 14 : 0), cy + lr * Math.sin(a) + 4, `Seat ${i + 1}`, { s: 10, c: 'muted', a: Math.abs(c) < 0.3 ? 'middle' : c > 0 ? 'start' : 'end' }); }
   });
   s += T(w - 8, 18, 'Seats are numbered clockwise', { a: 'end', s: 10 });
-  s += T(cx, h - 4, facing === 'centre' ? 'All face the centre.' : 'All face outside.', { s: 11 });
+  s += T(cx, h - 4, facing === 'centre' ? 'All face the centre.' : facing === 'mixed' ? 'Arrows show the direction each person faces.' : 'All face outside.', { s: 11 });
   return fig(w, h, s, 'Circular seating arrangement');
 }
 
