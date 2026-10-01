@@ -25,56 +25,9 @@ $('#homeBtn').addEventListener('click', () => {
   stopTimer(); S=null; try{ if(document.fullscreenElement) document.exitFullscreen().catch(()=>{}); }catch(e){} home();
 });
 
-/* ---------------- HOME ---------------- */
-function home(){
-  showBar(false); window.scrollTo(0,0);
-  const hist = store.get();
-  const mockCards = DATA.mocks.map((m,i) => {
-    const qn = m.sections.reduce((a,s)=>a+s.ids.length,0), mins = m.sections.reduce((a,s)=>a+s.minutes,0);
-    return `<div class="panel mockcard">
-      <div class="row"><h2>${m.name}</h2><span class="chip">${qn} questions | ${mins} min</span></div>
-      <div class="chips">${m.sections.map(s=>`<span class="chip">${s.key==='Z'?'Puzzle':s.name.split(' ')[0]==='English'?s.name.replace('English ',''):s.name.split(' ')[0]} ${s.ids.length}Q · ${s.minutes}m</span>`).join('')}</div>
-      ${m.note?`<p class="muted" style="margin:0;font-size:.9rem">${m.note}</p>`:''}
-      <p class="muted" style="margin:0;font-size:.9rem">Real exam rules: every section has its own timer, each answer is final once submitted, and you cannot go back to an earlier section.</p>
-      <div><button class="btn primary" data-mock="${i}">Start ${m.name}</button></div></div>`;
-  }).join('');
-  const counts = {}; DATA.questions.forEach(q => counts[q.sec]=(counts[q.sec]||0)+1);
-  const pr = Object.keys(SECNAME).map(k => `<button class="btn" data-prac="${k}">${SECNAME[k]} <span class="muted">(${counts[k]||0})</span></button>`).join('');
-  app.innerHTML = `
-  <div class="stack">
-    <section class="stack" style="gap:8px">
-      <div class="eyebrow">Infosys Systems Engineer | Written test practice</div>
-      <h1>Practise the real Infosys SE test, section by section, against the clock</h1>
-      <p class="muted" style="margin:0;max-width:68ch">Every question here comes from actual Infosys SE test papers, rewritten cleanly with a verified answer and a step-by-step explanation. Take a full mock under exam timing, or drill one section at a time.</p>
-    </section>
-    <section class="grid2">${mockCards}</section>
-    <section class="panel">
-      <div class="row" style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline"><h2>Section practice</h2><span class="muted" style="font-size:.9rem">One section timer, instant answer check</span></div>
-      <p class="muted" style="margin:6px 0 12px;font-size:.92rem">All questions of one section with a single countdown timer at real exam speed. Move freely between questions and check each answer as you go.</p>
-      <div class="secbtns">${pr}</div>
-    </section>
-    <section class="panel">
-      <h2>Exam pattern</h2>
-      <div class="tablewrap" style="margin-top:8px"><table class="pat"><thead><tr><th>Section</th><th>Questions</th><th>Marks</th><th>Time</th><th>Safe target (80%)</th></tr></thead><tbody>
-      <tr><td>Reasoning Ability</td><td>15</td><td>15</td><td>25 min</td><td>12 correct</td></tr>
-      <tr><td>Technical Ability</td><td>10</td><td>10</td><td>35 min</td><td>8 correct</td></tr>
-      <tr><td>Verbal Ability</td><td>20</td><td>20</td><td>20 min</td><td>16 correct</td></tr>
-      <tr><td>Pseudocode</td><td>5</td><td>10</td><td>10 min</td><td>4 correct</td></tr>
-      <tr><td>Numerical Puzzle</td><td>4</td><td>10</td><td>10 min</td><td>4 correct</td></tr>
-      <tr><td>English Grammar</td><td>5</td><td>10</td><td>10 min</td><td>4 correct</td></tr>
-      <tr><td>English Writing</td><td>1</td><td>NA</td><td>10 min</td><td>Evaluated separately</td></tr>
-      </tbody></table></div>
-      <div class="cutbox"><b>About the cutoff.</b> Last year's sectional cutoff was around 70%, but Infosys does not disclose the exact cutoff, and it changes with the test's difficulty and the number of open positions. Scoring just 70% is not enough to be sure of an interview call, so aim for 80% or more in every section.</div>
-    </section>
-    ${hist.length?`<section class="panel"><h2>Your recent attempts</h2><div class="tablewrap" style="margin-top:8px"><table class="pat"><thead><tr><th>Test</th><th>Date</th><th>Score</th><th>Sections safe</th></tr></thead><tbody>${hist.map(h=>`<tr><td>${esc(h.name)}</td><td>${esc(h.date)}</td><td>${esc(h.score)}</td><td>${esc(h.cleared)}</td></tr>`).join('')}</tbody></table></div><p class="muted" style="font-size:.82rem;margin:8px 0 0">Saved only in this browser.</p></section>`:''}
-  </div>`;
-  app.querySelectorAll('[data-mock]').forEach(b => b.addEventListener('click', () => startMock(+b.dataset.mock)));
-  app.querySelectorAll('[data-prac]').forEach(b => b.addEventListener('click', () => startPractice(b.dataset.prac)));
-}
-
 /* ---------------- MOCK ---------------- */
 function startMock(i){
-  const m = DATA.mocks[i];
+  const m = typeof i === 'object' ? i : DATA.mocks[i];
   S = {mode:'mock', m, si:0, qi:0, ans:{}, state:{}, used:[], phase:'login'};
   showBar(true); $('#barMock').textContent = m.name; $('#barSec').textContent='Candidate check-in'; $('#timer').textContent='--:--';
   loginScreen();
@@ -178,7 +131,7 @@ function renderQ(){
   app.innerHTML = `<div class="exam">
     <div class="panel"><div class="qhead"><h2>Question ${S.qi+1} <span class="muted" style="font-size:.9rem">of ${n}</span></h2><span class="chip">${q.topic}${s.key!=='W'?` | ${s.marks} mark${s.marks>1?'s':''}`:''}</span></div>
       <div class="lockline">Questions once submitted cannot be attempted again.</div>
-      <div class="qbody">${q.q}</div>${input}
+      <div class="qbody">${qHtml(q)}</div>${input}
       ${S.confirmExit?`<div class="inline-confirm"><span>Leave the test? Your answers so far will be scored.</span><button class="btn warn" id="yesExit">End test now</button><button class="btn" id="noExit">Continue test</button></div>`:''}
       <div class="actions"><button class="btn" id="skip">Skip</button><button class="btn primary" id="sub">Submit answer</button></div></div>
     <aside class="panel"><div class="eyebrow">${s.name}</div><div class="palette">${pal}</div>
@@ -193,7 +146,7 @@ function renderQ(){
 function submitQ(kind){
   const s=sec(), q=curQ();
   if (kind==='done' && (S.ans[q.id]===undefined || S.ans[q.id]==='')) kind='skip';
-  S.state[q.id]=kind;
+  S.state[q.id]=kind; if(kind==='done') noteAnswer(q, S.ans[q.id]);
   if (S.qi < s.ids.length-1){ S.qi++; renderQ(); } else finishSection(false);
 }
 function finishSection(timeout){
@@ -249,7 +202,7 @@ function reviewItem(q,a,n){
   const ok=isCorrect(q,a), blank=(a===undefined||a==='');
   const corr = q.type==='mcq'? q.opts[q.ans] : esc(q.answers[0]);
   return `<details class="rv"><summary><span class="chip ${ok?'good':blank?'sig':'bad'}">${ok?'Correct':blank?'Skipped':'Wrong'}</span><strong>Q${n}.</strong> <span class="muted">${q.topic}</span></summary>
-   <div class="qbody">${q.q}</div><p><b>Your answer:</b> ${answerText(q,a)}<br><b>Correct answer:</b> ${corr}</p><div class="exp"><b>Solution.</b> ${q.exp}</div></details>`;
+   <div class="qbody">${qHtml(q)}</div><p><b>Your answer:</b> ${answerText(q,a)}<br><b>Correct answer:</b> ${corr}</p><div class="exp"><b>Solution.</b> ${q.exp}</div></details>`;
 }
 function writingReview(id, text){
   const q=QMAP[id]; const crit=['Relevance: answers exactly what the prompt asks','Structure: clear opening, body and closing','Grammar and spelling','Vocabulary and formal tone','Coherence: ideas linked, no repetition'];
@@ -261,16 +214,6 @@ function writingReview(id, text){
 function wireRubric(){ const sel=[...document.querySelectorAll('.rb')]; const up=()=>{ const t=sel.reduce((a,s)=>a+(+s.value),0); const el=$('#rbt'); if(el) el.textContent=t+' / 10'; }; sel.forEach(s=>s.addEventListener('change',up)); }
 
 /* ---------------- PRACTICE ---------------- */
-function startPractice(k){
-  const ids=DATA.questions.filter(q=>q.sec===k).map(q=>q.id);
-  S={mode:'practice', k, ids, qi:0, ans:{}, checked:{}, start:Date.now()};
-  showBar(true); $('#barMock').textContent='Section practice'; $('#barSec').textContent=SECNAME[k];
-  stopTimer(); S.total=Math.round(SECRATE[k]*ids.length*60); S.deadline=Date.now()+S.total*1000; S.timeUp=false;
-  $('#timer').textContent=fmt(S.total); $('#timer').classList.remove('low');
-  tick=setInterval(()=>{ const left=(S.deadline-Date.now())/1000; $('#timer').textContent=fmt(left); $('#timer').classList.toggle('low', left<=60);
-    if(left<=0){ stopTimer(); S.timeUp=true; S.doneAt=Object.keys(S.checked).length; S.rightAt=S.ids.filter(id=>S.checked[id]&&isCorrect(QMAP[id],S.ans[id])).length; S.ids.forEach(id=>S.checked[id]=true); renderP(); } },500);
-  renderP();
-}
 function renderP(){
   const q=QMAP[S.ids[S.qi]], n=S.ids.length, a=S.ans[q.id], chk=S.checked[q.id]; window.scrollTo(0,0);
   let input='';
@@ -283,15 +226,15 @@ function renderP(){
   if (chk && q.type!=='write'){ const ok=isCorrect(q,a); fb=`<div class="exp"><b>${ok?'Correct.':'Not quite.'}</b> ${q.type==='text'?'Answer: <b>'+esc(q.answers[0])+'</b>. ':''}${q.exp}</div>`; }
   if (chk && q.type==='write') fb=`<div class="exp">Check your response against: relevance, structure, grammar and spelling, formal tone, and coherence (2 marks each).</div>`;
   app.innerHTML=`${S.timeUp?`<div class="cutbox" style="margin-bottom:12px"><b>Time is up for this section.</b> You answered ${S.rightAt} correctly out of ${S.doneAt} checked. All answers are now shown so you can review them.</div>`:''}<div class="exam"><div class="panel"><div class="qhead"><h2>Question ${S.qi+1} <span class="muted" style="font-size:.9rem">of ${n}</span></h2><span class="chip">${q.topic}</span></div>
-   <div class="qbody">${q.q}</div>${input}${fb}
+   <div class="qbody">${qHtml(q)}</div>${input}${fb}
    <div class="actions"><button class="btn" id="prev" ${S.qi===0?'disabled':''}>Previous</button>
    <span style="display:flex;gap:8px;flex-wrap:wrap">${chk?'':'<button class="btn primary" id="chk">Check answer</button>'}<button class="btn ${chk?'primary':''}" id="next" ${S.qi===n-1?'disabled':''}>Next</button></span></div></div>
-   <aside class="panel"><div class="eyebrow">${SECNAME[S.k]}</div><p style="margin:6px 0 0;font-variant-numeric:tabular-nums"><b>${right}</b> correct of <b>${done}</b> checked</p><div class="palette">${pal}</div>
-   <div class="legend"><div><span style="background:var(--good-soft);border-color:var(--good)"></span>Correct</div><div><span style="background:var(--bad-soft);border-color:var(--bad)"></span>Wrong</div><div>One timer for the whole section, at real exam speed (${fmt(S.total)} for ${n} questions).</div></div></aside></div>`;
+   <aside class="panel"><div class="eyebrow">${S.label||SECNAME[S.k]}</div><p style="margin:6px 0 0;font-variant-numeric:tabular-nums"><b>${right}</b> correct of <b>${done}</b> checked</p><div class="palette">${pal}</div>
+   <div class="legend"><div><span style="background:var(--good-soft);border-color:var(--good)"></span>Correct</div><div><span style="background:var(--bad-soft);border-color:var(--bad)"></span>Wrong</div><div>${S.untimed?'Untimed practice: take your time and read each explanation.':`One timer for the whole section (${fmt(S.total)} for ${n} questions).`}</div></div></aside></div>`;
   app.querySelectorAll('input[name=opt]').forEach(r=>r.addEventListener('change',()=>{S.ans[q.id]=+r.value; app.querySelectorAll('.opt').forEach((l,i)=>l.classList.toggle('sel',i===+r.value));}));
   const tin=$('#tin'); if(tin){ tin.addEventListener('input',()=>S.ans[q.id]=tin.value); tin.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); const c=$('#chk'); if(c) c.click();}}); }
   const wta=$('#wta'); if(wta) wta.addEventListener('input',()=>{S.ans[q.id]=wta.value; $('#wc').textContent=words(wta.value)+' words';});
-  const c=$('#chk'); if(c) c.addEventListener('click',()=>{ S.checked[q.id]=true; renderP(); });
+  const c=$('#chk'); if(c) c.addEventListener('click',()=>{ S.checked[q.id]=true; noteAnswer(q, S.ans[q.id]); renderP(); });
   const go=j=>{ S.qi=j; renderP(); };
   $('#prev').addEventListener('click',()=>go(S.qi-1)); $('#next').addEventListener('click',()=>go(S.qi+1));
   app.querySelectorAll('[data-j]').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.j)));
