@@ -15,6 +15,6 @@ fs.writeFileSync(path.join(__dirname, '..', 'infosys-se', 'data', 'extra.js'), o
 console.log('extra.js written:', qs.length, 'questions,', mocks.length, 'mocks,', (out.length / 1024).toFixed(0) + ' KB');
 if (process.env.PREVIEW) {
   const html = `<!doctype html><meta charset=utf-8><link rel=stylesheet href="file://${path.resolve(__dirname, '../infosys-se/style.css')}"><body><main class=wrap>` +
-    qs.filter(q => !process.env.SEC || q.sec === process.env.SEC).map(q => `<div class=panel style="margin:10px 0"><div class=eyebrow>#${q.id} ${q.sec} | ${q.topic}${q.sub ? ' / ' + q.sub : ''}</div><div class=qbody>${q.set || ''}${q.q}</div><ol type=A>${q.opts.map((o, i) => `<li ${i === q.ans ? 'style="font-weight:700"' : ''}>${o}</li>`).join('')}</ol><div class=exp>${q.exp}</div></div>`).join('') + '</main>';
+    qs.filter(q => (!process.env.SEC || q.sec === process.env.SEC) && q.id >= +(process.env.MINID || 0)).map(q => `<div class=panel style="margin:10px 0"><div class=eyebrow>#${q.id} ${q.sec} | ${q.topic}${q.sub ? ' / ' + q.sub : ''}</div><div class=qbody>${q.set || ''}${q.q}</div><ol type=A>${q.opts.map((o, i) => `<li ${i === q.ans ? 'style="font-weight:700"' : ''}>${o}</li>`).join('')}</ol><div class=exp>${q.exp}</div></div>`).join('') + '</main>';
   fs.writeFileSync(process.env.PREVIEW, html);
 }

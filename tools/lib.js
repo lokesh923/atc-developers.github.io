@@ -63,7 +63,7 @@ function lineChart({ cats, series, min, max, step, w = 460, h = 280, ylabel = ''
   const px = i => x0 + gw * (i + 0.5), py = v => y0 - (v - min) / (max - min) * plotH;
   series.forEach((se, k) => {
     s += `<polyline points='${se.map((v, i) => r1(px(i)) + ',' + r1(py(v))).join(' ')}' class='${SER[k]} nofill' fill='none' stroke-width='2.4' style='fill:none;stroke:var(--${['accent', 'signal', 'good', 'bad'][k]})'/>`;
-    se.forEach((v, i) => { s += C(px(i), py(v), 4, SER[k]) + T(px(i), py(v) + (k % 2 ? 16 : -8), v, { s: 11 }); });
+    se.forEach((v, i) => { const higher = series.filter((o, kk) => o[i] > v || (o[i] === v && kk < k)).length === 0; s += C(px(i), py(v), 4, SER[k]) + T(px(i), py(v) + (higher ? -8 : 16), v, { s: 11 }); });
   });
   cats.forEach((c, i) => { s += T(px(i), y0 + 16, c, { s: 12 }); });
   s += L(x0, y0, w - 14, y0, 'sline') + L(x0, top, x0, y0, 'sline');
@@ -159,7 +159,7 @@ function pathsFig(diagrams, { boxW = 200, boxH = 200, north = true } = {}) {
         const a = pts[i], b = pts[i + 1];
         s += A(a[0] + ox, a[1] + oy, b[0] + ox, b[1] + oy, 'ln ' + pa.cls);
         const mx = (a[0] + b[0]) / 2 + ox, my = (a[1] + b[1]) / 2 + oy, h = sg.d === 'E' || sg.d === 'W';
-        s += T(mx + (h ? 0 : 7), my + (h ? -7 : 4), sg.label || `${sg.len} km`, { a: h ? 'middle' : 'start', s: 11 });
+        s += T(mx + (h ? 0 : (sg.d === 'S' ? -7 : 7)), my + (h ? (sg.d === 'W' ? 16 : -7) : 4), sg.label || `${sg.len} km`, { a: h ? 'middle' : (sg.d === 'S' ? 'end' : 'start'), s: 11 });
       });
       const en = pts[pts.length - 1];
       s += C(en[0] + ox, en[1] + oy, 5, pa.endCls) + T(en[0] + ox + (pa.segs.length && pa.segs[pa.segs.length - 1].d === 'W' ? -12 : 12), en[1] + oy + 18, pa.end, { b: 1, s: 13 });
