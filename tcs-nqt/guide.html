@@ -1,0 +1,195 @@
+<!doctype html><html><head><meta charset="utf-8"><title>TCS NQT 2027 Complete Guide</title>
+<style>
+@page{size:A4;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;color:#1b2540;font-size:10.5pt;line-height:1.45}
+.page{width:210mm;height:297mm;padding:14mm 14mm 16mm;page-break-after:always;position:relative;overflow:hidden;background:#fff}
+.page:last-child{page-break-after:auto}
+.cover{background:radial-gradient(circle at 85% 12%,#7c3aed55,transparent 45%),radial-gradient(circle at 10% 90%,#06b6d444,transparent 45%),#0b1230;color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.tag{display:inline-block;border:1px solid #f5c04a;color:#f5c04a;padding:4px 12px;border-radius:20px;font-size:9pt;letter-spacing:2px;font-weight:600}
+.cover h1{font-size:50pt;line-height:1.02;margin:16px 0 10px;font-weight:800}
+.cover h1 span{background:linear-gradient(90deg,#f5c04a,#ff7e5f);-webkit-background-clip:text;color:transparent}
+.cover p.sub{font-size:14pt;color:#c7d0f0;max-width:150mm}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.chips b{background:#ffffff14;border:1px solid #ffffff33;padding:6px 12px;border-radius:8px;font-size:10pt;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stats div{background:#ffffff10;border:1px solid #ffffff25;border-radius:12px;padding:12px}
+.stats big{display:block;font-size:22pt;font-weight:800;color:#f5c04a}
+.stats small{color:#b8c2e6;font-size:8.5pt}
+.brand{font-size:9pt;color:#9aa6d4;letter-spacing:1px}
+h2{font-size:20pt;font-weight:800;color:#0b1230;margin-bottom:3px}
+h2 em{font-style:normal;color:#7c3aed}
+.lead{color:#5b6585;margin-bottom:10px;font-size:10pt}
+.bar{height:4px;width:60px;background:linear-gradient(90deg,#7c3aed,#f5c04a);border-radius:4px;margin:6px 0 12px}
+table{width:100%;border-collapse:separate;border-spacing:0;border-radius:10px;overflow:hidden;border:1px solid #dfe3f1;margin-bottom:12px;font-size:9.8pt}
+th{background:#0b1230;color:#fff;text-align:left;padding:8px 10px;font-weight:600}
+td{padding:7px 10px;border-top:1px solid #e8ebf5}
+tr.part td{background:#efeafd;font-weight:700;color:#4c1d95}
+tr.tot td{background:#0b1230;color:#f5c04a;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{border:1px solid #dfe3f1;border-radius:12px;padding:11px 12px;background:#fafbff}
+.card h4{font-size:11pt;margin-bottom:4px}
+.card.ninja{border-top:5px solid #10b981}.card.digital{border-top:5px solid #3b82f6}.card.prime{border-top:5px solid #f59e0b;background:#fffaf0}
+.pkg{font-size:15pt;font-weight:800;margin:3px 0}
+.muted{color:#6b7494;font-size:9pt}
+.sec{border-radius:12px;overflow:hidden;border:1px solid #dfe3f1;margin-bottom:10px}
+.sec .hd{display:flex;align-items:center;color:#fff;font-weight:700;font-size:11.5pt}
+.sec .hd i{font-style:normal;background:#c9952b;padding:8px 13px;font-size:14pt}
+.sec .hd span{padding:8px 12px}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);background:#f4f6fc;text-align:center;font-size:8.5pt;color:#5b6585}
+.meta div{padding:5px;border-right:1px solid #e3e7f4}.meta b{display:block;color:#0b1230;font-size:10pt}
+.topics{padding:8px 12px;display:flex;flex-wrap:wrap;gap:5px}
+.topics u{text-decoration:none;background:#eef1fb;border:1px solid #dbe0f3;border-radius:14px;padding:2px 9px;font-size:9pt}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rule{border-left:4px solid #7c3aed;background:#f6f3ff;padding:8px 10px;border-radius:0 8px 8px 0;font-weight:600;font-size:10pt}
+.rule small{display:block;font-weight:400;color:#5b6585;font-size:8.8pt}
+.note{background:#fff7e0;border:1px solid #f1d98a;border-radius:10px;padding:8px 12px;font-size:9.3pt;margin:8px 0}
+.foot{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;justify-content:space-between;font-size:8pt;color:#8a93b2;border-top:1px solid #e3e7f4;padding-top:5px}
+ul{padding-left:16px}li{margin:2px 0}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cg .card h4{color:#4c1d95}
+.tips li{margin:4px 0}
+</style></head><body>
+
+<!-- COVER -->
+<div class="page cover">
+ <div><span class="tag">2027 BATCH · OFF-CAMPUS HIRING</span>
+ <h1>TCS NQT<br><span>Complete Guide</span></h1>
+ <p class="sub">Exam pattern, syllabus, roles, packages, eligibility and rules for NQT Foundation + Advanced, in one place.</p>
+ <div class="chips"><b>Ninja</b><b>Digital</b><b>Prime</b><b>Foundation</b><b>Advanced</b><b>Coding</b></div></div>
+ <div class="stats">
+  <div><big>191</big><small>minutes total</small></div>
+  <div><big>2</big><small>parts: A and B</small></div>
+  <div><big>0</big><small>negative marking</small></div>
+  <div><big>2</big><small>coding problems</small></div>
+ </div>
+ <div class="brand">ATC DEVELOPERS · NQT MOCK TEST SERIES</div>
+</div>
+
+<!-- PAGE 2 PATTERN -->
+<div class="page">
+ <h2>Exam <em>Pattern</em></h2><div class="bar"></div>
+ <p class="lead">TCS NQT has two parts. Foundation (Part A) is required for all roles. Advanced (Part B) decides Digital and Prime.</p>
+ <table>
+  <tr><th>Section</th><th>Questions</th><th>Time</th><th>Level</th></tr>
+  <tr class="part"><td colspan="4">PART A · FOUNDATION SECTION (76 min)</td></tr>
+  <tr><td>Numerical Ability</td><td>20</td><td>25 min</td><td>Moderate</td></tr>
+  <tr><td>Reasoning Ability</td><td>20</td><td>25 min</td><td>Moderate</td></tr>
+  <tr><td>Verbal Ability (2027 updated)</td><td>25 + tasks</td><td>26 min</td><td>Moderate</td></tr>
+  <tr class="part"><td colspan="4">PART B · ADVANCED SECTION (115 min)</td></tr>
+  <tr><td>Advanced Quantitative + Reasoning</td><td>14</td><td>25 min</td><td>High</td></tr>
+  <tr><td>Advanced Coding (Easy ~35 min + Medium ~55 min)</td><td>2</td><td>90 min</td><td>Easy + Medium</td></tr>
+  <tr class="tot"><td>TOTAL</td><td>81+</td><td>~191 min (3 hr 11 min)</td><td></td></tr>
+ </table>
+ <div class="note">Some older sheets show Verbal as 25 min and total as 190 min. The updated 2027 Verbal pattern adds up to 26 min, which gives about 3 hr 11 min.</div>
+ <h2 style="font-size:15pt;margin-top:6px">Exam <em>Rules</em></h2><div class="bar"></div>
+ <div class="rules">
+  <div class="rule">No section switching<small>Once a section ends you cannot return to it.</small></div>
+  <div class="rule">Question switching allowed<small>Move between questions inside the same section.</small></div>
+  <div class="rule">No negative marking<small>Attempt every question. A guess costs nothing.</small></div>
+  <div class="rule">Section-wise timer<small>Each section has its own countdown.</small></div>
+  <div class="rule">Rough paper allowed<small>Keep a pen and blank sheets ready.</small></div>
+  <div class="rule">Original Govt ID checked<small>Carry the original, not a photocopy.</small></div>
+  <div class="rule">TITA questions<small>"Type In The Answer": no options, you type the value.</small></div>
+  <div class="rule">Two coding problems<small>One Easy, one Medium, 90 min shared.</small></div>
+ </div>
+ <div class="foot"><span>TCS NQT 2027 Complete Guide</span><span>2</span></div>
+</div>
+
+<!-- PAGE 3 FOUNDATION SYLLABUS -->
+<div class="page">
+ <h2>Part A · Foundation <em>Syllabus</em></h2><div class="bar"></div>
+ <div class="sec"><div class="hd" style="background:#1f4b9e"><i>01</i><span>NUMERICAL ABILITY</span></div>
+  <div class="meta"><div>QUESTIONS<b>20</b></div><div>TOTAL TIME<b>25 min</b></div><div>PER QUESTION<b>~75 sec</b></div><div>DIFFICULTY<b>Moderate</b></div></div>
+  <div class="topics"><u>Number System</u><u>LCM &amp; HCF</u><u>Percentages</u><u>Profit &amp; Loss</u><u>Time, Speed &amp; Distance</u><u>Time &amp; Work</u><u>SI &amp; CI</u><u>Averages</u><u>Ratio &amp; Proportion</u><u>Probability</u><u>P &amp; C</u><u>Mensuration</u><u>Ages</u><u>Mixtures</u></div></div>
+ <div class="sec"><div class="hd" style="background:#0f7d6b"><i>02</i><span>REASONING ABILITY</span></div>
+  <div class="meta"><div>QUESTIONS<b>20</b></div><div>TOTAL TIME<b>25 min</b></div><div>PER QUESTION<b>~75 sec</b></div><div>DIFFICULTY<b>Moderate</b></div></div>
+  <div class="topics"><u>Series</u><u>Coding – Decoding</u><u>Blood Relations</u><u>Directions</u><u>Seating Arrangements</u><u>Syllogisms</u><u>Analogies</u><u>Odd One Out</u><u>Clock &amp; Calendar</u><u>Ranking</u><u>Alphabet Test</u><u>Symbol Operations</u></div></div>
+ <div class="sec"><div class="hd" style="background:#5b3a8a"><i>03</i><span>VERBAL ABILITY · UPDATED PATTERN 2027</span></div>
+  <div class="meta"><div>TOTAL ITEMS<b>25 + tasks</b></div><div>TOTAL TIME<b>26 min</b></div><div>EMAIL WRITING<b>9 min</b></div><div>STATUS<b>Newly updated</b></div></div>
+  <div style="padding:8px 12px;font-size:9.6pt">The section is restructured into three task types: <b>Sentence Completion</b>, <b>Passage Recall</b> (memory based, the passage disappears after 30 seconds of reading) and <b>Email Writing</b>. Every sub-section is timed per question.</div>
+  <table style="margin:0 12px 10px;width:calc(100% - 24px)">
+   <tr><th>Sub-section</th><th>Items</th><th>Time per question</th></tr>
+   <tr><td>Sentence Completion</td><td>20</td><td>25 seconds</td></tr>
+   <tr><td>Instruction Screen</td><td>1</td><td>25 seconds</td></tr>
+   <tr><td>Passage Recall</td><td>4 + 4</td><td>120 s (30 s read + 90 s write)</td></tr>
+   <tr><td>Instruction Screen</td><td>1</td><td>15 seconds</td></tr>
+   <tr><td>Email Writing</td><td>1</td><td>540 seconds (9 min)</td></tr>
+  </table></div>
+ <div class="note"><b>Strategy:</b> Verbal is strictly timed per item, so practise speed. Aim for under 25 s per sentence-completion question and write emails with a fixed structure: greeting, purpose, details, action, closing.</div>
+ <div class="foot"><span>TCS NQT 2027 Complete Guide</span><span>3</span></div>
+</div>
+
+<!-- PAGE 4 ADVANCED -->
+<div class="page">
+ <h2>Part B · Advanced <em>Syllabus</em></h2><div class="bar"></div>
+ <div class="sec"><div class="hd" style="background:#9a5b14"><i>04</i><span>ADVANCED QUANTITATIVE + REASONING</span></div>
+  <div class="meta"><div>QUESTIONS<b>14</b></div><div>TOTAL TIME<b>25 min</b></div><div>PER QUESTION<b>~107 sec</b></div><div>DIFFICULTY<b>High</b></div></div>
+  <div class="topics"><u>Data Interpretation</u><u>Set Theory &amp; Venn Diagrams</u><u>Data Sufficiency</u><u>Syllogisms</u><u>Advanced Probability</u><u>Permutation &amp; Combination</u><u>Partnership</u><u>Critical Reasoning</u><u>Analytical Puzzles</u></div></div>
+ <div class="sec"><div class="hd" style="background:#111a3d"><i>05</i><span>ADVANCED CODING</span></div>
+  <div class="meta"><div>PROBLEMS<b>2</b></div><div>TOTAL TIME<b>90 min</b></div><div>SPLIT<b>Easy ~35 · Medium ~55</b></div><div>DIFFICULTY<b>Easy + Medium</b></div></div>
+  <div style="padding:8px 12px;font-size:9.4pt">Languages: <b>C, C++, Java, Python, Perl</b>. Solutions are judged on hidden test cases, so correctness and time complexity both matter.</div>
+  <div class="cg" style="padding:0 12px 10px">
+   <div class="card"><h4>Programming Basics</h4><div class="muted">Loops, conditionals, functions, input/output, patterns, number printing, pointers and references</div></div>
+   <div class="card"><h4>Arrays &amp; Matrix</h4><div class="muted">Rotation, subarrays, prefix sum, rearrangement, 2D traversal (spiral, diagonal), duplicates, kadane</div></div>
+   <div class="card"><h4>Strings</h4><div class="muted">Palindromes, anagrams, frequency count, substrings, pattern matching, reversal, compression, parsing</div></div>
+   <div class="card"><h4>Math &amp; Number Theory</h4><div class="muted">Prime, GCD/LCM, factors, Fibonacci, sieve, modular arithmetic, base conversion, Armstrong, perfect numbers</div></div>
+   <div class="card"><h4>Sorting &amp; Searching</h4><div class="muted">Bubble, selection, insertion, merge, quick sort, binary search, custom comparators, kth element</div></div>
+   <div class="card"><h4>Two Pointers &amp; Sliding Window</h4><div class="muted">Pair sum, max sum window, longest unique substring, merging sorted arrays</div></div>
+   <div class="card"><h4>Hashing &amp; Maps</h4><div class="muted">Frequency maps, two-sum, grouping, sets, first non-repeating element</div></div>
+   <div class="card"><h4>Recursion &amp; Backtracking</h4><div class="muted">Subsets, permutations, N-Queens, tower of Hanoi, combination sum</div></div>
+   <div class="card"><h4>Stack &amp; Queue</h4><div class="muted">Balanced parentheses, next greater element, expression evaluation, queue via stacks</div></div>
+   <div class="card"><h4>Linked List, Trees, Graphs</h4><div class="muted">Reverse list, cycle detection, tree traversals, height, BFS, DFS, shortest path basics</div></div>
+   <div class="card"><h4>Greedy &amp; Dynamic Programming</h4><div class="muted">Activity selection, coin change, knapsack, LIS, LCS, grid paths (usually Medium level)</div></div>
+   <div class="card"><h4>Bit Manipulation &amp; Misc</h4><div class="muted">Set bits, power of two, XOR tricks, date/time and simulation problems, edge cases</div></div>
+  </div></div>
+ <div class="foot"><span>TCS NQT 2027 Complete Guide</span><span>4</span></div>
+</div>
+
+<!-- PAGE 5 ROLES -->
+<div class="page">
+ <h2>Roles &amp; <em>Packages</em></h2><div class="bar"></div>
+ <p class="lead">Your NQT score decides the role. Foundation alone targets Ninja. Advanced marks open Digital and Prime.</p>
+ <div class="grid3">
+  <div class="card ninja"><h4>TCS Ninja</h4><div class="muted">Entry role · Foundation score</div><div class="pkg">Entry-level CTC</div><div class="muted">Exact figure: confirm on the official TCS Nextstep notification for your cycle.</div></div>
+  <div class="card digital"><h4>TCS Digital</h4><div class="muted">Foundation + Advanced · Digital tech</div><div class="pkg">7.09 – 7.30 LPA</div><div class="muted">UG, 0–1 yr exp. PG: 7.39 – 7.60 LPA</div></div>
+  <div class="card prime"><h4>TCS Prime</h4><div class="muted">Top Foundation + Advanced scorers</div><div class="pkg">9.09 – 9.30 LPA</div><div class="muted">UG, 0–1 yr exp. PG: 11.59 – 11.80 LPA</div></div>
+ </div>
+ <h2 style="font-size:14pt;margin-top:14px">Prime &amp; Digital CTC <em>Table</em></h2><div class="bar"></div>
+ <table>
+  <tr><th rowspan="2">Offer</th><th colspan="2">Experience 0–1 year</th><th colspan="2">Experience 1–2 years</th></tr>
+  <tr><th>UG</th><th>PG</th><th>UG</th><th>PG</th></tr>
+  <tr><td><b>Prime</b></td><td>9.09 – 9.30</td><td>11.59 – 11.80</td><td>9.45 – 9.66</td><td>12.05 – 12.26</td></tr>
+  <tr><td><b>Digital</b></td><td>7.09 – 7.30</td><td>7.39 – 7.60</td><td>7.50 – 7.72</td><td>7.82 – 8.04</td></tr>
+ </table>
+ <div class="muted" style="margin-top:-6px;margin-bottom:10px">All figures in LPA. Actual compensation depends on relevant work experience and job location.</div>
+ <h2 style="font-size:14pt">Eligibility</h2><div class="bar"></div>
+ <div class="grid2">
+  <div class="card"><h4>Courses</h4><ul><li>B.Tech / B.E</li><li>M.Tech / M.E</li><li>MCA</li><li>M.Sc / M.S in any specialization</li></ul><div class="muted">From AICTE / UGC recognized universities or colleges.</div></div>
+  <div class="card"><h4>Batch</h4><ul><li><b>2027 batch:</b> 100% eligible (off-campus hiring)</li><li><b>2026 and 2025 batches:</b> depends on TCS for that cycle</li></ul></div>
+ </div>
+ <div class="foot"><span>TCS NQT 2027 Complete Guide</span><span>5</span></div>
+</div>
+
+<!-- PAGE 6 PLAN -->
+<div class="page">
+ <h2>How to Crack It in the <em>First Attempt</em></h2><div class="bar"></div>
+ <div class="grid2">
+  <div class="card"><h4>Time per question</h4><table style="margin:6px 0 0"><tr><th>Section</th><th>Target</th></tr><tr><td>Numerical</td><td>~75 sec</td></tr><tr><td>Reasoning</td><td>~75 sec</td></tr><tr><td>Verbal sentence</td><td>25 sec</td></tr><tr><td>Adv. Quant+Reasoning</td><td>~107 sec</td></tr><tr><td>Coding</td><td>35 + 55 min</td></tr></table></div>
+  <div class="card"><h4>Smart tips</h4><ul class="tips"><li>No negative marking: never leave blanks.</li><li>No section switching: finish each section before time ends.</li><li>TITA questions: practise exact numeric answers.</li><li>Solve the Easy coding problem fully first.</li><li>Submit a partial solution rather than nothing.</li></ul></div>
+ </div>
+ <h2 style="font-size:14pt;margin-top:14px">8-Week <em>Preparation Plan</em></h2><div class="bar"></div>
+ <table>
+  <tr><th>Weeks</th><th>Focus</th></tr>
+  <tr><td>1–2</td><td>Numerical + Reasoning basics, topic-wise timed drills</td></tr>
+  <tr><td>3</td><td>Verbal: sentence completion speed, passage recall, email format</td></tr>
+  <tr><td>4–5</td><td>Coding fundamentals: arrays, strings, math, sorting, hashing</td></tr>
+  <tr><td>6</td><td>Advanced Quant + Reasoning: DI, data sufficiency, puzzles</td></tr>
+  <tr><td>7</td><td>Medium coding: recursion, DP basics, greedy, trees</td></tr>
+  <tr><td>8</td><td>Full-length mocks (191 min) and error analysis</td></tr>
+ </table>
+ <div class="note"><b>Coming next on this platform:</b> topic-wise timed practice, section tests and full-length NQT mock series that follow exactly this pattern, from basic to advanced.</div>
+ <div class="foot"><span>TCS NQT 2027 Complete Guide · Based on the latest shared pattern. Verify dates and packages on the official TCS portal.</span><span>6</span></div>
+</div>
+</body></html>
