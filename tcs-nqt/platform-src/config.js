@@ -19,3 +19,6 @@ window.CFG={
     faceCheck:true                   // use browser face detection when the browser supports it
   }
 };
+
+/* add ?relax=1 to the page address to make camera and microphone optional */
+try{if(/[?&]relax=1/.test(location.search)){window.CFG.proctor.requireCamera=false;window.CFG.proctor.requireMic=false}}catch(e){}

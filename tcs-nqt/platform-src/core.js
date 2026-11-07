@@ -88,7 +88,7 @@ A.syscheck=resuming=>{let okCam=!C.proctor.requireCamera,okMic=!C.proctor.requir
   <button class="btn" id="b_perm">Start camera and microphone</button><p class="bad sm" id="perr"></p></div></div>
   <p class="sm mut">Sit in a well-lit place, keep your face in the frame and keep other people out of the room.</p>
   <button class="btn gr" id="b_next" disabled>Continue to instructions</button> <button class="btn sec" id="b_back">Back</button></div></div>`);
-  const dot=(i,ok,t)=>{A.$('#d'+i).className='dot '+(ok?'g':'r');A.$('#t'+i).textContent=t};
+  const dot=(i,ok,t)=>{const d=A.$('#d'+i),x=A.$('#t'+i);if(!d||!x)return;d.className='dot '+(ok?'g':'r');x.textContent=t};
   const upd=()=>{A.$('#b_next').disabled=!(okCam&&okMic)};
   A.$('#b_back').onclick=()=>{A.welcome(null)};
   A.$('#b_perm').onclick=async()=>{const r=await P.start(C.proctor.requireCamera||true,C.proctor.requireMic||true);
