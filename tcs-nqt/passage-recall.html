@@ -46,6 +46,19 @@ function scoreTask(task,answer){
   return {found,missing,wrong,pct:Math.round(100*found.length/task.facts.length)};
 }
 
+
+/* ---- SCORM 1.2 wrapper (does nothing if no LMS is present) ---- */
+var lms=null;
+function findAPI(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<20){w=w.parent;n++}return w&&w.API?w.API:null}
+function getAPI(){var a=findAPI(window);if(!a&&window.opener)try{a=findAPI(window.opener)}catch(e){}return a}
+function sc(fn,a,b){try{if(!lms)return '';return b===undefined?(a===undefined?lms[fn]():lms[fn](a)):lms[fn](a,b)}catch(e){return ''}}
+var T0=Date.now();
+function scormInit(){lms=getAPI();if(!lms)return;sc('LMSInitialize','');var st=sc('LMSGetValue','cmi.core.lesson_status');if(!st||st==='not attempted')sc('LMSSetValue','cmi.core.lesson_status','incomplete');sc('LMSCommit','')}
+function fmtTime(sec){sec=Math.round(sec);var h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return String(h).padStart(4,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function scormReport(avg,detail){if(!lms)return;sc('LMSSetValue','cmi.core.score.min','0');sc('LMSSetValue','cmi.core.score.max','100');sc('LMSSetValue','cmi.core.score.raw',String(avg));sc('LMSSetValue','cmi.core.lesson_status',avg>=60?'passed':'failed');sc('LMSSetValue','cmi.core.session_time',fmtTime((Date.now()-T0)/1000));try{sc('LMSSetValue','cmi.suspend_data',detail.slice(0,3500))}catch(e){}sc('LMSCommit','')}
+function scormQuit(){if(!lms)return;sc('LMSSetValue','cmi.core.session_time',fmtTime((Date.now()-T0)/1000));sc('LMSCommit','');sc('LMSFinish','');lms=null}
+window.addEventListener('beforeunload',scormQuit);window.addEventListener('unload',scormQuit);
+
 const app=document.getElementById('app');
 let order=[],cur=0,results=[],tick=null;
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
@@ -99,6 +112,7 @@ function writePhase(){
 }
 function summary(){
   const avg=Math.round(results.reduce((a,r)=>a+r.sc.pct,0)/N);
+  scormReport(avg,results.map(r=>r.task.title+':'+r.sc.pct+'%').join('; '));
   const grade=avg>=80?'Excellent':avg>=60?'Good':avg>=40?'Keep practising':'Needs work';
   let h=`<div class="card"><span class="tag">RESULT</span><div class="big">${avg}%</div><p><b>${grade}</b>: average of key facts recovered across ${N} tasks.</p>
   <p class="row">This is a practice score based on key-fact matching. It is not the official TCS marking.</p></div>`;
@@ -113,5 +127,5 @@ function summary(){
   h+=`<button class="btn" onclick="start()">Try 4 new passages</button> <button class="btn alt" onclick="home()">Home</button>`;
   app.innerHTML=h;
 }
-home();
+scormInit();home();
 </script></body></html>
