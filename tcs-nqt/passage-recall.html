@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passage Recall Practice</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#1b2540;--mut:#5b6685;--pri:#1e2761;--acc:#f9c74f;--ok:#0f7d6b;--bad:#be123c;--line:#dfe3f1}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1530;--card:#171f45;--ink:#eef1ff;--mut:#a9b4dc;--pri:#f9c74f;--line:#2b366b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,Arial,sans-serif;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:12px 0}
+h1{font-size:22px;margin:4px 0}h2{font-size:18px;margin:0 0 6px}
+.tag{display:inline-block;background:var(--acc);color:#1e2761;font-weight:800;font-size:12px;border-radius:12px;padding:3px 10px;letter-spacing:.5px}
+.btn{background:#1e2761;color:#fff;border:0;border-radius:10px;padding:11px 20px;font-size:16px;font-weight:700;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden}.bar>i{display:block;height:100%;background:#1e2761;width:100%}
+.read .bar>i{background:#2f66b3}.write .bar>i{background:#f59e0b}
+.timer{font-size:34px;font-weight:800;text-align:center;margin:6px 0}
+.passage{font-size:18px;line-height:1.7;user-select:none;-webkit-user-select:none}
+textarea{width:100%;min-height:190px;font:inherit;font-size:16px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:var(--mut);font-size:14px}
+.ok{color:var(--ok);font-weight:700}.bad{color:var(--bad);font-weight:700}
+.chips span{display:inline-block;margin:3px 4px 3px 0;padding:2px 9px;border-radius:12px;font-size:13px;border:1px solid var(--line)}
+.chips .f{background:#dcfce7;color:#0b5d4f;border-color:#9bdcc2}.chips .m{background:#fee2e2;color:#9f1239;border-color:#f0b4b4}
+.model{background:var(--bg);border-radius:10px;padding:10px;font-size:15px}
+.big{font-size:40px;font-weight:900}
+@media(max-width:480px){.passage{font-size:17px}.timer{font-size:30px}}
+</style></head><body><div class="wrap" id="app"></div>
+<script>
+const TASKS=[{"title": "Electric scooter plant", "passage": "Veltrix Motors announced on 9 March that it will build a new assembly plant in Coimbatore at a cost of ₹850 crore. The plant is expected to begin production in January 2027 and will make 60,000 electric scooters a year. About 2,400 people will be employed, and 70 percent of the jobs are reserved for local residents. The company will also set up a training centre, which will teach 500 students every year. The chairman, Mrs Lata Menon, said that the plant will run on solar power for at least 40 percent of its needs, and that the second phase, planned for 2029, will double the output.", "model": "Veltrix Motors announced on 9 March a new plant in Coimbatore costing ₹850 crore. Production starts in January 2027 with 60,000 electric scooters a year. It will employ 2,400 people, 70 percent of the jobs for locals, and have a training centre for 500 students every year. Chairman Mrs Lata Menon said at least 40 percent of the power will be solar and the second phase in 2029 will double output.", "facts": [["veltrix"], ["9 march", "march 9", "9th march"], ["coimbatore"], ["850 crore", "850 cr"], ["january 2027", "jan 2027"], ["60000", "60 000"], ["2400"], ["70 percent", "70%"], ["500 students", "500 student"], ["lata menon", "menon"], ["40 percent", "40%"], ["2029"], ["double"]]}, {"title": "Metro pass rules", "passage": "The Metro Authority has revised the monthly pass rules from 1 April. Students below 25 now get a 30 percent discount on the ₹1,200 pass, while senior citizens above 60 get 50 percent. Passes must be renewed within 5 days of expiry, otherwise a ₹100 penalty applies. Smart cards cost ₹150, of which ₹50 is non-refundable. A lost card must be reported within 48 hours to the helpline 1800-22-0099, and a duplicate card is issued within 7 working days. Student passes are valid only on weekdays, but passes for senior citizens are valid on all days.", "model": "From 1 April the ₹1,200 monthly pass gives students below 25 a 30 percent discount and senior citizens above 60 a 50 percent discount. Renewal is within 5 days of expiry or a ₹100 penalty applies. Smart cards cost ₹150 and ₹50 is non-refundable. Lost cards must be reported within 48 hours on 1800-22-0099 and a duplicate comes in 7 working days. Student passes work on weekdays only; senior passes on all days.", "facts": [["1 april", "april 1"], ["1200"], ["below 25", "under 25", "25"], ["30 percent", "30%"], ["60"], ["50 percent", "50%"], ["5 days"], ["100 penalty", "rs 100", "penalty of rs100", "100"], ["150"], ["50 non", "rs 50", "50 is non", "non-refundable", "non refundable"], ["48 hours", "48 hrs"], ["1800-22-0099", "1800220099", "1800 22 0099"], ["7 working days", "7 days"], ["weekdays", "week days"]]}, {"title": "Water survey", "passage": "On 12 June, Dr Ishita Banerjee led a team of 14 researchers to a village in Odisha to study a rise in water-borne diseases. Over six days, they tested 96 water samples from 18 wells and found that 31 samples contained harmful bacteria. The main cause was a broken sewage pipe 40 metres from the largest well. The team advised the village council to repair the pipe within 10 days, chlorinate all wells every month and build two new hand pumps. The council agreed and approved ₹7.5 lakh for the work.", "model": "On 12 June Dr Ishita Banerjee led 14 researchers to an Odisha village to study water-borne diseases. In six days they tested 96 samples from 18 wells and 31 had harmful bacteria, mainly from a broken sewage pipe 40 metres from the largest well. They advised the council to repair the pipe within 10 days, chlorinate the wells every month and build two hand pumps. The council approved ₹7.5 lakh.", "facts": [["12 june", "june 12"], ["ishita banerjee", "banerjee", "ishita"], ["14 researchers", "14 members", "team of 14", "14"], ["odisha"], ["six days", "6 days"], ["96"], ["18 wells", "18"], ["31"], ["sewage pipe", "sewage"], ["40 metres", "40 meters", "40 m"], ["largest well", "biggest well"], ["10 days"], ["every month", "monthly"], ["two", "2 hand pumps", "2 new"], ["7.5 lakh", "75 lakh", "7.5"]]}, {"title": "Coding contest", "passage": "To register for the annual coding contest, a participant must first create an account on the portal using a college email. Registration opens on 3 October at 10 am and closes on 20 October at 5 pm. Teams may have two or three members, and each team must pick a unique name of at most 20 characters. The fee is ₹300 per team, payable only by UPI. The first round is a 90-minute online test on 26 October, and the top 40 teams go to the final on 9 November in Hyderabad, where the winners receive ₹60,000 and the runners-up ₹35,000.", "model": "Participants create a portal account with a college email. Registration opens on 3 October at 10 am and closes on 20 October at 5 pm. Teams have two or three members and a unique name of at most 20 characters. The fee is ₹300 per team, UPI only. The first round is a 90-minute online test on 26 October. The top 40 teams play the final on 9 November in Hyderabad; winners get ₹60,000 and runners-up ₹35,000.", "facts": [["college email", "college mail"], ["3 october", "october 3"], ["10 am", "10am", "10 a.m"], ["20 october", "october 20"], ["5 pm", "5pm", "5 p.m"], ["two or three", "2 or 3", "two to three"], ["20 characters"], ["300"], ["upi"], ["90", "90 minute", "90-minute"], ["26 october", "october 26"], ["40 teams", "top 40", "40"], ["9 november", "november 9"], ["hyderabad"], ["60000", "60 000"], ["35000", "35 000"]]}, {"title": "Hospital expansion", "passage": "St Anne's Hospital in Mysuru will open a new cancer wing on 4 February after three years of construction costing ₹210 crore. The wing has 120 beds, 6 operation theatres and a radiation unit that can treat 150 patients a day. Treatment for patients from families earning less than ₹3 lakh a year will be free. The hospital director, Dr Farid Qureshi, said that 45 new doctors and 200 nurses will be hired by April, and that a helpline, 0821-555-0147, will be open from 8 am to 8 pm.", "model": "St Anne's Hospital in Mysuru opens a new cancer wing on 4 February, built over three years for ₹210 crore. It has 120 beds, 6 operation theatres and a radiation unit treating 150 patients a day. Families earning below ₹3 lakh a year get free treatment. Director Dr Farid Qureshi said 45 doctors and 200 nurses will be hired by April and a helpline, 0821-555-0147, will run 8 am to 8 pm.", "facts": [["st anne"], ["mysuru", "mysore"], ["4 february", "february 4"], ["three years", "3 years"], ["210 crore", "210"], ["120 beds", "120"], ["6 operation", "six operation", "6 theatres", "six theatres", "6"], ["radiation"], ["150 patients", "150"], ["3 lakh", "three lakh"], ["free"], ["farid qureshi", "qureshi"], ["45"], ["200 nurses", "200"], ["april"], ["0821-555-0147", "08215550147", "0821 555 0147"], ["8 am", "8am"], ["8 pm", "8pm"]]}, {"title": "Airline schedule change", "passage": "Skyline Air has changed its Pune–Delhi service from 1 November. Flight SK 214 will now leave at 6:45 am instead of 7:30 am and land at 8:50 am. The evening flight SK 217 is cancelled, and passengers can move to SK 219 at 9:10 pm without any charge. Check-in closes 45 minutes before departure for all flights. Cabin baggage is limited to 7 kg, and checked baggage to 15 kg, with ₹400 charged for every extra kilogram.", "model": "From 1 November Skyline Air flight SK 214 from Pune to Delhi leaves at 6:45 am instead of 7:30 am and lands at 8:50 am. SK 217 is cancelled and passengers can shift to SK 219 at 9:10 pm free of charge. Check-in closes 45 minutes before departure. Cabin baggage is 7 kg, checked baggage 15 kg, and each extra kilogram costs ₹400.", "facts": [["skyline"], ["pune"], ["delhi"], ["1 november", "november 1"], ["sk 214", "sk214", "214"], ["6:45", "645"], ["7:30", "730"], ["8:50", "850"], ["sk 217", "sk217", "217"], ["cancel"], ["sk 219", "sk219", "219"], ["9:10", "910"], ["45 minutes", "45 min"], ["7 kg", "7kg"], ["15 kg", "15kg"], ["400"]]}, {"title": "School sports day", "passage": "The annual sports day of Lotus Public School will be held on 18 January at the municipal stadium. Over 900 students from classes 6 to 12 will compete in 14 events, including relay races, long jump and a 1,500-metre run. Four houses, Red, Blue, Green and Yellow, will score points, with 5 points for first place, 3 for second and 1 for third. The chief guest will be the Olympic archer Meera Joshi, and the prize distribution is planned for 4:30 pm.", "model": "Lotus Public School's annual sports day is on 18 January at the municipal stadium. More than 900 students from classes 6 to 12 will take part in 14 events, such as relays, long jump and a 1,500-metre run. The four houses Red, Blue, Green and Yellow score 5, 3 and 1 points for first, second and third place. Olympic archer Meera Joshi is the chief guest and prizes are at 4:30 pm.", "facts": [["lotus"], ["18 january", "january 18"], ["municipal stadium", "municipal"], ["900"], ["6 to 12", "6-12", "6 and 12", "class 6", "classes 6"], ["14 events", "14"], ["relay"], ["long jump"], ["1500", "1 500"], ["four houses", "4 houses", "red"], ["5 points", "5"], ["3 for second", "3", "second"], ["1 for third", "third"], ["meera joshi", "joshi"], ["archer"], ["4:30", "430"]]}, {"title": "Bank scheme", "passage": "Union Prime Bank launched a new savings scheme called Gold Saver on 2 July. Customers who keep a minimum balance of ₹10,000 earn 6.5 percent interest a year, which is 1 percent higher than the regular rate. Senior citizens get an extra 0.5 percent. Withdrawals are limited to 4 per month, and a fee of ₹50 applies to each additional withdrawal. The scheme is open only till 30 September and is available in 220 branches across 9 states.", "model": "Union Prime Bank launched the Gold Saver savings scheme on 2 July. With a minimum balance of ₹10,000 customers earn 6.5 percent a year, 1 percent above the regular rate, and senior citizens get an extra 0.5 percent. Only 4 withdrawals a month are allowed, then ₹50 for each extra one. The scheme is open until 30 September in 220 branches across 9 states.", "facts": [["union prime"], ["gold saver"], ["2 july", "july 2"], ["10000", "10 000"], ["6.5"], ["1 percent", "1%", "one percent"], ["0.5", "half percent"], ["senior"], ["4 per month", "4 a month", "4 withdrawals", "four"], ["50"], ["30 september", "september 30"], ["220"], ["9 states", "nine states"]]}];
+const READ=30,WRITE=90,N=4;
+
+function norm(s){
+  s=String(s).toLowerCase();
+  s=s.replace(/₹/g,' rs ').replace(/\brs\.?\s*(?=\d)/g,' rs ').replace(/%/g,' percent ');
+  s=s.replace(/(\d),(?=\d{3}\b)/g,'$1');
+  s=s.replace(/[‐-―-]/g,' ');
+  s=s.replace(/[^a-z0-9:.\s]/g,' ');
+  s=s.replace(/\.(?=\s|$)/g,' ');
+  return ' '+s.replace(/\s+/g,' ').trim()+' ';
+}
+function hasFact(text,alts){const t=norm(text);return alts.some(a=>{const n=norm(a);if(!n.trim())return false;if(/^[a-z ]+$/.test(n.trim()))return t.includes(n.replace(/ $/,''));return t.includes(n)})}
+function numbersIn(s){return (norm(s).match(/\b\d[\d.:]*\d\b|\b\d\b/g)||[])}
+function scoreTask(task,answer){
+  const found=[],missing=[];
+  task.facts.forEach(f=>{(hasFact(answer,f)?found:missing).push(f[0])});
+  const allowed=new Set(numbersIn(task.passage));
+  task.facts.forEach(f=>f.forEach(a=>numbersIn(a).forEach(n=>allowed.add(n))));
+  const wrong=[...new Set(numbersIn(answer).filter(n=>!allowed.has(n)))];
+  return {found,missing,wrong,pct:Math.round(100*found.length/task.facts.length)};
+}
+
+const app=document.getElementById('app');
+let order=[],cur=0,results=[],tick=null;
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function pick(){
+  let seen=[];try{seen=JSON.parse(localStorage.getItem('pr_seen')||'[]')}catch(e){}
+  let idx=TASKS.map((_,i)=>i);let fresh=idx.filter(i=>!seen.includes(i));
+  if(fresh.length<N){fresh=idx;seen=[]}
+  fresh.sort(()=>Math.random()-.5);const ch=fresh.slice(0,N);
+  try{localStorage.setItem('pr_seen',JSON.stringify(seen.concat(ch)))}catch(e){}
+  return ch;
+}
+function home(){
+  clearInterval(tick);
+  app.innerHTML=`<div class="card"><span class="tag">VERBAL ABILITY · PASSAGE RECALL</span><h1>Passage Recall Practice</h1>
+  <p>This is the new-pattern memory task. You will do <b>4 tasks</b>. In each task:</p>
+  <ol><li>A passage appears for <b>30 seconds</b>. Read it and remember the facts (names, numbers, dates, places).</li><li>The passage then <b>disappears</b>. You get <b>90 seconds</b> to type what you remember.</li><li>At the end you see which key facts you recovered and which you missed.</li></ol>
+  <p class="row">Tips: write the most important facts first, keep the same order, do not invent facts. Copy and paste are disabled in the answer box.</p>
+  <button class="btn" onclick="start()">Start practice</button></div>`;
+}
+function start(){order=pick();cur=0;results=[];readPhase()}
+function readPhase(){
+  const t=TASKS[order[cur]];let left=READ;const t0=Date.now();
+  app.innerHTML=`<div class="card read"><div class="row"><span class="tag">TASK ${cur+1} OF ${N}</span><span>Read carefully</span></div>
+  <div class="timer" id="tm">${READ}</div><div class="bar"><i id="pb"></i></div>
+  <p class="passage" oncontextmenu="return false">${esc(t.passage)}</p></div>`;
+  clearInterval(tick);
+  tick=setInterval(()=>{const e=(Date.now()-t0)/1000;left=Math.max(0,Math.ceil(READ-e));
+    document.getElementById('tm').textContent=left;document.getElementById('pb').style.width=(100*(1-e/READ))+'%';
+    if(e>=READ){clearInterval(tick);writePhase()}},200);
+}
+function writePhase(){
+  const t0=Date.now();
+  app.innerHTML=`<div class="card write"><div class="row"><span class="tag">TASK ${cur+1} OF ${N}</span><span>The passage is hidden. Type what you remember.</span></div>
+  <div class="timer" id="tm">${WRITE}</div><div class="bar"><i id="pb"></i></div>
+  <textarea id="ans" autofocus spellcheck="false" placeholder="Type the passage from memory..."></textarea>
+  <div class="row" style="margin-top:8px"><span id="wc">0 words</span><button class="btn" id="sub">Submit</button></div></div>`;
+  const ta=document.getElementById('ans');
+  ['paste','copy','cut','drop','contextmenu'].forEach(ev=>ta.addEventListener(ev,e=>e.preventDefault()));
+  ta.addEventListener('input',()=>{const w=ta.value.trim()?ta.value.trim().split(/\s+/).length:0;document.getElementById('wc').textContent=w+' words'});
+  let done=false;
+  function finish(){if(done)return;done=true;clearInterval(tick);const used=Math.min(WRITE,(Date.now()-t0)/1000);
+    const text=ta.value;const words=text.trim()?text.trim().split(/\s+/).length:0;
+    results.push({task:TASKS[order[cur]],text,words,used,sc:scoreTask(TASKS[order[cur]],text)});
+    cur++;cur<N?readPhase():summary()}
+  document.getElementById('sub').onclick=finish;
+  clearInterval(tick);
+  tick=setInterval(()=>{const e=(Date.now()-t0)/1000;const left=Math.max(0,Math.ceil(WRITE-e));
+    document.getElementById('tm').textContent=left;document.getElementById('pb').style.width=(100*(1-e/WRITE))+'%';
+    if(e>=WRITE)finish()},200);
+  setTimeout(()=>ta.focus(),50);
+}
+function summary(){
+  const avg=Math.round(results.reduce((a,r)=>a+r.sc.pct,0)/N);
+  const grade=avg>=80?'Excellent':avg>=60?'Good':avg>=40?'Keep practising':'Needs work';
+  let h=`<div class="card"><span class="tag">RESULT</span><div class="big">${avg}%</div><p><b>${grade}</b>: average of key facts recovered across ${N} tasks.</p>
+  <p class="row">This is a practice score based on key-fact matching. It is not the official TCS marking.</p></div>`;
+  results.forEach((r,i)=>{
+    const wc=r.used>0?Math.round(r.words/(r.used/60)):0;
+    h+=`<div class="card"><h2>Task ${i+1}: ${esc(r.task.title)} <span class="${r.sc.pct>=70?'ok':'bad'}">${r.sc.pct}%</span></h2>
+    <div class="chips">${r.sc.found.map(f=>`<span class="f">✓ ${esc(f)}</span>`).join('')}${r.sc.missing.map(f=>`<span class="m">✗ ${esc(f)}</span>`).join('')}</div>
+    ${r.sc.wrong.length?`<p class="bad">Numbers not in the passage (possible mistakes): ${esc(r.sc.wrong.join(', '))}</p>`:'<p class="ok">No invented numbers.</p>'}
+    <p class="row">Typed ${r.words} words in ${Math.round(r.used)} s (about ${wc} words per minute)</p>
+    <details><summary>Show passage and model recall</summary><p class="model"><b>Passage:</b> ${esc(r.task.passage)}</p><p class="model"><b>Model recall:</b> ${esc(r.task.model)}</p><p class="model"><b>Your answer:</b> ${esc(r.text)||'(blank)'}</p></details></div>`;
+  });
+  h+=`<button class="btn" onclick="start()">Try 4 new passages</button> <button class="btn alt" onclick="home()">Home</button>`;
+  app.innerHTML=h;
+}
+home();
+</script></body></html>
