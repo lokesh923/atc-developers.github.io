@@ -18,7 +18,8 @@ function sc(fn,a,b){try{if(!lms)return '';return b===undefined?(a===undefined?lm
 A.scormInit=()=>{lms=findAPI(window);if(!lms&&window.opener)try{lms=findAPI(window.opener)}catch(e){}if(!lms)return;sc('LMSInitialize','');const st=sc('LMSGetValue','cmi.core.lesson_status');if(!st||st==='not attempted')sc('LMSSetValue','cmi.core.lesson_status','incomplete');sc('LMSCommit','')};
 A.scormName=()=>{const n=sc('LMSGetValue','cmi.core.student_name');return n&&n!=='undefined'?n:''};
 const tf=s=>{s=Math.round(s);return String(Math.floor(s/3600)).padStart(4,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
-A.scormReport=(pct,summary)=>{if(!lms)return;sc('LMSSetValue','cmi.core.score.min','0');sc('LMSSetValue','cmi.core.score.max','100');sc('LMSSetValue','cmi.core.score.raw',String(pct));sc('LMSSetValue','cmi.core.lesson_status',pct>=C.passMark?'passed':'failed');sc('LMSSetValue','cmi.core.session_time',tf((Date.now()-t0)/1000));sc('LMSSetValue','cmi.suspend_data',String(summary).slice(0,4000));sc('LMSCommit','')};
+A.framed=(()=>{try{return window.self!==window.top&&!window.opener}catch(e){return true}})();
+A.scormReport=(pct,summary)=>{try{if(window.opener&&!window.opener.closed)window.opener.postMessage({atc:1,pct:pct,summary:String(summary).slice(0,3500)},'*')}catch(e){}if(!lms)return;sc('LMSSetValue','cmi.core.score.min','0');sc('LMSSetValue','cmi.core.score.max','100');sc('LMSSetValue','cmi.core.score.raw',String(pct));sc('LMSSetValue','cmi.core.lesson_status',pct>=C.passMark?'passed':'failed');sc('LMSSetValue','cmi.core.session_time',tf((Date.now()-t0)/1000));sc('LMSSetValue','cmi.suspend_data',String(summary).slice(0,4000));sc('LMSCommit','')};
 const quit=()=>{if(!lms)return;sc('LMSSetValue','cmi.core.session_time',tf((Date.now()-t0)/1000));sc('LMSCommit','');sc('LMSFinish','');lms=null};
 window.addEventListener('beforeunload',quit);
 /* ---------- sampling without repeats ---------- */
@@ -60,13 +61,15 @@ P.clip=e=>{if(!P.active)return;const t=e.target;if(t&&t.classList&&t.classList.c
 const app=()=>A.$('#app');
 A.render=h=>{app().innerHTML=h;window.scrollTo(0,0)};
 A.cand=LS.get('cand',{});
-A.boot=()=>{A.scormInit();const saved=LS.get('state',null);A.welcome(saved&&!saved.done&&Date.now()-saved.saved<4*3600e3?saved:null)};
+A.openFull=()=>{const w=window.open(location.href.split('#')[0],'atc_exam_window');if(!w){A.toast('Pop-up blocked. Allow pop-ups for this site and click again.');return false}A.child=w;A.render(`<div class="wrap"><div class="card"><span class="tag">TEST WINDOW OPENED</span><h1>Continue in the new window</h1><p>The test is running in a separate full window, where the camera, microphone and full screen work. <b>Do not close this page</b> until you finish. Your result will be recorded here when the test ends.</p><p id="fin" class="mut">Waiting for the test to finish…</p><button class="btn sec" id="reopen">Open the test window again</button></div></div>`);A.$('#reopen').onclick=()=>{if(A.child&&!A.child.closed)A.child.focus();else A.openFull()};return true};
+A.boot=()=>{A.scormInit();window.addEventListener('message',e=>{const d=e.data;if(d&&d.atc===1){A.scormReport(d.pct,d.summary);const f=A.$('#fin');if(f)f.innerHTML='<b class="ok">Test finished. Your score ('+d.pct+'%) has been recorded.</b> You can close the test window.'}});const saved=LS.get('state',null);A.welcome(saved&&!saved.done&&Date.now()-saved.saved<4*3600e3?saved:null)};
 const sectionsInfo=[['S1','Numerical Ability','20 questions · 25 min'],['S2','Reasoning Ability','20 questions · 25 min'],['S3','Verbal Ability','25 tasks · 26 min (sentence completion, passage recall, email)'],['S4','Advanced Quant + Reasoning','14 questions · 25 min'],['S5','Advanced Coding','2 problems · 90 min (C, C++, Java, Python)']];
 A.sectionsInfo=sectionsInfo;
 A.welcome=resume=>{const c=Object.assign({name:A.scormName()},A.cand);
   const bi=['S1','S2','S3','S4'].map(s=>A.bankInfo(s));
   A.render(`<div class="wrap"><div class="card"><span class="tag">TCS NQT 2027 · LIVE TEST PLATFORM</span><h1>${A.esc(C.brand)}</h1><p class="mut">A full-length practice test that follows the live exam pattern, with camera and microphone proctoring, section timers, image and equation questions and an online compiler. Questions change on every attempt and are not repeated until the bank is used up.</p>
   <table class="t"><tr><th>Section</th><th>Pattern</th><th>Question bank</th></tr>${sectionsInfo.map((s,i)=>`<tr><td><b>${s[1]}</b></td><td>${s[2]}</td><td>${i<4?(B['S'+(i+1)].length+' questions'):(B.S5.length+' coding problems')}</td></tr>`).join('')}</table></div>
+  ${A.framed&&C.proctor.requireCamera?`<div class="card" style="border-color:#be123c"><h2>Open the test in a full window</h2><p>This page is inside a course player, which blocks the camera, microphone and full screen. Click the button to open the test in its own window and attempt it there.</p><button class="btn gr" id="openfull">Open test in a new window</button></div>`:''}
   ${resume?`<div class="card" style="border-color:#f9c74f"><h2>Resume your unfinished test</h2><p>A test started on ${new Date(resume.saved).toLocaleString()} is still open. The timers kept running while you were away.</p><button class="btn am" id="rs">Resume test</button> <button class="btn sec" id="dis">Discard it</button></div>`:''}
   <div class="card"><h2>Candidate details</h2><div class="grid2"><div><label>Full name *</label><input type="text" id="f_name" value="${A.esc(c.name||'')}"></div><div><label>Email *</label><input type="email" id="f_email" value="${A.esc(c.email||'')}"></div>
   <div><label>Mobile number *</label><input type="tel" id="f_mob" value="${A.esc(c.mob||'')}"></div><div><label>College / University *</label><input type="text" id="f_col" value="${A.esc(c.col||'')}"></div>
@@ -74,6 +77,7 @@ A.welcome=resume=>{const c=Object.assign({name:A.scormName()},A.cand);
   <div class="chk" style="margin-top:12px"><input type="checkbox" id="f_c1"><label style="margin:0;font-weight:500;color:var(--ink)">I agree to switch on my camera and microphone for the whole test. Photos are taken at regular intervals and events such as tab switching are recorded on this device for my own report.</label></div>
   <div class="chk"><input type="checkbox" id="f_c2"><label style="margin:0;font-weight:500;color:var(--ink)">I will attempt the test alone, without help, notes or other devices.</label></div>
   <p id="f_err" class="bad"></p><button class="btn" id="f_go">Continue to system check</button></div></div>`);
+  if(A.$('#openfull'))A.$('#openfull').onclick=()=>A.openFull();
   if(resume){A.$('#rs').onclick=()=>{A.cand=resume.cand;A.resumeState=resume;A.syscheck(true)};A.$('#dis').onclick=()=>{LS.del('state');A.welcome(null)}}
   A.$('#f_go').onclick=()=>{const g=id=>A.$('#'+id).value.trim();const v={name:g('f_name'),email:g('f_email'),mob:g('f_mob'),col:g('f_col'),br:g('f_br'),roll:g('f_roll')};
     const err=A.$('#f_err');if(!v.name||!v.email||!v.mob||!v.col){err.textContent='Please fill all fields marked *.';return}
@@ -94,7 +98,7 @@ A.syscheck=resuming=>{let okCam=!C.proctor.requireCamera,okMic=!C.proctor.requir
   A.$('#b_perm').onclick=async()=>{const r=await P.start(C.proctor.requireCamera||true,C.proctor.requireMic||true);
     if(r.cam){A.$('#pv').srcObject=P.stream;dot(1,true,'Camera: working');okCam=true}else dot(1,false,'Camera: not available');
     if(r.mic){dot(2,true,'Microphone: working');okMic=true;const iv=setInterval(()=>{if(!A.$('#mt')){clearInterval(iv);return}A.$('#mt').style.width=Math.round(P.level()*100)+'%'},100)}else dot(2,false,'Microphone: not available');
-    if(r.err)A.$('#perr').textContent='Could not access devices ('+r.err+'). Allow camera and microphone in the browser address bar. If this page is inside a course player, ask your instructor to allow camera and microphone for the player.';
+    if(r.err)A.$('#perr').innerHTML='Could not access devices ('+r.err+'). Allow camera and microphone in the browser address bar. If this page is inside a course player, ask your instructor to allow camera and microphone for the player.'+(A.framed?' <button class="btn sm gr" id="ofull">Open the test in a new window</button>':'');const ob=A.$('#ofull');if(ob)ob.onclick=()=>A.openFull();
     upd()};
   (async()=>{try{const ac=new AbortController();setTimeout(()=>ac.abort(),8000);const r=await fetch(C.judge0.url+'/languages',{signal:ac.signal,headers:C.judge0.headers});okNet=r.ok;dot(4,r.ok,r.ok?'Internet and compiler: connected':'Compiler service answered with an error ('+r.status+')')}catch(e){dot(4,false,'Compiler service could not be reached. Coding section will not run until the connection works')}})();
   A.$('#b_next').onclick=()=>{A.instructions(resuming)}};
