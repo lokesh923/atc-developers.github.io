@@ -1,0 +1,34 @@
+
+@page{size:A4;margin:13mm 0 14mm}@page :first{margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;color:#1b2540;font-size:10.2pt;line-height:1.5;background:#fff}
+.pg{padding:0 14mm;page-break-before:always}
+.cover{height:297mm;background:radial-gradient(circle at 88% 10%,#3b4cca66,transparent 45%),radial-gradient(circle at 8% 92%,#2ec4b633,transparent 45%),#1e2761;color:#fff;padding:20mm 18mm;display:flex;flex-direction:column;justify-content:space-between}
+.tag{display:inline-block;background:#f9c74f;color:#1e2761;font-weight:800;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;font-size:9pt}
+.cover h1{font-size:44pt;line-height:1.04;font-weight:900;margin:18px 0 10px}.cover h1 span{color:#f9c74f}
+.cover .sub{font-size:15pt;color:#cadcfc;max-width:150mm;line-height:1.45}
+.cstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.cstats div{background:#ffffff14;border:1px solid #ffffff2e;border-radius:12px;padding:12px}.cstats b{display:block;font-size:20pt;color:#f9c74f}.cstats span{font-size:8.8pt;color:#cadcfc}
+h2.ch{font-size:22pt;color:#1e2761;font-weight:900;margin-bottom:2px}
+.bar{height:4px;width:60px;background:linear-gradient(90deg,#1e2761,#f9c74f);border-radius:4px;margin:6px 0 12px}
+.lead{color:#4b5578;margin-bottom:10px}
+.tophead{border-radius:14px;color:#fff;padding:14px 18px;margin-bottom:12px;display:flex;align-items:center;gap:14px}.tophead .no{font-size:30pt;font-weight:900;color:#f9c74f;line-height:1}.tophead h2{font-size:20pt;font-weight:900;line-height:1.1}.tophead small{opacity:.9;letter-spacing:1px;font-weight:700;font-size:8.5pt}
+.box{border-radius:12px;padding:10px 14px;margin:8px 0;break-inside:avoid}
+.intro{background:#eef2ff;border-left:5px solid #1e2761;color:#2a3558}
+.form{background:#fff7e1;border:1.5px solid #e6c561}.form h4{color:#7a5500}
+h3{font-size:13pt;color:#1e2761;margin:12px 0 4px;font-weight:800;break-after:avoid}
+h4{font-size:11.5pt;margin-bottom:4px;break-after:avoid}
+.form ul{list-style:none}.form li{padding-left:14px;position:relative;margin:3px 0}.form li:before{content:"▸";position:absolute;left:0;color:#b45309}
+.ex{background:#f4f7ff;border:1px solid #cdd9f7}.ex .q{font-weight:700;color:#1e2761}.ex .a{margin-top:4px;background:#e1f5ee;border-radius:8px;padding:3px 10px;font-weight:800;color:#0f5d4a;display:inline-block}
+.ex .s{color:#3a4358;margin-top:3px}
+.fig{border:1px solid #dfe3f1;border-radius:12px;padding:8px 10px;margin:10px 0;break-inside:avoid;background:#fcfdff}.fig .cap{font-size:8.8pt;color:#6b7494;text-align:center;margin-top:2px}
+table.tb{width:100%;border-collapse:collapse;margin:6px 0;font-size:9.4pt}.tb th{background:#1e2761;color:#fff;padding:4px 8px;text-align:left}.tb td{padding:3px 8px;border-bottom:1px solid #e3e7f0}.tb tr:nth-child(even) td{background:#f6f8fd}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tips{background:#ecfdf5;border:1px solid #9bdcc2}.tips h4{color:#0f5d4a}.warn{background:#fdecec;border:1px solid #f0b4b4}.warn h4{color:#a4262c}
+.tips ul,.warn ul{padding-left:16px}.tips li,.warn li{margin:2px 0;font-size:9.6pt}
+.pq{border:1px solid #dfe3f1;border-radius:12px;padding:8px 14px;margin:8px 0}.pq h4{color:#1e2761}
+.pq .row{display:flex;gap:8px;padding:3px 0;border-bottom:1px dashed #e3e7f0;font-size:9.8pt;break-inside:avoid}.pq .n{font-weight:800;color:#1e2761;min-width:24px}.lv{font-size:7.5pt;font-weight:800;padding:1px 7px;border-radius:9px;color:#fff;align-self:flex-start;margin-top:3px}
+.cs td,.cs th{font-size:8.8pt}
+.code{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:8px 12px;font-family:Consolas,Menlo,monospace;font-size:8.8pt;line-height:1.45;white-space:pre-wrap;margin:6px 0;break-inside:avoid}
+.key{columns:2;column-gap:14px;font-size:9.4pt}.key div{break-inside:avoid;margin:2px 0}.key b{color:#1e2761}
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}.toc div{display:flex;justify-content:space-between;border-bottom:1px dotted #aab;padding:3px 0;font-size:10pt}.toc em{font-style:normal;font-size:8pt;font-weight:800;padding:1px 8px;border-radius:9px;color:#fff;margin-left:6px}
+.foot{font-size:8pt;color:#8a93b2;text-align:center;margin-top:10px}
