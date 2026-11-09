@@ -1,0 +1,5 @@
+global.window=global;require('./gen_r.js');require('./gen_a.js');const G=NG;let n=0,bad=0,ti=0;const fails={};
+for(const f of G.F){const tries=['seat_lin','seat_circ','floors','inequality','syllo','pc_digits','pc_rank'].includes(f.id)?30:150;let ok=0;for(let i=0;i<tries;i++){const q=G.make(f);if(!q){fails[f.id]=(fails[f.id]||0)+1;continue}ok++;n++;if(q.ty==='num'){ti++;if(!isFinite(parseFloat(q.a))){bad++;console.log('BAD tita',f.id,q.a)}}else if(new Set(q.o).size!==q.o.length||q.a<0||q.a>=q.o.length){bad++;console.log('BAD opts',f.id,q.o)}
+  if(/undefined|NaN|Infinity/.test(q.q+(q.o||[]).join()+q.e)){bad++;console.log('BAD text',f.id,q.q.slice(0,80))}}if(ok<tries*0.7)console.log('LOW',f.id,ok,'/',tries)}
+console.log('families',G.F.length,'topics',G.topics.length,'questions',n,'typed',ti,'bad',bad,'fails',JSON.stringify(fails));
+for(const id of ['di_table','prob_heads','pc_vowels','pc_rank','tw_alt','mens_melt','nt_crt','tsd_circle']){const q=G.make(G.F.find(f=>f.id===id));if(q)console.log('\n['+id+'] ('+q.ty+')',q.q.replace(/<[^>]+>/g,' ').slice(0,260),'\n  ',q.ty==='mcq'?q.o.join(' | ')+' => '+q.o[q.a]:'ANS '+q.a,'\n  ',q.e.slice(0,160))}
