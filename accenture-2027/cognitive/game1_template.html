@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Game 1: Bubbles – Zero to Hero Guide</title>
+<!--BASE_STYLE-->
+<style>
+  .cover{ background:radial-gradient(110% 80% at 100% 0%, #22c55e 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #0ea5e9 0%, transparent 52%),
+               linear-gradient(160deg,#052e2b 0%,#0b3b3a 55%,#04201e 100%); }
+  .cover h1 span{ color:#86efac; }
+  .sec-head{ break-inside:avoid; }
+  .sec-num{ background:linear-gradient(135deg,#0f9f6e,#22c55e); }
+  .sec-head .kicker{ color:#0f9f6e; }
+  li::marker{ color:#0f9f6e; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+
+  /* ---- game screen mock-up ---- */
+  .screen{ border:1.5px solid #d6dbe4; border-radius:12px; background:#fff; padding:10px 12px 8px; break-inside:avoid; box-shadow:0 4px 14px rgba(15,40,30,.06); }
+  .sbar{ display:flex; align-items:center; gap:8px; font-size:9pt; }
+  .sbar b{ font-weight:800; color:#14122b; }
+  .gtag{ margin-left:auto; background:#1fa37a; color:#fff; font-size:7pt; font-weight:800; letter-spacing:.06em; padding:3px 10px; border-radius:3px; }
+  .tmr{ font-size:7.6pt; font-weight:800; color:#c2410c; background:#fff1e6; border-radius:6px; padding:2px 7px; }
+  .sins{ font-size:8.2pt; color:#3d3a5c; margin:4px 0 2px; }
+  .arena{ position:relative; height:190px; }
+  .bub{ position:absolute; width:78px; height:78px; margin-left:-6px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#3cc493,#1fa37a 60%,#178a66); color:#fff; display:grid; place-items:center; font-weight:800; font-size:12pt; box-shadow:0 4px 10px rgba(23,138,102,.35); }
+  .bub.hl{ outline:4px solid #fcd34d; }
+  .bub .ord{ position:absolute; top:-6px; right:-6px; width:24px; height:24px; border-radius:50%; background:#14122b; color:#fff; font-style:normal; font-size:10pt; display:grid; place-items:center; border:2px solid #fff; }
+  .screen.sm .arena{ height:150px; }
+  .screen.sm .bub{ width:58px; height:58px; font-size:9pt; }
+  .screen.sm .bub .ord{ width:20px; height:20px; font-size:8.5pt; }
+  .screen.sm .sins{ font-size:7.2pt; }
+  .screen.sm .sbar{ font-size:8pt; }
+
+  .anno{ display:grid; grid-template-columns:1.25fr 1fr; gap:14px; align-items:start; }
+  .anno ol{ margin:0; padding-left:18px; font-size:9.2pt; }
+  .anno ol li{ margin:5px 0; }
+  .stepcard{ display:grid; grid-template-columns:1fr 1.1fr; gap:14px; align-items:center; border:1px solid var(--line); border-radius:14px; padding:12px; margin:10px 0; break-inside:avoid; }
+  .stepcard .no{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px; color:#fff; font-weight:800; background:linear-gradient(135deg,#0f9f6e,#22c55e); margin-right:8px; }
+  .stepcard h4{ display:flex; align-items:center; margin:0 0 6px; font-size:11pt; }
+  .stepcard p{ margin:0 0 6px; font-size:9.2pt; }
+  .wk{ display:grid; grid-template-columns:1.1fr 1fr; gap:12px; align-items:center; margin:8px 0; }
+  .wtxt ul{ margin:0; font-size:9.2pt; }
+  .wtxt .tap{ margin:6px 0 0; font-weight:700; color:#0f6f50; font-size:9.4pt; }
+  .pgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-bottom:12px; }
+  .keyt td{ font-size:8.6pt; }
+  .keyt td:first-child{ width:6%; font-weight:700; color:var(--muted); }
+  .keyt td:last-child{ width:36%; }
+  .budget{ display:flex; height:34px; border-radius:10px; overflow:hidden; margin:10px 0 4px; font-size:8.4pt; font-weight:700; color:#fff; }
+  .budget div{ display:grid; place-items:center; }
+  .trick{ border-left:4px solid #0f9f6e; }
+  code{ white-space:nowrap; }
+  .trick code{ background:#eef9f4; padding:1px 5px; border-radius:4px; }
+  .op{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:10px 0; }
+  .op div{ border-radius:12px; padding:10px 12px; border:1px solid var(--line); background:var(--bg-alt); font-size:8.8pt; }
+  .op div b.s{ display:block; font-size:20pt; line-height:1; margin-bottom:4px; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:7px 0; border-bottom:1px dashed var(--line); font-size:9.6pt; }
+  .toc li b{ color:#0f9f6e; width:22px; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Cognitive Assessment · Game 1</span></div>
+  <h1>Bubbles Game<br><span>Zero to Hero Guide</span></h1>
+  <p class="sub">Speed arithmetic under pressure. Learn exactly how the game works, the mental math tricks that make it easy, a step-by-step speed method, worked examples and 36 practice questions with answers.</p>
+  <div class="roles">
+    <div>How to play (with screens)</div><div>Mental math toolkit</div><div>Estimate-first method</div><div>36 practice questions</div><div>7-day plan</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>25</b><span>Questions</span></div>
+    <div class="stat"><b>15s</b><span>Per question</span></div>
+    <div class="stat"><b>3</b><span>Bubbles per screen</span></div>
+    <div class="stat"><b>Yes</b><span>Elimination round (reported)</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + 01 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b>01</b>The Cognitive Assessment at a glance</li>
+    <li><b>02</b>Game 1 explained: what you'll see</li>
+    <li><b>03</b>How to play, step by step (with screens)</li>
+    <li><b>04</b>The 4-step speed method</li>
+    <li><b>05</b>Operator instincts and estimation</li>
+    <li><b>06</b>Mental math toolkit</li>
+    <li><b>07</b>Worked examples</li>
+    <li><b>08</b>Your 15-second time budget</li>
+    <li><b>09</b>Common mistakes and traps</li>
+    <li><b>10</b>Practice: 36 questions in 3 levels</li>
+    <li><b>11</b>Answer key</li>
+    <li><b>12</b>7-day training plan and test-day checklist</li>
+  </ul>
+
+  <div class="note brand" style="border-color:#0f9f6e;background:#e7f8f0"><span class="t" style="color:#0f9f6e">How to use this guide</span>
+    <ul>
+      <li><b>Never seen this game?</b> Read Sections 1–4 first. They show you the screen and exactly what to tap.</li>
+      <li><b>Know the game but are slow?</b> Focus on Sections 5–6 (estimation and the mental math toolkit).</li>
+      <li><b>Ready to test yourself?</b> Do the 36 practice questions in Section 10 with a 15-second timer.</li>
+    </ul>
+  </div>
+
+  <div class="sec-head" style="margin-top:22px"><div class="sec-num">01</div><div><div class="kicker">The big picture</div><h2>The Cognitive Assessment at a Glance</h2></div></div>
+  <p class="lead">The Cognitive Assessment is the <b>second part of Assessment 1</b>, right after the behavioural (psychometric) test. Instead of normal MCQs, it uses <b>short games</b> to measure how fast and accurately you think.</p>
+  <div class="cards c4">
+    <div class="card alt"><div class="lbl">Total time</div><div class="val">20 <small>min</small></div></div>
+    <div class="card alt"><div class="lbl">Games</div><div class="val">3</div></div>
+    <div class="card alt"><div class="lbl">Elimination</div><div class="val" style="color:var(--rose)">Yes</div></div>
+    <div class="card alt"><div class="lbl">Skills</div><div class="val" style="font-size:11pt">Math · Spatial · Planning</div></div>
+  </div>
+  <table>
+    <thead><tr><th style="width:24%">Game</th><th>What you do</th><th style="width:18%">Time</th><th style="width:20%">Skill tested</th></tr></thead>
+    <tbody>
+      <tr><td><b>1 · Bubbles</b> <span class="badge b-no">This guide</span></td><td>Solve 3 arithmetic bubbles and tap them from the smallest result to the largest.</td><td>15 s × 25 questions</td><td>Mental math speed</td></tr>
+      <tr><td><b>2 · Pathfinding</b></td><td>Change path directions and tiles to reach a target point.</td><td>~5 min per puzzle</td><td>Spatial reasoning</td></tr>
+      <tr><td><b>3 · Key Collection</b></td><td>Collect all keys on a ~10×10 grid, then reach the door.</td><td>~5 min</td><td>Planning</td></tr>
+    </tbody>
+  </table>
+  <div class="note alert"><span class="t">Why this game matters</span>Candidates report that the gamified part is <b>elimination-based</b>, and 3–4 people at one test centre were eliminated here. The Bubbles game is the most "trainable" of the three. With a week of mental math practice, most people improve a lot.</div>
+</section>
+
+<!-- ================= 02 ================= -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">02</div><div><div class="kicker">Know the screen</div><h2>Game 1 Explained: What You'll See</h2></div></div>
+  <p class="lead">Each question shows <b>three green bubbles</b> in random positions on the screen. Every bubble holds a short arithmetic expression. Your job is to <b>tap them in ascending order of their results</b>: smallest first, largest last.</p>
+
+  <div class="anno">
+    <div><!--SCREEN_BLANK--></div>
+    <div>
+      <h4 style="margin-top:0">Reading the screen</h4>
+      <ol>
+        <li><b>Question number</b> (top left): your progress through the 25 questions.</li>
+        <li><b>Game label</b> (top right): confirms you're in the Bubbles game.</li>
+        <li><b>Instruction:</b> always "Tap the bubbles in ASCENDING order of their result."</li>
+        <li><b>Timer:</b> 15 seconds for this question only.</li>
+        <li><b>Bubbles:</b> 3 expressions using +, −, × or ÷, placed randomly. Their <b>screen position tells you nothing</b> about the order.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>Key facts</h3>
+  <div class="cards c3">
+    <div class="card"><h4 style="margin-top:0">What is graded</h4><p style="margin:0;font-size:9pt">The <b>order in which you tap</b> the bubbles. You don't type the answers, so you only need the correct ranking.</p></div>
+    <div class="card"><h4 style="margin-top:0">"Ascending" means</h4><p style="margin:0;font-size:9pt">From the <b>smallest result to the largest</b>, like 55 → 60 → 135. It is <b>not</b> left-to-right or top-to-bottom on the screen.</p></div>
+    <div class="card"><h4 style="margin-top:0">Pace</h4><p style="margin:0;font-size:9pt">The next question starts as soon as one ends. Across 25 questions, staying calm and steady matters more than one perfect answer.</p></div>
+  </div>
+  <div class="note info"><span class="t">Good to know</span>This guide describes the 3-bubble version that candidates report. If your screen ever shows a different number of bubbles, the rule stays the same: tap from the smallest result to the largest.</div>
+</section>
+
+<!-- ================= 03 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">03</div><div><div class="kicker">Follow along</div><h2>How to Play, Step by Step</h2></div></div>
+  <p class="lead">We'll play the sample question shown on the previous page from start to finish.</p>
+
+  <div class="stepcard">
+    <div><!--SCREEN_STEP1--></div>
+    <div>
+      <h4><span class="no">1</span>Look at all three bubbles</h4>
+      <p>The question appears with three bubbles: <code>53 + 7</code>, <code>58 + 77</code> and <code>60 − 5</code>. Spend about one second taking in all three before you calculate anything.</p>
+      <p style="color:var(--muted)">Don't start tapping the bubble that happens to be on the left or top.</p>
+    </div>
+  </div>
+
+  <div class="stepcard">
+    <div>
+      <table style="margin:0">
+        <thead><tr><th>Bubble</th><th>Quick estimate</th><th>Exact</th></tr></thead>
+        <tbody>
+          <tr><td><code>58 + 77</code></td><td>≈ 60 + 80 = <b>~140</b> (clearly the biggest)</td><td>135</td></tr>
+          <tr><td><code>53 + 7</code></td><td>≈ 60</td><td>60</td></tr>
+          <tr><td><code>60 − 5</code></td><td>a bit less than 60</td><td>55</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h4><span class="no">2</span>Estimate first, then calculate only if needed</h4>
+      <p>A rough look shows <code>58 + 77</code> is far bigger than the other two, so it goes last without any exact maths.</p>
+      <p>The other two are both near 60, so they are <b>close</b>. Calculate those two exactly: 53 + 7 = <b>60</b> and 60 − 5 = <b>55</b>.</p>
+    </div>
+  </div>
+
+  <div class="stepcard">
+    <div><!--SCREEN_STEP3--></div>
+    <div>
+      <h4><span class="no">3</span>Tap from the smallest to the largest</h4>
+      <p>The numbered badges show the tap order:</p>
+      <p><b>① 60 − 5 (55) → ② 53 + 7 (60) → ③ 58 + 77 (135)</b></p>
+      <p style="color:var(--muted)">Tap firmly and decisively. Each tap usually counts as final.</p>
+    </div>
+  </div>
+
+  <div class="cards c2">
+    <div class="stepcard" style="grid-template-columns:1fr;margin:0">
+      <div><h4><span class="no">4</span>Let it advance</h4>
+      <p>Some versions move on automatically after the third tap, while others need a quick confirm. Either way, don't hesitate once you've decided.</p></div>
+    </div>
+    <div class="stepcard" style="grid-template-columns:1fr;margin:0">
+      <div><h4><span class="no">5</span>Reset for the next one</h4>
+      <p>The next question begins immediately. Forget the previous one, whether it was right or wrong, and start again at Step 1.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 + 05 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">04</div><div><div class="kicker">The core technique</div><h2>The 4-Step Speed Method</h2></div></div>
+  <p class="lead">Top scorers don't calculate everything. They <b>sort first</b> and calculate only where needed. Use this routine on every question until it becomes automatic.</p>
+  <div class="cards c4">
+    <div class="rule" style="flex-direction:column;gap:6px"><div class="no" style="background:linear-gradient(135deg,#0f9f6e,#22c55e)">1</div><div><h4>SCAN</h4><p>About 1 second. Read all three bubbles and notice the operators.</p></div></div>
+    <div class="rule" style="flex-direction:column;gap:6px"><div class="no" style="background:linear-gradient(135deg,#0f9f6e,#22c55e)">2</div><div><h4>ESTIMATE</h4><p>About 3 seconds. Round the numbers and place each bubble as small, medium or large.</p></div></div>
+    <div class="rule" style="flex-direction:column;gap:6px"><div class="no" style="background:linear-gradient(135deg,#0f9f6e,#22c55e)">3</div><div><h4>VERIFY</h4><p>About 5 seconds. Calculate exactly <b>only</b> the bubbles whose estimates are close.</p></div></div>
+    <div class="rule" style="flex-direction:column;gap:6px"><div class="no" style="background:linear-gradient(135deg,#0f9f6e,#22c55e)">4</div><div><h4>TAP</h4><p>About 2 seconds. Tap smallest → middle → largest, firmly.</p></div></div>
+  </div>
+  <div class="note tip"><span class="t">Why this works</span>In most questions, one or two bubbles are obviously bigger or smaller. Estimation sorts those for free, so your limited seconds go to the <b>one close pair</b> that really needs exact maths.</div>
+
+  <div class="sec-head" style="margin-top:20px"><div class="sec-num">05</div><div><div class="kicker">Sort without calculating</div><h2>Operator Instincts &amp; Estimation</h2></div></div>
+  <div class="op">
+    <div><b class="s" style="color:#0f9f6e">×</b><b>Multiplication</b><br>Usually the <b>largest</b> in a mixed set. 9 × 8 = 72 beats most sums of small numbers.</div>
+    <div><b class="s" style="color:#2563eb">÷</b><b>Division</b><br>Usually the <b>smallest</b>. 36 ÷ 4 = 9: dividing shrinks numbers.</div>
+    <div><b class="s" style="color:#c77700">+</b><b>Addition</b><br>Usually in the <b>middle</b>. Fast to work out, so compute it first when needed.</div>
+    <div><b class="s" style="color:#d63a5a">−</b><b>Subtraction</b><br>Usually <b>small to middle</b>. 12 − 9 = 3 can be tiny.</div>
+  </div>
+  <div class="note warn"><span class="t">Instinct, not a rule</span>These patterns are right most of the time, <b>not always</b>. <code>2 × 3 = 6</code> is smaller than <code>90 ÷ 2 = 45</code>. Always glance at the actual numbers: big numbers can beat any operator.</div>
+
+  <h3>Rounding to the nearest 10</h3>
+  <table>
+    <thead><tr><th>Bubbles</th><th>Rounded estimate</th><th>Order from estimates alone</th></tr></thead>
+    <tbody>
+      <tr><td><code>19 + 21</code>, <code>68 + 7</code>, <code>4 × 6</code></td><td>~40, ~75, ~24</td><td>4×6 → 19+21 → 68+7 ✓ no exact maths needed</td></tr>
+      <tr><td><code>91 − 38</code>, <code>7 × 9</code>, <code>120 ÷ 4</code></td><td>~50, ~63, ~30</td><td>120÷4 → 91−38 → 7×9 ✓</td></tr>
+      <tr><td><code>45 + 18</code>, <code>8 × 8</code>, <code>130 ÷ 2</code></td><td>~63, 64, 65</td><td><b>Too close!</b> Verify exactly: 63, 64, 65</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:9pt;color:var(--muted)">Rule of thumb: if two estimates are more than about 10 apart, trust the estimate. If they are within about 10, calculate both exactly.</p>
+</section>
+
+<!-- ================= 06 TOOLKIT ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">06</div><div><div class="kicker">Calculate faster</div><h2>Mental Math Toolkit</h2></div></div>
+  <p class="lead">You have about 5 seconds per bubble. These tricks turn slow "school-style" calculation into quick mental steps.</p>
+
+  <div class="cards c2">
+    <div class="card trick"><h4 style="margin-top:0">Addition: round and adjust</h4>
+      <p style="font-size:9pt;margin:0 0 4px">Round one number to a friendly 10, add, then fix the difference.</p>
+      <p style="font-size:9pt;margin:0"><code>58 + 77</code> → 60 + 77 = 137, then −2 = <b>135</b><br><code>49 + 36</code> → 50 + 36 = 86, then −1 = <b>85</b></p></div>
+    <div class="card trick"><h4 style="margin-top:0">Addition: tens first, then units</h4>
+      <p style="font-size:9pt;margin:0"><code>46 + 37</code> → 40 + 30 = 70, 6 + 7 = 13, 70 + 13 = <b>83</b><br>Work from left to right, the way you read.</p></div>
+    <div class="card trick"><h4 style="margin-top:0">Subtraction: count up</h4>
+      <p style="font-size:9pt;margin:0 0 4px">Go from the smaller number up to the bigger one.</p>
+      <p style="font-size:9pt;margin:0"><code>91 − 38</code> → 38 → 40 (+2) → 91 (+51) = <b>53</b><br><code>100 − 19</code> → 19 → 20 (+1) → 100 (+80) = <b>81</b></p></div>
+    <div class="card trick"><h4 style="margin-top:0">Subtraction: round the subtracted number</h4>
+      <p style="font-size:9pt;margin:0"><code>84 − 29</code> → 84 − 30 = 54, then +1 = <b>55</b><br><code>73 − 48</code> → 73 − 50 = 23, then +2 = <b>25</b></p></div>
+    <div class="card trick"><h4 style="margin-top:0">Multiplication: tables up to 12 × 12</h4>
+      <p style="font-size:9pt;margin:0 0 4px">This is non-negotiable. Know them by recall, not by counting.</p>
+      <p style="font-size:9pt;margin:0">Hardest ones to drill: 6×7 = 42, 6×8 = 48, 7×8 = 56, 7×9 = 63, 8×9 = 72, 12×7 = 84, 12×8 = 96, 12×9 = 108</p></div>
+    <div class="card trick"><h4 style="margin-top:0">Multiplication shortcuts</h4>
+      <p style="font-size:9pt;margin:0"><b>× 5:</b> × 10 then halve → 14 × 5 = 70<br><b>× 9:</b> × 10 then subtract the number → 9 × 13 = 130 − 13 = 117<br><b>× 11</b> (2-digit): 11 × 34 → 3 (3+4) 4 = 374<br><b>Split it:</b> 13 × 6 = 10×6 + 3×6 = 60 + 18 = 78</p></div>
+    <div class="card trick"><h4 style="margin-top:0">Division: think in reverse</h4>
+      <p style="font-size:9pt;margin:0 0 4px">Ask "what times the divisor gives this number?"</p>
+      <p style="font-size:9pt;margin:0"><code>84 ÷ 7</code> → 7 × ? = 84 → <b>12</b><br><code>144 ÷ 12</code> → 12 × 12 = 144 → <b>12</b></p></div>
+    <div class="card trick"><h4 style="margin-top:0">Division shortcuts</h4>
+      <p style="font-size:9pt;margin:0"><b>÷ 2:</b> halve. <b>÷ 4:</b> halve twice → 120 ÷ 4 = 60 → 30<br><b>÷ 5:</b> double, then ÷ 10 → 85 ÷ 5 = 170 ÷ 10 = 17<br>Non-whole results are fine: 9 ÷ 2 = 4.5 (between 4 and 5)</p></div>
+  </div>
+
+  <h3>Useful number facts to memorise</h3>
+  <div class="cards c3">
+    <div class="card alt"><h4 style="margin-top:0">Squares 11–20</h4><p style="font-size:8.8pt;margin:0">121, 144, 169, 196, 225, 256, 289, 324, 361, 400</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Pairs that make 100</h4><p style="font-size:8.8pt;margin:0">63 + 37, 48 + 52, 29 + 71, 85 + 15: spot them instantly</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Common products</h4><p style="font-size:8.8pt;margin:0">15×4 = 60, 25×4 = 100, 12×5 = 60, 16×5 = 80, 15×6 = 90</p></div>
+  </div>
+</section>
+
+<!-- ================= 07 WORKED ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">07</div><div><div class="kicker">See it in action</div><h2>Worked Examples</h2></div></div>
+  <p class="lead">The badge on each bubble shows the correct tap order. Try each one yourself before reading the solution.</p>
+  <!--WORKED-->
+  <div class="note tip"><span class="t">What to notice</span>
+    <ul>
+      <li>In Examples 1 and 3, the <b>×</b> or <b>÷</b> instinct alone almost gives the order.</li>
+      <li>In Example 2, all three values are in the 70s–80s, so exact calculation is needed.</li>
+      <li>In Example 4, <code>90 ÷ 2 = 45</code> is the <b>largest</b>, which shows that operator instincts are not rules.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 08 + 09 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">08</div><div><div class="kicker">Beat the clock</div><h2>Your 15-Second Time Budget</h2></div></div>
+  <div class="budget">
+    <div style="width:8%;background:#0f9f6e">1s</div>
+    <div style="width:20%;background:#22c55e">Estimate · 3s</div>
+    <div style="width:34%;background:#0ea5e9">Verify close pair · 5s</div>
+    <div style="width:14%;background:#6366f1">Tap · 2s</div>
+    <div style="width:24%;background:#94a3b8">Buffer · 4s</div>
+  </div>
+  <p style="font-size:8.6pt;color:var(--muted);margin:0 0 10px">Scan → Estimate → Verify → Tap, with about 4 seconds of safety buffer.</p>
+  <table>
+    <thead><tr><th style="width:30%">Situation</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr><td>Order is obvious from estimates</td><td>Tap straight away and bank the spare seconds for calm.</td></tr>
+      <tr><td>Two bubbles are close</td><td>Calculate only those two exactly. The third is already placed.</td></tr>
+      <tr><td>One bubble is hard, like 13 × 7</td><td>Split it (10×7 + 3×7 = 91), or just bound it: "more than 80, less than 100" is often enough.</td></tr>
+      <tr><td>About 3 seconds left and still unsure</td><td><b>Make your best guess and tap.</b> A guess may be right, but an unanswered question is certainly wrong.</td></tr>
+      <tr><td>You just got one wrong</td><td>Let it go immediately. One miss out of 25 is fine, but losing focus for the next 5 is not.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec-head" style="margin-top:20px"><div class="sec-num">09</div><div><div class="kicker">Avoid these</div><h2>Common Mistakes &amp; Traps</h2></div></div>
+  <table>
+    <thead><tr><th style="width:40%">Mistake ✗</th><th>Fix ✓</th></tr></thead>
+    <tbody>
+      <tr><td>Tapping bubbles in the order they appear on screen</td><td>Position means nothing. Always rank by <b>value</b>.</td></tr>
+      <tr><td>Calculating all three fully before comparing</td><td>Estimate first. Calculate exactly only the close ones.</td></tr>
+      <tr><td>Assuming × is always the biggest and ÷ always the smallest</td><td>Use instincts as a starting point, then glance at the numbers.</td></tr>
+      <tr><td>Tapping in descending order by habit</td><td>Repeat to yourself: "<b>small → big</b>". Ascending means going up.</td></tr>
+      <tr><td>Freezing on one hard question until the time runs out</td><td>At about 3 seconds left, tap your best guess.</td></tr>
+      <tr><td>Panicking after a wrong answer</td><td>Breathe out and reset. Every question is a fresh start.</td></tr>
+      <tr><td>Mixing up − and ÷ under pressure</td><td>During Scan, deliberately notice each operator symbol.</td></tr>
+      <tr><td>Misjudging values like 4.5 or 7.5</td><td>A non-whole result simply sits between two whole numbers: 9 ÷ 2 = 4.5 is more than 4 and less than 5.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 10 PRACTICE ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">10</div><div><div class="kicker">Test yourself</div><h2>Practice: 36 Questions in 3 Levels</h2></div></div>
+  <!--PRACTICE-->
+</section>
+
+<!-- ================= 11 KEY ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">11</div><div><div class="kicker">Check your answers</div><h2>Answer Key</h2></div></div>
+  <p class="lead">Score 1 point for each fully correct order. <b>Level 1: 11+/12</b>, <b>Level 2: 10+/12</b> and <b>Level 3: 9+/12</b> means you are test-ready.</p>
+  <!--KEY-->
+</section>
+
+<!-- ================= 12 PLAN ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">12</div><div><div class="kicker">Get test-ready</div><h2>7-Day Training Plan</h2></div></div>
+  <p class="lead">About 30 minutes a day. Mental math speed improves quickly with daily practice, and this one habit has the biggest effect on your score.</p>
+  <table>
+    <thead><tr><th style="width:11%">Day</th><th style="width:28%">Focus</th><th>30-minute routine</th></tr></thead>
+    <tbody>
+      <tr><td><b>Day 1</b></td><td>Understand the game</td><td>Read Sections 1–4. Play Level 1 with no timer, focusing on the 4-step method.</td></tr>
+      <tr><td><b>Day 2</b></td><td>Tables</td><td>15 min of 6–12 times tables (target under 3 s each) and 15 min of 2-digit addition and subtraction.</td></tr>
+      <tr><td><b>Day 3</b></td><td>Tricks</td><td>Practise every Section 6 trick 10 times each. Redo Level 1 with a 15-second timer.</td></tr>
+      <tr><td><b>Day 4</b></td><td>Estimation</td><td>Take random sets of 3 expressions and say the order from estimates only. Then do Level 2 with a timer.</td></tr>
+      <tr><td><b>Day 5</b></td><td>Close values</td><td>Do Level 3 with a timer. For every miss, write down why: was it a calculation slip or a misread?</td></tr>
+      <tr><td><b>Day 6</b></td><td>Full simulation</td><td>Do 25 questions in a row at 15 s each with no breaks, using the live practice tool or Levels 1–3 mixed.</td></tr>
+      <tr><td><b>Day 7</b></td><td>Light revision</td><td>10 min of tables, then read Sections 4, 8 and 9. Sleep well, because a fresh brain calculates faster.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Test-Day Checklist</h3>
+  <div class="cards c2">
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>Remember: ascending means <b>smallest → largest</b></li>
+      <li>Scan all three bubbles before you tap anything</li>
+      <li>Estimate first, then verify only the close pair</li>
+      <li>Notice each operator: +, −, × or ÷</li>
+    </ul></div>
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>At about 3 seconds left, tap your best guess</li>
+      <li>Never leave a question untapped</li>
+      <li>Reset immediately after every question</li>
+      <li>Use a mouse or touchpad you're comfortable with, and tap precisely</li>
+    </ul></div>
+  </div>
+
+  <div class="note tip" style="margin-top:14px;border-color:#0f9f6e;background:#e7f8f0"><span class="t" style="color:#0f9f6e">Remember</span>This game isn't about being a maths genius. It's about <b>sorting smartly</b>, <b>calculating only what you must</b>, and <b>staying calm for 25 questions</b>. Practise for a week and you'll clear it comfortably.</div>
+
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only. It is not affiliated with, endorsed by, or an official document of Accenture. The game description is based on candidate experiences and may differ from the actual assessment. Screens in this guide are illustrations, and practice questions are original. Always check the latest details on the official Accenture careers portal.</p>
+</section>
+
+</body>
+</html>
