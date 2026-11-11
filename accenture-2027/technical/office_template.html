@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MS Office &amp; Common Applications – Complete Guide</title>
+<!--BASE_STYLE-->
+<style>
+  .cover{ background:
+      linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(90% 60% at 100% 0%, #21a366 0%, transparent 55%),
+      radial-gradient(70% 50% at 0% 100%, #2b579a 0%, transparent 60%),
+      radial-gradient(60% 40% at 100% 100%, #c43e1c 0%, transparent 60%),
+      linear-gradient(160deg,#07170f 0%,#0b2418 55%,#050d09 100%); }
+  .cover h1 span{ color:#86efac; }
+  .part.w{ --pc1:#2b579a; --pc2:#5b8fd9; --pcs:#e8eef9; }
+  .part.p{ --pc1:#c43e1c; --pc2:#f08060; --pcs:#fdece7; }
+  .part.o{ --pc1:#0f766e; --pc2:#2dd4bf; --pcs:#e3f6f3; }
+  .part.a{ --pc1:#217346; --pc2:#33a46b; --pcs:#e6f4ec; }
+  .banner.w{ background:linear-gradient(135deg,#2b579a,#0a1a33); } .banner.p{ background:linear-gradient(135deg,#c43e1c,#2a0d05); }
+  .banner.o{ background:linear-gradient(135deg,#0f766e,#05231f); } .banner.x{ background:linear-gradient(135deg,#217346,#06180e); }
+  .tabmap{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:8px 0; }
+  .tabmap div{ border:1px solid var(--line); border-radius:9px; padding:7px 9px; font-size:8.4pt; background:#fff; break-inside:avoid; }
+  .tabmap b{ display:block; color:var(--pc1); font-size:9pt; }
+  .xlui{ border:1.5px solid #c9d3cc; border-radius:10px; overflow:hidden; font-size:8.4pt; margin:8px 0; break-inside:avoid; }
+  .xlui .rib{ background:#217346; color:#fff; padding:5px 10px; font-weight:700; letter-spacing:.02em; }
+  .xlui .fb{ display:flex; gap:8px; align-items:center; padding:5px 10px; border-bottom:1px solid #dfe5e1; background:#f7faf8; font-family:"DejaVu Sans Mono",monospace; }
+  .xlui .fb span{ border:1px solid #c9d3cc; border-radius:4px; padding:1px 8px; background:#fff; }
+  .xlui table{ border:0; border-radius:0; margin:0; }
+  .xlui th{ background:#eef3ef; color:#4b5563; font-weight:600; text-align:center; padding:4px 8px; font-size:8pt; }
+  .xlui td{ padding:4px 8px; font-family:"DejaVu Sans Mono",monospace; font-size:8.2pt; border-top:1px solid #e4e9e6; }
+  .xlui td.rh{ background:#eef3ef; color:#4b5563; text-align:center; width:5%; }
+  .xlui td.sel{ outline:2px solid #217346; outline-offset:-2px; }
+  .steps{ counter-reset:s; padding:0; list-style:none; margin:6px 0; }
+  .steps li{ counter-increment:s; position:relative; padding-left:28px; margin:5px 0; font-size:9pt; }
+  .steps li::before{ content:counter(s); position:absolute; left:0; top:0; width:19px; height:19px; border-radius:50%; background:var(--pc1); color:#fff; font-weight:800; font-size:8pt; display:grid; place-items:center; }
+  .two{ align-items:start; }
+  .kcols{ columns:2; column-gap:12px; }
+  .kcols table{ break-inside:avoid; margin:0 0 10px; }
+  .two > table{ break-inside:auto; }
+  .callout{ border-radius:12px; background:var(--pcs); padding:9px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .callout b.t{ color:var(--pc1); display:block; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Technical Assessment · Section A</span></div>
+  <h1>MS Office &amp;<br>Common Applications<br><span>Complete Guide</span></h1>
+  <div class="mono-tag">&gt; ≈ 7 of 45 questions · formula outputs · features · shortcuts_</div>
+  <p class="sub">Everything you need for the MS Office section, from zero: Excel in depth (references, 60+ functions with outputs, lookups, errors, data tools, pivots), Word, PowerPoint, Outlook, Windows and file formats, plus mega shortcut tables and <!--TOTAL_MCQ--> practice MCQs with explained answers.</p>
+  <div class="roles"><div>📗 Excel</div><div>📘 Word</div><div>📙 PowerPoint</div><div>✉️ Outlook · Windows · File types</div></div>
+  <div class="stats">
+    <div class="stat"><b>≈ 7</b><span>Questions in the test</span></div>
+    <div class="stat"><b>60+</b><span>Excel functions explained</span></div>
+    <div class="stat"><b>150+</b><span>Shortcuts in tables</span></div>
+    <div class="stat"><b><!--TOTAL_MCQ--></b><span>MCQs, answers code-verified</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Microsoft or Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + WHAT TO PREPARE ================= -->
+<section class="page-break part a">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#217346">00</b>What's tested and how to prepare</li>
+    <li><b style="color:#217346">X1</b>Excel interface, terms and file types</li>
+    <li><b style="color:#217346">X2</b>Data entry, formulas and operator precedence</li>
+    <li><b style="color:#217346">X3</b>Cell references (most tested)</li>
+    <li><b style="color:#217346">X4</b>Math and statistical functions</li>
+    <li><b style="color:#217346">X5</b>Logical and conditional functions</li>
+    <li><b style="color:#217346">X6</b>Lookup functions</li>
+    <li><b style="color:#217346">X7</b>Text and date functions</li>
+    <li><b style="color:#217346">X8</b>Errors and formula auditing</li>
+    <li><b style="color:#217346">X9</b>Data tools, pivots, charts and printing</li>
+    <li><b style="color:#2b579a">W</b>MS Word, complete</li>
+    <li><b style="color:#c43e1c">P</b>MS PowerPoint, complete</li>
+    <li><b style="color:#0f766e">O</b>Outlook, Windows and file formats</li>
+    <li><b style="color:#0f766e">K</b>Mega shortcut tables</li>
+    <li><b style="color:#217346">✓</b>Practice MCQs and answer keys</li>
+    <li><b style="color:#217346">Z</b>3-day plan and cheat sheet</li>
+  </ul>
+
+  <div class="sec-head" style="margin-top:16px"><div class="sec-num">00</div><div><div class="kicker">Know what's coming</div><h2>What's Tested &amp; How to Prepare</h2></div></div>
+  <p class="lead">This section has <b>about 7 questions</b> out of 45. They are short and recall-based, which makes them some of the <b>easiest marks</b> in the Technical Assessment if you prepare properly. Expect four kinds of question:</p>
+  <table class="tight">
+    <thead><tr><th style="width:24%">Question type</th><th>Example</th><th style="width:22%">How to prepare</th></tr></thead>
+    <tbody>
+      <tr><td><b>1 · Formula output</b> (most common)</td><td>"A sheet is shown. What does <code>=SUMIF(B2:B7,"HR",C2:C7)</code> return?"</td><td>Sections X3–X7, and practise on a real sheet</td></tr>
+      <tr><td><b>2 · Feature / purpose</b></td><td>"Which feature restricts input to a drop-down list?" or "Which break allows a landscape page?"</td><td>Sections X9, W and P</td></tr>
+      <tr><td><b>3 · Shortcut keys</b></td><td>"Which key starts the slideshow from the current slide?"</td><td>Section K tables</td></tr>
+      <tr><td><b>4 · Errors &amp; references</b></td><td>"What causes #N/A?" or "What does the formula become after copying?"</td><td>Sections X3 and X8</td></tr>
+    </tbody>
+  </table>
+  <div class="cards c3">
+    <div class="card alt"><h4 style="margin-top:0">🎯 Priority 1 (must know)</h4><p style="margin:0;font-size:8.8pt">Cell references ($), VLOOKUP, IF, COUNTIF/SUMIF, COUNT vs COUNTA, the error types, text functions, operator precedence</p></div>
+    <div class="card alt"><h4 style="margin-top:0">⭐ Priority 2</h4><p style="margin:0;font-size:8.8pt">INDEX/MATCH, rounding functions, date functions, pivot tables, data validation, conditional formatting, the top 30 shortcuts</p></div>
+    <div class="card alt"><h4 style="margin-top:0">📌 Priority 3</h4><p style="margin:0;font-size:8.8pt">Word: breaks, TOC, mail merge, track changes. PowerPoint: master, animation vs transition, views. File formats and Windows keys</p></div>
+  </div>
+  <div class="note tip"><span class="t">Best way to prepare</span>Open Excel (or Google Sheets, where the functions are almost identical), type the sample sheet from Section X2, and <b>type every example formula yourself</b>. You'll remember an output you've seen with your own eyes far better than one you only read about.</div>
+</section>
+
+<!-- ================= EXCEL X1–X2 ================= -->
+<section class="page-break part a">
+  <div class="banner x"><div class="big">X</div><div class="pl">📗 MICROSOFT EXCEL · THE BIGGEST TOPIC</div><h2>Excel, Complete</h2>
+    <p>About 5 of the 7 Office questions come from Excel, and most of those ask for the <b>output of a formula</b>. Master references, the core functions and the error types, and this section becomes free marks.</p>
+    <div class="chips"><span class="chip">References</span><span class="chip">Functions</span><span class="chip">Lookups</span><span class="chip">Errors</span><span class="chip">Data tools</span><span class="chip">Pivot &amp; charts</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">X1</div><div><div class="kicker">Speak the language</div><h2>Interface, Terms &amp; File Types</h2></div></div>
+  <div class="xlui">
+    <div class="rib">File · Home · Insert · Page Layout · Formulas · Data · Review · View</div>
+    <div class="fb"><span>C3</span> fx <span style="flex:1">=SUMIF(B2:B7,"IT",C2:C7)</span></div>
+    <table><thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead><tbody>
+      <tr><td class="rh">1</td><td>Name</td><td>Dept</td><td>Salary</td><td>Exp</td></tr>
+      <tr><td class="rh">2</td><td>Asha</td><td>HR</td><td class="sel">40000</td><td>2</td></tr>
+    </tbody></table>
+  </div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td><b>Workbook</b></td><td>The Excel <b>file</b></td></tr>
+      <tr><td><b>Worksheet</b></td><td>One <b>tab or sheet</b> inside the workbook</td></tr>
+      <tr><td><b>Cell</b></td><td>Column letter + row number, like <code>C3</code></td></tr>
+      <tr><td><b>Range</b></td><td>A block of cells, like <code>A1:D7</code></td></tr>
+      <tr><td><b>Name Box</b></td><td>Shows or jumps to the active cell's address (top left)</td></tr>
+      <tr><td><b>Formula bar (fx)</b></td><td>Shows the cell's formula or contents</td></tr>
+      <tr><td><b>Active cell</b></td><td>The selected cell, with a thick green border</td></tr>
+      <tr><td><b>Fill handle</b></td><td>The small square at the cell's corner. Drag it to copy or fill a series</td></tr>
+      <tr><td><b>Ribbon</b></td><td>The tabs and groups of commands at the top</td></tr>
+    </tbody></table>
+    <div>
+      <table class="tight"><thead><tr><th>Fact</th><th>Value</th></tr></thead><tbody>
+        <tr><td>Rows per sheet (2007+)</td><td><b>1,048,576</b></td></tr>
+        <tr><td>Columns per sheet</td><td><b>16,384</b> (A to <b>XFD</b>)</td></tr>
+        <tr><td>Old .xls limits</td><td>65,536 rows × 256 columns (IV)</td></tr>
+        <tr><td>Characters per cell</td><td>32,767</td></tr>
+        <tr><td>Default new sheet name</td><td>Sheet1</td></tr>
+      </tbody></table>
+      <table class="tight"><thead><tr><th>Extension</th><th>Meaning</th></tr></thead><tbody>
+        <tr><td><code>.xlsx</code></td><td>Standard workbook (no macros)</td></tr>
+        <tr><td><code>.xlsm</code></td><td>Workbook <b>with macros</b> (VBA)</td></tr>
+        <tr><td><code>.xls</code></td><td>Old 97–2003 format</td></tr>
+        <tr><td><code>.xltx</code> / <code>.xltm</code></td><td>Template / template with macros</td></tr>
+        <tr><td><code>.csv</code></td><td>Plain text, comma-separated, one sheet, no formatting or formulas</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="tabmap">
+    <div><b>Home</b>Font, alignment, number format, conditional formatting, cell styles, sort and filter, find</div>
+    <div><b>Insert</b>Tables, PivotTable, charts, sparklines, pictures, links, text box</div>
+    <div><b>Page Layout</b>Themes, margins, orientation, print area, print titles</div>
+    <div><b>Formulas</b>Function library, Name Manager, trace precedents and dependents, show formulas</div>
+    <div><b>Data</b>Sort, filter, text to columns, remove duplicates, data validation, what-if analysis, group</div>
+    <div><b>Review</b>Spelling, comments and notes, protect sheet and workbook</div>
+    <div><b>View</b>Freeze panes, split, zoom, gridlines, page break preview, macros</div>
+    <div><b>File (Backstage)</b>Save, Save As, print, share, export, options</div>
+  </div>
+</section>
+
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">X2</div><div><div class="kicker">The basics of every formula</div><h2>Data Entry, Formulas &amp; Precedence</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Numbers vs text</b><br>Numbers align <b>right</b> by default and text aligns <b>left</b>. Typing <code>'123</code> (with an apostrophe) stores 123 as <b>text</b>.</div>
+    <div class="def"><b class="t">Dates are numbers</b><br>Excel stores a date as a serial number: <b>1 = 1-Jan-1900</b>. So you can subtract dates to get days: <code>="15-Mar-2024"-"1-Mar-2024"</code> = 14.</div>
+    <div class="def"><b class="t">Booleans</b><br>TRUE and FALSE behave as <b>1 and 0</b> in arithmetic: <code>=TRUE+TRUE</code> = 2.</div>
+  </div>
+  <div class="def"><b class="t">AutoFill &amp; Flash Fill.</b> Drag the fill handle to copy or continue a pattern (Mon → Tue → Wed, 1, 3, 5…). <b>Flash Fill</b> (<span class="k">Ctrl+E</span>) learns a pattern from one or two examples you type, such as extracting first names, and fills the rest.</div>
+  <h3>Formula rules</h3>
+  <ul style="font-size:9pt">
+    <li>Every formula starts with <code>=</code>. Functions use the pattern <code>=NAME(arguments)</code>, with arguments separated by commas.</li>
+    <li><b>Reference operators:</b> <code>:</code> range (<code>A1:A5</code>) · <code>,</code> union (<code>SUM(A1,C1)</code>) · <b>space</b> intersection (<code>=B1:B5 A3:D3</code> gives B3).</li>
+    <li><b>Text</b> goes in double quotes: <code>"HR"</code>. To join text use <code>&amp;</code>: <code>=A2&amp;" "&amp;B2</code>.</li>
+    <li>Refer to another sheet with <code>=Sheet2!A1</code>, or <code>='Sales Data'!B4</code> if the name has spaces.</li>
+  </ul>
+  <h3>Operator precedence (highest first)</h3>
+  <div class="two">
+    <table class="tight"><thead><tr><th>#</th><th>Operator</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>1</td><td><code>: , space</code></td><td>Reference operators</td></tr>
+      <tr><td>2</td><td><code>-</code></td><td>Negation (unary minus)</td></tr>
+      <tr><td>3</td><td><code>%</code></td><td>Percent (<code>=50%</code> = 0.5)</td></tr>
+      <tr><td>4</td><td><code>^</code></td><td>Power</td></tr>
+      <tr><td>5</td><td><code>* /</code></td><td>Multiply, divide (left to right)</td></tr>
+      <tr><td>6</td><td><code>+ -</code></td><td>Add, subtract (left to right)</td></tr>
+      <tr><td>7</td><td><code>&amp;</code></td><td>Join text</td></tr>
+      <tr><td>8</td><td><code>= &lt; &gt; &lt;= &gt;= &lt;&gt;</code></td><td>Comparison (gives TRUE/FALSE)</td></tr>
+    </tbody></table>
+    <div>
+      <table class="tight"><thead><tr><th>Formula</th><th>Result</th></tr></thead><tbody>
+        <tr><td><code>=2+3*4</code></td><td>14</td></tr>
+        <tr><td><code>=(2+3)*4</code></td><td>20</td></tr>
+        <tr><td><code>=10/2*5</code></td><td>25 (left to right)</td></tr>
+        <tr><td><code>=2^3^2</code></td><td>64, because Excel works left to right: (2³)²</td></tr>
+        <tr><td><code>=-3^2</code></td><td><b>9</b>, because negation comes first</td></tr>
+        <tr><td><code>=10-2^2*2</code></td><td>10 − 8 = 2</td></tr>
+        <tr><td><code>=5&amp;5+1</code></td><td>"56", because + comes before &amp;</td></tr>
+        <tr><td><code>=3&gt;2</code></td><td>TRUE</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="trap"><b>Two famous traps:</b> <code>=-3^2</code> gives <b>9</b> in Excel (most programming languages give −9), and <code>=2^3^2</code> gives <b>64</b> (Python gives 512). Excel applies negation before the power and evaluates ^ from left to right.</div>
+
+  <h3>The sample sheet used throughout this guide</h3>
+  <div class="two">
+    <div class="xlui"><table><thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead><tbody>
+      <tr><td class="rh">1</td><td><b>Name</b></td><td><b>Dept</b></td><td><b>Salary</b></td><td><b>Exp</b></td></tr>
+      <tr><td class="rh">2</td><td>Asha</td><td>HR</td><td>40000</td><td>2</td></tr>
+      <tr><td class="rh">3</td><td>Ravi</td><td>IT</td><td>55000</td><td>5</td></tr>
+      <tr><td class="rh">4</td><td>Meena</td><td>IT</td><td>62000</td><td>7</td></tr>
+      <tr><td class="rh">5</td><td>John</td><td>Sales</td><td>38000</td><td>1</td></tr>
+      <tr><td class="rh">6</td><td>Priya</td><td>HR</td><td>45000</td><td>4</td></tr>
+      <tr><td class="rh">7</td><td>Arjun</td><td>Sales</td><td>51000</td><td>6</td></tr>
+    </tbody></table></div>
+    <div class="xlui"><table><thead><tr><th></th><th>F</th><th>G</th></tr></thead><tbody>
+      <tr><td class="rh">1</td><td><b>Min marks</b></td><td><b>Grade</b></td></tr>
+      <tr><td class="rh">2</td><td>0</td><td>F</td></tr><tr><td class="rh">3</td><td>40</td><td>D</td></tr>
+      <tr><td class="rh">4</td><td>60</td><td>C</td></tr><tr><td class="rh">5</td><td>75</td><td>B</td></tr>
+      <tr><td class="rh">6</td><td>90</td><td>A</td></tr>
+    </tbody></table>
+    <p style="font-size:8.4pt;color:var(--muted);margin:4px 8px">Grade table (sorted ascending), used for approximate VLOOKUP</p></div>
+  </div>
+</section>
+
+<!-- ================= X3 REFERENCES ================= -->
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">X3</div><div><div class="kicker">The most-tested concept</div><h2>Cell References</h2></div></div>
+  <p class="lead">When you <b>copy</b> a formula, Excel shifts its references by the same number of rows and columns you moved it. The <code>$</code> sign <b>locks</b> the part that comes right after it.</p>
+  <table class="tight">
+    <thead><tr><th>Type</th><th>Written</th><th>Column</th><th>Row</th><th>Copy from C2 → E5 (2 columns right, 3 rows down)</th></tr></thead>
+    <tbody>
+      <tr><td><b>Relative</b></td><td><code>A1</code></td><td>moves</td><td>moves</td><td><code>=A1</code> → <code>=C4</code></td></tr>
+      <tr><td><b>Absolute</b></td><td><code>$A$1</code></td><td>locked</td><td>locked</td><td><code>=$A$1</code> → <code>=$A$1</code></td></tr>
+      <tr><td><b>Mixed</b></td><td><code>$A1</code></td><td>locked</td><td>moves</td><td><code>=$A1</code> → <code>=$A4</code></td></tr>
+      <tr><td><b>Mixed</b></td><td><code>A$1</code></td><td>moves</td><td>locked</td><td><code>=A$1</code> → <code>=C$1</code></td></tr>
+    </tbody>
+  </table>
+  <div class="two">
+    <div class="callout"><b class="t">The 2-step method for copy questions</b>
+      <ol class="steps"><li>Count how far the formula moved: columns right or left, rows down or up.</li>
+      <li>Shift every part <b>without</b> a <code>$</code> by that amount. Leave every part with a <code>$</code> unchanged.</li></ol>
+      Example: <code>=$B2*C$1</code> copied from D2 to F4 (+2 columns, +2 rows) → <code>=$B4*E$1</code>.</div>
+    <div class="callout"><b class="t">Why it matters: a percentage table</b>
+      With total sales in <b>$B$10</b>, type <code>=B2/$B$10</code> in C2 and drag down to C9. Each row divides by the same fixed total.<br>
+      <b>F4</b> cycles: <code>A1</code> → <code>$A$1</code> → <code>A$1</code> → <code>$A1</code> → <code>A1</code>.</div>
+  </div>
+  <div class="def"><b class="t">Named ranges</b> (Formulas → Name Manager, or type into the Name Box): call <code>C2:C7</code> "Salary", then write <code>=SUM(Salary)</code>. Names are always absolute. <b>Tables</b> (<span class="k">Ctrl+T</span>) use structured references like <code>=SUM(Table1[Salary])</code> and grow automatically when you add rows.</div>
+  <div class="trap"><b>Trap:</b> moving a formula (cut and paste) does <b>not</b> change its references. Only <b>copying</b> shifts them. Deleting a referenced row turns the reference into <code>#REF!</code>.</div>
+
+  <!-- ================= X4 MATH ================= -->
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">X4</div><div><div class="kicker">Calculate</div><h2>Math &amp; Statistical Functions</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:24%">Function</th><th style="width:34%">Does</th><th>Example → result (sample sheet)</th></tr></thead>
+    <tbody>
+      <tr><td><code>SUM(range)</code></td><td>Adds numbers (ignores text)</td><td><code>=SUM(C2:C7)</code> → 291000</td></tr>
+      <tr><td><code>AVERAGE</code></td><td>Arithmetic mean</td><td><code>=AVERAGE(D2:D7)</code> → 4.1666…</td></tr>
+      <tr><td><code>MEDIAN</code></td><td>Middle value after sorting</td><td><code>=MEDIAN(D2:D7)</code> → 4.5</td></tr>
+      <tr><td><code>MODE</code></td><td>Most frequent value</td><td><code>=MODE(1,2,2,3)</code> → 2</td></tr>
+      <tr><td><code>MAX / MIN</code></td><td>Largest / smallest</td><td><code>=MIN(C2:C7)</code> → 38000</td></tr>
+      <tr><td><code>LARGE / SMALL(range,k)</code></td><td>k-th largest / smallest</td><td><code>=SMALL(C2:C7,2)</code> → 40000</td></tr>
+      <tr><td><code>RANK(value,range,[order])</code></td><td>Position. 0 or omitted = descending, 1 = ascending</td><td><code>=RANK(C3,C2:C7)</code> → 2</td></tr>
+      <tr><td><code>COUNT</code></td><td>Counts <b>numeric</b> cells</td><td><code>=COUNT(A1:D7)</code> → 12</td></tr>
+      <tr><td><code>COUNTA</code></td><td>Counts <b>non-empty</b> cells</td><td><code>=COUNTA(A1:D1)</code> → 4</td></tr>
+      <tr><td><code>COUNTBLANK</code></td><td>Counts empty cells</td><td>—</td></tr>
+      <tr><td><code>SUMPRODUCT(r1,r2)</code></td><td>Multiplies pairs, then adds</td><td><code>=SUMPRODUCT(C2:C3,D2:D3)</code> → 355000</td></tr>
+      <tr><td><code>ROUND(x,n)</code></td><td>Rounds to n digits, halves <b>away from zero</b></td><td><code>=ROUND(3.456,1)</code> → 3.5 · <code>=ROUND(1234,-2)</code> → 1200</td></tr>
+      <tr><td><code>ROUNDUP / ROUNDDOWN</code></td><td>Always away from / toward zero</td><td><code>=ROUNDUP(3.21,0)</code> → 4 · <code>=ROUNDDOWN(3.99,0)</code> → 3</td></tr>
+      <tr><td><code>INT(x)</code></td><td>Rounds <b>down</b> to an integer</td><td><code>=INT(7.9)</code> → 7 · <code>=INT(-3.7)</code> → <b>-4</b></td></tr>
+      <tr><td><code>TRUNC(x)</code></td><td>Chops off the decimals</td><td><code>=TRUNC(-3.7)</code> → <b>-3</b></td></tr>
+      <tr><td><code>MOD(a,b)</code></td><td>Remainder (takes the sign of b)</td><td><code>=MOD(17,5)</code> → 2 · <code>=MOD(-7,3)</code> → <b>2</b></td></tr>
+      <tr><td><code>CEILING / FLOOR(x,m)</code></td><td>Round up / down to a multiple of m</td><td><code>=CEILING(7,5)</code> → 10 · <code>=FLOOR(7,5)</code> → 5</td></tr>
+      <tr><td><code>ABS · SQRT · POWER</code></td><td>Absolute value · square root · power</td><td><code>=POWER(2,10)</code> → 1024 · <code>=SQRT(-4)</code> → #NUM!</td></tr>
+      <tr><td><code>RAND · RANDBETWEEN</code></td><td>Random 0–1 / random integer</td><td>Recalculate on every change (volatile)</td></tr>
+    </tbody>
+  </table>
+  <div class="trap"><b>INT vs TRUNC:</b> they're the same for positive numbers but different for negatives: <code>INT(-3.7) = -4</code> and <code>TRUNC(-3.7) = -3</code>. Also, AVERAGE ignores empty cells but <b>counts zeros</b>.</div>
+</section>
+
+<!-- ================= X5 LOGICAL ================= -->
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">X5</div><div><div class="kicker">Decide</div><h2>Logical &amp; Conditional Functions</h2></div></div>
+  <div class="def"><b class="t">IF(logical_test, value_if_true, value_if_false)</b><br>
+    <code>=IF(C3&gt;50000,"High","Low")</code> → <b>High</b> · <code>=IF(D5&gt;=2,"Eligible","")</code> → "" (empty text)<br>
+    <b>Nested:</b> <code>=IF(C4&gt;=60000,"A",IF(C4&gt;=45000,"B","C"))</code> → A. Test from the highest condition down.<br>
+    <b>IFS</b> (2019+): <code>=IFS(C4&gt;=60000,"A",C4&gt;=45000,"B",TRUE,"C")</code>, with no nesting needed.</div>
+  <div class="three">
+    <div class="def"><b class="t">AND(…)</b><br>TRUE only if <b>all</b> are TRUE<br><code>=AND(B3="IT",D3&gt;=5)</code> → TRUE</div>
+    <div class="def"><b class="t">OR(…)</b><br>TRUE if <b>any</b> is TRUE<br><code>=OR(B5="HR",D5&gt;3)</code> → FALSE</div>
+    <div class="def"><b class="t">NOT(…)</b><br>Reverses TRUE/FALSE<br><code>=NOT(B2="HR")</code> → FALSE</div>
+  </div>
+  <div class="def"><b class="t">IFERROR(value, value_if_error)</b>: <code>=IFERROR(C2/0,"NA")</code> → NA. <b>IFNA</b> catches only #N/A.</div>
+
+  <h3>COUNTIF · SUMIF · AVERAGEIF and their -IFS forms</h3>
+  <table class="tight">
+    <thead><tr><th style="width:38%">Syntax</th><th>Example → result</th></tr></thead>
+    <tbody>
+      <tr><td><code>COUNTIF(range, criteria)</code></td><td><code>=COUNTIF(B2:B7,"IT")</code> → 2</td></tr>
+      <tr><td><code>SUMIF(range, criteria, [sum_range])</code></td><td><code>=SUMIF(B2:B7,"HR",C2:C7)</code> → 85000</td></tr>
+      <tr><td><code>AVERAGEIF(range, criteria, [avg_range])</code></td><td><code>=AVERAGEIF(B2:B7,"Sales",C2:C7)</code> → 44500</td></tr>
+      <tr><td><code>COUNTIFS(r1,c1, r2,c2, …)</code></td><td><code>=COUNTIFS(B2:B7,"IT",D2:D7,"&gt;5")</code> → 1</td></tr>
+      <tr><td><code>SUMIFS(sum_range, r1,c1, r2,c2, …)</code></td><td><code>=SUMIFS(C2:C7,B2:B7,"HR",D2:D7,"&gt;=3")</code> → 45000</td></tr>
+    </tbody>
+  </table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Criteria</th><th>Matches</th></tr></thead><tbody>
+      <tr><td><code>"IT"</code> or <code>"it"</code></td><td>equal to IT (not case-sensitive)</td></tr>
+      <tr><td><code>"&gt;50000"</code></td><td>greater than 50000</td></tr>
+      <tr><td><code>"&lt;&gt;HR"</code></td><td>not equal to HR</td></tr>
+      <tr><td><code>"A*"</code></td><td>starts with A (<code>*</code> = any characters)</td></tr>
+      <tr><td><code>"?ohn"</code></td><td>any 1 character + ohn (<code>?</code> = one character)</td></tr>
+      <tr><td><code>"&gt;"&amp;F1</code></td><td>greater than the value in F1</td></tr>
+      <tr><td><code>"*"</code></td><td>any text cell</td></tr>
+    </tbody></table>
+    <div class="trap" style="margin-top:6px"><b>Argument-order trap:</b> in SUMIF the <b>sum_range comes last</b>, but in SUMIFS the <b>sum_range comes first</b>. This is a favourite exam trick.<br><br>The comparison operator goes <b>inside the quotes</b>, and a cell reference is joined with <code>&amp;</code>: <code>"&gt;="&amp;F1</code>.</div>
+  </div>
+
+  <!-- ================= X6 LOOKUPS ================= -->
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">X6</div><div><div class="kicker">Find and fetch</div><h2>Lookup Functions</h2></div></div>
+  <div class="def"><b class="t">VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])</b>
+    <ol class="steps">
+      <li>It searches for <i>lookup_value</i> in the <b>first column</b> of <i>table_array</i>.</li>
+      <li>It goes across that row to column number <i>col_index_num</i>, counted <b>within the table</b> starting from 1.</li>
+      <li><code>FALSE</code>/<code>0</code> = <b>exact</b> match (use this almost always). <code>TRUE</code>/omitted = <b>approximate</b> match, which returns the largest value ≤ the lookup value and needs the first column <b>sorted ascending</b>.</li>
+    </ol>
+    <code>=VLOOKUP("Priya",A2:D7,2,FALSE)</code> → HR &nbsp;·&nbsp; <code>=VLOOKUP("Priya",A2:D7,3,FALSE)</code> → 45000 &nbsp;·&nbsp; <code>=VLOOKUP(78,F2:G6,2,TRUE)</code> → B</div>
+  <div class="trap"><b>VLOOKUP limits:</b> (1) It only looks to the <b>right</b>. (2) <code>col_index_num</code> = 0 gives #VALUE!, and a number bigger than the table width gives <b>#REF!</b>. (3) A value that isn't found gives <b>#N/A</b>. (4) It returns only the <b>first</b> match. (5) Leaving out FALSE on unsorted data can give wrong answers silently.</div>
+  <div class="two">
+    <div class="def"><b class="t">HLOOKUP</b><br>The horizontal version: it searches the first <b>row</b> and returns from row number n.<br><code>=HLOOKUP("Exp",A1:D7,3,FALSE)</code> → 5</div>
+    <div class="def"><b class="t">MATCH(value, range, [type])</b><br>Returns the <b>position</b> of the value. 0 = exact, 1 = largest ≤ (ascending), −1 = smallest ≥ (descending).<br><code>=MATCH("John",A2:A7,0)</code> → 4</div>
+    <div class="def"><b class="t">INDEX(range, row, [col])</b><br>Returns the value at a position.<br><code>=INDEX(A2:D7,3,1)</code> → Meena</div>
+    <div class="def"><b class="t">INDEX + MATCH</b> (it can look left)<br><code>=INDEX(A2:A7,MATCH(51000,C2:C7,0))</code> → Arjun</div>
+    <div class="def"><b class="t">XLOOKUP</b> (Excel 365/2021)<br><code>=XLOOKUP("Ravi",A2:A7,C2:C7,"Not found")</code> → 55000. Exact by default, looks in any direction, and has a built-in "not found" value.</div>
+    <div class="def"><b class="t">CHOOSE(index, v1, v2, …)</b><br><code>=CHOOSE(2,"Red","Green","Blue")</code> → Green</div>
+  </div>
+</section>
+
+<!-- ================= X7 TEXT & DATE ================= -->
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">X7</div><div><div class="kicker">Words and dates</div><h2>Text &amp; Date Functions</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:27%">Function</th><th style="width:31%">Does</th><th>Example → result</th></tr></thead>
+    <tbody>
+      <tr><td><code>LEN(text)</code></td><td>Number of characters (spaces count)</td><td><code>=LEN("MS Office")</code> → 9</td></tr>
+      <tr><td><code>LEFT(text,n) / RIGHT(text,n)</code></td><td>First / last n characters</td><td><code>=LEFT("Accenture",3)</code> → Acc</td></tr>
+      <tr><td><code>MID(text,start,n)</code></td><td>n characters from position start</td><td><code>=MID("Accenture",3,4)</code> → cent</td></tr>
+      <tr><td><code>FIND(find,text,[start])</code></td><td>Position: <b>case-sensitive</b>, no wildcards</td><td><code>=FIND("e","Excel")</code> → 4</td></tr>
+      <tr><td><code>SEARCH(find,text,[start])</code></td><td>Position: <b>not case-sensitive</b>, wildcards allowed</td><td><code>=SEARCH("e","Excel")</code> → 1</td></tr>
+      <tr><td><code>UPPER / LOWER / PROPER</code></td><td>Change case</td><td><code>=PROPER("ravi KUMAR")</code> → Ravi Kumar</td></tr>
+      <tr><td><code>TRIM(text)</code></td><td>Removes extra spaces (keeps single spaces between words)</td><td><code>=TRIM("  a   b ")</code> → "a b"</td></tr>
+      <tr><td><code>&amp;</code> / <code>CONCAT</code> / <code>CONCATENATE</code></td><td>Join text</td><td><code>=CONCAT(A2,"-",B2)</code> → Asha-HR</td></tr>
+      <tr><td><code>TEXTJOIN(delim,ignore_empty,…)</code></td><td>Join with a separator</td><td><code>=TEXTJOIN(", ",TRUE,A2:A4)</code> → Asha, Ravi, Meena</td></tr>
+      <tr><td><code>SUBSTITUTE(text,old,new)</code></td><td>Replace by <b>content</b></td><td><code>=SUBSTITUTE("a-b-c","-","")</code> → abc</td></tr>
+      <tr><td><code>REPLACE(text,start,n,new)</code></td><td>Replace by <b>position</b></td><td><code>=REPLACE("2023",4,1,"4")</code> → 2024</td></tr>
+      <tr><td><code>REPT(text,n)</code></td><td>Repeat text</td><td><code>=REPT("*",3)</code> → ***</td></tr>
+      <tr><td><code>TEXT(value,format)</code></td><td>Number → formatted text</td><td><code>=TEXT(1234.5,"#,##0.00")</code> → 1,234.50</td></tr>
+      <tr><td><code>VALUE(text)</code></td><td>Text → number</td><td><code>=VALUE("42")+1</code> → 43</td></tr>
+      <tr><td><code>EXACT(a,b)</code></td><td>Case-sensitive comparison</td><td><code>=EXACT("IT","it")</code> → FALSE</td></tr>
+    </tbody>
+  </table>
+  <table class="tight">
+    <thead><tr><th style="width:27%">Date function</th><th style="width:31%">Does</th><th>Example → result</th></tr></thead>
+    <tbody>
+      <tr><td><code>TODAY() / NOW()</code></td><td>Current date / date + time (volatile)</td><td><span class="k">Ctrl+;</span> inserts a <b>fixed</b> date</td></tr>
+      <tr><td><code>DATE(y,m,d)</code></td><td>Builds a date</td><td><code>=DATE(2026,7,31)</code> → 31-Jul-2026</td></tr>
+      <tr><td><code>YEAR / MONTH / DAY</code></td><td>Extract parts</td><td><code>=MONTH("15-Mar-2024")</code> → 3</td></tr>
+      <tr><td><code>WEEKDAY(date)</code></td><td>Day number (default: <b>Sunday = 1</b>)</td><td>A Monday → 2</td></tr>
+      <tr><td><code>DATEDIF(start,end,"Y"/"M"/"D")</code></td><td>Complete years / months / days between</td><td><code>=DATEDIF("1-Jan-2020","15-Mar-2024","Y")</code> → 4</td></tr>
+      <tr><td><code>EDATE(date,months)</code></td><td>Same day n months later</td><td><code>=EDATE("31-Jan-2024",1)</code> → 29-Feb-2024</td></tr>
+      <tr><td><code>NETWORKDAYS(start,end)</code></td><td>Working days (Mon–Fri) between dates</td><td>Holidays can be excluded</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================= X8 ERRORS ================= -->
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">X8</div><div><div class="kicker">When things break</div><h2>Errors &amp; Formula Auditing</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:15%">Error</th><th style="width:27%">Meaning</th><th>Typical cause / example</th></tr></thead>
+    <tbody>
+      <tr><td><code>#DIV/0!</code></td><td>Division by zero</td><td><code>=A1/0</code>, or dividing by an empty cell</td></tr>
+      <tr><td><code>#N/A</code></td><td>Value not available</td><td>VLOOKUP, MATCH or XLOOKUP can't find the value</td></tr>
+      <tr><td><code>#VALUE!</code></td><td>Wrong type of argument</td><td><code>="abc"*2</code></td></tr>
+      <tr><td><code>#REF!</code></td><td>Invalid reference</td><td>A referenced row or column was deleted, or the VLOOKUP column index is too large</td></tr>
+      <tr><td><code>#NAME?</code></td><td>Unrecognised name</td><td><code>=SUMM(A1:A3)</code>, text without quotes, or an undefined named range</td></tr>
+      <tr><td><code>#NUM!</code></td><td>Invalid number</td><td><code>=SQRT(-1)</code>, or a result too large</td></tr>
+      <tr><td><code>#NULL!</code></td><td>Ranges don't intersect</td><td>A space used instead of a comma: <code>=SUM(A1:A3 C1:C3)</code></td></tr>
+      <tr><td><code>#SPILL!</code></td><td>Dynamic array blocked</td><td>A formula's result range isn't empty (Excel 365)</td></tr>
+      <tr><td><code>####</code></td><td>Not an error</td><td>The column is too narrow, or a date/time is negative</td></tr>
+    </tbody>
+  </table>
+  <div class="three">
+    <div class="def"><b class="t">Trace Precedents / Dependents</b><br>Arrows showing which cells <b>feed</b> a formula, and which cells <b>use</b> it (Formulas tab).</div>
+    <div class="def"><b class="t">Evaluate Formula</b><br>Steps through a formula one part at a time, which is great for debugging nested IFs.</div>
+    <div class="def"><b class="t">Circular reference</b><br>A formula that refers to its own cell, directly or indirectly. Excel shows a warning.</div>
+  </div>
+</section>
+
+<!-- ================= X9 DATA TOOLS ================= -->
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">X9</div><div><div class="kicker">Work with data</div><h2>Data Tools, Pivots, Charts &amp; Printing</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Sort</b> reorders rows: A→Z, Z→A, by colour, or by several levels (for example Dept, then Salary). Always select the whole table so rows stay together.</div>
+    <div class="def"><b class="t">Filter</b> (<span class="k">Ctrl+Shift+L</span>) <b>hides</b> rows that don't match. Nothing is deleted. Advanced Filter can copy matching rows somewhere else.</div>
+    <div class="def"><b class="t">Remove Duplicates</b> deletes repeated rows, based on the columns you choose.</div>
+    <div class="def"><b class="t">Text to Columns</b> splits one column into several using a delimiter (comma or space) or a fixed width. Example: "Ravi Kumar" → "Ravi" | "Kumar".</div>
+    <div class="def"><b class="t">Data Validation</b> limits what can be typed: a list (drop-down), whole number between 1 and 100, dates, text length. It can show an input message and an error alert.</div>
+    <div class="def"><b class="t">Conditional Formatting</b> changes a cell's <i>look</i> based on its value: highlight rules (&gt; 50000), top/bottom 10, data bars, colour scales, icon sets, duplicates.</div>
+    <div class="def"><b class="t">Freeze Panes</b> keeps headers visible while scrolling. <b>Split</b> divides the window into separately scrollable panes.</div>
+    <div class="def"><b class="t">Group / Subtotal</b> collapses detail rows (outline), and Subtotal inserts totals for each group of sorted data.</div>
+  </div>
+  <h3>What-If Analysis</h3>
+  <div class="three">
+    <div class="def"><b class="t">Goal Seek</b><br>"What <b>input</b> gives this <b>result</b>?" For example, which loan amount gives an EMI of ₹10,000. One variable.</div>
+    <div class="def"><b class="t">Scenario Manager</b><br>Saves and compares sets of inputs: best case, worst case and expected case.</div>
+    <div class="def"><b class="t">Data Table</b><br>Shows results for many input values at once (one or two variables). <b>Solver</b> (an add-in) optimises with constraints.</div>
+  </div>
+  <h3>Pivot Tables</h3>
+  <div class="two">
+    <div>
+      <p style="font-size:9pt;margin-top:0">A pivot table summarises big data <b>without formulas</b>. Insert → PivotTable, then drag fields into four areas:</p>
+      <table class="tight"><thead><tr><th>Area</th><th>Purpose</th></tr></thead><tbody>
+        <tr><td><b>Rows</b></td><td>Categories down the side (Dept)</td></tr>
+        <tr><td><b>Columns</b></td><td>Categories across the top</td></tr>
+        <tr><td><b>Values</b></td><td>Numbers to summarise (Sum of Salary)</td></tr>
+        <tr><td><b>Filters</b></td><td>Filter the whole pivot</td></tr>
+      </tbody></table>
+    </div>
+    <div class="xlui"><div class="rib">PivotTable: Rows = Dept, Values = Sum of Salary</div><table><thead><tr><th>Dept</th><th>Sum of Salary</th></tr></thead><tbody>
+      <tr><td>HR</td><td>85000</td></tr><tr><td>IT</td><td>117000</td></tr><tr><td>Sales</td><td>89000</td></tr><tr><td><b>Grand Total</b></td><td><b>291000</b></td></tr>
+    </tbody></table><p style="font-size:8.2pt;color:var(--muted);margin:4px 8px">Values can show Sum, Count, Average, Max, Min or % of total. A pivot needs <b>Refresh</b> after the source data changes. Slicers are visual filter buttons.</p></div>
+  </div>
+  <h3>Charts: pick the right one</h3>
+  <table class="tight"><thead><tr><th>Chart</th><th>Best for</th><th>Chart</th><th>Best for</th></tr></thead><tbody>
+    <tr><td><b>Column / Bar</b></td><td>Comparing categories</td><td><b>Pie / Doughnut</b></td><td>Parts of a whole (100%)</td></tr>
+    <tr><td><b>Line</b></td><td>Trends over time</td><td><b>Scatter (XY)</b></td><td>Relationship between two variables</td></tr>
+    <tr><td><b>Area</b></td><td>Volume or trend over time</td><td><b>Histogram</b></td><td>Frequency distribution</td></tr>
+    <tr><td><b>Combo</b></td><td>Two measures, for example columns + a line on a secondary axis</td><td><b>Sparklines</b></td><td>A tiny chart inside one cell</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><span class="k">F11</span> creates a chart on a <b>new sheet</b>. <span class="k">Alt+F1</span> creates an embedded chart on the same sheet. Chart parts: title, axes, legend, data labels, gridlines, plot area.</p>
+  <h3>Formatting, protection &amp; printing</h3>
+  <div class="three">
+    <div class="def"><b class="t">Number formats</b> (<span class="k">Ctrl+1</span>)<br>General, Number, Currency, Accounting, Date, Percentage, Fraction, Scientific, Text, Custom (<code>#,##0.00</code>). Formatting changes the <b>display only</b>, not the stored value.</div>
+    <div class="def"><b class="t">Alignment</b><br>Wrap Text, Merge &amp; Center, orientation, indent. <span class="k">Alt+Enter</span> adds a line break inside a cell.</div>
+    <div class="def"><b class="t">Protection</b><br><b>Protect Sheet</b> locks cells from editing (Review tab). <b>Protect Workbook</b> locks the structure (adding or deleting sheets). Encrypt the file with a password through File → Info.</div>
+    <div class="def"><b class="t">Printing</b><br>Set Print Area, <b>Print Titles</b> (repeat header rows on every page), Page Break Preview, Fit to 1 page, orientation and margins.</div>
+    <div class="def"><b class="t">Comments vs Notes</b><br>Comments are threaded conversations. Notes are simple yellow sticky notes (the classic "comment").</div>
+    <div class="def"><b class="t">Macros</b><br>Recorded or VBA automation of repeated tasks (View or Developer tab). The file must be saved as <b>.xlsm</b>. <span class="k">Alt+F11</span> opens the VBA editor.</div>
+  </div>
+</section>
+
+<!-- ================= WORD ================= -->
+<section class="page-break part w">
+  <div class="banner w"><div class="big">W</div><div class="pl">📘 MICROSOFT WORD</div><h2>Word, Complete</h2>
+    <p>Expect about one question on formatting, page layout, references (TOC, footnotes), mail merge or reviewing. Learn which <b>tab</b> each feature lives on, and the key shortcuts.</p>
+    <div class="chips"><span class="chip">Formatting</span><span class="chip">Styles</span><span class="chip">Breaks</span><span class="chip">TOC &amp; references</span><span class="chip">Mail merge</span><span class="chip">Review</span></div></div>
+  <div class="tabmap">
+    <div><b>Home</b>Font, paragraph, styles, Find and Replace, Format Painter, bullets and numbering</div>
+    <div><b>Insert</b>Page break, table, pictures, shapes, SmartArt, chart, header and footer, page numbers, text box, equation, symbol, hyperlink</div>
+    <div><b>Design / Layout</b>Themes, <b>watermark</b>, page colour, borders · margins, orientation, size, columns, <b>breaks</b>, line numbers</div>
+    <div><b>References</b><b style="display:inline;color:inherit">Table of Contents</b>, footnotes and endnotes, citations and bibliography, captions, index</div>
+    <div><b>Mailings</b>Mail merge, envelopes, labels</div>
+    <div><b>Review</b>Spelling and grammar (F7), word count, comments, <b>Track Changes</b>, compare, protect</div>
+    <div><b>View</b>Read Mode, Print Layout, Web Layout, Outline, Draft, navigation pane, ruler, zoom</div>
+    <div><b>File</b>Save As (PDF), print, info (protect document), export</div>
+  </div>
+  <div class="sec-head"><div class="sec-num">W1</div><div><div class="kicker">Make it look right</div><h2>Formatting, Styles &amp; Page Layout</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Character formatting</b><br>Font, size, <b>bold</b> (Ctrl+B), <i>italic</i> (Ctrl+I), <u>underline</u> (Ctrl+U), strikethrough, sub<sub>script</sub> (Ctrl+=), super<sup>script</sup> (Ctrl+Shift+=), highlight, font colour, change case (Shift+F3), clear formatting.</div>
+    <div class="def"><b class="t">Paragraph formatting</b><br>Alignment: left (Ctrl+L), centre (Ctrl+E), right (Ctrl+R), justify (Ctrl+J). Line spacing: 1.0 (Ctrl+1), 1.5 (Ctrl+5), 2.0 (Ctrl+2). Indents: first-line, hanging, left and right. Spacing before and after, borders, shading.</div>
+    <div class="def"><b class="t">Styles &amp; themes</b><br>A <b>style</b> is a saved set of formatting (Normal, Heading 1…). Change the style once and every paragraph using it updates. Heading styles drive the <b>Navigation Pane</b> and the <b>TOC</b>.</div>
+    <div class="def"><b class="t">Format Painter</b><br>Copies formatting from one piece of text to another. A single click applies it once, a double click keeps it on until Esc. Ctrl+Shift+C / Ctrl+Shift+V copy and paste formatting.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:22%">Break</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><b>Page break</b> (Ctrl+Enter)</td><td>The following text starts on a new page</td></tr>
+    <tr><td><b>Column break</b></td><td>The following text moves to the next column (in a multi-column layout)</td></tr>
+    <tr><td><b>Text wrapping / line break</b> (Shift+Enter)</td><td>A new line in the <b>same paragraph</b></td></tr>
+    <tr><td><b>Section break</b>: Next Page, Continuous, Even, Odd</td><td>Starts a new <b>section</b> that can have its own orientation, margins, headers, footers, page numbering and columns. Example: one landscape page in a portrait document.</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Header / Footer</b><br>Repeats on every page: titles and <b>page numbers</b>. Options include "Different first page" and "Different odd and even".</div>
+    <div class="def"><b class="t">Columns &amp; Drop Cap</b><br>Newspaper-style columns (Layout tab). A drop cap is a large first letter (Insert tab).</div>
+    <div class="def"><b class="t">Watermark</b><br>Faint text or an image behind the content, like "CONFIDENTIAL" or "DRAFT" (Design tab).</div>
+  </div>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">W2</div><div><div class="kicker">Long documents</div><h2>Tables, References &amp; Mail Merge</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Tables</b><br>Insert → Table. You can merge and split cells, repeat the header row, and sort. Insert → Table → <b>Convert Text to Table</b> uses a separator such as a tab or comma. Formulas: Layout → Formula → <code>=SUM(ABOVE)</code> (also LEFT, RIGHT, BELOW).</div>
+    <div class="def"><b class="t">Table of Contents</b><br>Built automatically from <b>Heading styles</b> (References tab). Use <b>Update Table</b> after editing.</div>
+    <div class="def"><b class="t">Footnote vs Endnote</b><br>A footnote appears at the <b>bottom of the same page</b> (Alt+Ctrl+F). An endnote appears at the <b>end of the document or section</b> (Alt+Ctrl+D).</div>
+    <div class="def"><b class="t">Captions, Citations, Index</b><br>Captions number figures and tables ("Figure 1"). Citations plus a bibliography handle references in APA, MLA and other styles. An index lists marked terms with page numbers.</div>
+  </div>
+  <div class="callout"><b class="t">Mail Merge: one template, many personalised documents</b>
+    <ol class="steps">
+      <li><b>Start Mail Merge:</b> choose letters, emails, envelopes, labels or a directory.</li>
+      <li><b>Select Recipients:</b> type a list, use an Excel sheet, or use Outlook contacts.</li>
+      <li><b>Insert Merge Fields</b> like «Name» and «City» into the main document.</li>
+      <li><b>Preview Results</b>, then <b>Finish &amp; Merge</b>: edit, print or send emails.</li>
+    </ol>The main document holds the fixed text, and the data source holds the varying data.</div>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">W3</div><div><div class="kicker">Collaborate &amp; view</div><h2>Review, Views &amp; File Types</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Track Changes</b> (Ctrl+Shift+E)<br>Records insertions and deletions so they can be <b>accepted or rejected</b>. <b>Compare</b> shows the differences between two versions.</div>
+    <div class="def"><b class="t">Comments</b> (Ctrl+Alt+M)<br>Notes in the margin. Spelling and grammar (<b>F7</b>), Thesaurus (Shift+F7), word count.</div>
+    <div class="def"><b class="t">Protect / Restrict Editing</b><br>Read-only, allow only comments, allow only form filling, or require a password to open.</div>
+  </div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>View</th><th>Use</th></tr></thead><tbody>
+      <tr><td>Print Layout</td><td>Default: shows the document as it will print</td></tr>
+      <tr><td>Read Mode</td><td>Comfortable reading, no editing tools</td></tr>
+      <tr><td>Web Layout</td><td>As a web page (no page breaks)</td></tr>
+      <tr><td>Outline</td><td>Structure by heading levels, for reorganising</td></tr>
+      <tr><td>Draft</td><td>Plain text only, with no headers or images</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>File</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td><code>.docx</code></td><td>Standard document</td></tr>
+      <tr><td><code>.doc</code></td><td>Old 97–2003 format</td></tr>
+      <tr><td><code>.dotx</code> / <code>.docm</code></td><td>Template / with macros</td></tr>
+      <tr><td><code>.pdf</code></td><td>Fixed layout (File → Save As / Export)</td></tr>
+      <tr><td><code>.rtf</code> / <code>.txt</code></td><td>Rich text / plain text</td></tr>
+    </tbody></table>
+  </div>
+  <p style="font-size:9pt"><b>Also know:</b> Find &amp; Replace (Ctrl+H) can replace formatting and special characters. AutoCorrect fixes typos as you type. A <b>hyperlink</b> (Ctrl+K) can jump to a website or to a <b>bookmark</b> in the document. SmartArt makes diagrams from lists. Wrap Text sets how an image sits relative to text (in line, square, tight, behind or in front).</p>
+</section>
+
+<!-- ================= POWERPOINT ================= -->
+<section style="margin-top:22px" class="part p">
+  <div class="banner p"><div class="big">P</div><div class="pl">📙 MICROSOFT POWERPOINT</div><h2>PowerPoint, Complete</h2>
+    <p>Expect about one question on masters, animation vs transition, views, slideshow keys or file types.</p>
+    <div class="chips"><span class="chip">Slide Master</span><span class="chip">Layouts &amp; themes</span><span class="chip">Animations</span><span class="chip">Transitions</span><span class="chip">Views</span><span class="chip">Slideshow</span></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Slide Master</b> (View → Slide Master)<br>The top slide controls the theme, fonts, colours, logo and placeholders of <b>every</b> slide. The <b>layouts</b> under it (Title, Title and Content, Section Header…) control each type of slide. Change it once and every slide updates.</div>
+    <div class="def"><b class="t">Themes &amp; Designer</b><br>A theme is a set of colours, fonts and effects (Design tab). Designer / Design Ideas suggests professional layouts automatically. Slide size: 16:9 (default) or 4:3.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%"></th><th>Animation</th><th>Transition</th></tr></thead><tbody>
+    <tr><td>Applies to</td><td>An <b>object</b> on a slide (text, image, shape, chart)</td><td>The <b>change from one slide to the next</b></td></tr>
+    <tr><td>Tab</td><td>Animations (plus the Animation Pane)</td><td>Transitions</td></tr>
+    <tr><td>Types</td><td><b>Entrance</b> (green), <b>Emphasis</b> (yellow), <b>Exit</b> (red), <b>Motion Paths</b></td><td>Fade, Push, Wipe, Morph, Cut…</td></tr>
+    <tr><td>Options</td><td>Start: On Click / With Previous / After Previous · Duration · Delay · <b>Trigger</b> (start when an object is clicked)</td><td>Duration, sound, advance on mouse click or after a set time, <b>Apply to All</b></td></tr>
+  </tbody></table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>View</th><th>Use</th></tr></thead><tbody>
+      <tr><td><b>Normal</b></td><td>Editing: thumbnails + slide + notes</td></tr>
+      <tr><td><b>Outline</b></td><td>Edit the text of all slides as an outline</td></tr>
+      <tr><td><b>Slide Sorter</b></td><td>Thumbnails: <b>reorder</b>, duplicate, hide slides</td></tr>
+      <tr><td><b>Notes Page</b></td><td>Slide + speaker notes, for printing</td></tr>
+      <tr><td><b>Reading View</b></td><td>Show inside the window</td></tr>
+      <tr><td><b>Presenter View</b></td><td>The presenter sees notes, the next slide and a timer, while the audience sees only the slide</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>During a slideshow</th><th>Key</th></tr></thead><tbody>
+      <tr><td>Start from the beginning / current slide</td><td><span class="k">F5</span> / <span class="k">Shift+F5</span></td></tr>
+      <tr><td>Next / previous</td><td><span class="k">N</span>, <span class="k">Space</span>, <span class="k">→</span> / <span class="k">P</span>, <span class="k">←</span></td></tr>
+      <tr><td>Black / white screen</td><td><span class="k">B</span> / <span class="k">W</span></td></tr>
+      <tr><td>Go to slide 5</td><td><span class="k">5</span> then <span class="k">Enter</span></td></tr>
+      <tr><td>Pen / laser pointer</td><td><span class="k">Ctrl+P</span> / <span class="k">Ctrl+L</span></td></tr>
+      <tr><td>End the show</td><td><span class="k">Esc</span></td></tr>
+    </tbody></table>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">Rehearse Timings</b><br>Practise the talk and save how long each slide is shown, so the show can run automatically.</div>
+    <div class="def"><b class="t">Hide Slide</b><br>Keeps the slide in the file but skips it during the show.</div>
+    <div class="def"><b class="t">Sections</b><br>Group slides into named sections to organise large decks.</div>
+    <div class="def"><b class="t">Handouts</b><br>Printed pages with 1–9 slides each (Handout Master).</div>
+    <div class="def"><b class="t">Record Slide Show</b><br>Records narration and timings. It can be exported as a video (MP4).</div>
+    <div class="def"><b class="t">Morph</b><br>A transition that smoothly animates objects between two similar slides.</div>
+  </div>
+  <table class="tight"><thead><tr><th>File</th><th>Meaning</th><th>File</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td><code>.pptx</code></td><td>Standard presentation</td><td><code>.ppsx</code></td><td>Opens <b>directly as a slideshow</b></td></tr>
+    <tr><td><code>.potx</code></td><td>Template</td><td><code>.pptm</code></td><td>With macros</td></tr>
+    <tr><td><code>.ppt</code></td><td>Old 97–2003 format</td><td>Export</td><td>PDF, MP4 video, images (PNG/JPG)</td></tr>
+  </tbody></table>
+</section>
+
+<!-- ================= COMMON APPS ================= -->
+<section class="part o">
+  <div class="banner o"><div class="big">O</div><div class="pl">✉️ COMMON APPLICATIONS</div><h2>Outlook, Windows &amp; File Formats</h2>
+    <p>"Common applications" can include email etiquette and options, operating-system basics, file types and the other Office apps.</p></div>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">Outlook / email</h3>
+      <table class="tight"><thead><tr><th>Field / action</th><th>Meaning</th></tr></thead><tbody>
+        <tr><td><b>To</b></td><td>Main recipients who are expected to act</td></tr>
+        <tr><td><b>CC</b> (carbon copy)</td><td>Kept informed. Everyone can see CC addresses</td></tr>
+        <tr><td><b>BCC</b> (blind CC)</td><td><b>Hidden</b> from all other recipients</td></tr>
+        <tr><td><b>Reply</b></td><td>Only to the sender</td></tr>
+        <tr><td><b>Reply All</b></td><td>To the sender and everyone in To and CC (not BCC)</td></tr>
+        <tr><td><b>Forward</b></td><td>Sends the message, with its attachments, to new people</td></tr>
+        <tr><td>Rules · Signature · Out of Office</td><td>Auto-sort mail · auto sign-off · automatic replies</td></tr>
+        <tr><td>Calendar · Meeting request</td><td>Schedule a meeting, invite attendees, track Accept, Tentative or Decline</td></tr>
+      </tbody></table>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Other Office &amp; cloud apps</h3>
+      <table class="tight"><thead><tr><th>App</th><th>Used for</th></tr></thead><tbody>
+        <tr><td>Access</td><td>Relational <b>database</b>: tables, queries, forms, reports</td></tr>
+        <tr><td>OneNote</td><td>Digital notebook</td></tr>
+        <tr><td>Teams</td><td>Chat, meetings, collaboration</td></tr>
+        <tr><td>OneDrive</td><td>Personal cloud storage and file sync</td></tr>
+        <tr><td>SharePoint</td><td>Team sites, document libraries, intranet</td></tr>
+        <tr><td>Publisher / Visio</td><td>Desktop publishing / diagrams and flowcharts</td></tr>
+        <tr><td>Google equivalents</td><td>Docs (Word), Sheets (Excel), Slides (PowerPoint), Drive (OneDrive)</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <h3>File extensions to recognise</h3>
+  <table class="tight"><thead><tr><th>Extension</th><th>Type</th><th>Extension</th><th>Type</th><th>Extension</th><th>Type</th></tr></thead><tbody>
+    <tr><td><code>.txt</code></td><td>Plain text</td><td><code>.jpg / .png</code></td><td>Image (lossy / lossless)</td><td><code>.zip / .rar</code></td><td>Compressed archive</td></tr>
+    <tr><td><code>.pdf</code></td><td>Portable document</td><td><code>.gif / .svg</code></td><td>Animated / vector image</td><td><code>.exe / .msi</code></td><td>Windows program / installer</td></tr>
+    <tr><td><code>.csv</code></td><td>Comma-separated values</td><td><code>.mp3 / .wav</code></td><td>Audio</td><td><code>.html</code></td><td>Web page</td></tr>
+    <tr><td><code>.rtf</code></td><td>Rich text</td><td><code>.mp4 / .avi</code></td><td>Video</td><td><code>.accdb</code></td><td>Access database</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Clipboard</b><br>Temporary storage for cut and copied items. <span class="k">Win+V</span> shows clipboard history in Windows 10/11.</div>
+    <div class="def"><b class="t">Save vs Save As</b><br>Save overwrites the current file. Save As (<span class="k">F12</span>) creates a new name, location or format.</div>
+    <div class="def"><b class="t">AutoSave / AutoRecover</b><br>AutoSave saves continuously to OneDrive. AutoRecover keeps backup copies after a crash.</div>
+  </div>
+</section>
+
+<!-- ================= SHORTCUTS ================= -->
+<section style="margin-top:22px" class="part o">
+  <div class="sec-head" style="break-before:page;page-break-before:always"><div class="sec-num">K</div><div><div class="kicker">Memorise the top ones</div><h2>Mega Shortcut Tables</h2></div></div>
+  <div class="kcols">
+    <table class="tight"><thead><tr><th colspan="2">Universal (all Office apps)</th></tr></thead><tbody>
+      <tr><td><span class="k">Ctrl+N / O / S / P</span></td><td>New / Open / Save / Print</td></tr>
+      <tr><td><span class="k">Ctrl+W</span> / <span class="k">Alt+F4</span></td><td>Close document / close app</td></tr>
+      <tr><td><span class="k">Ctrl+C / X / V</span></td><td>Copy / Cut / Paste</td></tr>
+      <tr><td><span class="k">Ctrl+Z / Y</span></td><td>Undo / Redo (or repeat)</td></tr>
+      <tr><td><span class="k">Ctrl+A</span></td><td>Select all</td></tr>
+      <tr><td><span class="k">Ctrl+B / I / U</span></td><td>Bold / Italic / Underline</td></tr>
+      <tr><td><span class="k">Ctrl+F / H</span></td><td>Find / Replace</td></tr>
+      <tr><td><span class="k">Ctrl+K</span></td><td>Insert hyperlink</td></tr>
+      <tr><td><span class="k">F7</span></td><td>Spelling check</td></tr>
+      <tr><td><span class="k">F12</span></td><td>Save As</td></tr>
+      <tr><td><span class="k">F1</span></td><td>Help</td></tr>
+      <tr><td><span class="k">Alt</span></td><td>Show ribbon key tips</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th colspan="2">Word</th></tr></thead><tbody>
+      <tr><td><span class="k">Ctrl+E / L / R / J</span></td><td>Centre / Left / Right / Justify</td></tr>
+      <tr><td><span class="k">Ctrl+1 / 5 / 2</span></td><td>Line spacing 1 / 1.5 / 2</td></tr>
+      <tr><td><span class="k">Ctrl+Enter</span></td><td>Page break</td></tr>
+      <tr><td><span class="k">Shift+Enter</span></td><td>Line break (same paragraph)</td></tr>
+      <tr><td><span class="k">Shift+F3</span></td><td>Change case</td></tr>
+      <tr><td><span class="k">Ctrl+] / Ctrl+[</span></td><td>Increase / decrease font size</td></tr>
+      <tr><td><span class="k">Ctrl+= / Ctrl+Shift+=</span></td><td>Subscript / superscript</td></tr>
+      <tr><td><span class="k">Ctrl+Shift+C / V</span></td><td>Copy / paste formatting</td></tr>
+      <tr><td><span class="k">Ctrl+Space</span> / <span class="k">Ctrl+Q</span></td><td>Clear character / paragraph formatting</td></tr>
+      <tr><td><span class="k">Ctrl+M / Ctrl+T</span></td><td>Indent / hanging indent</td></tr>
+      <tr><td><span class="k">Ctrl+Alt+1/2/3</span></td><td>Heading 1 / 2 / 3</td></tr>
+      <tr><td><span class="k">Ctrl+Home / End</span></td><td>Start / end of document</td></tr>
+      <tr><td><span class="k">Ctrl+Shift+E</span></td><td>Track Changes on/off</td></tr>
+      <tr><td><span class="k">Alt+Ctrl+F / D</span></td><td>Footnote / endnote</td></tr>
+      <tr><td><span class="k">Shift+F7</span></td><td>Thesaurus</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th colspan="2">Outlook</th></tr></thead><tbody>
+      <tr><td><span class="k">Ctrl+Shift+M</span></td><td>New message (from anywhere)</td></tr>
+      <tr><td><span class="k">Ctrl+R</span> / <span class="k">Ctrl+Shift+R</span></td><td>Reply / Reply All</td></tr>
+      <tr><td><span class="k">Ctrl+F</span></td><td>Forward (in Outlook, not Find)</td></tr>
+      <tr><td><span class="k">F9</span></td><td>Send / receive all</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th colspan="2">Excel</th></tr></thead><tbody>
+      <tr><td><span class="k">F2</span></td><td>Edit active cell</td></tr>
+      <tr><td><span class="k">F4</span></td><td>Toggle $ / repeat last action</td></tr>
+      <tr><td><span class="k">Ctrl+1</span></td><td>Format Cells dialog</td></tr>
+      <tr><td><span class="k">Ctrl+`</span></td><td>Show formulas</td></tr>
+      <tr><td><span class="k">Alt+=</span></td><td>AutoSum</td></tr>
+      <tr><td><span class="k">Ctrl+;</span> / <span class="k">Ctrl+Shift+;</span></td><td>Insert date / time</td></tr>
+      <tr><td><span class="k">Ctrl+D / Ctrl+R</span></td><td>Fill down / right</td></tr>
+      <tr><td><span class="k">Ctrl+T</span></td><td>Create Table</td></tr>
+      <tr><td><span class="k">Ctrl+Shift+L</span></td><td>Toggle filter</td></tr>
+      <tr><td><span class="k">Ctrl+E</span></td><td>Flash Fill</td></tr>
+      <tr><td><span class="k">Ctrl+Arrow</span> / <span class="k">Ctrl+Home</span></td><td>Jump to data edge / to A1</td></tr>
+      <tr><td><span class="k">Ctrl+Space</span> / <span class="k">Shift+Space</span></td><td>Select column / row</td></tr>
+      <tr><td><span class="k">Ctrl++</span> / <span class="k">Ctrl+-</span></td><td>Insert / delete cells</td></tr>
+      <tr><td><span class="k">Ctrl+9</span> / <span class="k">Ctrl+0</span></td><td>Hide rows / columns</td></tr>
+      <tr><td><span class="k">Ctrl+PgUp/PgDn</span></td><td>Previous / next sheet</td></tr>
+      <tr><td><span class="k">Shift+F11</span></td><td>Insert new worksheet</td></tr>
+      <tr><td><span class="k">F11</span> / <span class="k">Alt+F1</span></td><td>Chart on new sheet / embedded chart</td></tr>
+      <tr><td><span class="k">Alt+Enter</span></td><td>New line inside a cell</td></tr>
+      <tr><td><span class="k">Ctrl+Shift+$ / %</span></td><td>Currency / percent format</td></tr>
+      <tr><td><span class="k">F9</span></td><td>Recalculate</td></tr>
+      <tr><td><span class="k">Alt+F11</span></td><td>VBA editor</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th colspan="2">PowerPoint</th></tr></thead><tbody>
+        <tr><td><span class="k">Ctrl+M</span></td><td>New slide</td></tr>
+        <tr><td><span class="k">Ctrl+D</span></td><td>Duplicate slide or object</td></tr>
+        <tr><td><span class="k">F5 / Shift+F5</span></td><td>Show from start / from current slide</td></tr>
+        <tr><td><span class="k">Alt+F5</span></td><td>Presenter View</td></tr>
+        <tr><td><span class="k">B / W</span></td><td>Black / white screen (in the show)</td></tr>
+        <tr><td><span class="k">Ctrl+G / Ctrl+Shift+G</span></td><td>Group / ungroup objects</td></tr>
+        <tr><td><span class="k">Esc</span></td><td>End the slideshow</td></tr>
+      </tbody></table>
+    <table class="tight"><thead><tr><th colspan="2">Windows</th></tr></thead><tbody>
+        <tr><td><span class="k">Win+D</span> / <span class="k">Win+E</span></td><td>Show desktop / File Explorer</td></tr>
+        <tr><td><span class="k">Win+L</span></td><td>Lock PC</td></tr>
+        <tr><td><span class="k">Win+R</span> / <span class="k">Win+I</span></td><td>Run box / Settings</td></tr>
+        <tr><td><span class="k">Alt+Tab</span> / <span class="k">Win+Tab</span></td><td>Switch apps / Task View</td></tr>
+        <tr><td><span class="k">Ctrl+Shift+Esc</span></td><td>Task Manager</td></tr>
+        <tr><td><span class="k">Win+Shift+S</span></td><td>Screenshot of an area</td></tr>
+        <tr><td><span class="k">Win+V</span></td><td>Clipboard history</td></tr>
+        <tr><td><span class="k">F2</span> (Explorer)</td><td>Rename file</td></tr>
+        <tr><td><span class="k">Shift+Del</span></td><td>Delete permanently (skips the Recycle Bin)</td></tr>
+      </tbody></table>
+  </div>
+</section>
+
+<!-- ================= MCQs ================= -->
+<section class="page-break part a">
+  <div class="sec-head"><div class="sec-num">✓1</div><div><div class="kicker">Formula output questions</div><h2>Practice Set 1 · Excel Outputs</h2></div></div>
+  <p class="lead">These use the <b>sample sheet in Section X2</b> (A1:D7, Name / Dept / Salary / Exp) and the grade table (F2:G6). <b>Every answer was computed in code from the sheet.</b> Aim for under 40 seconds each.</p>
+  <!--MCQ_E-->
+  <div class="avoid-head"><h3>Set 1 · Answer key</h3></div>
+  <!--KEY_E-->
+</section>
+
+<section class="page-break part a">
+  <div class="sec-head"><div class="sec-num">✓2</div><div><div class="kicker">Features, Word, PowerPoint &amp; apps</div><h2>Practice Set 2 · Concepts &amp; Shortcuts</h2></div></div>
+  <div class="avoid-head"><h3 style="color:#217346">Excel concepts</h3></div>
+  <!--MCQ_X-->
+  <div class="part w"><div class="avoid-head"><h3 style="color:#2b579a">Word</h3></div><!--MCQ_W--></div>
+  <div class="part p"><div class="avoid-head"><h3 style="color:#c43e1c">PowerPoint</h3></div><!--MCQ_P--></div>
+  <div class="part o"><div class="avoid-head"><h3 style="color:#0f766e">Common applications</h3></div><!--MCQ_O--></div>
+  <div class="avoid-head"><h3>Set 2 · Answer key</h3></div>
+  <!--KEY_REST-->
+</section>
+
+<!-- ================= PLAN ================= -->
+<section class="page-break part a">
+  <div class="sec-head"><div class="sec-num">Z</div><div><div class="kicker">Get exam-ready</div><h2>3-Day Plan &amp; Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:12%">Day</th><th>Plan (about 1.5 hours a day)</th></tr></thead><tbody>
+    <tr><td><b>Day 1</b></td><td>Sections X1–X5. Type the sample sheet into Excel or Google Sheets and run <b>every</b> example formula. Practise copying formulas with $ references until you can predict the result instantly.</td></tr>
+    <tr><td><b>Day 2</b></td><td>Sections X6–X9: lookups, text, dates, errors and data tools. Build one pivot table and one chart, and add a drop-down with Data Validation. Do Practice Set 1 under time.</td></tr>
+    <tr><td><b>Day 3</b></td><td>Word, PowerPoint and the common apps. Learn the shortcut tables (the starred core items below). Do Practice Set 2, then revise every question you got wrong.</td></tr>
+  </tbody></table>
+  <div class="cards c2">
+    <div class="card" style="border-top:4px solid #217346"><h4 style="margin-top:0;color:#217346">Excel in 12 lines</h4><ul style="font-size:8.8pt;margin:0">
+      <li>$ locks what follows it · copying shifts, cutting doesn't · F4 toggles</li>
+      <li>Precedence: − (negation) → % → ^ → * / → + − → &amp; → comparisons · <code>=-3^2</code> = 9</li>
+      <li>COUNT = numbers · COUNTA = non-empty · COUNTBLANK = empty</li>
+      <li>SUMIF(range, criteria, <b>sum_range</b>) but SUMIFS(<b>sum_range</b>, range, criteria…)</li>
+      <li>Criteria: <code>"&gt;50"</code>, <code>"&lt;&gt;HR"</code>, <code>"A*"</code>, <code>"?b"</code>, <code>"&gt;"&amp;F1</code></li>
+      <li>VLOOKUP: first column, looks right, FALSE = exact · approximate needs sorted data</li>
+      <li>INDEX + MATCH can look left · MATCH type 0 = exact</li>
+      <li>INT rounds down · TRUNC chops · ROUND halves away from zero · MOD takes the divisor's sign</li>
+      <li>FIND case-sensitive · SEARCH not case-sensitive + wildcards · SUBSTITUTE by text · REPLACE by position</li>
+      <li>Errors: DIV/0 · N/A (not found) · VALUE (type) · REF (deleted) · NAME (typo) · NUM · NULL · #### (narrow)</li>
+      <li>Validation = restrict input · Conditional formatting = change look · Freeze = keep headers · Goal Seek = find input</li>
+      <li>1,048,576 rows · 16,384 columns (XFD) · .xlsm = macros · .csv = one sheet of plain text</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #2b579a"><h4 style="margin-top:0;color:#2b579a">Word · PowerPoint · Apps in 12 lines</h4><ul style="font-size:8.8pt;margin:0">
+      <li>Section break = different orientation, header or margins for part of a document</li>
+      <li>Ctrl+Enter page break · Shift+Enter line break</li>
+      <li>TOC is built from heading styles · footnote = same page · endnote = end of document</li>
+      <li>Mail Merge (Mailings): main document + data source → personalised copies</li>
+      <li>Track Changes (Review) → accept or reject · F7 spelling · Shift+F3 change case</li>
+      <li>Watermark is on the Design tab · Format Painter copies formatting</li>
+      <li>Slide Master = every slide · layouts = each type of slide</li>
+      <li>Animation = objects (entrance, emphasis, exit, path) · Transition = between slides</li>
+      <li>F5 from start · Shift+F5 from current · B black · W white · Esc end</li>
+      <li>Slide Sorter = reorder · .ppsx opens as a show · Rehearse Timings</li>
+      <li>BCC is hidden · Reply All doesn't include BCC · Ctrl+Shift+Esc opens Task Manager</li>
+      <li>Win+L lock · Win+D desktop · Win+Shift+S snip · Win+V clipboard</li>
+    </ul></div>
+  </div>
+  <div class="note tip" style="margin-top:12px"><span class="t">Exam-day tip</span>For a formula-output question, <b>work out the answer yourself before looking at the options</b>. Wrong options are built from common mistakes, such as including the boundary value, using the wrong rounding direction or picking the wrong column. Then check that your answer is among the options.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Microsoft or Accenture. Features and shortcuts are for current Microsoft 365 / Office 2019+ on Windows, and older or Mac versions may differ. All practice questions are original.</p>
+</section>
+
+</body>
+</html>
