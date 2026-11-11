@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Game 3: Key Collection – Zero to Hero Guide</title>
+<!--BASE_STYLE-->
+<style>
+  .cover{ background:radial-gradient(110% 80% at 100% 0%, #f59e0b 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #0d9488 0%, transparent 52%),
+               linear-gradient(160deg,#1c1407 0%,#2a1f0a 50%,#0c0a05 100%); }
+  .cover h1 span{ color:#fcd34d; }
+  .sec-head{ break-inside:avoid; }
+  .sec-num{ background:linear-gradient(135deg,#d97706,#0d9488); }
+  .sec-head .kicker{ color:#b45309; }
+  li::marker{ color:#d97706; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; }
+  svg.kb .lb{ font:700 10px Inter,sans-serif; fill:#6b6889; }
+  svg.kb .kn{ font:800 10px Inter,sans-serif; fill:#b45309; }
+  svg.kb .bp{ font-size:16px; }
+  .shot{ display:inline-flex; flex-direction:column; align-items:center; border:1.5px solid #d6dbe4; border-radius:12px; background:#fff; padding:10px; break-inside:avoid; }
+  .hud{ display:flex; align-items:center; gap:14px; margin-top:6px; width:100%; justify-content:center; }
+  .ring{ width:42px; height:42px; border-radius:50%; border:3px solid #1f2430; border-right-color:#d3d7df; display:grid; place-items:center; flex:none; }
+  .ring span{ font-size:8.5pt; font-weight:800; }
+  .ht{ font-size:8.6pt; text-align:center; line-height:1.35; }
+  .hk{ font-size:7.8pt; color:#0f766e; font-weight:700; margin-top:2px; }
+  .anno{ display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start; }
+  .anno ol{ margin:0; padding-left:18px; font-size:9.2pt; } .anno ol li{ margin:5px 0; }
+  .stepcard{ display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:center; border:1px solid var(--line); border-radius:14px; padding:12px; margin:10px 0; break-inside:avoid; }
+  .stepcard .no{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px; color:#fff; font-weight:800; background:linear-gradient(135deg,#d97706,#0d9488); margin-right:8px; flex:none; }
+  .stepcard h4{ display:flex; align-items:center; margin:0 0 6px; font-size:11pt; }
+  .stepcard p{ margin:0 0 6px; font-size:9.2pt; }
+  .legend{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+  .legend span{ display:flex; align-items:center; gap:6px; font-size:8.6pt; border:1px solid var(--line); border-radius:999px; padding:4px 10px; }
+  .legend i{ width:14px; height:14px; border-radius:3px; display:inline-block; }
+  .pzgrid{ display:grid; gap:10px; margin-bottom:12px; }
+  .pzgrid.easy{ grid-template-columns:repeat(4,1fr); } .pzgrid.medium{ grid-template-columns:repeat(4,1fr); } .pzgrid.hard{ grid-template-columns:repeat(2,1fr); }
+  .pz{ border:1px solid var(--line); border-radius:12px; padding:8px; text-align:center; break-inside:avoid; }
+  .pzh{ font-weight:800; font-size:9.5pt; text-align:left; color:#b45309; display:flex; justify-content:space-between; }
+  .pzh span{ font-size:7.5pt; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+  .pzq{ font-size:8.2pt; color:var(--ink-2); margin-top:2px; }
+  .keyt td{ font-size:8.6pt; } .keyt td:first-child{ width:6%; font-weight:700; color:var(--muted); }
+  .mut{ color:var(--muted); font-size:8pt; }
+  .mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.2pt; }
+  .ba{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .ba .card{ text-align:center; }
+  .budget{ display:flex; height:34px; border-radius:10px; overflow:hidden; margin:10px 0 4px; font-size:8.4pt; font-weight:700; color:#fff; }
+  .budget div{ display:grid; place-items:center; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:7px 0; border-bottom:1px dashed var(--line); font-size:9.6pt; }
+  .toc li b{ color:#b45309; width:22px; }
+  .lv{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .lv .card{ border-top:4px solid #16a34a; } .lv .card.m{ border-top-color:#d97706; } .lv .card.h{ border-top-color:#e11d48; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Cognitive Assessment · Game 3</span></div>
+  <h1>Key Collection Game<br><span>Zero to Hero Guide</span></h1>
+  <p class="sub">Collect the key, then reach the door, on a grid full of hidden walls. Learn the rules, the shortest-path thinking behind every move, how to handle walls you can't see, and how to plan multi-key levels, with 12 practice levels from Easy to Hard.</p>
+  <div class="roles">
+    <div>Screen explained</div><div>Hidden walls</div><div>Manhattan distance</div><div>Illustrated play-through</div><div>12 levels: Easy → Hard</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>🔑 → 🚪</b><span>Key first, then the door</span></div>
+    <div class="stat"><b>4:00</b><span>Timer per level</span></div>
+    <div class="stat"><b>↑↓←→</b><span>No diagonal moves</span></div>
+    <div class="stat"><b>Likely</b><span>Elimination round</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + 01 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b>01</b>Game 3 at a glance</li>
+    <li><b>02</b>The screen explained</li>
+    <li><b>03</b>The rules</li>
+    <li><b>04</b>Manhattan distance: your secret weapon</li>
+    <li><b>05</b>Full play-through, step by step</li>
+    <li><b>06</b>Handling hidden walls</li>
+    <li><b>07</b>Multi-key levels: choosing the order</li>
+    <li><b>08</b>The 6-step method and pro strategies</li>
+    <li><b>09</b>Time plan and common mistakes</li>
+    <li><b>10</b>Practice: 12 levels (Easy → Hard)</li>
+    <li><b>11</b>Answer key</li>
+    <li><b>12</b>7-day plan and test-day checklist</li>
+  </ul>
+  <div class="note brand" style="border-color:#d97706;background:#fff7e6"><span class="t" style="color:#b45309">How to use this guide</span>
+    <ul>
+      <li><b>Never seen this game?</b> Read Sections 1–5. Section 5 plays a full level with a picture at every move.</li>
+      <li><b>Want fewer wasted moves?</b> Master Section 4 (Manhattan distance) and Section 6 (hidden walls).</li>
+      <li><b>Ready to train?</b> Solve the 12 levels in Section 10, from Easy 4×4 to Hard 8×8 with 3 keys.</li>
+    </ul>
+  </div>
+
+  <div class="sec-head" style="margin-top:22px"><div class="sec-num">01</div><div><div class="kicker">The big picture</div><h2>Game 3 at a Glance</h2></div></div>
+  <p class="lead">Key Collection is the <b>third game</b> of the Cognitive (Gamified) Assessment. You move a character across a grid, <b>pick up the key</b> and then <b>walk to the door</b>. The catch: some cells are <b>hidden walls</b> that you only discover when you bump into them.</p>
+  <div class="cards c4">
+    <div class="card alt"><div class="lbl">Timer</div><div class="val">4:00 <small>per level</small></div></div>
+    <div class="card alt"><div class="lbl">Grid</div><div class="val" style="font-size:12pt">Small to large</div></div>
+    <div class="card alt"><div class="lbl">Skills</div><div class="val" style="font-size:11pt">Planning · Memory</div></div>
+    <div class="card alt"><div class="lbl">Elimination</div><div class="val" style="color:var(--rose);font-size:13pt">Likely</div></div>
+  </div>
+  <h3>Difficulty levels you should be ready for</h3>
+  <div class="lv">
+    <div class="card"><h4 style="margin-top:0;color:#16a34a">Easy</h4><p style="margin:0;font-size:9pt">Small grids (3×3 to 4×4), 1 key and only a few walls. The route is almost direct.</p></div>
+    <div class="card m"><h4 style="margin-top:0;color:#b45309">Medium</h4><p style="margin:0;font-size:9pt">5×5 to 6×6 grids, 1–2 keys, and walls that force a detour or two.</p></div>
+    <div class="card h"><h4 style="margin-top:0;color:#e11d48">Hard</h4><p style="margin:0;font-size:9pt">8×8 grids and bigger, 2–3 keys, and many walls. Key order and memory matter.</p></div>
+  </div>
+  <div class="note info"><span class="t">How many levels?</span>The number of Key Collection levels in the test can vary (it may be a single level). This guide and the live practice train you on <b>all three difficulty levels</b>, so whatever you face will feel familiar.</div>
+</section>
+
+<!-- ================= 02 + 03 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">02</div><div><div class="kicker">Know the screen</div><h2>The Screen Explained</h2></div></div>
+  <div class="anno">
+    <div><!--SCREEN--></div>
+    <div>
+      <ol>
+        <li><b>Grid:</b> the play area. It can be as small as 3×3 or much larger.</li>
+        <li><b>You (the dark tile with a person icon):</b> your current position.</li>
+        <li><b>Grey arrows around you:</b> the directions you can try to move (up, down, left or right). There's no arrow at the edge of the grid.</li>
+        <li><b>Key 🔑:</b> must be collected first. It disappears once you pick it up.</li>
+        <li><b>Door 🚪:</b> your finish point. It only works <b>after</b> you have the key.</li>
+        <li><b>Instruction:</b> "Collect 1 KEY, then get to the DOOR". On harder levels it can say 2 or 3 keys.</li>
+        <li><b>Timer ring:</b> starts at 4:00 and counts down.</li>
+        <li><b>Shaded cells</b> (in this guide's drawings): cells you have already walked through.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="legend">
+    <span><i style="background:#1f2430"></i>You</span>
+    <span><i style="background:#dbe7ff;border:1px solid #c7d2fe"></i>Visited</span>
+    <span><i style="background:#4b5160"></i>Wall (found by bumping) ✕</span>
+    <span><i style="border:1.6px dashed #9aa0ad"></i>Hidden wall (not visible in the game; shown here only to explain)</span>
+  </div>
+
+  <div class="sec-head" style="margin-top:20px"><div class="sec-num">03</div><div><div class="kicker">Simple but strict</div><h2>The Rules</h2></div></div>
+  <div class="cards c2">
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">1</div><div><h4>Move one cell at a time</h4><p>Up, down, left or right only. <b>No diagonal moves.</b> Click or tap an arrow or a neighbouring cell. Arrow keys may also work.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">2</div><div><h4>Walls are hidden</h4><p>You can't see walls in advance. If you try to move into one, you <b>stay where you are</b> and the wall is revealed.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">3</div><div><h4>Key before door</h4><p>Walk onto the key to collect it. Reaching the door <b>without the key does nothing</b>.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">4</div><div><h4>Fewer moves is better</h4><p>Finish within the timer using as few moves (and bumps) as you can. Efficient routes score better and save time.</p></div></div>
+  </div>
+</section>
+
+<!-- ================= 04 + 05 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">04</div><div><div class="kicker">Count before you move</div><h2>Manhattan Distance: Your Secret Weapon</h2></div></div>
+  <div class="anno" style="grid-template-columns:auto 1fr">
+    <div><!--MANHATTAN--></div>
+    <div>
+      <p>With no diagonal moves, the <b>shortest possible</b> number of moves between two cells is:</p>
+      <div class="note brand" style="border-color:#d97706;background:#fff7e6;margin-top:4px"><span class="t" style="color:#b45309">Manhattan distance</span><b>|row difference| + |column difference|</b></div>
+      <p style="font-size:9.2pt">Example: from <b>D1</b> to the key at <b>B4</b> is 2 rows + 3 columns = <b>5 moves</b>. Every route without detours has exactly 5 moves, in any order of "right" and "up".</p>
+      <ul style="font-size:9.2pt">
+        <li>Use it to <b>judge your route</b>: if a plan needs far more moves than the Manhattan distance, look for a better one.</li>
+        <li>Walls force detours. Each sidestep around a wall usually adds <b>+2 moves</b> (one out, one back).</li>
+        <li>Any move that <b>reduces</b> the distance to your target is a "good" move. Prefer those.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:20px"><div class="sec-num">05</div><div><div class="kicker">See it in action</div><h2>Full Play-Through, Step by Step</h2></div></div>
+  <p class="lead">A 5×5 level: you start at <b>E1</b>, the key is at <b>A3</b> and the door is at <b>C5</b>. Dashed squares mark hidden walls. You <b>can't</b> see these in the game, but we show them so you can follow along.</p>
+
+  <div class="stepcard"><!--F1-->
+    <div><h4><span class="no">1</span>Locate everything, then plan</h4>
+      <p>Start E1 → key A3: Manhattan = 4 + 2 = <b>6 moves</b>. Key A3 → door C5: 2 + 2 = <b>4 moves</b>. The ideal total is <b>10</b>.</p>
+      <p>Plan: head <b>up</b> towards row A while drifting <b>right</b> towards column 3.</p></div>
+  </div>
+  <div class="stepcard"><!--F2-->
+    <div><h4><span class="no">2</span>Bumping into hidden walls</h4>
+      <p>E1 → <b>D1</b> ✓. Try up to C1: <b>blocked!</b> A wall is revealed and you stay at D1.</p>
+      <p>Don't panic. Pick the other <b>good</b> direction (right, which also gets closer to column 3): → <b>D2</b> ✓. Try up to C2: <b>blocked</b> again ✕.</p>
+      <p>Each bump costs a little time, but your move count is still on track.</p></div>
+  </div>
+  <div class="stepcard"><!--F3-->
+    <div><h4><span class="no">3</span>Find the gap and grab the key</h4>
+      <p>Move right again → <b>D3</b>, then up: C3 → B3 → <b>A3</b> 🔑 collected!</p>
+      <p>Moves so far: <b>6</b>, exactly the Manhattan distance, even after 2 bumps. Bumps waste time, not distance.</p></div>
+  </div>
+  <div class="stepcard"><!--F4-->
+    <div><h4><span class="no">4</span>Now head for the door</h4>
+      <p>From A3 to door C5: right → <b>A4</b> ✓, then try down to B4: <b>blocked</b> ✕.</p>
+      <p>Sidestep with the other good direction: right → <b>A5</b>.</p></div>
+  </div>
+  <div class="stepcard"><!--F5-->
+    <div><h4><span class="no">5</span>Reach the door: level complete</h4>
+      <p>A5 → B5 → <b>C5</b> 🚪. Done in <b>10 moves</b> (the ideal minimum) with 3 bumps.</p>
+      <p>Notice that you never moved away from the target. Every wall was handled by switching to the <b>other direction that still gets closer</b>.</p></div>
+  </div>
+</section>
+
+<!-- ================= 06 + 07 ================= -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">06</div><div><div class="kicker">Deal with the unknown</div><h2>Handling Hidden Walls</h2></div></div>
+  <p class="lead">You can't avoid every bump, but you <b>can</b> make each bump cheap. Use this order of preference every time you're blocked:</p>
+  <table>
+    <thead><tr><th style="width:8%">#</th><th style="width:36%">Try this direction…</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>The <b>other</b> direction that still gets you closer to the target</td><td>No distance is lost. This was how every wall in Section 5 was handled.</td></tr>
+      <tr><td>2</td><td>A <b>sidestep</b> (perpendicular to the target)</td><td>Costs +2 moves overall, but usually goes around a single wall.</td></tr>
+      <tr><td>3</td><td><b>Back</b> the way you came, to try a different corridor</td><td>Use this only when you're in a dead end. It costs the most.</td></tr>
+    </tbody>
+  </table>
+  <div class="cards c2">
+    <div class="card"><h4 style="margin-top:0">🧠 Remember every wall</h4><p style="margin:0;font-size:9pt">A revealed wall stays a wall for the whole level. Never test the same blocked move twice. Note it mentally, for example "C1 and C2 are walls, so row C is blocked on the left."</p></div>
+    <div class="card"><h4 style="margin-top:0">🧭 Read the pattern</h4><p style="margin:0;font-size:9pt">Walls often form lines or blocks. Two walls side by side (like C1 and C2) suggest a longer barrier, so look for the gap further along instead of probing every cell.</p></div>
+    <div class="card"><h4 style="margin-top:0">🚧 Avoid dead-end corridors</h4><p style="margin:0;font-size:9pt">If a narrow path leads away from your target, prefer open areas. Corridors are where most costly back-tracking happens.</p></div>
+    <div class="card"><h4 style="margin-top:0">🛣️ Reuse safe routes</h4><p style="margin:0;font-size:9pt">Cells you've already walked through are guaranteed open. When heading to the door, reusing part of a known route is often safer than exploring.</p></div>
+  </div>
+
+  <div class="sec-head" style="margin-top:20px"><div class="sec-num">07</div><div><div class="kicker">Hard levels</div><h2>Multi-Key Levels: Choosing the Order</h2></div></div>
+  <p class="lead">With 2–3 keys, the <b>order</b> you collect them in can change your total by many moves. Same grid, same keys, two different orders:</p>
+  <div class="ba">
+    <div class="card"><h4 style="margin-top:0;color:#16a34a">✓ Smart order: <!--MK_GM--> moves</h4><!--MK_GOOD--><p style="font-size:8.8pt;margin:6px 0 0">Order <b><!--MK_GO--></b>: one smooth sweep from the start towards the door.</p></div>
+    <div class="card"><h4 style="margin-top:0;color:#e11d48">✗ Zig-zag order: <!--MK_BM--> moves</h4><!--MK_BAD--><p style="font-size:8.8pt;margin:6px 0 0">Order <b><!--MK_BO--></b>: chasing the "first key you notice" makes you cross the grid back and forth.</p></div>
+  </div>
+  <div class="note tip"><span class="t">How to choose the order in 10 seconds</span>
+    <ol style="margin:4px 0 0;padding-left:18px">
+      <li>Picture a line from <b>you</b> to the <b>door</b>.</li>
+      <li>Collect keys in the order they appear <b>along that line</b>: the closest to you first, the closest to the door last.</li>
+      <li>A key far off the line? Grab it when you pass nearest to it, not first by default.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= 08 + 09 ================= -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">08</div><div><div class="kicker">The complete technique</div><h2>The 6-Step Method &amp; Pro Strategies</h2></div></div>
+  <div class="cards c3">
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">1</div><div><h4>Locate</h4><p>Find yourself, every key and the door before you move.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">2</div><div><h4>Count</h4><p>Work out the Manhattan distance for each leg (start → key → door).</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">3</div><div><h4>Order</h4><p>With several keys, pick a sweep order along the start → door line.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">4</div><div><h4>Move toward</h4><p>Each move should reduce the distance to your current target.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">5</div><div><h4>Re-route smartly</h4><p>When blocked: other good direction → sidestep → back-track. Remember the wall.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#d97706,#0d9488)">6</div><div><h4>Confirm and finish</h4><p>Check the key is collected (icon gone or counter updated), then go to the door.</p></div></div>
+  </div>
+  <div class="note tip"><span class="t">Pro tip: the "always closer" rule</span>If you're not sure of the best route, simply make every move one that brings you <b>closer</b> to your current target, unless it's blocked. This simple habit is close to perfect on most grids.</div>
+
+  <div class="sec-head" style="margin-top:20px"><div class="sec-num">09</div><div><div class="kicker">Beat the clock</div><h2>Time Plan &amp; Common Mistakes</h2></div></div>
+  <div class="budget">
+    <div style="width:12%;background:#d97706">Locate · 15s</div>
+    <div style="width:16%;background:#b45309">Plan · 20s</div>
+    <div style="width:46%;background:#0d9488">Move and re-route · 2–3 min</div>
+    <div style="width:26%;background:#94a3b8">Buffer</div>
+  </div>
+  <p style="font-size:8.6pt;color:var(--muted);margin:0 0 10px">For a 4:00 level. Most levels can be finished well within the time if you don't wander.</p>
+  <table>
+    <thead><tr><th style="width:44%">Mistake ✗</th><th>Fix ✓</th></tr></thead>
+    <tbody>
+      <tr><td>Rushing to the door before the key is collected</td><td>Confirm the key icon has gone (or the counter has updated) first.</td></tr>
+      <tr><td>Trying a known wall again</td><td>Remember every revealed wall for the whole level.</td></tr>
+      <tr><td>Moving away from the target after a bump</td><td>Try the other "closer" direction first, then a sidestep.</td></tr>
+      <tr><td>Panicking after 2–3 bumps in a row</td><td>Walls often form a line, so follow it to find the gap.</td></tr>
+      <tr><td>Collecting keys in a zig-zag order</td><td>Sweep along the start → door line.</td></tr>
+      <tr><td>Losing track of keys collected on multi-key levels</td><td>Check the key counter, and say "1 of 3, 2 of 3…" to yourself.</td></tr>
+      <tr><td>Clicking too fast and moving the wrong way</td><td>Steady, deliberate moves. The timer is generous.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 10 PRACTICE ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">10</div><div><div class="kicker">Test yourself</div><h2>Practice: 12 Levels (Easy → Hard)</h2></div></div>
+  <p class="lead">In these planning puzzles the walls are <b>visible</b> (dark cells), so you can train shortest-path thinking. For each level, find the <b>minimum number of moves</b> to collect every key and reach the door. First write the Manhattan estimate, then trace your route with a pen.</p>
+  <!--PRACTICE-->
+</section>
+
+<!-- ================= 11 KEY ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">11</div><div><div class="kicker">Check your answers</div><h2>Answer Key</h2></div></div>
+  <p class="lead">Every answer was computed by a shortest-path algorithm (BFS), trying every possible key order. The route uses <b>U</b> = up, <b>D</b> = down, <b>L</b> = left, <b>R</b> = right. For example, <b>R3</b> means three moves right. Other routes with the same number of moves are also correct.</p>
+  <!--KEY-->
+  <p style="font-size:9pt"><b>Tip:</b> compare each answer with its <b>no-wall minimum</b>. The difference shows exactly how many extra moves the walls forced. If your route was longer still, look for the shorter path in the key.</p>
+</section>
+
+<!-- ================= 12 PLAN ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">12</div><div><div class="kicker">Get test-ready</div><h2>7-Day Plan &amp; Test-Day Checklist</h2></div></div>
+  <table>
+    <thead><tr><th style="width:11%">Day</th><th style="width:26%">Focus</th><th>What to do (about 30 minutes)</th></tr></thead>
+    <tbody>
+      <tr><td><b>Day 1</b></td><td>Understand the game</td><td>Read Sections 1–3. Learn the rules and the screen.</td></tr>
+      <tr><td><b>Day 2</b></td><td>Manhattan distance</td><td>Study Section 4. Pick any two cells on a grid and calculate the distance in under 3 seconds.</td></tr>
+      <tr><td><b>Day 3</b></td><td>Play-through</td><td>Re-play Section 5 on paper, then solve the 4 Easy levels.</td></tr>
+      <tr><td><b>Day 4</b></td><td>Hidden walls</td><td>Study Section 6. Play the live practice game in Easy mode and focus on cheap re-routes.</td></tr>
+      <tr><td><b>Day 5</b></td><td>Multi-key</td><td>Study Section 7. Solve the Medium and Hard levels and compare your key order with the answer key.</td></tr>
+      <tr><td><b>Day 6</b></td><td>Simulation</td><td>Live practice in Medium and Hard modes with the 4:00 timer.</td></tr>
+      <tr><td><b>Day 7</b></td><td>Revise</td><td>Re-read Sections 8 and 9. Rest well.</td></tr>
+    </tbody>
+  </table>
+  <h3>Test-Day Checklist</h3>
+  <div class="cards c2">
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>Read the instruction: how many keys?</li>
+      <li>Locate yourself, the key(s) and the door before moving</li>
+      <li>Work out the Manhattan distance for each leg</li>
+      <li>Choose the key order along the start → door line</li>
+    </ul></div>
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>Every move should get you closer to the current target</li>
+      <li>Blocked? Other closer direction → sidestep → back-track</li>
+      <li>Never re-test a known wall</li>
+      <li>Confirm all keys are collected before going to the door</li>
+    </ul></div>
+  </div>
+  <div class="note tip" style="margin-top:14px;border-color:#d97706;background:#fff7e6"><span class="t" style="color:#b45309">Remember</span>Hidden walls will surprise everyone. Winners don't avoid every bump, they <b>recover smartly</b>. Count the distance, always move closer, remember every wall, and grab the keys in a smart order.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only. It is not affiliated with, endorsed by, or an official document of Accenture. The game description is based on publicly shared preparation material, and the real game may differ in grid size, number of levels or controls. All illustrations and practice levels are original. Always check the latest details on the official Accenture careers portal.</p>
+</section>
+
+</body>
+</html>
