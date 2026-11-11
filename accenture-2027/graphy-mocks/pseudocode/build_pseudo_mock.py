@@ -173,7 +173,95 @@ QUESTIONS_3 = [
      "O(n^2) in the worst case and sorts in place with O(1) extra space.", "Hard"),
 ]
 
-MOCKS = {1: QUESTIONS_1, 2: QUESTIONS_2, 3: QUESTIONS_3}
+N_OR = ("[Note - |: bitwise OR sets a result bit to 1 if either bit is 1. &: bitwise AND sets it to 1 only if both "
+        "bits are 1. <<: left shift, 1 << i equals 2 to the power i.]")
+N_STR = ("[Note - stringLength() returns the number of characters in a string. s[i] is the character at index i; "
+         "indexing starts at 0. + joins two strings.]")
+N_STATIC = ("[Note - a static variable is initialised only once and keeps its value between function calls.]")
+N_DOWHILE = ("[Note - in a do-while loop the body runs first and the condition is checked afterwards.]")
+N_BC = ("[Note - continue skips the rest of the current iteration; break exits the loop completely.]")
+N_XOR = "[Note - ^ is bitwise XOR: a result bit is 1 only when the two bits are different.]"
+N_SHIFT = "[Note - >> is right shift: n >> 1 moves the bits one place right, i.e. integer division by 2.]"
+
+QUESTIONS_4 = [
+    (OUT_Q, N_OR, 4.5, ["21", "12", "4", "5"], 3,
+     "i = 0, 2, 4 are even, so x = 1 | 4 | 16 = 21 (binary 10101). 12 is 01100. 10101 & 01100 = 00100 = 4.",
+     "Hard"),
+    ("What will be the output of the following pseudocode for fun(13)?", N_MOD + " " + N_DIV, 4.5,
+     ["1011", "1101", "13", "111"], 2,
+     "fun(13) = 1 + 10*fun(6); fun(6) = 0 + 10*fun(3); fun(3) = 1 + 10*fun(1); fun(1) = 1 + 10*fun(0) = 1. "
+     "So fun(3) = 11, fun(6) = 110, fun(13) = 1101. The function builds the binary form of n.", "Medium"),
+    (OUT_Q, N_STR, 5.0, ["ACNUE", "CENTR", "ACEUE", "CCTR"], 1,
+     "\"ACCENTURE\" has indexes 0-8. Even indexes are 0:A, 2:C, 4:N, 6:U, 8:E, so result = ACNUE.", "Easy"),
+    ("What happens when the following pseudocode is executed?", "", 5.5,
+     ["It prints 600", "It prints 700",
+      "Compilation error at line 12, because balance is private",
+      "Runtime error at line 11, because deposit() changes balance"], 3,
+     "balance is private (encapsulation), so it can be used only inside the class. Line 11 is fine because "
+     "deposit() is a public method. Line 12 accesses acc.balance from outside the class, which the compiler "
+     "rejects. The correct way is to change balance only through public methods.", "Medium"),
+    (OUT_Q, "", 4.5, ["1 2 3 4 6 9", "1 2 4 3 6 9", "1 2 3 2 4 6 3 6 9", "1 4 9"], 2,
+     "The inner loop runs j = 1 to i. i=1: 1. i=2: 2, 4. i=3: 3, 6, 9. Output in order: 1 2 4 3 6 9.",
+     "Easy"),
+    (OUT_Q, N_DIV, 5.0, ["38", "49", "94", "83"], 2,
+     "n / 2 - 1 = 1, so i = 0 and 1. i=0 swaps a[0] and a[4]: {4, 8, 1, 9, 3}. i=1 swaps a[1] and a[3]: "
+     "{4, 9, 1, 8, 3}. The array is reversed. Print 4 * 10 + 9 = 49.", "Medium"),
+    (OUT_Q, N_STATIC, 4.5, ["6", "2", "12", "18"], 3,
+     "c is static, so it is set to 0 only once and keeps its value. 1st call: c = 2. 2nd: c = 4. 3rd: c = 6. "
+     "p + q + r = 2 + 4 + 6 = 12. (With a normal local variable each call would return 2, giving 6.)",
+     "Medium"),
+    (OUT_Q, N_DOWHILE, 4.5, ["10", "15", "16", "11"], 3,
+     "The body runs once before the check: x = 15, y = 1. Then 15 < 10 is false, so the loop stops. "
+     "Print 15 + 1 = 16.", "Easy"),
+    (OUT_Q, "", 5.5, ["11", "5", "6", "Compilation error: add is defined twice"], 1,
+     "add is overloaded (compile-time polymorphism): the version is chosen by the number of arguments. "
+     "add(2, 3) uses the 2-parameter version: 2 + 3 = 5. add(1, 2, 3) uses the 3-parameter version: "
+     "1 * 2 * 3 = 6. 5 + 6 = 11.", "Medium"),
+    (OUT_Q, "[Note - &: bitwise AND.]", 4.5, ["5", "3", "4", "29"], 3,
+     "n & (n - 1) removes the lowest 1-bit each time, so the loop counts the 1-bits. 29 = 11101 -> 11100 (28) "
+     "-> 11000 (24) -> 10000 (16) -> 0. That is 4 passes, so it prints 4.", "Hard"),
+]
+
+QUESTIONS_5 = [
+    (OUT_Q, N_XOR, 4.0, ["-5", "0", "19", "5"], 4,
+     "Three XORs swap the two values without a temp variable: after them a = 12 and b = 7. "
+     "Print 12 - 7 = 5.", "Medium"),
+    ("What will be printed when show(3) is called?", "", 4.5,
+     ["3 2 1", "1 2 3", "1 2 1 3 1 2 1", "3 2 1 1 2 1"], 3,
+     "show(n) prints show(n-1), then n, then show(n-1) again. show(1) prints 1. show(2) prints 1 2 1. "
+     "show(3) prints (1 2 1) 3 (1 2 1) = 1 2 1 3 1 2 1.", "Hard"),
+    (OUT_Q, N_STR, 5.0, ["6", "2", "3", "0"], 2,
+     "Compare s[i] with s[5 - i] for \"madman\": m/n no, a/a yes, d/m no, m/d no, a/a yes, n/m no. "
+     "count = 2 (the word is not a palindrome).", "Medium"),
+    ("Which statement about the following pseudocode is correct?", "", 5.0,
+     ["It prints 16. Shape cannot be created directly, but a Shape variable can refer to a Square object",
+      "Compilation error, because area() has no body in Shape",
+      "It prints 0, because Shape's area() is called",
+      "Runtime error, because s1 is declared as Shape"], 1,
+     "Shape is abstract (abstraction): it declares area() without a body and cannot be instantiated. Square "
+     "gives area() a body. s1 is a Shape reference to a Square object, so s1.area() runs Square's version: "
+     "4 * 4 = 16.", "Medium"),
+    (OUT_Q, N_BC, 4.5, ["19", "27", "22", "40"], 1,
+     "i = 3 and 6 are skipped by continue. At i = 8 (not a multiple of 3, and > 7) break ends the loop. "
+     "sum = 1 + 2 + 4 + 5 + 7 = 19.", "Medium"),
+    (OUT_Q, "", 5.5, ["25", "15", "30", "45"], 3,
+     "Each row adds its main-diagonal and anti-diagonal element: row 0: 1 + 3, row 1: 5 + 5, row 2: 9 + 7. "
+     "The centre 5 is counted twice. d = 4 + 10 + 16 = 30.", "Medium"),
+    ("What will be the output when the object of class C is created?", "", 4.0, ["CBA", "C", "ABC", "AC"], 3,
+     "Creating a child object first runs the parent constructors, from the top of the inheritance chain "
+     "down: A(), then B(), then C(). Output: ABC.", "Easy"),
+    (OUT_Q, N_SHIFT, 4.5, ["6", "7", "50", "100"], 2,
+     "100 -> 50 -> 25 -> 12 -> 6 -> 3 -> 1 -> 0: seven shifts. c = 7, which is the number of bits needed to "
+     "write 100 in binary (1100100).", "Medium"),
+    ("What will be the output of the following pseudocode?", "", 4.5, ["45", "25", "24", "16"], 2,
+     "fun(9) = 9 + fun(7) = 9 + 7 + fun(5) = ... = 9 + 7 + 5 + 3 + 1 + fun(-1). fun(-1) returns 0. "
+     "Sum = 25.", "Easy"),
+    (OUT_Q, "", 5.0, ["10", "4", "16", "12"], 4,
+     "i=1: 3 < 5, a[1] = 5 - 3 = 2. i=2: 8 > 2, a[2] = 8 + 2 = 10. i=3: 6 < 10, a[3] = 10 - 6 = 4. "
+     "i=4: 2 < 4, a[4] = 4 - 2 = 2. Print a[4] + a[2] = 2 + 10 = 12.", "Hard"),
+]
+
+MOCKS = {1: QUESTIONS_1, 2: QUESTIONS_2, 3: QUESTIONS_3, 4: QUESTIONS_4, 5: QUESTIONS_5}
 
 
 def build(template, mock_no, out):

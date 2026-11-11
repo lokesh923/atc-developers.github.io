@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const color = s => esc(s)
   .replace(/\b(\d+)\b/g, '<span class="n">$1</span>')
-  .replace(/^(\s*)(Integer|String|Set|set|for|if|while|End|end|return|Print|print)\b/,
+  .replace(/^(\s*)(Integer|String|Set|set|for|if|while|do|End|end|return|Print|print|Class|Abstract|Function|Static|static|public|private|Constructor|Create|Call|swap)\b/,
            '$1<span class="k">$2</span>');
 
 const page = lines => `<!doctype html><html><head><meta charset="utf-8"><style>
