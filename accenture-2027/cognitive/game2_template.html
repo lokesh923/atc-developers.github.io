@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Game 2: Pathfinding – Zero to Hero Guide</title>
+<!--BASE_STYLE-->
+<style>
+  .cover{ background:radial-gradient(110% 80% at 100% 0%, #6366f1 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #f97316 0%, transparent 50%),
+               linear-gradient(160deg,#0b1026 0%,#151b45 55%,#080b1c 100%); }
+  .cover h1 span{ color:#fdba74; }
+  .sec-head{ break-inside:avoid; }
+  .sec-num{ background:linear-gradient(135deg,#4f46e5,#f97316); }
+  .sec-head .kicker{ color:#4f46e5; }
+  li::marker{ color:#4f46e5; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; }
+
+  svg.pf .lb{ font:700 11px Inter,sans-serif; fill:#6b6889; }
+  svg.pf .bd{ font:800 10px Inter,sans-serif; fill:#fff; }
+  svg.pf .bt{ font:700 15px "DejaVu Sans",sans-serif; fill:#fff; }
+  svg.pf .tm{ font:800 8px Inter,sans-serif; fill:#14122b; }
+  svg.pf .dg{ font:600 11px Inter,sans-serif; fill:#14122b; }
+  svg.pf .dc{ font:800 8.5px Inter,sans-serif; fill:#fff; letter-spacing:.06em; }
+  svg.ag .lb2{ font:700 9px Inter,sans-serif; fill:#6b6889; }
+  svg.ag .st{ font:800 7px Inter,sans-serif; fill:#fff; }
+
+  .shot{ border:1.5px solid #d6dbe4; border-radius:12px; background:#fff; padding:8px; display:inline-block; break-inside:avoid; }
+  .shot .bar{ background:#111; color:#fff; font-size:8.5pt; font-weight:700; padding:5px 10px; border-radius:4px 4px 0 0; margin:-2px -2px 6px; }
+  .anno{ display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start; }
+  .anno ol{ margin:0; padding-left:18px; font-size:9.2pt; } .anno ol li{ margin:5px 0; }
+  .stepcard{ display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:center; border:1px solid var(--line); border-radius:14px; padding:12px; margin:10px 0; break-inside:avoid; }
+  .stepcard .no{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px; color:#fff; font-weight:800; background:linear-gradient(135deg,#4f46e5,#f97316); margin-right:8px; flex:none; }
+  .stepcard h4{ display:flex; align-items:center; margin:0 0 6px; font-size:11pt; }
+  .stepcard p{ margin:0 0 6px; font-size:9.2pt; }
+  .strip{ display:flex; align-items:center; gap:4px; flex-wrap:nowrap; margin:8px 0; }
+  .strip .arr{ font-size:16pt; color:#4f46e5; font-weight:800; }
+  .tile-demo{ display:flex; flex-direction:column; align-items:center; font-size:8.4pt; }
+  .tile-demo b{ margin-top:2px; } .tile-demo span{ color:var(--muted); font-size:7.8pt; }
+  .tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:8px 0; }
+  .tiles .card{ display:flex; gap:12px; align-items:center; }
+  .pzgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px; }
+  .pz{ border:1px solid var(--line); border-radius:12px; padding:8px 8px 6px; text-align:center; break-inside:avoid; }
+  .pzh{ font-weight:800; font-size:9.5pt; text-align:left; color:#4f46e5; }
+  .pzq{ font-size:8.4pt; color:var(--ink-2); }
+  .keyt td{ font-size:8.6pt; } .keyt td:first-child{ width:6%; font-weight:700; color:var(--muted); }
+  .mono{ font-variant-numeric:tabular-nums; }
+  .ba{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .ba .card{ text-align:center; }
+  .budget{ display:flex; height:34px; border-radius:10px; overflow:hidden; margin:10px 0 4px; font-size:8.4pt; font-weight:700; color:#fff; }
+  .budget div{ display:grid; place-items:center; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:7px 0; border-bottom:1px dashed var(--line); font-size:9.6pt; }
+  .toc li b{ color:#4f46e5; width:22px; }
+  .rot td,.rot th{ text-align:center; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Cognitive Assessment · Game 2</span></div>
+  <h1>Pathfinding Game<br><span>Zero to Hero Guide</span></h1>
+  <p class="sub">Guide the rocket to the planet by rotating and swapping tiles. Learn how the screen works, the tracing method top scorers use, rotation logic, a full illustrated play-through and 12 practice puzzles with verified answers.</p>
+  <div class="roles">
+    <div>Screen explained</div><div>Rotate · Swap · Check</div><div>Illustrated play-through</div><div>Tracing method</div><div>12 practice puzzles</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>3</b><span>Puzzles</span></div>
+    <div class="stat"><b>~4–5</b><span>Minutes each</span></div>
+    <div class="stat"><b>1–3</b><span>Tile changes usually needed</span></div>
+    <div class="stat"><b>Likely</b><span>Elimination round</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + 01 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b>01</b>Game 2 at a glance</li>
+    <li><b>02</b>The screen explained</li>
+    <li><b>03</b>Tiles, arrows and the connection rule</li>
+    <li><b>04</b>Rotate and Swap: how the tools work</li>
+    <li><b>05</b>Full play-through, step by step</li>
+    <li><b>06</b>The 6-step solving method</li>
+    <li><b>07</b>Pro strategies</li>
+    <li><b>08</b>Worked example: fix one tile</li>
+    <li><b>09</b>Time plan and common mistakes</li>
+    <li><b>10</b>Practice: 12 puzzles</li>
+    <li><b>11</b>Answer key</li>
+    <li><b>12</b>7-day plan and test-day checklist</li>
+  </ul>
+  <div class="note brand" style="border-color:#4f46e5;background:#eef0ff"><span class="t" style="color:#4f46e5">How to use this guide</span>
+    <ul>
+      <li><b>Never seen this game?</b> Read Sections 1–5. Section 5 plays a full puzzle with pictures at every step.</li>
+      <li><b>Know the game but make mistakes?</b> Focus on Sections 6–8: the tracing method and the "earliest wrong tile" rule.</li>
+      <li><b>Ready to practise?</b> Do the 12 puzzles in Section 10 and check your answers in Section 11.</li>
+    </ul>
+  </div>
+
+  <div class="sec-head" style="margin-top:22px"><div class="sec-num">01</div><div><div class="kicker">The big picture</div><h2>Game 2 at a Glance</h2></div></div>
+  <p class="lead">Pathfinding is the <b>second game</b> in the Cognitive (Gamified) Assessment. A <b>rocket</b> must travel through a grid of <b>track tiles</b> to reach a <b>planet</b>. The track is broken in a few places. Your job is to <b>repair the route</b> by rotating and swapping tiles, then press <b>Check</b>.</p>
+  <div class="cards c4">
+    <div class="card alt"><div class="lbl">Puzzles</div><div class="val">3</div></div>
+    <div class="card alt"><div class="lbl">Time</div><div class="val">~4–5 <small>min each</small></div></div>
+    <div class="card alt"><div class="lbl">Skill</div><div class="val" style="font-size:12pt">Spatial logic</div></div>
+    <div class="card alt"><div class="lbl">Elimination</div><div class="val" style="color:var(--rose);font-size:13pt">Likely</div></div>
+  </div>
+  <div class="note info"><span class="t">Speed vs patience</span>Unlike the Bubbles game (15 seconds per question), here you get several minutes per puzzle. That means <b>careful, systematic tracing beats speed</b>. Most puzzles need only <b>1–3 tile changes</b>. The challenge is finding the right ones.</div>
+</section>
+
+<!-- ================= 02 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">02</div><div><div class="kicker">Know the screen</div><h2>The Screen Explained</h2></div></div>
+  <p class="lead">This illustration is drawn from candidate screenshots. The real grid may be bigger (around 5×5 or more), but every element works the same way.</p>
+  <div class="anno">
+    <div class="shot"><div class="bar">Question 2 of 3</div><!--S1--></div>
+    <div>
+      <ol>
+        <li><b>Question counter</b> (top): which of the 3 puzzles you're on.</li>
+        <li><b>Rocket</b> (left edge): the <b>start</b>. It enters the grid at this point.</li>
+        <li><b>Planet</b> (right edge): the <b>destination</b>. The route must end here.</li>
+        <li><b>Track tiles:</b> each square holds a track piece. The small white arrows show the direction of travel along it.</li>
+        <li><b>Row letters and column numbers</b> (A–D, 1–4): we add these in this guide so we can name tiles like <b>C2</b>. The real game doesn't show them.</li>
+        <li><b>Timer</b> (bottom left): the countdown for this puzzle.</li>
+        <li><b>⟳ Rotate:</b> turns the selected tile 90°.</li>
+        <li><b>⇄ Swap:</b> exchanges the positions of two tiles.</li>
+        <li><b>✓ Check:</b> submits your route. A correct route shows <b>"Valid route – well done!"</b> with a Continue button.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="note warn"><span class="t">Versions can differ</span>Some candidates describe tapping a tile to cycle its direction, while others see separate Rotate and Swap buttons. The thinking is identical: <b>find where the route breaks, then change that tile</b>. Read the on-screen instructions (and use the practice question, if one is offered) to confirm the controls.</div>
+</section>
+
+<!-- ================= 03 + 04 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">03</div><div><div class="kicker">The building blocks</div><h2>Tiles, Arrows &amp; the Connection Rule</h2></div></div>
+  <p>Every tile is a piece of track joining <b>two sides</b> of its square. There are two basic shapes:</p>
+  <div class="cards c2">
+    <div class="card"><h4 style="margin-top:0">Straight tile</h4><p style="margin:0;font-size:9pt">Joins opposite sides: <b>Left–Right</b> (horizontal) or <b>Up–Down</b> (vertical). The rocket goes straight through.</p></div>
+    <div class="card"><h4 style="margin-top:0">Corner (turn) tile</h4><p style="margin:0;font-size:9pt">Joins two neighbouring sides, like <b>Left–Up</b> or <b>Down–Right</b>. The rocket turns 90°.</p></div>
+  </div>
+
+  <h3>The connection rule</h3>
+  <div class="note brand" style="border-color:#4f46e5;background:#eef0ff"><span class="t" style="color:#4f46e5">A route is valid only when every tile connects to the next</span>
+    The side where the rocket <b>leaves</b> one tile must touch a side where the next tile <b>has track</b>. If a tile sends the rocket <b>right</b>, the tile on its right must have track on its <b>left</b> side. Any gap, wall or wrong-way piece breaks the route.</div>
+  <table>
+    <thead><tr><th style="width:34%">Rocket leaves a tile going…</th><th>…the next tile must have track on its</th></tr></thead>
+    <tbody>
+      <tr><td>→ Right</td><td><b>Left</b> side</td></tr>
+      <tr><td>← Left</td><td><b>Right</b> side</td></tr>
+      <tr><td>↑ Up</td><td><b>Bottom</b> side</td></tr>
+      <tr><td>↓ Down</td><td><b>Top</b> side</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec-head" style="margin-top:18px"><div class="sec-num">04</div><div><div class="kicker">Your two tools</div><h2>Rotate &amp; Swap: How the Tools Work</h2></div></div>
+  <h3>⟳ Rotate: turns a tile 90° clockwise each time</h3>
+  <!--ROTATION-->
+  <p style="font-size:9pt;color:var(--muted)">One corner tile, rotated 0–3 times. Four taps bring it back to the start, so <b>never tap more than 3 times</b>.</p>
+  <table class="rot">
+    <thead><tr><th>Side now →</th><th>after 1 tap</th><th>after 2 taps</th><th>after 3 taps</th></tr></thead>
+    <tbody>
+      <tr><td>Up</td><td>Right</td><td>Down</td><td>Left</td></tr>
+      <tr><td>Right</td><td>Down</td><td>Left</td><td>Up</td></tr>
+      <tr><td>Down</td><td>Left</td><td>Up</td><td>Right</td></tr>
+      <tr><td>Left</td><td>Up</td><td>Right</td><td>Down</td></tr>
+    </tbody>
+  </table>
+  <div class="cards c2">
+    <div class="card"><h4 style="margin-top:0">Rotation can fix</h4><p style="margin:0;font-size:9pt">A tile that is the <b>right shape</b> but faces the <b>wrong way</b>, for example a corner that turns down when you need it to turn up.</p></div>
+    <div class="card"><h4 style="margin-top:0">Rotation can't fix</h4><p style="margin:0;font-size:9pt">A tile that is the <b>wrong shape</b>. No amount of rotating turns a straight into a corner. That's when you use <b>Swap</b>.</p></div>
+  </div>
+  <h3>⇄ Swap: exchanges two tiles</h3>
+  <p style="font-size:9.2pt">Select a tile on the route that has the wrong shape, and swap it with a tile of the <b>right shape</b> from somewhere the rocket never goes. Only swap with tiles that are <b>off the route</b>, or you'll break a part that already works.</p>
+</section>
+
+<!-- ================= 05 PLAY-THROUGH ================= -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">05</div><div><div class="kicker">See it in action</div><h2>Full Play-Through, Step by Step</h2></div></div>
+  <p class="lead">Here is one complete puzzle from start to finish. The rocket enters at <b>row C</b> on the left, and the planet is to the right of <b>A4</b>.</p>
+
+  <div class="stepcard">
+    <div class="shot"><!--S1--></div>
+    <div><h4><span class="no">1</span>Study the grid before touching anything</h4>
+      <p>Find the <b>start</b> (rocket, entering C1 from the left) and the <b>goal</b> (planet, right of A4).</p>
+      <p>Don't rotate anything yet. First understand where the rocket would go right now.</p></div>
+  </div>
+  <div class="stepcard">
+    <div class="shot"><!--S2--></div>
+    <div><h4><span class="no">2</span>Trace the current route until it breaks</h4>
+      <p>The rocket enters <b>C1</b> (straight, Left → Right) ✓ and moves into <b>C2</b>.</p>
+      <p><b>C2</b> is a corner that turns <b>down</b>, into D2. But D2 is a horizontal straight with no track on top, so the route <b>breaks at C2</b> ✗.</p>
+      <p>We need C2 to turn <b>up</b> towards B2 instead.</p></div>
+  </div>
+  <div class="stepcard">
+    <div class="shot"><!--S3--></div>
+    <div><h4><span class="no">3</span>Fix the earliest break: rotate C2 once</h4>
+      <p>C2 joins Left–Down. From the rotation table, 1 tap turns Left→Up and Down→Left, so it now joins <b>Left–Up</b> ✓.</p>
+      <p>Re-trace from the start: C1 → C2 → <b>B2</b> (vertical) → <b>A2</b> (corner, Down → Right) → <b>A3</b>…</p>
+      <p><b>A3</b> is a corner turning down into B3, which has no track on top. It's the <b>next break</b> ✗.</p></div>
+  </div>
+  <div class="stepcard">
+    <div class="shot"><!--S4--></div>
+    <div><h4><span class="no">4</span>Wrong shape? Swap it</h4>
+      <p>A3 needs to be a <b>horizontal straight</b> (Left → Right). It's a corner, and rotating a corner can never make a straight.</p>
+      <p><b>D3</b> is a horizontal straight that the rocket never uses, so <b>swap A3 ⇄ D3</b>.</p>
+      <p>Re-trace: C1 → C2 → B2 → A2 → A3 → A4 → planet ✓</p></div>
+  </div>
+  <div class="stepcard">
+    <div class="shot"><!--S5--></div>
+    <div><h4><span class="no">5</span>Verify the whole route, then press ✓ Check</h4>
+      <p>Trace one final time from the rocket to the planet, saying the moves to yourself: "<i>right, up, up, right, right, right</i>".</p>
+      <p>Only then press <b>✓ Check</b>. You'll see <b>"Valid route – well done!"</b>, then press <b>Continue</b> for the next puzzle.</p>
+      <p style="color:var(--muted)">Total changes: 1 rotation + 1 swap. Most real puzzles need just 1–3 changes like this.</p></div>
+  </div>
+</section>
+
+<!-- ================= 06 + 07 ================= -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">06</div><div><div class="kicker">The core technique</div><h2>The 6-Step Solving Method</h2></div></div>
+  <div class="cards c3">
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#4f46e5,#f97316)">1</div><div><h4>Study</h4><p>Find the start, the goal and the overall layout. Don't change anything yet.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#4f46e5,#f97316)">2</div><div><h4>Trace</h4><p>Follow the current route from the rocket, tile by tile, until it breaks, loops or leaves the grid.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#4f46e5,#f97316)">3</div><div><h4>Find the earliest break</h4><p>The <b>first</b> tile where things go wrong is your first fix. Later tiles don't matter yet.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#4f46e5,#f97316)">4</div><div><h4>Fix with minimum changes</h4><p>Right shape, wrong direction → <b>Rotate</b>. Wrong shape → <b>Swap</b> with an off-route tile.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#4f46e5,#f97316)">5</div><div><h4>Re-trace everything</h4><p>After <b>every</b> change, trace again from the rocket. One early change affects everything after it.</p></div></div>
+    <div class="rule"><div class="no" style="background:linear-gradient(135deg,#4f46e5,#f97316)">6</div><div><h4>Verify, then Check</h4><p>Press ✓ only when the full route is traced to the planet. Don't submit on a guess.</p></div></div>
+  </div>
+
+  <div class="sec-head" style="margin-top:20px"><div class="sec-num">07</div><div><div class="kicker">Think like a top scorer</div><h2>Pro Strategies</h2></div></div>
+  <div class="cards c2">
+    <div class="card"><h4 style="margin-top:0">🔁 Work backwards from the planet</h4><p style="margin:0;font-size:9pt">Ask: "Which tile must deliver the rocket into the planet, and from which side?" Trace backwards a few tiles. Solving from <b>both ends</b> and meeting in the middle is often fastest on long routes.</p></div>
+    <div class="card"><h4 style="margin-top:0">🥇 Earliest wrong tile first</h4><p style="margin:0;font-size:9pt">If the route breaks at tile 3 of 10, fix tile 3 first. The rocket never reaches tiles 4–10 on its current course, so they can't be judged yet.</p></div>
+    <div class="card"><h4 style="margin-top:0">🌀 Watch for loops</h4><p style="margin:0;font-size:9pt">If your trace comes back to a tile it already visited (for example right → down → left → up), the rocket is in a loop. Break the loop by changing one tile in it so it heads towards the planet.</p></div>
+    <div class="card"><h4 style="margin-top:0">🗣️ Say the directions to yourself</h4><p style="margin:0;font-size:9pt">"Right, right, up, up, right…". Saying each move catches tracing slips far better than silently scanning the grid.</p></div>
+    <div class="card"><h4 style="margin-top:0">🏷️ Name the tiles</h4><p style="margin:0;font-size:9pt">Think in coordinates (C1 → C2 → B2…). It stops you losing your place, especially on bigger grids.</p></div>
+    <div class="card"><h4 style="margin-top:0">↩️ Reset is your friend</h4><p style="margin:0;font-size:9pt">If you've made a mess, reset (if the version offers it) and re-trace calmly. Thirty seconds of re-checking beats losing the whole puzzle.</p></div>
+  </div>
+</section>
+
+<!-- ================= 08 WORKED (arrow model) ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">08</div><div><div class="kicker">Train the core skill</div><h2>Worked Example: Fix One Tile</h2></div></div>
+  <p class="lead">To practise <b>tracing</b> without the real app, we use simple <b>arrow grids</b>. Each tile has one arrow, and the rocket moves one tile in that direction. This is exactly the skill the real game tests: following a route without losing track, and spotting the first wrong tile.</p>
+  <div class="ba">
+    <div class="card"><h4 style="margin-top:0">Before: the route fails</h4><!--TEACH_BEFORE-->
+      <p style="font-size:8.8pt;margin:6px 0 0;text-align:left">Start <b><!--TEACH_START--></b>, planet <b><!--TEACH_TARGET--></b>. Trace: <span class="mono"><!--TEACH_BROKEN--></span>. The rocket <b><!--TEACH_BRES--></b>. The yellow tile is where it first goes wrong.</p></div>
+    <div class="card"><h4 style="margin-top:0">After: one tile changed</h4><!--TEACH_AFTER-->
+      <p style="font-size:8.8pt;margin:6px 0 0;text-align:left">Change <b><!--TEACH_CELL--></b> from <b><!--TEACH_BAD--></b> to <b><!--TEACH_GOOD--></b>. New route: <span class="mono"><!--TEACH_FIXED--></span> → planet ✓</p></div>
+  </div>
+  <div class="note tip"><span class="t">How we found it</span>
+    <ol style="margin:4px 0 0;padding-left:18px">
+      <li>We traced from S and marked every tile visited (green).</li>
+      <li>We also traced <b>backwards</b> from the planet: which tiles already have arrows flowing into it? That shows us the "good" part of the grid we need to reach.</li>
+      <li>We found the <b>first</b> tile on the rocket's route where pointing a different way joins that good part, then changed it and re-traced the <b>whole</b> route to confirm.</li>
+    </ol>
+  </div>
+
+  <div class="sec-head" style="margin-top:18px"><div class="sec-num">09</div><div><div class="kicker">Beat the clock</div><h2>Time Plan &amp; Common Mistakes</h2></div></div>
+  <div class="budget">
+    <div style="width:22%;background:#4f46e5">Study · 1 min</div>
+    <div style="width:30%;background:#6366f1">Trace &amp; plan · 1.5 min</div>
+    <div style="width:20%;background:#f97316">Apply · 1 min</div>
+    <div style="width:14%;background:#16a34a">Verify · 30s</div>
+    <div style="width:14%;background:#94a3b8">Buffer</div>
+  </div>
+  <p style="font-size:8.6pt;color:var(--muted);margin:0 0 10px">A rough plan for a puzzle of about 4–5 minutes. Keep an eye on the timer, and don't spend 4 minutes on the first break.</p>
+  <table>
+    <thead><tr><th style="width:44%">Mistake ✗</th><th>Fix ✓</th></tr></thead>
+    <tbody>
+      <tr><td>Rotating tiles randomly before understanding the route</td><td>Study and trace first. Change only tiles you've identified.</td></tr>
+      <tr><td>Fixing a later break before an earlier one</td><td>Always fix in the order the rocket meets them.</td></tr>
+      <tr><td>Not re-tracing after each change</td><td>Re-trace from the rocket after <b>every</b> rotate or swap.</td></tr>
+      <tr><td>Rotating a tile 4+ times</td><td>4 rotations = no change. Use the rotation table: you need at most 3.</td></tr>
+      <tr><td>Trying to rotate a straight into a corner</td><td>Wrong shape means swap it with an off-route tile of the right shape.</td></tr>
+      <tr><td>Swapping away a tile the route already uses</td><td>Only swap with tiles the rocket never touches.</td></tr>
+      <tr><td>Missing a loop</td><td>If you revisit a tile while tracing, it's a loop. Change one tile inside it.</td></tr>
+      <tr><td>Pressing ✓ on a guess</td><td>You have time. Verify the full route first.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 10 PRACTICE ================= -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">10</div><div><div class="kicker">Test yourself</div><h2>Practice: 12 Puzzles</h2></div></div>
+  <!--PRACTICE-->
+  <div class="note tip"><span class="t">How to practise</span>Give yourself <b>2 minutes per puzzle</b>. Write the route as coordinates (C2 → C3 → B3…) rather than just eyeballing it. This disciplined habit prevents tracing errors under real exam pressure.</div>
+</section>
+
+<!-- ================= 11 KEY ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">11</div><div><div class="kicker">Check your answers</div><h2>Answer Key</h2></div></div>
+  <p class="lead">Every route below was traced and verified by computer. In Set B, the listed fix is the <b>only</b> single-tile change that works.</p>
+  <!--KEY-->
+  <p style="font-size:9pt"><b>Scoring:</b> 11–12 correct means test-ready. 8–10 means good, so re-trace the ones you missed. Below 8, re-read Sections 5–7 and try again tomorrow.</p>
+</section>
+
+<!-- ================= 12 PLAN ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">12</div><div><div class="kicker">Get test-ready</div><h2>7-Day Plan &amp; Test-Day Checklist</h2></div></div>
+  <table>
+    <thead><tr><th style="width:11%">Day</th><th style="width:26%">Focus</th><th>What to do (about 30 minutes)</th></tr></thead>
+    <tbody>
+      <tr><td><b>Day 1</b></td><td>Understand the game</td><td>Read Sections 1–4. Learn the connection rule and the rotation table by heart.</td></tr>
+      <tr><td><b>Day 2</b></td><td>Play-through</td><td>Study Section 5. Redraw its grid on paper and solve it yourself without looking.</td></tr>
+      <tr><td><b>Day 3</b></td><td>Tracing</td><td>Do Set A (trace puzzles). Write every route as coordinates.</td></tr>
+      <tr><td><b>Day 4</b></td><td>Fixing</td><td>Do Set B (fix one tile). For each one, name the earliest wrong tile before you look for the fix.</td></tr>
+      <tr><td><b>Day 5</b></td><td>Speed</td><td>Redo Sets A and B with a 90-second limit per puzzle.</td></tr>
+      <tr><td><b>Day 6</b></td><td>Simulation</td><td>Use the live practice tool (or draw your own grids) for full-timed 3-puzzle rounds.</td></tr>
+      <tr><td><b>Day 7</b></td><td>Revise</td><td>Re-read Sections 6, 7 and 9. Rest well.</td></tr>
+    </tbody>
+  </table>
+  <h3>Test-Day Checklist</h3>
+  <div class="cards c2">
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>Read the instructions and confirm how Rotate and Swap work</li>
+      <li>Find the rocket (start) and planet (goal) first</li>
+      <li>Trace the current route before changing anything</li>
+      <li>Fix the earliest break first</li>
+    </ul></div>
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>Right shape but wrong way → Rotate (max 3 taps)</li>
+      <li>Wrong shape → Swap with an off-route tile</li>
+      <li>Re-trace the full route after every change</li>
+      <li>Press ✓ only after a complete, verified trace</li>
+    </ul></div>
+  </div>
+  <div class="note tip" style="margin-top:14px;border-color:#4f46e5;background:#eef0ff"><span class="t" style="color:#4f46e5">Remember</span>This game rewards <b>patience and system</b>, not speed. Trace, find the earliest break, make the smallest fix, and re-trace. Do that calmly on every puzzle and you'll clear Game 2.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only. It is not affiliated with, endorsed by, or an official document of Accenture. The game description is based on candidate experiences and screenshots, and the real game may differ. All illustrations are original drawings, and practice puzzles are original. Always check the latest details on the official Accenture careers portal.</p>
+</section>
+
+</body>
+</html>
