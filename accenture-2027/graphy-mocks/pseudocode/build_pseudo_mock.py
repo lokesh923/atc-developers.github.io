@@ -1,10 +1,11 @@
-"""Build Pseudocode Mock Test 1 in Graphy Word format.
+"""Build Pseudocode Mock Tests in Graphy Word format.
 
-Each question shows the original pseudocode as an image (img/qNN.jpg, cropped from
+Each question shows the original pseudocode as an image (img/m<N>/qNN.jpg, cropped from
 real exam photos). The question line, notes, options, answer and explanation are text.
-Every answer was checked by running the same logic in C.
+Output-type answers were checked by running the same logic in C or Python.
+No question appears in more than one mock.
 
-Usage: python3 build_pseudo_mock.py template8.docx Pseudocode-Mock-Test-1-Graphy.docx
+Usage: python3 build_pseudo_mock.py template8.docx <mock no> <out.docx>
 """
 import os
 import sys
@@ -23,7 +24,7 @@ N_AND = ("[Note - &&: Logical AND returns true (1) if both operands are true (no
 N_IF = "[Note - if(x) gets executed if the value inside if(), i.e. x, is not zero.]"
 
 # (question text, note, image width in inches, options, right option number, explanation, difficulty)
-QUESTIONS = [
+QUESTIONS_1 = [
     (OUT_Q, N_CONT, 3.2, ["10", "1", "8", "5"], 1,
      "m starts at 4. j=0: j>1 false, m=m+1=5. j=1: m=6. j=2: m=6+a[2]=8, then m=9. "
      "j=3: m=9+a[3]=10, then j>2 so Continue skips m=m+1. Output: 10.", "Medium"),
@@ -64,22 +65,77 @@ QUESTIONS = [
 ]
 
 
-def build(template, out):
+N_STRLEN = ("[Note - stringLength(): the stringLength() function counts the number of characters in a "
+            "given string and returns the integer value.]")
+
+QUESTIONS_2 = [
+    ("What would be the output of the given pseudocode?", "", 5.5, ["8", "7", "2", "9"], 4,
+     "Both loops run from 1 to 1, so the inner body runs exactly once. It prints k + 1 = 8 + 1 = 9. "
+     "(k itself is not changed.)", "Easy"),
+    (OUT_Q, "", 5.5, ["46", "23", "43", "45"], 4,
+     "Each pass adds 2*a[j] + 6. j=0: 1+2+6 = 9. j=1: 9+4+6 = 19. j=2: 19+6+6 = 31. j=3: 31+8+6 = 45. "
+     "Output: 45.", "Medium"),
+    (OUT_Q, N_STRLEN, 5.5, ["8", "6", "7", "4"], 1,
+     "The loop runs twice (a = 1, 2), adding \"mm\" each time: \"momo\" -> \"momomm\" -> \"momommmm\". "
+     "Its length is 4 + 2 + 2 = 8.", "Easy"),
+    ("Choose the correct output for the given pseudocode. What does the given code output when N is 4?", "",
+     5.0, ["2, 1, 3, 4", "2, 1, 3, 4, 7", "2, 1, 3, 4, 7, 11", "2, 1, 3, 4, 7, 11, 18"], 2,
+     "It prints A, B = 2, 1 first. COUNT=2: S=3, then A,B=1,3. COUNT=3: S=4, then A,B=3,4. COUNT=4: S=7. "
+     "COUNT becomes 5 > N, so the loop stops. Output: 2, 1, 3, 4, 7 (the Lucas series).", "Medium"),
+    ("What will be the output printed by the given pseudocode? Analyze the pseudocode and select the correct "
+     "option.", "", 4.5,
+     ["The result is: 6", "The result is: 12", "The result is: 48", "The result is: 24"], 3,
+     "total starts at 1. i=1: total = 1 * 2 = 2. i=2: total = 2 * 4 = 8. i=3: total = 8 * 6 = 48. "
+     "The function returns 48, so it prints The result is: 48.", "Easy"),
+    ("Consider the below code. What will be printed?", "", 4.5, ["3", "6", "9", "12"], 3,
+     "value = 3 is greater than 0, so square returns 3 * 3 = 9. It prints Square: 9.", "Easy"),
+    ("Determine the output of the following pseudocode?", "", 5.5, ["2 3", "7 11", "5 8", "Compilation Error"],
+     4,
+     "The program calls calculateSum(), but no function with that name is defined (only fun() is). It also "
+     "stores an array (pointer) result in an integer k. So the code does not compile: Compilation Error.",
+     "Hard"),
+    ("What is the purpose of the below pseudocode?", "", 5.5,
+     ["Recursive implementation of Binary Sort", "Recursive implementation of Insertion Sort",
+      "Recursive implementation of Bubble Sort", "Recursive implementation of Selection Sort"], 4,
+     "mI() finds the index of the smallest element between s and e. newF() swaps that minimum into "
+     "position si, then calls itself for si+1. Picking the minimum and placing it at the front each round "
+     "is selection sort, done recursively.", "Medium"),
+    ("Consider the following pseudocode. What will be printed when the above pseudocode is executed?", "", 5.5,
+     ["10, 20, 10", "20, 10, 20", "20, 20, 20", "10, 10, 20"], 3,
+     "p1 holds the address of num1. p2 gets the value of p1, which is the same address, so p2 also points "
+     "to num1. Setting the value pointed to by p2 to 20 changes num1 to 20. num1, *p1 and *p2 all read "
+     "the same memory: 20, 20, 20.", "Medium"),
+    ("Consider the following code implementing the Union-Find data structure. What does the Union procedure "
+     "do in the Union-Find data structure?", "", 5.5,
+     ["Initializes the array arr with values from 0 to n-1",
+      "Merges the two sets represented by elements A and B",
+      "Finds the root of a given element in the Union-Find structure",
+      "Checks if two elements A and B are connected"], 2,
+     "Union finds the root of A and makes it point to the root of B (arr[root(A)] = root(B)). That joins "
+     "the two trees into one, so it merges the sets of A and B. MakeSet initializes, FindRoot finds roots, "
+     "and checking connectivity would compare the two roots.", "Medium"),
+]
+
+MOCKS = {1: QUESTIONS_1, 2: QUESTIONS_2}
+
+
+def build(template, mock_no, out):
     d = docx.Document(template)
     body = d.element.body
     sect = body.find(docx.oxml.ns.qn("w:sectPr"))
     for el in list(body):
         if el is not sect:
             body.remove(el)
-    tags = "accenture, technical assessment, pseudocode, mock test 1"
-    for n, (text, note, width, opts, right, expl, diff) in enumerate(QUESTIONS, 1):
+    tags = f"accenture, technical assessment, pseudocode, mock test {mock_no}"
+    qs = MOCKS[mock_no]
+    for n, (text, note, width, opts, right, expl, diff) in enumerate(qs, 1):
         for line in ["{QUESTION BEGINS}", f"{{QUESTION NUMBER}} {n}", f"{{SUBJECT}} {SUBJECT}",
                      f"{{TOPIC}} {TOPIC}", f"{{TAGS}} {tags}, {diff.lower()}", "{QUESTION TYPE} SINGLECORRECT"]:
             d.add_paragraph(line)
         p = d.add_paragraph(f"{{QUESTION TEXT}} {text}")
         r = p.add_run()
         r.add_break()
-        r.add_picture(os.path.join(HERE, "img", f"q{n:02d}.jpg"), width=Inches(width))
+        r.add_picture(os.path.join(HERE, "img", f"m{mock_no}", f"q{n:02d}.jpg"), width=Inches(width))
         if note:
             p.add_run().add_break()
             p.add_run(note)
@@ -90,8 +146,8 @@ def build(template, out):
                      "{NEGATIVE MARKS} 0", f"{{DIFFICULTY}} {diff}", "{QUESTION ENDS}", "", ""]:
             d.add_paragraph(line)
     d.save(out)
-    return len(QUESTIONS)
+    return len(qs)
 
 
 if __name__ == "__main__":
-    print("wrote", build(sys.argv[1], sys.argv[2]), "questions to", sys.argv[2])
+    print("wrote", build(sys.argv[1], int(sys.argv[2]), sys.argv[3]), "questions to", sys.argv[3])
