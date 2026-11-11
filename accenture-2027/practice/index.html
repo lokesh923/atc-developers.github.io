@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Behavioural Assessment – Live Practice Test</title>
+<style>
+:root{
+  --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889; --line:#e6e4f0; --bg:#f6f5fb; --card:#fff; --alt:#f8f7fc;
+  --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff;
+  --teal:#0e9f8a; --teal-soft:#e2f7f3; --amber:#c77700; --amber-soft:#fff4dd; --rose:#d63a5a; --rose-soft:#ffe8ee; --sky:#2563eb; --sky-soft:#e6efff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:15px;min-height:100vh}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 48px}
+
+/* header band */
+.hero{background:radial-gradient(110% 80% at 100% 0%,#14b8a6 0%,transparent 55%),radial-gradient(90% 70% at 0% 100%,#7c4dff 0%,transparent 52%),linear-gradient(160deg,#0f1b3d 0%,#1e1a5e 55%,#120f33 100%);color:#fff;border-radius:22px;padding:34px 30px;position:relative;overflow:hidden}
+.hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
+.hero h1{font-size:34px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em}
+.hero h1 span{color:#7ff0dc}
+.hero p{opacity:.85;margin:0;max-width:640px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-size:24px}
+.stat span{font-size:12px;opacity:.8}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:16px}
+h2{font-size:20px;margin:0 0 10px;letter-spacing:-.01em}
+h3{font-size:16px;margin:18px 0 8px}
+ul{padding-left:20px;margin:6px 0} li{margin:4px 0} li::marker{color:var(--brand)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.note{border-left:4px solid var(--amber);background:var(--amber-soft);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:14px}
+.note.tip{border-color:var(--teal);background:var(--teal-soft)}
+.note b.t{display:block;margin-bottom:2px}
+.scale-demo{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}
+.scale-demo div{background:var(--alt);border:1px solid var(--line);border-radius:10px;text-align:center;padding:8px 4px;font-size:12px;font-weight:600}
+.scale-demo div b{display:block;color:var(--brand);font-size:16px}
+.kbd{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;padding:1px 7px;border-radius:6px;background:#fff;border:1px solid var(--line);border-bottom-width:2px}
+input[type=text]{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);font:inherit;background:#fff}
+input[type=text]:focus{outline:2px solid var(--brand-2);border-color:transparent}
+.btn{border:0;border-radius:12px;padding:13px 22px;font-weight:700;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 6px 18px rgba(91,43,224,.25)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand-soft);box-shadow:none}
+.btn.big{font-size:17px;padding:15px 30px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--brand)}
+
+/* test screen */
+.topbar{position:sticky;top:0;z-index:5;background:rgba(246,245,251,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .in{max-width:960px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px}
+.topbar .ttl{font-weight:700;font-size:14px}
+.topbar .ttl small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.timer{margin-left:auto;display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums;font-weight:800;font-size:22px;padding:6px 14px;border-radius:12px;background:#fff;border:1px solid var(--line)}
+.timer.warn{color:var(--amber);border-color:#f5d48f;background:var(--amber-soft)}
+.timer.crit{color:var(--rose);border-color:#f5b3c2;background:var(--rose-soft);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.6}}
+.timer svg{width:18px;height:18px}
+.prog{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:18px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--teal));width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:8px}
+.pace{font-weight:700}
+.pace.ok{color:var(--teal)} .pace.slow{color:var(--amber)}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 30px;margin-top:18px;box-shadow:0 10px 30px rgba(20,18,43,.05)}
+.qno{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}
+.qtext{font-size:23px;font-weight:650;line-height:1.4;margin:10px 0 26px;letter-spacing:-.01em;min-height:64px}
+.opts{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.opt{background:var(--alt);border:2px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center;font-weight:650;font-size:13.5px;color:var(--ink-2);transition:all .15s}
+.opt b{display:grid;place-items:center;width:34px;height:34px;margin:0 auto 8px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:14px;color:var(--muted)}
+.opt:hover{border-color:var(--brand-2);background:#fff}
+.opt.sel{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
+.opt.sel b{background:var(--brand);color:#fff;border-color:var(--brand)}
+.qfoot{display:flex;align-items:center;justify-content:space-between;margin-top:26px;gap:12px;flex-wrap:wrap}
+.hint{font-size:12.5px;color:var(--muted)}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:18px}
+.dots i{width:14px;height:14px;border-radius:4px;background:var(--line)}
+.dots i.d{background:var(--teal)} .dots i.c{background:var(--brand);outline:2px solid var(--brand-soft)}
+
+/* results */
+.scorehead{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.sc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.sc .l{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sc .v{font-size:30px;font-weight:800;margin-top:2px}
+.sc .s{font-size:12.5px;color:var(--muted)}
+.ring{display:flex;gap:22px;align-items:center}
+.verdict{font-size:22px;font-weight:800}
+.bars .b{display:grid;grid-template-columns:190px 1fr 50px;gap:12px;align-items:center;margin:9px 0;font-size:14px}
+.bars .track{height:12px;background:var(--line);border-radius:99px;overflow:hidden}
+.bars .track i{display:block;height:100%;border-radius:99px}
+.bars .pct{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.flag{display:flex;gap:12px;padding:12px 14px;border-radius:12px;margin:8px 0;font-size:14px;border:1px solid var(--line)}
+.flag .ic{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
+.flag.good .ic{background:var(--teal)} .flag.warn .ic{background:var(--amber)} .flag.bad .ic{background:var(--rose)}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th{background:var(--ink);color:#fff;text-align:left;padding:10px 12px;font-size:12.5px;font-weight:650}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:var(--alt)}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.p-best{background:var(--teal-soft);color:#0b6e60} .p-ok{background:var(--sky-soft);color:var(--sky)} .p-miss{background:var(--rose-soft);color:var(--rose)} .p-none{background:var(--line);color:var(--muted)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.why{color:var(--muted);font-size:12.5px}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:28px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(20,18,43,.55);display:grid;place-items:center;z-index:20;padding:16px}
+.modal .box{background:#fff;border-radius:18px;padding:26px;max-width:440px;width:100%;text-align:center}
+.modal h2{margin-bottom:6px}
+
+@media (max-width:720px){
+  .hero{padding:26px 20px}.hero h1{font-size:27px}
+  .stats,.scorehead{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .qcard{padding:24px 18px}.qtext{font-size:19px}
+  .opts{grid-template-columns:1fr;gap:8px}
+  .opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px}
+  .opt b{margin:0}
+  .bars .b{grid-template-columns:120px 1fr 44px;font-size:13px}
+  .timer{font-size:18px}
+  .topbar .ttl small{display:none}
+  .hide-sm{display:none}
+}
+@media print{
+  .topbar,.no-print{display:none!important} body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ START SCREEN ============ -->
+<div id="start" class="wrap">
+  <div class="hero">
+    <span class="tag">Accenture 2026–2027 Hiring · Assessment 1 · Part A</span>
+    <h1>Behavioural Assessment<br><span>Live Practice Test</span></h1>
+    <p>A full-length mock built on the same pattern as the real psychometric round, with 54 statements, a 20-minute timer and the same 5-point agree/disagree scale. You get a detailed profile report at the end.</p>
+    <div class="stats">
+      <div class="stat"><b>54</b><span>Statements</span></div>
+      <div class="stat"><b>20:00</b><span>Minute timer</span></div>
+      <div class="stat"><b>~22s</b><span>Per statement</span></div>
+      <div class="stat"><b>New set</b><span>Every attempt</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Instructions</h2>
+    <div class="grid2">
+      <div>
+        <ul>
+          <li>You will see <b>54 statements</b>, one at a time.</li>
+          <li>For each one, choose how much it describes you on the 5-point scale.</li>
+          <li>You have <b>20 minutes in total</b>. The timer starts as soon as you click Start.</li>
+          <li>Like the real test, <b>you cannot go back</b> to change an answer.</li>
+          <li>When time runs out, the test submits automatically, and unanswered items count against you.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="scale-demo">
+          <div><b>1</b>Strongly Disagree</div><div><b>2</b>Disagree</div><div><b>3</b>Neutral</div><div><b>4</b>Agree</div><div><b>5</b>Strongly Agree</div>
+        </div>
+        <p style="font-size:13.5px;color:var(--muted);margin:6px 0 0">Keyboard: press <span class="kbd">1</span>–<span class="kbd">5</span> to choose and <span class="kbd">Enter</span> for the next question.</p>
+      </div>
+    </div>
+    <div class="note tip"><b class="t">Before you start</b>Answer as your <b>best professional self</b>. Read every word, because "not", "rarely" and "avoid" flip the meaning. Stay consistent, and be careful with "never" or "always" claims of perfect behaviour.</div>
+
+    <h3>Your name (optional, shown on your report)</h3>
+    <input type="text" id="cname" maxlength="60" placeholder="e.g. Priya Sharma">
+    <label class="check"><input type="checkbox" id="agree"> I am in a quiet place and ready to give this test for 20 minutes without a break.</label>
+    <div class="row" style="margin-top:18px">
+      <button class="btn big" id="startBtn" disabled>Start Test →</button>
+      <span id="attemptInfo" class="hint"></span>
+    </div>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Statements are original practice items, not real test questions.</p>
+</div>
+
+<!-- ============ TEST SCREEN ============ -->
+<div id="test" class="hidden">
+  <div class="topbar"><div class="in">
+    <div class="ttl">Behavioural Assessment<small>Practice Test · 54 statements</small></div>
+    <div class="timer" id="timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg><span id="tval">20:00</span></div>
+  </div></div>
+  <div class="wrap" style="padding-top:8px">
+    <div class="prog"><i id="pbar"></i></div>
+    <div class="meta"><span id="pcount">0 of 54 answered</span><span class="pace" id="pace"></span></div>
+    <div class="qcard">
+      <div class="qno" id="qno">Statement 1 of 54</div>
+      <div class="qtext" id="qtext"></div>
+      <div class="opts" id="opts"></div>
+      <div class="qfoot">
+        <span class="hint hide-sm">Tip: read the whole statement before you answer. You can't go back.</span>
+        <button class="btn" id="nextBtn" disabled>Next →</button>
+      </div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+</div>
+
+<!-- ============ RESULTS ============ -->
+<div id="result" class="wrap hidden">
+  <div class="hero">
+    <span class="tag" id="rTag">Practice Report</span>
+    <h1 id="rTitle">Your Behavioural Profile</h1>
+    <p id="rSub"></p>
+  </div>
+
+  <div class="scorehead">
+    <div class="sc"><div class="l">Profile match</div><div class="v" id="sMatch">–</div><div class="s">vs ideal workplace profile</div></div>
+    <div class="sc"><div class="l">Consistency</div><div class="v" id="sCons">–</div><div class="s">same trait, same stand</div></div>
+    <div class="sc"><div class="l">Answered</div><div class="v" id="sAns">–</div><div class="s">out of 54</div></div>
+    <div class="sc"><div class="l">Time taken</div><div class="v" id="sTime">–</div><div class="s">of 20:00 allowed</div></div>
+  </div>
+
+  <div class="card">
+    <div class="ring">
+      <div>
+        <div class="l" style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Overall readiness</div>
+        <div class="verdict" id="verdict">–</div>
+        <div id="verdictTxt" style="color:var(--ink-2);font-size:14.5px;margin-top:4px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Trait-wise Profile</h2>
+    <p class="hint" style="margin-top:-4px">How closely your answers match the ideal workplace profile for each trait.</p>
+    <div class="bars" id="bars"></div>
+  </div>
+
+  <div class="card">
+    <h2>Response Style Check</h2>
+    <p class="hint" style="margin-top:-4px">These patterns are what psychometric tests look for beyond your individual answers.</p>
+    <div id="flags"></div>
+  </div>
+
+  <div class="card">
+    <h2>Answer Review</h2>
+    <div class="filters no-print" id="filters">
+      <button data-f="all" class="on">All</button>
+      <button data-f="miss">Needs work</button>
+      <button data-f="ok">Acceptable</button>
+      <button data-f="best">Best</button>
+    </div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>#</th><th>Statement</th><th>Your answer</th><th>Recommended</th><th>Result</th></tr></thead>
+      <tbody id="review"></tbody>
+    </table></div>
+  </div>
+
+  <div class="row no-print" style="margin-top:18px">
+    <button class="btn big" id="retakeBtn">Take a New Test ↻</button>
+    <button class="btn ghost" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Scores are for practice guidance only.</p>
+</div>
+
+<!-- confirm modal -->
+<div class="modal hidden" id="modal"><div class="box">
+  <h2 id="mTitle">Time's up!</h2>
+  <p id="mText" style="color:var(--ink-2)">Your test has been submitted automatically.</p>
+  <button class="btn" id="mBtn">View my report</button>
+</div></div>
+
+<script>
+/* =====================================================================
+   SCORM 1.2 wrapper. Runs standalone too: if no LMS API is found,
+   everything still works and nothing is reported.
+   ===================================================================== */
+var SCORM=(function(){
+  var api=null,started=false;
+  function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  try{api=find(window)||(window.opener?find(window.opener):null);}catch(e){api=null;}
+  function set(k,v){if(api&&started){try{api.LMSSetValue(k,String(v));}catch(e){}}}
+  function get(k){if(api&&started){try{return api.LMSGetValue(k);}catch(e){}}return "";}
+  return{
+    init:function(){if(api){try{var r=api.LMSInitialize("");started=(r===true||r==="true");}catch(e){started=false;}if(!started)return;var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");try{api.LMSCommit("");}catch(e){}}},
+    name:function(){var n=get("cmi.core.student_name");if(!n)return"";var p=n.split(",");return p.length>1?(p[1].trim()+" "+p[0].trim()):n;},
+    report:function(score,secs){if(!api)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      var h=Math.floor(secs/3600),m=Math.floor(secs%3600/60),s=secs%60;function p(x){return(x<10?"0":"")+x;}
+      set("cmi.core.session_time",p(h)+":"+p(m)+":"+p(s));set("cmi.core.lesson_status","completed");try{api.LMSCommit("");}catch(e){}},
+    finish:function(){if(api&&started){try{api.LMSCommit("");api.LMSFinish("");}catch(e){}started=false;}},
+    active:function(){return!!api;}
+  };
+})();
+
+/* =====================================================================
+   ITEM BANK. 8 traits × 12 items (6 positive, 6 reversed) + 12 honesty checks.
+   Format: [text, direction(+1 positive / -1 reversed), core(1 = core value)]
+   ===================================================================== */
+var TRAITS={
+ T:{name:"Teamwork & Collaboration",color:"#5b2be0",items:[
+  ["I enjoy working as part of a team.",1,1],["I respect opinions that are different from mine.",1,1],
+  ["I like helping teammates even when it is not my task.",1,0],["When my team succeeds, I feel it is my success too.",1,0],
+  ["I share credit with the people who helped me.",1,1],["I enjoy working with people from different backgrounds.",1,0],
+  ["I prefer to complete tasks alone rather than with others.",-1,0],["Taking credit for a teammate's idea is fine if it helps my career.",-1,1],
+  ["Group discussions usually waste my time.",-1,0],["I find it hard to trust my teammates with important work.",-1,0],
+  ["I get irritated when others do not work the way I do.",-1,0],["I avoid helping others because it slows down my own work.",-1,0]]},
+ A:{name:"Adaptability",color:"#0e9f8a",items:[
+  ["I adjust quickly to new situations.",1,0],["I can work effectively even when instructions are unclear.",1,0],
+  ["I am willing to relocate for work if needed.",1,1],["Change brings new opportunities to learn.",1,0],
+  ["I am comfortable when my priorities change at short notice.",1,0],["I can work well with people whose style is different from mine.",1,0],
+  ["I feel uncomfortable when my work plan changes suddenly.",-1,0],["I prefer sticking to methods that have always worked.",-1,0],
+  ["I need a fixed routine to perform well.",-1,0],["I find it difficult to adjust to new teams.",-1,0],
+  ["I get stressed when a new tool replaces one I know well.",-1,0],["I resist changes that I did not suggest myself.",-1,0]]},
+ I:{name:"Integrity & Ethics",color:"#d63a5a",items:[
+  ["When I make a mistake, I inform my lead immediately.",1,1],["I would report a mistake even if no one else noticed it.",1,1],
+  ["Honesty matters more to me than results.",1,1],["I follow company policies even when no one is watching.",1,1],
+  ["I keep confidential information private.",1,1],["I would report a colleague's unethical behaviour.",1,1],
+  ["It is acceptable to bend the rules if it helps finish work faster.",-1,1],["Small shortcuts are fine if the final result is good.",-1,1],
+  ["If no one checks my work, I do not need to be careful.",-1,1],["Sharing company data with a friend is fine if it is just for reference.",-1,1],
+  ["It is okay to exaggerate my work to impress my manager.",-1,1],["Hiding a small error is better than delaying the project.",-1,1]]},
+ O:{name:"Ownership & Dependability",color:"#c77700",items:[
+  ["Once I start something, I finish it.",1,1],["When I commit to a deadline, I make sure I meet it.",1,1],
+  ["I like taking responsibility for important tasks.",1,0],["I follow up on my work until it is complete.",1,0],
+  ["I take full responsibility for the results of my tasks.",1,1],["I plan my day before I start working.",1,0],
+  ["I often put off difficult tasks until the last minute.",-1,0],["If a task fails, it is usually because of others.",-1,1],
+  ["I rarely finish my tasks before the deadline.",-1,0],["I wait for someone to remind me before I start my work.",-1,0],
+  ["I leave tasks half done when they become boring.",-1,0],["I do only what is assigned to me and nothing more.",-1,0]]},
+ L:{name:"Learning Agility",color:"#2563eb",items:[
+  ["I enjoy learning new tools and technologies.",1,1],["I learn new skills on my own without being told.",1,0],
+  ["I see feedback as an opportunity to grow.",1,1],["I enjoy solving difficult problems.",1,0],
+  ["I ask questions when I do not understand something.",1,0],["I set personal goals and track my progress.",1,0],
+  ["I only like doing work that I already know well.",-1,0],["Learning new technologies feels like a burden to me.",-1,0],
+  ["Once I finish college, I will not need to study much.",-1,0],["I avoid tasks where I might need to learn something new.",-1,0],
+  ["I lose interest quickly when a topic is difficult.",-1,0],["I rarely read about new developments in my field.",-1,0]]},
+ R:{name:"Resilience & Calmness",color:"#8b5cf6",items:[
+  ["I stay calm when working under tight deadlines.",1,0],["I think clearly in stressful situations.",1,0],
+  ["I recover quickly after a setback.",1,0],["I can handle criticism without taking it personally.",1,0],
+  ["Pressure helps me focus on what matters.",1,0],["I stay positive even when things do not go as planned.",1,0],
+  ["Criticism of my work upsets me for a long time.",-1,0],["I lose my temper easily when things go wrong.",-1,1],
+  ["I panic when many things go wrong at once.",-1,0],["I worry a lot about things that may go wrong.",-1,0],
+  ["I give up when a problem takes too long to solve.",-1,0],["Small problems often spoil my whole day.",-1,0]]},
+ Q:{name:"Quality & Client Focus",color:"#0891b2",items:[
+  ["I double-check my work before submitting it.",1,1],["I pay close attention to small details.",1,0],
+  ["I think about how my work affects the end user.",1,0],["I test my work properly before calling it done.",1,1],
+  ["I keep my work organised so that others can understand it.",1,0],["I aim to deliver work I would be proud to show a client.",1,0],
+  ["I submit work quickly even if I have not checked it.",-1,0],["Small details do not matter as long as the work runs.",-1,0],
+  ["I do not review my work once it seems to work.",-1,0],["Client complaints are not my concern if I followed instructions.",-1,0],
+  ["I often have to redo work because of careless errors.",-1,0],["Speed matters more to me than accuracy.",-1,0]]},
+ C:{name:"Communication & Initiative",color:"#db2777",items:[
+  ["If I am stuck, I ask for help instead of wasting time.",1,0],["I speak up in meetings when I have a useful idea.",1,0],
+  ["I keep my lead informed about my progress.",1,0],["I find it easy to start conversations with new people.",1,0],
+  ["I suggest improvements when I see a better way of doing things.",1,0],["I can explain technical ideas in simple words.",1,0],
+  ["I keep my problems to myself rather than ask for help.",-1,0],["I wait to be told what to do next.",-1,0],
+  ["I always agree with my seniors, even when I think they are wrong.",-1,0],["I avoid giving updates unless someone asks for them.",-1,0],
+  ["I hesitate to share my ideas in a group.",-1,0],["I find it hard to disagree with someone politely.",-1,0]]}
+};
+/* Honesty checks. type "lie" = too-perfect claim (best: Disagree); type "norm" = normal human admission (best: Agree) */
+var HONESTY=[
+ ["I have never told even a small lie.","lie"],["I have never made a mistake at work or in college.","lie"],
+ ["I always like everyone I meet.","lie"],["I have never felt angry at anyone.","lie"],
+ ["I have never been late for anything in my life.","lie"],["I get along with every single person I have ever met.","lie"],
+ ["I have never felt bored during any task.","lie"],["I always finish every task perfectly the first time.","lie"],
+ ["I sometimes feel nervous before important presentations.","norm"],["Sometimes I need a short break to stay focused.","norm"],
+ ["I occasionally feel tired after a long, busy day.","norm"],["At times, I find some tasks less interesting than others.","norm"]
+];
+var LABELS=["","Strongly Disagree","Disagree","Neutral","Agree","Strongly Agree"];
+var SHORT=["","SD","D","N","A","SA"];
+var TOTAL_TIME=20*60, NQ=54;
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function pick(arr,n){return shuffle(arr.slice()).slice(0,n);}
+
+/* best/ok answers for an item */
+function keyFor(it){
+  if(it.type==="lie")return{best:2,ok:3};
+  if(it.type==="norm")return{best:4,ok:3};
+  if(it.dir>0)return it.core?{best:5,ok:4}:{best:4,ok:5};
+  return it.core?{best:1,ok:2}:{best:2,ok:1};
+}
+function why(it){
+  if(it.type==="lie")return"Honesty check: a 'too perfect' claim no real person can make. Disagree.";
+  if(it.type==="norm")return"Honesty check: a normal human feeling. Agreeing makes your profile believable.";
+  var t=TRAITS[it.trait].name;
+  if(it.dir>0)return t+": positive statement"+(it.core?", core value, so Strongly Agree.":". Agree (Strongly is also fine).");
+  return t+": reversed statement"+(it.core?", core value, so Strongly Disagree.":". Disagree (Strongly is also fine).");
+}
+
+/* Build a balanced 54-item test: 6 per trait (3 positive + 3 reversed) + 6 honesty (4 lie + 2 norm) */
+function buildTest(){
+  var list=[];
+  Object.keys(TRAITS).forEach(function(k){
+    var items=TRAITS[k].items.map(function(x){return{text:x[0],dir:x[1],core:x[2],trait:k,type:"trait"};});
+    var pos=items.filter(function(i){return i.dir>0;}),neg=items.filter(function(i){return i.dir<0;});
+    list=list.concat(pick(pos,3),pick(neg,3));
+  });
+  var lies=HONESTY.filter(function(h){return h[1]==="lie";}),norms=HONESTY.filter(function(h){return h[1]==="norm";});
+  pick(lies,4).concat(pick(norms,2)).forEach(function(h){list.push({text:h[0],dir:h[1]==="lie"?-1:1,core:0,trait:"H",type:h[1]});});
+  // shuffle but keep items of the same trait spread out (no two adjacent where possible)
+  for(var tries=0;tries<200;tries++){
+    shuffle(list);var ok=true;
+    for(var i=1;i<list.length;i++){if(list[i].trait===list[i-1].trait){ok=false;break;}}
+    if(ok)break;
+  }
+  return list;
+}
+
+/* ===================== STATE ===================== */
+var Q=[],ans=[],cur=0,left=TOTAL_TIME,tick=null,startedAt=0,finished=false,attempts=0,cname="";
+try{attempts=parseInt(localStorage.getItem("bhv_attempts")||"0",10)||0;}catch(e){}
+var $=function(id){return document.getElementById(id);};
+
+SCORM.init();
+(function(){var n=SCORM.name();if(n)$("cname").value=n;})();
+if(attempts>0)$("attemptInfo").textContent="Attempts on this device: "+attempts+". Each attempt is a new set of statements.";
+$("agree").addEventListener("change",function(){$("startBtn").disabled=!this.checked;});
+$("startBtn").addEventListener("click",start);
+$("nextBtn").addEventListener("click",next);
+$("retakeBtn").addEventListener("click",function(){$("result").classList.add("hidden");$("start").classList.remove("hidden");$("agree").checked=false;$("startBtn").disabled=true;window.scrollTo(0,0);});
+$("mBtn").addEventListener("click",function(){$("modal").classList.add("hidden");});
+
+function start(){
+  cname=$("cname").value.trim();
+  Q=buildTest();ans=new Array(NQ).fill(0);cur=0;left=TOTAL_TIME;finished=false;startedAt=Date.now();
+  $("start").classList.add("hidden");$("test").classList.remove("hidden");
+  var d=$("dots");d.innerHTML="";for(var i=0;i<NQ;i++)d.appendChild(document.createElement("i"));
+  render();updateTimer();
+  tick=setInterval(function(){
+    left=TOTAL_TIME-Math.floor((Date.now()-startedAt)/1000);
+    if(left<=0){left=0;updateTimer();finish(true);return;}
+    updateTimer();
+  },250);
+  window.scrollTo(0,0);
+}
+function render(){
+  var it=Q[cur];
+  $("qno").textContent="Statement "+(cur+1)+" of "+NQ;
+  $("qtext").textContent=it.text;
+  var o=$("opts");o.innerHTML="";
+  for(var v=1;v<=5;v++){
+    var b=document.createElement("button");b.className="opt"+(ans[cur]===v?" sel":"");b.dataset.v=v;
+    b.innerHTML="<b>"+v+"</b>"+LABELS[v];
+    b.addEventListener("click",function(){choose(+this.dataset.v);});
+    o.appendChild(b);
+  }
+  $("nextBtn").disabled=!ans[cur];
+  $("nextBtn").textContent=cur===NQ-1?"Submit Test ✓":"Next →";
+  var done=ans.filter(Boolean).length;
+  $("pcount").textContent=done+" of "+NQ+" answered";
+  $("pbar").style.width=(done/NQ*100)+"%";
+  var dots=$("dots").children;for(var i=0;i<NQ;i++)dots[i].className=ans[i]?"d":(i===cur?"c":"");
+}
+function choose(v){ans[cur]=v;render();}
+function next(){
+  if(!ans[cur]||finished)return;
+  if(cur<NQ-1){cur++;render();window.scrollTo({top:0,behavior:"smooth"});}
+  else finish(false);
+}
+function updateTimer(){
+  var m=Math.floor(left/60),s=left%60;$("tval").textContent=(m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+  var t=$("timer");t.className="timer"+(left<=60?" crit":left<=300?" warn":"");
+  // pace: expected answered = elapsed / (TOTAL_TIME/NQ)
+  var elapsed=TOTAL_TIME-left,expected=Math.floor(elapsed/(TOTAL_TIME/NQ)),done=ans.filter(Boolean).length,p=$("pace");
+  if(elapsed<20){p.textContent="";return;}
+  if(done>=expected){p.className="pace ok";p.textContent="✓ On pace";}else{p.className="pace slow";p.textContent="⚠ Behind pace by "+(expected-done);}
+}
+document.addEventListener("keydown",function(e){
+  if($("test").classList.contains("hidden")||finished)return;
+  if(e.key>="1"&&e.key<="5"){choose(+e.key);}
+  else if(e.key==="Enter"){e.preventDefault();next();}
+});
+window.addEventListener("beforeunload",function(e){if(!$("test").classList.contains("hidden")&&!finished){e.preventDefault();e.returnValue="";}});
+window.addEventListener("unload",function(){SCORM.finish();});
+
+/* ===================== SCORING ===================== */
+function finish(timeout){
+  if(finished)return;finished=true;clearInterval(tick);
+  var used=Math.min(TOTAL_TIME,Math.round((Date.now()-startedAt)/1000));
+  attempts++;try{localStorage.setItem("bhv_attempts",String(attempts));}catch(e){}
+  var R=score(used);
+  SCORM.report(R.overall,used);
+  showResult(R,used);
+  if(timeout){$("mTitle").textContent="Time's up!";$("mText").textContent="Your test was submitted automatically. You answered "+R.answered+" of "+NQ+" statements.";$("modal").classList.remove("hidden");}
+}
+function score(used){
+  var pts=0,max=0,trait={},answered=0,extreme=0,neutral=0,strongly=0,lieFlags=0,normFlags=0,res=[];
+  Object.keys(TRAITS).forEach(function(k){trait[k]={p:0,m:0,norm:[]};});
+  Q.forEach(function(it,i){
+    var a=ans[i],k=keyFor(it),r;
+    if(a)answered++;
+    if(a===1||a===5)extreme++;
+    if(a===3)neutral++;
+    var p=a===k.best?2:(a===k.ok?1:0);
+    r=!a?"none":(p===2?"best":(p===1?"ok":"miss"));
+    pts+=p;max+=2;
+    if(it.type==="trait"){trait[it.trait].p+=p;trait[it.trait].m+=2;if(a)trait[it.trait].norm.push(it.dir>0?a:6-a);}
+    if(it.type==="lie"&&a>=4)lieFlags++;
+    if(it.type==="norm"&&a&&a<=2)normFlags++;
+    res.push({it:it,a:a,k:k,r:r});
+  });
+  // consistency: within each trait, spread of normalised answers + direct contradictions
+  var spreadSum=0,cnt=0,contra=0;
+  Object.keys(trait).forEach(function(k){
+    var n=trait[k].norm;if(n.length<2)return;
+    var mean=n.reduce(function(s,x){return s+x;},0)/n.length;
+    var sd=Math.sqrt(n.reduce(function(s,x){return s+(x-mean)*(x-mean);},0)/n.length);
+    spreadSum+=sd;cnt++;
+  });
+  Q.forEach(function(it,i){
+    if(it.type!=="trait"||!ans[i])return;
+    Q.forEach(function(jt,j){
+      if(j<=i||jt.type!=="trait"||jt.trait!==it.trait||jt.dir===it.dir||!ans[j])return;
+      var ni=it.dir>0?ans[i]:6-ans[i],nj=jt.dir>0?ans[j]:6-ans[j];
+      if(Math.abs(ni-nj)>=3)contra++;
+    });
+  });
+  var avgSd=cnt?spreadSum/cnt:2;
+  var cons=Math.max(0,Math.min(100,Math.round(100-Math.max(0,avgSd-0.5)*50-contra*4)));
+  var tScores={};Object.keys(trait).forEach(function(k){tScores[k]=trait[k].m?Math.round(trait[k].p/trait[k].m*100):0;});
+  var match=Math.round(pts/max*100);
+  var overall=Math.round(match*0.7+cons*0.3);
+  return{match:match,cons:cons,overall:overall,answered:answered,extremePct:answered?Math.round(extreme/answered*100):0,neutral:neutral,lieFlags:lieFlags,normFlags:normFlags,contra:contra,trait:tScores,res:res};
+}
+
+/* ===================== REPORT ===================== */
+function fmt(s){var m=Math.floor(s/60),x=s%60;return m+":"+(x<10?"0":"")+x;}
+function colorFor(p){return p>=80?"var(--teal)":p>=60?"var(--amber)":"var(--rose)";}
+function showResult(R,used){
+  $("test").classList.add("hidden");$("result").classList.remove("hidden");window.scrollTo(0,0);
+  var d=new Date();
+  $("rTag").textContent="Practice Report · Attempt "+attempts;
+  $("rTitle").textContent=(cname?cname+"'s ":"Your ")+"Behavioural Profile";
+  $("rSub").textContent="Completed on "+d.toLocaleDateString()+" at "+d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+". Your scores compare your answers with the ideal workplace profile described in the Zero to Hero Guide.";
+  $("sMatch").textContent=R.match+"%";$("sMatch").style.color=colorFor(R.match);
+  $("sCons").textContent=R.cons+"%";$("sCons").style.color=colorFor(R.cons);
+  $("sAns").textContent=R.answered;$("sAns").style.color=R.answered===NQ?"var(--teal)":"var(--rose)";
+  $("sTime").textContent=fmt(used);
+
+  var v,vt;
+  if(R.overall>=80&&R.answered===NQ){v="Excellent: test ready ✓";vt="Your profile is strong, balanced and consistent. Keep the same approach in the real test.";}
+  else if(R.overall>=65){v="Good: almost there";vt="A solid profile. Work on the traits and response-style points marked below, then take one more practice test.";}
+  else{v="Needs practice";vt="Revise Sections 4–7 of the Zero to Hero Guide (answer scale, traits, consistency, golden rules), then retake the test.";}
+  $("verdict").textContent=v;$("verdict").style.color=colorFor(R.overall);$("verdictTxt").textContent=vt+" Overall score: "+R.overall+"/100.";
+
+  var bars=$("bars");bars.innerHTML="";
+  Object.keys(TRAITS).forEach(function(k){
+    var p=R.trait[k];
+    bars.insertAdjacentHTML("beforeend",'<div class="b"><span>'+TRAITS[k].name+'</span><div class="track"><i style="width:'+p+'%;background:'+colorFor(p)+'"></i></div><span class="pct">'+p+'%</span></div>');
+  });
+
+  var f=[];
+  f.push(R.answered===NQ?["good","✓","All 54 statements answered. Never leave any blank in the real test."]:["bad","!",(NQ-R.answered)+" statements left unanswered. Keep a steady pace of about 20 seconds per statement."]);
+  f.push(R.contra===0?["good","✓","No direct contradictions. You kept the same stand on each trait."]:[R.contra<=2?"warn":"bad","!",R.contra+" contradiction(s): you agreed with a positive statement and also with its reversed version (or the opposite). Read words like 'not', 'rarely' and 'avoid' carefully."]);
+  f.push(R.lieFlags===0?["good","✓","Honesty checks passed. You didn't agree with 'too perfect' claims."]:["bad","!","You agreed with "+R.lieFlags+" 'too perfect' claim(s), such as 'I have never…'. Real people aren't perfect, so these make a profile less believable."]);
+  if(R.normFlags>0)f.push(["warn","!","You disagreed with "+R.normFlags+" normal human feeling(s), such as feeling nervous sometimes. Admitting small, normal things makes your profile believable."]);
+  f.push(R.neutral<=4?["good","✓","Neutral used "+R.neutral+" time(s). Good decisiveness."]:["warn","!","Neutral used "+R.neutral+" times. Too many neutral answers look indecisive, so aim for fewer than 5."]);
+  f.push(R.extremePct<=75?["good","✓",R.extremePct+"% of your answers were 'Strongly'. That's a healthy, balanced mix."]:["warn","!",R.extremePct+"% of your answers were 'Strongly'. An all-extreme pattern can look like you're trying too hard. Save 'Strongly' for core values."]);
+  f.push(used<=TOTAL_TIME-60?["good","✓","Finished in "+fmt(used)+", within time."]:["warn","!","You used almost all the time ("+fmt(used)+"). Trust your first instinct to save time."]);
+  $("flags").innerHTML=f.map(function(x){return'<div class="flag '+x[0]+'"><span class="ic">'+x[1]+'</span><span>'+x[2]+'</span></div>';}).join("");
+
+  renderReview(R,"all");
+  Array.prototype.forEach.call($("filters").children,function(b){b.onclick=function(){Array.prototype.forEach.call($("filters").children,function(x){x.classList.remove("on");});b.classList.add("on");renderReview(R,b.dataset.f);};});
+}
+function renderReview(R,filter){
+  var rows=R.res.map(function(x,i){
+    if(filter!=="all"&&!(x.r===filter||(filter==="miss"&&x.r==="none")))return"";
+    var pill={best:'<span class="pill p-best">Best</span>',ok:'<span class="pill p-ok">Acceptable</span>',miss:'<span class="pill p-miss">Needs work</span>',none:'<span class="pill p-none">Not answered</span>'}[x.r];
+    return"<tr><td>"+(i+1)+"</td><td>"+x.it.text+'<div class="why">'+why(x.it)+"</div></td><td>"+(x.a?LABELS[x.a]:"—")+"</td><td><b>"+LABELS[x.k.best]+"</b><div class='why'>or "+LABELS[x.k.ok]+"</div></td><td>"+pill+"</td></tr>";
+  }).join("");
+  $("review").innerHTML=rows||'<tr><td colspan="5" style="text-align:center;color:var(--muted)">Nothing to show here.</td></tr>';
+}
+</script>
+</body>
+</html>
