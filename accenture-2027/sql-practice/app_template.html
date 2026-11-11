@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL Assessment – Live Practice</title>
+<style>
+:root{
+  --navy:#101a3a; --navy2:#16234d; --ink:#14172b; --ink2:#3b4160; --muted:#6b7090; --line:#e2e5ee; --bg:#f3f4f8;
+  --blue:#1d4ed8; --blue2:#3b5bdb; --lav:#e9ebfb; --lav2:#f4f5fd; --green:#15803d; --gbtn:#16a34a; --gsoft:#dcfce7;
+  --rose:#dc2626; --rsoft:#fee2e2; --amber:#b45309; --asoft:#fef3c7; --purple:#6d28d9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+code,pre,textarea,.mono{font-family:"JetBrains Mono",Consolas,"DejaVu Sans Mono",monospace}
+
+/* ---------- home ---------- */
+.wrap{max-width:1060px;margin:0 auto;padding:22px 16px 48px}
+.hero{background:radial-gradient(90% 80% at 100% 0%,#4f46e5 0%,transparent 55%),radial-gradient(80% 70% at 0% 100%,#0e7490 0%,transparent 55%),linear-gradient(160deg,#0b1026,#141c42 60%,#070a18);color:#fff;border-radius:22px;padding:30px 30px 26px}
+.hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
+.hero h1{font-size:32px;line-height:1.12;margin:14px 0 8px;letter-spacing:-.02em}
+.hero h1 span{color:#a5b4fc}
+.hero p{opacity:.86;margin:0;max-width:700px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:11px 14px}
+.stat b{display:block;font-size:22px}.stat span{font-size:12px;opacity:.8}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:16px}
+.card h2{font-size:19px;margin:0 0 8px}
+.two{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start}
+ul.clean{padding-left:18px;margin:6px 0} ul.clean li{margin:4px 0} ul.clean li::marker{color:var(--blue)}
+.note{border-left:4px solid var(--blue);background:var(--lav2);border-radius:10px;padding:10px 13px;margin-top:12px;font-size:13.5px}
+.btn{border:0;border-radius:10px;padding:11px 20px;font-weight:700;background:var(--blue);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.btn.green{background:var(--gbtn)}
+.btn.ghost{background:#fff;color:var(--ink2);border:1px solid #cfd3e0}
+.btn.big{font-size:16px;padding:14px 28px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.qc{border:1px solid var(--line);border-radius:14px;padding:13px 14px;background:#fff;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:border-color .15s,box-shadow .15s;text-align:left}
+.qc:hover{border-color:#a5b4fc;box-shadow:0 6px 18px rgba(29,78,216,.08)}
+.qc .n{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.qc .t{font-weight:700;font-size:14.5px;line-height:1.3}
+.qc .tp{font-size:12.5px;color:var(--ink2)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:#eef0f6;color:var(--ink2)}
+.chip.Easy{background:var(--gsoft);color:var(--green)}.chip.Medium{background:var(--asoft);color:var(--amber)}.chip.Hard{background:var(--rsoft);color:var(--rose)}
+.chip.orig{background:#ede9fe;color:var(--purple)}
+.chip.best{background:var(--lav);color:var(--blue)}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:22px}
+
+/* ---------- exam ---------- */
+#exam{display:flex;flex-direction:column;height:100vh}
+.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:18px;padding:0 18px;height:58px;flex:none}
+.top .brand{font-weight:800;letter-spacing:-.01em;font-size:17px;padding-right:16px;border-right:1px solid rgba(255,255,255,.25)}
+.top .crumb{opacity:.9;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .sp{flex:1}
+.top .timer{display:flex;align-items:center;gap:7px;font-size:15px;white-space:nowrap}
+.top .timer b{font-variant-numeric:tabular-nums;font-size:17px}
+.top .timer.low b{color:#fca5a5}
+.top .tbtn{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.7);border-radius:8px;padding:8px 16px;font-weight:600;white-space:nowrap}
+.main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:14px;padding:14px;min-height:0}
+.pane{background:#fff;border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;min-height:0}
+.lscroll{overflow:auto;padding:14px 18px 18px}
+.qhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.qhead h2{font-size:20px;margin:0}
+.sec{background:var(--lav);color:#1e2a78;font-weight:800;font-size:15.5px;border-radius:6px;padding:5px 10px;margin:14px 0 8px}
+.how{font-size:13.5px;color:var(--ink2)}
+.how ol{margin:4px 0 0 0;padding-left:20px}
+.stmt{background:var(--lav2);border-radius:8px;padding:10px 14px;margin:6px 0}
+.ocols{display:inline-flex;border:1.5px solid #4b5170;border-radius:4px;overflow:hidden;margin:4px 0 6px}
+.ocols span{padding:4px 16px;font-weight:800;border-right:1.5px solid #4b5170;font-size:14px}
+.ocols span:last-child{border-right:0}
+.tname{font-weight:700;color:#1e2a78;margin:10px 0 4px;font-size:13.5px}
+.tname b{color:var(--blue)}
+table.g{border-collapse:collapse;width:100%;font-size:12.8px;border:1px solid #cdd2e0;border-radius:6px;overflow:hidden}
+table.g th{background:#eef0f7;text-align:left;padding:4px 9px;font-weight:700;border-bottom:1px solid #cdd2e0}
+table.g td{padding:3px 9px;border-top:1px solid #edf0f5}
+table.g td.null{color:#9aa0b8;font-style:italic}
+.exgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.exl{font-weight:700;color:#1e2a78;font-size:13px;margin:6px 0 3px}
+
+.rtop{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.att{font-size:13px;color:var(--ink2)}
+.tabs{display:flex;gap:22px;padding:0 16px;border-bottom:1px solid var(--line)}
+.tab{background:none;border:0;padding:10px 2px;color:var(--ink2);font-weight:600;border-bottom:3px solid transparent}
+.tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.rbody{flex:1;min-height:0;overflow:auto;padding:12px 16px}
+.editor{display:flex;border:1px solid #cfd4e2;border-radius:8px;overflow:hidden;height:100%;min-height:260px;background:#fbfcfe}
+.gut{background:#eef0f6;color:#8a90aa;text-align:right;padding:10px 8px;font:13.5px/1.6 "JetBrains Mono",Consolas,"DejaVu Sans Mono",monospace;user-select:none;overflow:hidden;min-width:38px}
+.editor textarea{flex:1;border:0;outline:0;resize:none;padding:10px 12px;font-size:13.5px;line-height:1.6;background:transparent;color:#111;white-space:pre;overflow:auto;tab-size:4}
+.hint{font-size:12.5px;color:var(--muted);margin-top:6px}
+.tc{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:10px}
+.tc .ic{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:13px;flex:none}
+.tc.pass .ic{background:var(--green)}.tc.fail .ic{background:var(--rose)}.tc.wait .ic{background:#a7adc4}
+.tc b{display:block;font-size:15px}
+.tc .s{font-size:13px;color:var(--ink2)}
+.tc.fail .s{color:var(--rose)}
+.err{background:var(--rsoft);color:#991b1b;border-radius:8px;padding:10px 12px;font:13px/1.5 "JetBrains Mono",Consolas,monospace;white-space:pre-wrap}
+.ok{background:var(--gsoft);color:#14532d;border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:8px}
+.rbot{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding:10px 14px;flex-wrap:wrap}
+.rbot .sp{flex:1}
+.summary{font-size:13px;color:var(--ink2);margin-bottom:8px}
+
+/* ---------- result ---------- */
+.score{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.ring{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:26px;flex:none}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1;min-width:260px}
+.kv div{background:var(--lav2);border-radius:12px;padding:10px 12px}
+.kv b{display:block;font-size:20px}.kv span{font-size:12px;color:var(--muted)}
+pre.code{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:12px 14px;overflow:auto;font-size:13px;line-height:1.55;margin:6px 0}
+table.res{border-collapse:collapse;width:100%;font-size:13.5px}
+table.res th,table.res td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left}
+table.res th{background:#f6f7fb}
+
+@media (max-width:860px){
+  .stats{grid-template-columns:repeat(2,1fr)} .two,.exgrid,.kv{grid-template-columns:1fr}
+  .qgrid{grid-template-columns:1fr 1fr}
+  #exam{height:auto;min-height:100vh}
+  .main{grid-template-columns:1fr;padding:10px}
+  .pane{min-height:auto}
+  .top{height:auto;flex-wrap:wrap;padding:10px 12px;gap:10px}
+  .top .brand{border:0;padding:0}
+  .editor{min-height:240px}
+  .tabs{gap:14px;overflow-x:auto;padding:0 12px}.tab{white-space:nowrap;font-size:13.5px}
+}
+@media (max-width:520px){ .qgrid{grid-template-columns:1fr} .hero h1{font-size:25px} }
+</style>
+</head>
+<body>
+
+<!-- ================= HOME ================= -->
+<div id="home" class="wrap">
+  <div class="hero">
+    <span class="tag">Accenture 2026–2027 Hiring · SQL Assessment</span>
+    <h1>SQL Assessment <span>Live Practice</span></h1>
+    <p>A real SQL engine runs in your browser, so you write and run actual queries. Each question has a <b>15-minute timer</b>, a <b>Run Query</b> button for the sample data and a <b>Check Query</b> button that tests your query on <b>5 test cases</b>, as in the exam.</p>
+    <div class="stats">
+      <div class="stat"><b id="stQ">15</b><span>Practice questions</span></div>
+      <div class="stat"><b>3</b><span>Exam-pattern originals</span></div>
+      <div class="stat"><b>15:00</b><span>Timer per question</span></div>
+      <div class="stat"><b>5</b><span>Test cases per question</span></div>
+    </div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h2>How the real round works</h2>
+      <ul class="clean">
+        <li>The exam usually gives <b>1 SQL question</b>. You write one query in the editor.</li>
+        <li><b>Run Query</b> runs your query on sample data and shows the output.</li>
+        <li><b>Check Query</b> runs it against <b>5 test cases</b>. Test case 1 uses the sample data, while 2–5 use hidden data with edge cases (ties, NULLs, exact boundary values, repeated rows).</li>
+        <li>Your column names must match the required <b>aliases</b>, and the rows must match exactly.</li>
+        <li>When the timer ends, your last query is checked automatically.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Start</h2>
+      <p style="margin:0 0 10px;color:var(--ink2)"><b>Exam mode</b> picks one random question, like the real round. Or choose any question below to practise it.</p>
+      <div class="row">
+        <button class="btn big" onclick="APP.exam()">Exam Mode · 1 random question</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" onclick="APP.start(0,'seq')">Practise all in order</button>
+        <button class="btn ghost" id="resetBtn" onclick="APP.resetProgress()">Reset progress</button>
+      </div>
+      <div class="note"><b>Engine:</b> standard SQL on SQLite. JOIN, GROUP BY, HAVING, subqueries, CASE, LIMIT, LIKE, BETWEEN and IN all work as in MySQL. Quote aliases that contain spaces: <code>"First Name"</code> or <code>`First Name`</code>.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h2 style="margin:0">Question bank</h2><span class="hint" id="progTxt"></span></div>
+    <div class="qgrid" id="qgrid"></div>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Questions marked "Exam pattern" are modelled on reported assessment questions.</p>
+</div>
+
+<!-- ================= EXAM ================= -->
+<div id="exam" class="hidden">
+  <div class="top">
+    <div class="brand">SQL Practice</div>
+    <div class="crumb">SQL Assessment &nbsp;/&nbsp; <span id="crumbQ">Question - 1</span></div>
+    <div class="sp"></div>
+    <div class="timer" id="timerBox">&#9201; Test Time: <b id="timer">15:00</b></div>
+    <button class="tbtn" onclick="APP.submit(false)">Submit Answer</button>
+  </div>
+  <div class="main">
+    <div class="pane">
+      <div class="lscroll" id="left"></div>
+    </div>
+    <div class="pane">
+      <div class="rtop"><span class="att" id="att">Attempted: 0/1</span><div style="flex:1"></div><span class="chip" id="qdiff"></span></div>
+      <div class="tabs">
+        <button class="tab on" data-t="query" onclick="APP.tab('query')">Query</button>
+        <button class="tab" data-t="schema" onclick="APP.tab('schema')">View Schema</button>
+        <button class="tab" data-t="output" onclick="APP.tab('output')">Output</button>
+        <button class="tab" data-t="tests" onclick="APP.tab('tests')">Test Cases</button>
+      </div>
+      <div class="rbody">
+        <div id="t-query" style="height:100%;display:flex;flex-direction:column">
+          <div class="editor"><div class="gut" id="gut">1</div><textarea id="sql" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="-- Write your SQL query here&#10;SELECT ..."></textarea></div>
+          <div class="hint">Ctrl + Enter = Run Query &nbsp;·&nbsp; Tab inserts spaces &nbsp;·&nbsp; End the query with or without a semicolon.</div>
+        </div>
+        <div id="t-schema" class="hidden"></div>
+        <div id="t-output" class="hidden"><p class="summary">Run your query to see its output on the sample data.</p></div>
+        <div id="t-tests" class="hidden"></div>
+      </div>
+      <div class="rbot">
+        <span class="hint" id="lastRun"></span><div class="sp"></div>
+        <button class="btn ghost" onclick="APP.run()">Run Query</button>
+        <button class="btn" onclick="APP.check()">Check Query</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div id="result" class="wrap hidden"></div>
+
+<script>/*SQLJS*/</script>
+<script>
+var WASM_B64="/*WASM_B64*/";
+var BANK=/*QUESTIONS_JSON*/;
+</script>
+<script>
+/* ================= SCORM 1.2 (works standalone too) ================= */
+var SCORM=(function(){
+  var api=null,on=false;
+  function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  try{api=find(window)||(window.opener?find(window.opener):null);}catch(e){api=null;}
+  function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}
+  function get(k){if(on){try{return api.LMSGetValue(k);}catch(e){}}return"";}
+  function commit(){if(on){try{api.LMSCommit("");}catch(e){}}}
+  return{
+    init:function(){if(!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){on=false;}
+      if(!on)return;var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");commit();},
+    report:function(score,secs){if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));
+      set("cmi.core.lesson_status","completed");commit();},
+    finish:function(){if(on){commit();try{api.LMSFinish("");}catch(e){}on=false;}}
+  };
+})();
+
+/* ================= storage helpers (may be blocked) ================= */
+var STORE={get:function(k,d){try{var v=localStorage.getItem("sqlp_"+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
+           set:function(k,v){try{localStorage.setItem("sqlp_"+k,JSON.stringify(v));}catch(e){}}};
+
+/* ================= SQL engine ================= */
+var ENGINE=(function(){
+  var SQL=null,ready=null;
+  function b64(s){var bin=atob(s),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
+  function load(){if(!ready)ready=initSqlJs({wasmBinary:b64(WASM_B64)}).then(function(s){SQL=s;});return ready;}
+  /* Run `query` on a fresh database built from `setup`. Returns {cols,rows} of the last statement that
+     returns columns, or {error}. */
+  function run(setup,query){
+    var db=new SQL.Database(),res=null;
+    try{
+      db.exec(setup);
+      var it=db.iterateStatements(query),st;
+      while(true){
+        var nx=it.next();if(nx.done)break;st=nx.value;
+        var cols=st.getColumnNames(),rows=[];
+        while(st.step())rows.push(st.get());
+        if(cols.length)res={cols:cols,rows:rows};
+        st.free();
+      }
+      if(!res)res={error:"The query did not return any result set. Write a SELECT query."};
+    }catch(e){res={error:String(e&&e.message||e)};}
+    db.close();return res;
+  }
+  return{load:load,run:run};
+})();
+
+/* ================= compare ================= */
+function normVal(v){if(v===null||v===undefined)return null;if(typeof v==="number")return Math.round(v*10000)/10000;
+  if(typeof v==="string"&&/^-?\d+(\.\d+)?$/.test(v.trim()))return Math.round(parseFloat(v)*10000)/10000;return v;}
+function compare(q,got,exp){
+  if(got.error)return{ok:false,why:"Error: "+got.error};
+  var gc=got.cols.map(function(c){return c.trim().toLowerCase();}),ec=exp.cols.map(function(c){return c.trim().toLowerCase();});
+  if(gc.length!==ec.length)return{ok:false,why:"Expected "+ec.length+" column(s), your query returned "+gc.length+"."};
+  for(var i=0;i<gc.length;i++)if(gc[i]!==ec[i])return{ok:false,why:"Column "+(i+1)+" should be named \""+exp.cols[i]+"\" (yours: \""+got.cols[i]+"\")."};
+  if(got.rows.length!==exp.rows.length)return{ok:false,why:"Expected "+exp.rows.length+" row(s), your query returned "+got.rows.length+"."};
+  var g=got.rows.map(function(r){return JSON.stringify(r.map(normVal));}),e=exp.rows.map(function(r){return JSON.stringify(r.map(normVal));});
+  if(!q.ordered){g=g.slice().sort();e=e.slice().sort();}
+  for(var j=0;j<g.length;j++)if(g[j]!==e[j]){
+    var same=g.slice().sort().join("|")===e.slice().sort().join("|");
+    return{ok:false,why:same?"Correct rows but in the wrong order. Check ORDER BY.":"Row values do not match the expected output."};}
+  return{ok:true,why:""};
+}
+
+/* ================= UI helpers ================= */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function cell(v){return v===null?'<td class="null">NULL</td>':"<td>"+esc(v)+"</td>";}
+function tableHTML(cols,rows,max){max=max||200;var h='<table class="g"><thead><tr>'+cols.map(function(c){return"<th>"+esc(c)+"</th>";}).join("")+"</tr></thead><tbody>";
+  rows.slice(0,max).forEach(function(r){h+="<tr>"+r.map(cell).join("")+"</tr>";});
+  if(!rows.length)h+='<tr><td colspan="'+cols.length+'" class="null">(no rows)</td></tr>';
+  return h+"</tbody></table>"+(rows.length>max?'<p class="hint">Showing first '+max+" of "+rows.length+" rows.</p>":"");}
+function schemaHTML(q){return q.tables.map(function(t){return'<div class="tname">Table: <b>'+esc(t.name)+'</b></div><table class="g"><thead><tr><th>Column Name</th><th>Data Type</th><th>Description</th></tr></thead><tbody>'+
+  t.cols.map(function(c){return"<tr><td><b>"+esc(c.name)+"</b></td><td>"+esc(c.type)+"</td><td>"+esc(c.desc)+"</td></tr>";}).join("")+"</tbody></table>";}).join("");}
+function fmt(s){s=Math.max(0,s);return(s<600?"0":"")+Math.floor(s/60)+":"+(s%60<10?"0":"")+s%60;}
+
+/* ================= APP ================= */
+var APP=(function(){
+  var LIMIT=15*60,cur=null,mode="single",t0=0,left=LIMIT,tick=null,lastCheck=null,attempted=false,session=[],sessStart=Date.now(),expected={};
+  var best=STORE.get("best",{});
+
+  function show(id){["home","exam","result"].forEach(function(x){document.getElementById(x).classList.toggle("hidden",x!==id);});window.scrollTo(0,0);}
+  function home(){
+    var g=document.getElementById("qgrid"),done=0;
+    g.innerHTML=BANK.map(function(q,i){var b=best[q.id];if(b!==undefined)done++;
+      return'<button class="qc" onclick="APP.start('+i+',\'single\')"><span class="n">QUESTION '+(i+1)+'</span><span class="t">'+esc(q.title)+'</span><span class="tp">'+esc(q.topic)+'</span><span class="chips"><span class="chip '+q.difficulty+'">'+q.difficulty+"</span>"+
+      (q.original?'<span class="chip orig">Exam pattern</span>':"")+(b!==undefined?'<span class="chip best">Best '+b+'/5</span>':"")+"</span></button>";}).join("");
+    document.getElementById("progTxt").textContent=done+" of "+BANK.length+" attempted";
+    document.getElementById("stQ").textContent=BANK.length;
+    show("home");
+  }
+  function expectedFor(q){
+    if(!expected[q.id])expected[q.id]=q.datasets.map(function(ds){return ENGINE.run(ds,q.solution);});
+    return expected[q.id];
+  }
+  function sampleTables(q){
+    var ds=q.datasets[0];return q.tables.map(function(t){var r=ENGINE.run(ds,"SELECT * FROM "+t.name);return'<div class="exl">Input ('+esc(t.name)+" table):</div>"+tableHTML(r.cols,r.rows);}).join("");
+  }
+  function renderLeft(q,i){
+    var exp=expectedFor(q)[0];
+    document.getElementById("left").innerHTML=
+      '<div class="qhead"><h2>'+(mode==="exam"?"Question 1":"Question "+(i+1))+": "+esc(q.title)+'</h2></div>'+
+      '<div class="sec">How to Attempt?</div><div class="how"><ol><li>Read the problem and the required column aliases.</li><li>Write one SQL query in the <b>Query</b> tab and press <b>Run Query</b> to see its output on the sample data.</li><li>Press <b>Check Query</b> to run all 5 test cases, then <b>Submit Answer</b>. The timer submits automatically at 00:00.</li></ol></div>'+
+      '<div class="sec">Problem Statement</div><div>Write an SQL query to display:</div><div class="stmt">'+q.statement+"</div>"+
+      "<div>Your output should have "+q.columns.length+" column"+(q.columns.length>1?"s":"")+" as given below:</div>"+
+      '<div class="ocols">'+q.columns.map(function(c){return"<span>"+esc(c)+"</span>";}).join("")+"</div>"+
+      '<div class="hint">You can view the database schema by clicking the <b>View Schema</b> tab on the right-hand side of the screen.'+(q.ordered?"":" Row order does not matter for this question.")+"</div>"+
+      '<div class="sec">Database Schema</div>'+schemaHTML(q)+
+      '<div class="sec">Example</div><div class="exgrid"><div>'+sampleTables(q)+'</div><div><div class="exl">Output:</div>'+tableHTML(exp.cols,exp.rows)+"</div></div>";
+  }
+  function gutter(){var ta=document.getElementById("sql"),n=ta.value.split("\n").length,h="";for(var i=1;i<=n;i++)h+=i+"<br>";var g=document.getElementById("gut");g.innerHTML=h;g.scrollTop=ta.scrollTop;}
+  function tab(t){document.querySelectorAll(".tab").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-t")===t);});
+    ["query","schema","output","tests"].forEach(function(x){document.getElementById("t-"+x).classList.toggle("hidden",x!==t);});
+    document.getElementById("t-query").style.display=t==="query"?"flex":"none";}
+  function testsHTML(results){
+    var html="";if(!results){for(var k=1;k<=5;k++)html+='<div class="tc wait"><span class="ic">?</span><div><b>Test Case '+k+'</b><span class="s">Not run yet. Press Check Query.</span></div></div>';return html;}
+    var p=results.filter(function(r){return r.ok;}).length;
+    html='<div class="'+(p===5?"ok":"summary")+'">'+p+" of 5 test cases passed."+(p===5?" Well done.":"")+"</div>";
+    results.forEach(function(r,k){html+='<div class="tc '+(r.ok?"pass":"fail")+'"><span class="ic">'+(r.ok?"&#10003;":"&#10007;")+'</span><div><b>Test Case '+(k+1)+'</b><span class="s">'+(r.ok?"Passed":"Failed &middot; "+esc(r.why)+(k>0?" (hidden data)":""))+"</span></div></div>";});
+    return html;
+  }
+  function start(i,m){
+    ENGINE.load().then(function(){
+      mode=m;cur=i;var q=BANK[i];attempted=false;lastCheck=null;
+      document.getElementById("crumbQ").textContent=(m==="exam"?"Actual Question - 1":"Question - "+(i+1));
+      document.getElementById("qdiff").className="chip "+q.difficulty;document.getElementById("qdiff").textContent=q.difficulty+" · "+q.topic;
+      document.getElementById("att").textContent="Attempted: 0/1";
+      renderLeft(q,i);
+      document.getElementById("t-schema").innerHTML=schemaHTML(q);
+      document.getElementById("t-output").innerHTML='<p class="summary">Run your query to see its output on the sample data.</p>';
+      document.getElementById("t-tests").innerHTML=testsHTML(null);
+      document.getElementById("lastRun").textContent="";
+      var ta=document.getElementById("sql");ta.value=STORE.get("draft_"+q.id,"");gutter();
+      tab("query");show("exam");document.getElementById("left").scrollTop=0;
+      left=LIMIT;t0=Date.now();clearInterval(tick);
+      document.getElementById("timer").textContent=fmt(left);document.getElementById("timerBox").classList.remove("low");
+      tick=setInterval(function(){left=LIMIT-Math.floor((Date.now()-t0)/1000);document.getElementById("timer").textContent=fmt(left);
+        document.getElementById("timerBox").classList.toggle("low",left<=60);if(left<=0){clearInterval(tick);submit(true);}},250);
+      setTimeout(function(){ta.focus();},50);
+    }).catch(function(e){alert("The SQL engine could not start in this browser: "+e);});
+  }
+  function query(){return document.getElementById("sql").value;}
+  function run(){
+    var q=BANK[cur],sql=query();if(!sql.trim()){tab("output");document.getElementById("t-output").innerHTML='<div class="err">Write a query first.</div>';return;}
+    attempted=true;document.getElementById("att").textContent="Attempted: 1/1";
+    var r=ENGINE.run(q.datasets[0],sql);
+    document.getElementById("t-output").innerHTML=r.error?'<div class="err">'+esc(r.error)+"</div>":'<p class="summary">Output on the sample data ('+r.rows.length+" row"+(r.rows.length===1?"":"s")+"):</p>"+tableHTML(r.cols,r.rows);
+    document.getElementById("lastRun").textContent="Last run: "+new Date().toLocaleTimeString();
+    tab("output");
+  }
+  function evaluate(sql){var q=BANK[cur],exp=expectedFor(q);return q.datasets.map(function(ds,k){return compare(q,ENGINE.run(ds,sql),exp[k]);});}
+  function check(){
+    var sql=query();if(!sql.trim()){tab("tests");document.getElementById("t-tests").innerHTML='<div class="err">Write a query first.</div>'+testsHTML(null);return;}
+    attempted=true;document.getElementById("att").textContent="Attempted: 1/1";
+    lastCheck={sql:sql,res:evaluate(sql)};document.getElementById("t-tests").innerHTML=testsHTML(lastCheck.res);tab("tests");
+  }
+  function submit(auto){
+    if(!auto&&!confirm("Submit this answer? Your current query will be checked against all 5 test cases."))return;
+    clearInterval(tick);
+    var q=BANK[cur],sql=query(),res=sql.trim()?evaluate(sql):[1,2,3,4,5].map(function(){return{ok:false,why:"No query written."};});
+    var passed=res.filter(function(r){return r.ok;}).length,used=Math.min(LIMIT,Math.round((Date.now()-t0)/1000));
+    if(best[q.id]===undefined||passed>best[q.id]){best[q.id]=passed;STORE.set("best",best);}
+    session.push({i:cur,passed:passed,used:used,auto:auto});
+    var nextIdx=mode==="seq"&&cur<BANK.length-1?cur+1:null;
+    var pct=passed*20,col=passed===5?"#16a34a":passed>=3?"#d97706":"#dc2626";
+    document.getElementById("result").innerHTML=
+      '<div class="hero"><span class="tag">'+(auto?"Time is up · auto-submitted":"Answer submitted")+'</span><h1>'+esc(q.title)+'</h1><p>'+esc(q.topic)+" · "+q.difficulty+'</p></div>'+
+      '<div class="card"><div class="score"><div class="ring" style="background:conic-gradient('+col+" "+pct*3.6+'deg,#e8eaf2 0);"><div style="width:92px;height:92px;border-radius:50%;background:#fff;display:grid;place-items:center">'+passed+'/5</div></div>'+
+      '<div class="kv"><div><b>'+pct+'%</b><span>Test cases passed</span></div><div><b>'+fmt(used)+'</b><span>Time used (of 15:00)</span></div><div><b>'+(best[q.id])+'/5</b><span>Your best on this question</span></div></div></div>'+
+      '<h3 style="margin:16px 0 6px">Test case results</h3>'+testsHTML(res)+"</div>"+
+      '<div class="two"><div class="card"><h2>Your query</h2><pre class="code">'+esc(sql.trim()||"-- (empty)")+'</pre></div>'+
+      '<div class="card"><h2>Reference solution</h2><pre class="code">'+esc(q.solution)+'</pre><p style="margin:6px 0 0;color:var(--ink2)">'+esc(q.explain)+"</p></div></div>"+
+      '<div class="card row">'+(nextIdx!==null?'<button class="btn green big" onclick="APP.start('+nextIdx+',\'seq\')">Next question &rarr;</button>':"")+
+      '<button class="btn ghost" onclick="APP.start('+cur+',\''+mode+'\')">Retry this question</button>'+
+      '<button class="btn ghost" onclick="APP.exam()">New random question</button>'+
+      '<button class="btn ghost" onclick="APP.home()">Question bank</button>'+
+      '<button class="btn" onclick="APP.finish()">Finish session</button></div>';
+    show("result");
+  }
+  function finish(){
+    clearInterval(tick);
+    var bestIn={};session.forEach(function(s){if(bestIn[s.i]===undefined||s.passed>bestIn[s.i].passed)bestIn[s.i]=s;});
+    var keys=Object.keys(bestIn),tot=0;keys.forEach(function(k){tot+=bestIn[k].passed;});
+    var score=keys.length?Math.round(tot/(keys.length*5)*100):0,secs=Math.round((Date.now()-sessStart)/1000);
+    SCORM.report(score,secs);
+    document.getElementById("result").innerHTML='<div class="hero"><span class="tag">Session complete</span><h1>Your SQL practice score: <span>'+score+'%</span></h1><p>'+keys.length+" question"+(keys.length===1?"":"s")+" attempted in this session · "+fmt(secs).replace(/^0/,"")+" minutes.</p></div>"+
+      '<div class="card"><table class="res"><thead><tr><th>#</th><th>Question</th><th>Topic</th><th>Passed</th><th>Time</th></tr></thead><tbody>'+
+      (keys.length?keys.map(function(k){var s=bestIn[k],q=BANK[s.i];return"<tr><td>"+(s.i+1)+"</td><td>"+esc(q.title)+"</td><td>"+esc(q.topic)+"</td><td><b>"+s.passed+"/5</b></td><td>"+fmt(s.used)+"</td></tr>";}).join(""):'<tr><td colspan="5">No question submitted yet.</td></tr>')+
+      '</tbody></table><div class="row" style="margin-top:14px"><button class="btn" onclick="APP.home()">Back to question bank</button><button class="btn ghost" onclick="window.print()">Print / Save as PDF</button></div></div>';
+    show("result");
+  }
+  function exam(){var n=BANK.length,i=Math.floor(Math.random()*n);if(n>1&&i===cur)i=(i+1)%n;start(i,"exam");}
+  function resetProgress(){if(!confirm("Clear your best scores and saved drafts?"))return;best={};STORE.set("best",{});BANK.forEach(function(q){STORE.set("draft_"+q.id,"");});home();}
+
+  /* editor behaviour */
+  document.addEventListener("DOMContentLoaded",function(){
+    var ta=document.getElementById("sql");
+    ta.addEventListener("input",function(){gutter();if(cur!==null)STORE.set("draft_"+BANK[cur].id,ta.value);});
+    ta.addEventListener("scroll",function(){document.getElementById("gut").scrollTop=ta.scrollTop;});
+    ta.addEventListener("keydown",function(e){
+      if(e.key==="Tab"){e.preventDefault();var s=ta.selectionStart,en=ta.selectionEnd;ta.value=ta.value.slice(0,s)+"    "+ta.value.slice(en);ta.selectionStart=ta.selectionEnd=s+4;gutter();}
+      if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();run();}
+    });
+    SCORM.init();home();ENGINE.load();
+  });
+  window.addEventListener("beforeunload",function(){SCORM.finish();});
+  return{start:start,run:run,check:check,submit:submit,finish:finish,home:home,exam:exam,tab:tab,resetProgress:resetProgress};
+})();
+</script>
+</body>
+</html>
