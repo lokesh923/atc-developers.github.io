@@ -264,6 +264,18 @@ QUESTIONS_5 = [
 MOCKS = {1: QUESTIONS_1, 2: QUESTIONS_2, 3: QUESTIONS_3, 4: QUESTIONS_4, 5: QUESTIONS_5}
 
 
+def questions_6():
+    """Mock 6 (50 questions) lives in mock6_data.py; order and answer positions come from mock6_order.py."""
+    from PIL import Image
+    from mock6_order import ordered
+    qs = []
+    for n, q in enumerate(ordered(), 1):
+        px = Image.open(os.path.join(HERE, "img", "m6", f"q{n:02d}.jpg")).width
+        width = max(3.5, min(6.0, px / 1.5 / 130))
+        qs.append((q["q"], q["note"], width, q["opts"], q["right"], q["expl"], q["d"]))
+    return qs
+
+
 def build(template, mock_no, out):
     d = docx.Document(template)
     body = d.element.body
@@ -272,7 +284,7 @@ def build(template, mock_no, out):
         if el is not sect:
             body.remove(el)
     tags = f"accenture, technical assessment, pseudocode, mock test {mock_no}"
-    qs = MOCKS[mock_no]
+    qs = questions_6() if mock_no == 6 else MOCKS[mock_no]
     for n, (text, note, width, opts, right, expl, diff) in enumerate(qs, 1):
         for line in ["{QUESTION BEGINS}", f"{{QUESTION NUMBER}} {n}", f"{{SUBJECT}} {SUBJECT}",
                      f"{{TOPIC}} {TOPIC}", f"{{TAGS}} {tags}, {diff.lower()}", "{QUESTION TYPE} SINGLECORRECT"]:

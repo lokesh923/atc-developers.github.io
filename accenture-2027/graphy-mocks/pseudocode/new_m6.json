@@ -1,0 +1,741 @@
+[
+{
+"file": "q01.jpg",
+"lines": [
+"Integer calls = 0",
+"Integer fib(Integer n)",
+"        calls = calls + 1",
+"        if (n <= 1)",
+"                return n",
+"        End if",
+"        return fib(n - 1) + fib(n - 2)",
+"End function fib()",
+"",
+"fib(5)",
+"Print calls"
+]
+},
+{
+"file": "q02.jpg",
+"lines": [
+"Integer a[5] = {6, 8, 12, 16, 1}",
+"Integer i, count",
+"Set count = 0",
+"for (each i from 0 to 4)",
+"        if ((a[i] & (a[i] - 1)) EQUALS 0)",
+"                count = count + 1",
+"        End if",
+"End for",
+"Print count"
+]
+},
+{
+"file": "q03.jpg",
+"lines": [
+"Integer x, count",
+"Set x = 100, count = 0",
+"while (x NOT EQUALS 1)",
+"        if (x mod 2 EQUALS 0)",
+"                x = x / 2",
+"        else",
+"                x = 3 * x + 1",
+"        End if",
+"        count = count + 1",
+"End while",
+"Print count"
+]
+},
+{
+"file": "q04.jpg",
+"lines": [
+"Integer x",
+"Set x = 10",
+"x = x ^ (1 << 2)",
+"x = x | 1",
+"Print x >> 1"
+]
+},
+{
+"file": "q05.jpg",
+"lines": [
+"String s",
+"Integer i",
+"Set s = \"ABZ\"",
+"for (each i from 0 to stringLength(s) - 1)",
+"        if (s[i] EQUALS 'Z')",
+"                s[i] = 'A'",
+"        else",
+"                s[i] = s[i] + 1",
+"        End if",
+"End for",
+"Print s"
+]
+},
+{
+"file": "q06.jpg",
+"lines": [
+"Integer a[6] = {12, 35, 1, 10, 34, 1}",
+"Integer i, first, second",
+"Set first = -1, second = -1",
+"for (each i from 0 to 5)",
+"        if (a[i] > first)",
+"                second = first",
+"                first = a[i]",
+"        else if (a[i] > second AND a[i] NOT EQUALS first)",
+"                second = a[i]",
+"        End if",
+"End for",
+"Print second"
+]
+},
+{
+"file": "q07.jpg",
+"lines": [
+"Integer a, b",
+"Set a = 5",
+"b = ~a",
+"Print b + 10"
+]
+},
+{
+"file": "q08.jpg",
+"lines": [
+"Interface Printable",
+"        Function print()",
+"End Interface",
+"Interface Scannable",
+"        Function scan()",
+"End Interface",
+"Class Device Implements Printable, Scannable",
+"        Function print()",
+"                print \"Printing\"",
+"        End Function",
+"        Function scan()",
+"                print \"Scanning\"",
+"        End Function",
+"End Class"
+]
+},
+{
+"file": "q09.jpg",
+"lines": [
+"Integer i, j, k, count",
+"Set count = 0",
+"for (each i from 1 to 3)",
+"        for (each j from i to 3)",
+"                for (each k from j to 3)",
+"                        count = count + 1",
+"                End for",
+"        End for",
+"End for",
+"Print count"
+]
+},
+{
+"file": "q10.jpg",
+"lines": [
+"Integer power(Integer b, Integer e)",
+"        if (e EQUALS 0)",
+"                return 1",
+"        End if",
+"        Integer half = power(b, e / 2)",
+"        if (e mod 2 EQUALS 0)",
+"                return half * half",
+"        End if",
+"        return b * half * half",
+"End function power()",
+"",
+"Print power(3, 5)"
+]
+},
+{
+"file": "q11.jpg",
+"lines": [
+"Class Animal",
+"        Function sound()",
+"                print \"Generic\"",
+"        End Function",
+"        Function walk()",
+"                print \"Walk\"",
+"        End Function",
+"End Class",
+"Class Dog Inherits Animal",
+"        Function sound()",
+"                print \"Bark\"",
+"        End Function",
+"End Class",
+"Animal a = Create Dog()",
+"a.sound()",
+"a.walk()"
+]
+},
+{
+"file": "q12.jpg",
+"lines": [
+"Integer x, y",
+"Set x = 2, y = 0",
+"switch (x)",
+"        case 1:",
+"                y = y + 1",
+"        case 2:",
+"                y = y + 2",
+"        case 3:",
+"                y = y + 3",
+"                break",
+"        default:",
+"                y = y + 10",
+"End switch",
+"Print y"
+]
+},
+{
+"file": "q13.jpg",
+"lines": [
+"Integer a[5] = {1, 2, 3, 4, 5}",
+"Integer i, k, temp",
+"for (each k from 1 to 2)",
+"        temp = a[0]",
+"        for (each i from 0 to 3)",
+"                a[i] = a[i + 1]",
+"        End for",
+"        a[4] = temp",
+"End for",
+"Print a[0] + a[4]"
+]
+},
+{
+"file": "q14.jpg",
+"lines": [
+"Integer i, j, count",
+"Set count = 0",
+"for (each i from 1 to 5)",
+"        for (each j from 1 to 5)",
+"                if (j > i)",
+"                        break",
+"                End if",
+"                if ((i * j) mod 2 EQUALS 1)",
+"                        count = count + 1",
+"                End if",
+"        End for",
+"End for",
+"Print count"
+]
+},
+{
+"file": "q15.jpg",
+"lines": [
+"Class Person",
+"        private Integer age = 18",
+"        Function setAge(Integer a)",
+"                if (a > 0)",
+"                        age = a",
+"                End if",
+"        End Function",
+"        Function getAge()",
+"                return age",
+"        End Function",
+"End Class",
+"Person p = Create Person()",
+"p.setAge(-5)",
+"print p.getAge()",
+"p.setAge(30)",
+"print p.getAge()"
+]
+},
+{
+"file": "q16.jpg",
+"lines": [
+"Integer i, j",
+"Set i = 0, j = 10",
+"while (i < j)",
+"        i = i + 2",
+"        j = j - 1",
+"End while",
+"Print i * j"
+]
+},
+{
+"file": "q17.jpg",
+"lines": [
+"Class Box",
+"        Integer side",
+"        Constructor Box()",
+"                this(5)",
+"        End Constructor",
+"        Constructor Box(Integer s)",
+"                side = s",
+"        End Constructor",
+"End Class",
+"Box b1 = Create Box()",
+"Box b2 = Create Box(3)",
+"Print b1.side * b2.side"
+]
+},
+{
+"file": "q18.jpg",
+"lines": [
+"Integer f(Integer n, Integer acc)",
+"        if (n EQUALS 0)",
+"                return acc",
+"        End if",
+"        return f(n - 1, acc * 2 + n)",
+"End function f()",
+"",
+"Print f(3, 0)"
+]
+},
+{
+"file": "q19.jpg",
+"lines": [
+"Integer a[5] = {1, 2, 5, 3, 4}",
+"Integer i, temp, passes, swapped",
+"Set passes = 0",
+"do",
+"        swapped = 0",
+"        passes = passes + 1",
+"        for (each i from 0 to 3)",
+"                if (a[i] > a[i + 1])",
+"                        temp = a[i]",
+"                        a[i] = a[i + 1]",
+"                        a[i + 1] = temp",
+"                        swapped = 1",
+"                End if",
+"        End for",
+"while (swapped EQUALS 1)",
+"Print passes"
+]
+},
+{
+"file": "q20.jpg",
+"lines": [
+"String s",
+"Integer i",
+"Set s = \"HeLLo\"",
+"for (each i from 0 to stringLength(s) - 1)",
+"        if (s[i] >= 'a' AND s[i] <= 'z')",
+"                s[i] = s[i] - 32",
+"        else",
+"                s[i] = s[i] + 32",
+"        End if",
+"End for",
+"Print s"
+]
+},
+{
+"file": "q21.jpg",
+"lines": [
+"Integer n, i, sum",
+"Set n = 28, sum = 0",
+"for (each i from 1 to n - 1)",
+"        if (n mod i EQUALS 0)",
+"                sum = sum + i",
+"        End if",
+"End for",
+"if (sum EQUALS n)",
+"        Print sum, \"Perfect\"",
+"else",
+"        Print sum, \"Not Perfect\"",
+"End if"
+]
+},
+{
+"file": "q22.jpg",
+"lines": [
+"Class Parent",
+"        Function show()",
+"                print \"Parent\"",
+"        End Function",
+"End Class",
+"Class Child Inherits Parent",
+"        Function show()",
+"                super.show()",
+"                print \"Child\"",
+"        End Function",
+"End Class",
+"Child c = Create Child()",
+"c.show()"
+]
+},
+{
+"file": "q23.jpg",
+"lines": [
+"Integer a[6] = {12, 7, 9, 4, 15, 22}",
+"Integer i, s",
+"Set s = 0",
+"for (each i from 0 to 5)",
+"        if (a[i] & 1)",
+"                s = s + a[i]",
+"        End if",
+"End for",
+"Print s"
+]
+},
+{
+"file": "q24.jpg",
+"lines": [
+"String s, r",
+"Integer i",
+"Set s = \"aabbbcdd\"",
+"Set r = s[0]",
+"for (each i from 1 to stringLength(s) - 1)",
+"        if (s[i] NOT EQUALS s[i - 1])",
+"                r = r + s[i]",
+"        End if",
+"End for",
+"Print r"
+]
+},
+{
+"file": "q25.jpg",
+"lines": [
+"Class Student",
+"        static Integer count = 0",
+"        Constructor Student()",
+"                count = count + 1",
+"        End Constructor",
+"End Class",
+"Student s1 = Create Student()",
+"Student s2 = Create Student()",
+"Student s3 = Create Student()",
+"Print Student.count"
+]
+},
+{
+"file": "q26.jpg",
+"lines": [
+"Integer n",
+"Set n = 181",
+"Print (n >> 4) & 15, n & 15"
+]
+},
+{
+"file": "q27.jpg",
+"lines": [
+"Integer a[7] = {3, 8, 15, 23, 42, 57, 69}",
+"Integer bs(Integer a[], Integer lo, Integer hi, Integer key)",
+"        if (lo > hi)",
+"                return -1",
+"        End if",
+"        Integer mid = (lo + hi) / 2",
+"        print mid",
+"        if (a[mid] EQUALS key)",
+"                return mid",
+"        End if",
+"        if (a[mid] < key)",
+"                return bs(a, mid + 1, hi, key)",
+"        End if",
+"        return bs(a, lo, mid - 1, key)",
+"End function bs()"
+]
+},
+{
+"file": "q28.jpg",
+"lines": [
+"Integer a[5] = {4, 7, 2, 7, 4}",
+"Integer i, r",
+"Set r = 0",
+"for (each i from 0 to 4)",
+"        r = r ^ a[i]",
+"End for",
+"Print r"
+]
+},
+{
+"file": "q29.jpg",
+"lines": [
+"Integer a[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}",
+"Integer i, j, temp",
+"for (each i from 0 to 2)",
+"        for (each j from i + 1 to 2)",
+"                temp = a[i][j]",
+"                a[i][j] = a[j][i]",
+"                a[j][i] = temp",
+"        End for",
+"End for",
+"Print a[0][2] - a[2][0]"
+]
+},
+{
+"file": "q30.jpg",
+"lines": [
+"Integer isEven(Integer n)",
+"        if (n EQUALS 0)",
+"                return 1",
+"        End if",
+"        return isOdd(n - 1)",
+"End function isEven()",
+"Integer isOdd(Integer n)",
+"        if (n EQUALS 0)",
+"                return 0",
+"        End if",
+"        return isEven(n - 1)",
+"End function isOdd()",
+"Print isEven(7) + 2 * isOdd(7)"
+]
+},
+{
+"file": "q31.jpg",
+"lines": [
+"Integer i, s",
+"Set i = 1, s = 0",
+"while (i <= 20)",
+"        s = s + i",
+"        i = i * 2 + 1",
+"End while",
+"Print s"
+]
+},
+{
+"file": "q32.jpg",
+"lines": [
+"String rev(String s)",
+"        if (stringLength(s) <= 1)",
+"                return s",
+"        End if",
+"        return rev(substring(s, 1)) + s[0]",
+"End function rev()",
+"",
+"Print rev(\"CODE\")"
+]
+},
+{
+"file": "q33.jpg",
+"lines": [
+"Integer x, i",
+"Set x = 3",
+"for (each i from 1 to 4)",
+"        x = (x << 1) mod 10",
+"End for",
+"Print x"
+]
+},
+{
+"file": "q34.jpg",
+"lines": [
+"String s",
+"Integer i, count",
+"Set s = \"banana\", count = 0",
+"for (each i from 0 to stringLength(s) - 3)",
+"        if (substring(s, i, 3) EQUALS \"ana\")",
+"                count = count + 1",
+"        End if",
+"End for",
+"Print count"
+]
+},
+{
+"file": "q35.jpg",
+"lines": [
+"Integer f(Integer n)",
+"        if (n < 10)",
+"                return n",
+"        End if",
+"        return (n mod 10) * f(n / 10)",
+"End function f()",
+"",
+"Print f(2345)"
+]
+},
+{
+"file": "q36.jpg",
+"lines": [
+"Integer freq[10] = {0}",
+"Integer n, d, best",
+"Set n = 1223334",
+"while (n > 0)",
+"        freq[n mod 10] = freq[n mod 10] + 1",
+"        n = n / 10",
+"End while",
+"Set best = 0",
+"for (each d from 1 to 9)",
+"        if (freq[d] > freq[best])",
+"                best = d",
+"        End if",
+"End for",
+"Print best"
+]
+},
+{
+"file": "q37.jpg",
+"lines": [
+"String s",
+"Integer i, count",
+"Set s = \"AcCeNtUrE\", count = 0",
+"for (each i from 0 to stringLength(s) - 1)",
+"        if (s[i] >= 'A' AND s[i] <= 'Z')",
+"                count = count + 1",
+"        End if",
+"End for",
+"Print count"
+]
+},
+{
+"file": "q38.jpg",
+"lines": [
+"Class Point",
+"        Integer x = 10",
+"End Class",
+"Point p1 = Create Point()",
+"Point p2 = p1",
+"p2.x = 50",
+"Point p3 = Create Point()",
+"Print p1.x + p3.x"
+]
+},
+{
+"file": "q39.jpg",
+"lines": [
+"Integer n, i, count, flag",
+"Set count = 0",
+"for (each n from 2 to 30)",
+"        Set flag = 1",
+"        for (each i from 2 to n - 1)",
+"                if (n mod i EQUALS 0)",
+"                        flag = 0",
+"                        break",
+"                End if",
+"        End for",
+"        count = count + flag",
+"End for",
+"Print count"
+]
+},
+{
+"file": "q40.jpg",
+"lines": [
+"String s",
+"Integer i, sum",
+"Set s = \"ABC\", sum = 0",
+"for (each i from 0 to stringLength(s) - 1)",
+"        sum = sum + s[i]",
+"End for",
+"Print sum mod 7"
+]
+},
+{
+"file": "q41.jpg",
+"lines": [
+"Integer a[6] = {3, 1, 4, 1, 5, 9}",
+"Integer pre[6]",
+"Integer i",
+"pre[0] = a[0]",
+"for (each i from 1 to 5)",
+"        pre[i] = pre[i - 1] + a[i]",
+"End for",
+"Print pre[4] - pre[1]"
+]
+},
+{
+"file": "q42.jpg",
+"lines": [
+"Integer i, j",
+"Set i = 5, j = 0",
+"if ((i > 10) && (++i > 5))",
+"        j = 1",
+"End if",
+"if ((i < 10) || (++i > 5))",
+"        j = j + 2",
+"End if",
+"Print i + j"
+]
+},
+{
+"file": "q43.jpg",
+"lines": [
+"Class Vehicle",
+"        Function start()",
+"                print \"Starting\"",
+"        End Function",
+"End Class",
+"Class Car Inherits Vehicle",
+"End Class",
+"Class Bike Inherits Vehicle",
+"End Class"
+]
+},
+{
+"file": "q44.jpg",
+"lines": [
+"Integer a, b",
+"Set a = 6, b = 11",
+"Print ((a & b) + (a | b)) - (a ^ b)"
+]
+},
+{
+"file": "q45.jpg",
+"lines": [
+"String s",
+"Integer i, count",
+"Set s = \"I love  coding\", count = 0",
+"for (each i from 0 to stringLength(s) - 1)",
+"        if (s[i] EQUALS ' ')",
+"                count = count + 1",
+"        End if",
+"End for",
+"Print count + 1"
+]
+},
+{
+"file": "q46.jpg",
+"lines": [
+"Integer moves(Integer n)",
+"        if (n EQUALS 0)",
+"                return 0",
+"        End if",
+"        return 2 * moves(n - 1) + 1",
+"End function moves()",
+"",
+"Print moves(5)"
+]
+},
+{
+"file": "q47.jpg",
+"lines": [
+"Integer a, b, c, mx, mn",
+"Set a = 5, b = 9, c = 7",
+"mx = (a > b) ? ((a > c) ? a : c) : ((b > c) ? b : c)",
+"mn = (a < b) ? ((a < c) ? a : c) : ((b < c) ? b : c)",
+"Print mx * 10 + mn"
+]
+},
+{
+"file": "q48.jpg",
+"lines": [
+"Integer i, c",
+"Set i = 20, c = 0",
+"while (i > 0)",
+"        c = c + (i mod 4)",
+"        i = i - 3",
+"End while",
+"Print c"
+]
+},
+{
+"file": "q49.jpg",
+"lines": [
+"Integer a[6] = {10, 20, 30, 40, 50, 0}",
+"Integer i, pos",
+"Set pos = 2",
+"for (each i from 5 down to pos + 1)",
+"        a[i] = a[i - 1]",
+"End for",
+"a[pos] = 25",
+"Print a[3] + a[5]"
+]
+},
+{
+"file": "q50.jpg",
+"lines": [
+"Function f(Integer n)",
+"        if (n EQUALS 0)",
+"                return",
+"        End if",
+"        print n",
+"        f(n - 1)",
+"        print n",
+"End function f()",
+"",
+"f(3)"
+]
+}
+]
