@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bubbles Pattern 2 – Hard Practice</title>
+<style>
+:root{
+  --ink:#10221d; --ink-2:#36504a; --muted:#6a7f79; --line:#dfe9e5; --bg:#f3f8f6; --alt:#f7fbf9;
+  --g:#1fa37a; --g2:#22c55e; --gd:#0f7a5a; --gs:#e3f6ee;
+  --amber:#c77700; --amber-soft:#fff4dd; --rose:#d63a5a; --rose-soft:#ffe8ee; --sky:#2563eb; --sky-soft:#e6efff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:15px;min-height:100vh;-webkit-tap-highlight-color:transparent}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 48px}
+.hero{background:radial-gradient(110% 80% at 100% 0%,#22c55e 0%,transparent 55%),radial-gradient(90% 70% at 0% 100%,#0ea5e9 0%,transparent 52%),linear-gradient(160deg,#052e2b 0%,#0b3b3a 55%,#04201e 100%);color:#fff;border-radius:22px;padding:32px 30px}
+.hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
+.hero h1{font-size:34px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em}
+.hero h1 span{color:#86efac}
+.hero p{opacity:.85;margin:0;max-width:640px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-size:24px}.stat span{font-size:12px;opacity:.8}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:16px}
+h2{font-size:20px;margin:0 0 10px}
+h3{font-size:16px;margin:18px 0 8px}
+ul{padding-left:20px;margin:6px 0} li{margin:4px 0} li::marker{color:var(--g)}
+.grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start}
+.note{border-left:4px solid var(--g);background:var(--gs);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:14px}
+.note b.t{display:block;margin-bottom:2px;color:var(--gd)}
+.btn{border:0;border-radius:12px;padding:13px 22px;font-weight:700;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;box-shadow:0 6px 18px rgba(31,163,122,.3)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--gd);border:1px solid #bfe6d6;box-shadow:none}
+.btn.big{font-size:17px;padding:15px 30px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=text]{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);font:inherit;background:#fff}
+input[type=text]:focus{outline:2px solid var(--g2);border-color:transparent}
+.opt{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px}
+.opt input{margin-top:4px;width:18px;height:18px;accent-color:var(--g)}
+.seg{display:inline-flex;background:var(--alt);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:9px;padding:8px 14px;font-weight:650;font-size:13.5px;color:var(--ink-2)}
+.seg button.on{background:#fff;color:var(--gd);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.hint{font-size:12.5px;color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:28px}
+
+/* mini demo */
+.demo{position:relative;height:170px;border:1.5px solid #d6dbe4;border-radius:12px;background:#fff}
+.demo .b{position:absolute;width:78px;height:78px;font-size:11px!important;text-align:center;line-height:1.15;padding:6px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#3cc493,#1fa37a 60%,#178a66);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.demo .b i{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-style:normal;font-size:12px;display:grid;place-items:center;border:2px solid #fff}
+
+/* game */
+.topbar{position:sticky;top:0;z-index:5;background:rgba(243,248,246,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .in{max-width:960px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+.qlab{font-weight:800;font-size:18px}
+.gtag{background:var(--g);color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;padding:5px 12px;border-radius:4px}
+.snd{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 10px;font-size:16px;line-height:1}
+.tm{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:800;font-size:22px;padding:4px 14px;border-radius:12px;background:#fff;border:1px solid var(--line);min-width:84px;text-align:center}
+.tm.warn{color:var(--amber);background:var(--amber-soft);border-color:#f5d48f}
+.tm.crit{color:var(--rose);background:var(--rose-soft);border-color:#f5b3c2}
+.tbar{height:6px;background:var(--line)}
+.tbar i{display:block;height:100%;background:linear-gradient(90deg,var(--g),var(--g2));width:100%}
+.ins{font-size:15px;color:var(--ink-2);margin:14px 0 8px}
+.arena{position:relative;height:470px;background:#fff;border:1.5px solid #d6dbe4;border-radius:18px;overflow:hidden;touch-action:manipulation;user-select:none}
+.bub{position:absolute;width:150px;height:150px;margin:-75px 0 0 -75px;padding:12px;line-height:1.2;text-align:center;border-radius:50%;border:0;background:radial-gradient(circle at 35% 30%,#3cc493,#1fa37a 60%,#178a66);color:#fff;font-weight:800;font-size:17px;box-shadow:0 8px 20px rgba(23,138,102,.35);transition:transform .12s,opacity .2s;animation:pop .25s ease-out,float 3.2s ease-in-out infinite}
+.bub:hover{transform:scale(1.05)}
+.bub:active{transform:scale(.95)}
+.bub.tapped{opacity:.45;pointer-events:none}
+.bub .ord{position:absolute;top:-4px;right:-4px;width:32px;height:32px;border-radius:50%;background:var(--ink);color:#fff;font-size:15px;display:grid;place-items:center;border:3px solid #fff}
+.bub.ok{background:radial-gradient(circle at 35% 30%,#4ade80,#16a34a);opacity:1}
+.bub.bad{background:radial-gradient(circle at 35% 30%,#fb7185,#d63a5a);opacity:1}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.pdots{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.pdots i{width:16px;height:16px;border-radius:5px;background:var(--line)}
+.pdots i.d{background:var(--g)} .pdots i.c{background:#fff;outline:2px solid var(--g)}
+.pdots i.ok{background:#16a34a} .pdots i.bad{background:var(--rose)}
+.fb{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);padding:8px 16px;border-radius:999px;font-weight:700;font-size:14px;white-space:nowrap}
+.fb.ok{background:#dcfce7;color:#166534}.fb.bad{background:var(--rose-soft);color:var(--rose)}
+.overlay{position:fixed;inset:0;background:rgba(5,46,43,.75);display:grid;place-items:center;z-index:30;color:#fff;text-align:center}
+.overlay b{font-size:96px;line-height:1}
+.overlay p{margin:8px 0 0;font-size:18px;opacity:.85}
+
+/* results */
+.scorehead{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.sc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.sc .l{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sc .v{font-size:30px;font-weight:800;margin-top:2px}
+.sc .s{font-size:12.5px;color:var(--muted)}
+.verdict{font-size:22px;font-weight:800}
+.bars .b{display:grid;grid-template-columns:210px 1fr 70px;gap:12px;align-items:center;margin:9px 0;font-size:14px}
+.track{height:12px;background:var(--line);border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;border-radius:99px}
+.pct{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.flag{display:flex;gap:12px;padding:12px 14px;border-radius:12px;margin:8px 0;font-size:14px;border:1px solid var(--line)}
+.flag .ic{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:800}
+.flag.good .ic{background:#16a34a}.flag.warn .ic{background:var(--amber)}.flag.bad .ic{background:var(--rose)}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th{background:var(--ink);color:#fff;text-align:left;padding:10px 12px;font-size:12.5px;font-weight:650}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:var(--alt)}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.p-ok{background:#dcfce7;color:#166534}.p-bad{background:var(--rose-soft);color:var(--rose)}.p-to{background:var(--amber-soft);color:var(--amber)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.mono{font-variant-numeric:tabular-nums}
+.chart{display:flex;align-items:flex-end;gap:4px;height:120px;padding:8px 0;border-bottom:1px solid var(--line)}
+.chart div{flex:1;border-radius:4px 4px 0 0;min-height:3px;position:relative}
+.chart-l{display:flex;gap:4px;font-size:10px;color:var(--muted)}
+.chart-l span{flex:1;text-align:center}
+
+@media (max-width:720px){
+  .hero{padding:24px 20px}.hero h1{font-size:27px}
+  .stats,.scorehead{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .arena{height:420px}
+  .bub{width:112px;height:112px;margin:-56px 0 0 -56px;font-size:13.5px;padding:8px}
+  .bars .b{grid-template-columns:130px 1fr 56px;font-size:13px}
+  .gtag{display:none}
+  .hide-sm{display:none}
+  #review td,#result th{white-space:nowrap}
+  #result table{min-width:600px}
+}
+@media print{.topbar,.no-print{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<!-- ================= START ================= -->
+<div id="start" class="wrap">
+  <div class="hero">
+    <span class="tag">Accenture 2026–2027 Hiring · Cognitive Assessment · Game 1 · Pattern 2</span>
+    <h1>Bubbles Pattern 2<br><span>Hard Mode: Multi-Step Calculations</span></h1>
+    <p>A tougher version of the Bubbles game. Every bubble holds a <b>multi-step calculation</b> that mixes ×, ÷, + and − with BODMAS and brackets. Same exam pattern: 25 questions, 15 seconds each, tap from the smallest result to the largest. If you can clear this, the real game will feel easy.</p>
+    <div class="stats">
+      <div class="stat"><b>25</b><span>Questions</span></div>
+      <div class="stat"><b>15s</b><span>Per question</span></div>
+      <div class="stat"><b>2–3</b><span>Operations per bubble</span></div>
+      <div class="stat"><b>New set</b><span>Every attempt</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How to play</h2>
+    <div class="grid2">
+      <div>
+        <ul>
+          <li>Each question shows <b>3 bubbles</b>, each with a multi-step calculation like <b>40 − 6 × 6</b> or <b>(18 + 6) ÷ 4</b>.</li>
+          <li>Solve each one using <b>BODMAS</b>: <b>B</b>rackets first, then <b>÷ and ×</b> (left to right), then <b>+ and −</b> (left to right).</li>
+          <li><b>Tap the bubbles in ASCENDING order</b>: smallest result first, largest last.</li>
+          <li>You have <b>15 seconds</b> per question. The next question starts automatically.</li>
+          <li>Taps are final. A question is correct only if all 3 taps are in the right order within the time.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="demo">
+          <div class="b" style="left:8%;top:22px">(18 + 6) ÷ 4<i>2</i></div>
+          <div class="b" style="left:60%;top:12px">3 × 4 − 5<i>3</i></div>
+          <div class="b" style="left:34%;top:88px">40 − 6 × 6<i>1</i></div>
+        </div>
+        <p class="hint" style="margin:6px 0 0">Example: 40 − 6 × 6 = 40 − 36 = <b>4</b> → (18 + 6) ÷ 4 = 24 ÷ 4 = <b>6</b> → 3 × 4 − 5 = 12 − 5 = <b>7</b></p>
+      </div>
+    </div>
+
+    <h3>Choose your practice</h3>
+    <div class="seg" id="modeSeg">
+      <button data-m="exam" class="on">Hard exam simulation</button>
+      <button data-m="bodmas">BODMAS drill</button>
+      <button data-m="extreme">Extreme (3 steps, close values)</button>
+    </div>
+    <p class="hint" id="modeHint" style="margin:8px 0 0"></p>
+    <label class="opt"><input type="checkbox" id="sndToggle" checked> Play sounds (bubble pop on every tap, countdown and last-3-second ticks).</label>
+    <label class="opt"><input type="checkbox" id="slowToggle"> Training time: 20 seconds per question instead of 15. Use this for your first few games, then switch back to 15.</label>
+    <label class="opt"><input type="checkbox" id="fbToggle"> Show right/wrong after each question (learning mode). Leave it off for a real exam feel.</label>
+
+    <h3>Your name (optional, shown on your report)</h3>
+    <input type="text" id="cname" maxlength="60" placeholder="e.g. Rahul Verma">
+    <div class="note"><b class="t">BODMAS reminder</b>Brackets → ÷ and × (left to right) → + and − (left to right). So <b>20 − 4 × 3 = 20 − 12 = 8</b>, not 48. Estimate where you can, calculate exactly only the close ones, and tap small → big.</div>
+    <div class="row" style="margin-top:18px">
+      <button class="btn big" id="startBtn">Start Game →</button>
+      <span class="hint" id="attemptInfo"></span>
+    </div>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Questions are generated randomly for practice.</p>
+</div>
+
+<!-- ================= GAME ================= -->
+<div id="game" class="hidden">
+  <div class="topbar"><div class="in">
+    <span class="qlab" id="qlab">Q1</span>
+    <span class="gtag">BUBBLES · PATTERN 2</span>
+    <span class="hint hide-sm" id="qof">of 25</span>
+    <span class="tm" id="tm">15</span>
+    <button class="snd" id="sndBtn" title="Sound on/off" aria-label="Sound on/off">🔊</button>
+  </div><div class="tbar"><i id="tbar"></i></div></div>
+  <div class="wrap" style="padding-top:6px">
+    <div class="ins">Tap the bubbles in <b>ASCENDING</b> order of their result.</div>
+    <div class="arena" id="arena"></div>
+    <div class="pdots" id="pdots"></div>
+  </div>
+</div>
+<div class="overlay hidden" id="count"><div><b id="cnum">3</b><p>Get ready…</p></div></div>
+
+<!-- ================= RESULTS ================= -->
+<div id="result" class="wrap hidden">
+  <div class="hero">
+    <span class="tag" id="rTag">Practice Report</span>
+    <h1 id="rTitle">Your Pattern 2 Result</h1>
+    <p id="rSub"></p>
+  </div>
+  <div class="scorehead">
+    <div class="sc"><div class="l">Score</div><div class="v" id="sScore">–</div><div class="s">correct out of 25</div></div>
+    <div class="sc"><div class="l">Accuracy</div><div class="v" id="sAcc">–</div><div class="s">correct ÷ total questions</div></div>
+    <div class="sc"><div class="l">Avg. time</div><div class="v" id="sAvg">–</div><div class="s">per answered question</div></div>
+    <div class="sc"><div class="l">Timed out</div><div class="v" id="sTo">–</div><div class="s">not finished in time</div></div>
+  </div>
+  <div class="card">
+    <div class="sc" style="border:0;padding:0"><div class="l">Overall readiness</div></div>
+    <div class="verdict" id="verdict">–</div>
+    <div id="verdictTxt" style="color:var(--ink-2);font-size:14.5px;margin-top:4px"></div>
+  </div>
+  <div class="card">
+    <h2>Accuracy Breakdown</h2>
+    <div class="bars" id="bars"></div>
+  </div>
+  <div class="card">
+    <h2>Speed per Question</h2>
+    <p class="hint" style="margin-top:-4px">Bar height is the seconds you took. Green means correct, red wrong, amber timed out.</p>
+    <div class="chart" id="chart"></div><div class="chart-l" id="chartL"></div>
+  </div>
+  <div class="card">
+    <h2>Coach's Feedback</h2>
+    <div id="flags"></div>
+  </div>
+  <div class="card">
+    <h2>Question Review</h2>
+    <div class="filters no-print" id="filters">
+      <button data-f="all" class="on">All</button><button data-f="bad">Wrong</button><button data-f="to">Timed out</button><button data-f="ok">Correct</button>
+    </div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>Q</th><th>Bubbles and values</th><th>Your order</th><th>Correct order</th><th>Time</th><th>Result</th></tr></thead>
+      <tbody id="review"></tbody>
+    </table></div>
+  </div>
+  <div class="row no-print" style="margin-top:18px">
+    <button class="btn big" id="againBtn">Play Again ↻</button>
+    <button class="btn ghost" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Scores are for practice guidance only.</p>
+</div>
+
+<script>
+/* ================= SCORM 1.2 (works standalone too) ================= */
+var SCORM=(function(){
+  var api=null,on=false;
+  function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  try{api=find(window)||(window.opener?find(window.opener):null);}catch(e){api=null;}
+  function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}
+  function get(k){if(on){try{return api.LMSGetValue(k);}catch(e){}}return"";}
+  function commit(){if(on){try{api.LMSCommit("");}catch(e){}}}
+  return{
+    init:function(){if(!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){on=false;}
+      if(!on)return;var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");commit();},
+    name:function(){var n=get("cmi.core.student_name");if(!n)return"";var p=n.split(",");return p.length>1?(p[1].trim()+" "+p[0].trim()):n;},
+    report:function(score,secs){if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));
+      set("cmi.core.lesson_status","completed");commit();},
+    finish:function(){if(on){commit();try{api.LMSFinish("");}catch(e){}on=false;}}
+  };
+})();
+
+/* ================= SOUND (Web Audio, no files needed) ================= */
+var SND=(function(){
+  var ctx=null,on=true;
+  try{on=localStorage.getItem("bub_sound")!=="off";}catch(e){}
+  function ac(){
+    if(!ctx){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;try{ctx=new C();}catch(e){return null;}}
+    if(ctx.state==="suspended"){try{ctx.resume();}catch(e){}}
+    return ctx;
+  }
+  function tone(freq,dur,type,vol,delay,slideTo){
+    if(!on)return;var c=ac();if(!c)return;
+    var t=c.currentTime+(delay||0),o=c.createOscillator(),g=c.createGain();
+    o.type=type||"sine";o.frequency.setValueAtTime(freq,t);
+    if(slideTo)o.frequency.exponentialRampToValueAtTime(slideTo,t+dur);
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.25,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur+0.02);
+  }
+  return{
+    unlock:function(){ac();},
+    get on(){return on;},
+    set:function(v){on=!!v;try{localStorage.setItem("bub_sound",on?"on":"off");}catch(e){}},
+    pop:function(n){var f=[0,520,660,840][n]||600;tone(f*1.6,0.09,"sine",0.32,0,f*0.7);tone(f*2.4,0.05,"triangle",0.08,0.01);},
+    tick:function(){tone(1250,0.04,"square",0.05);},
+    beep:function(){tone(660,0.12,"sine",0.2);},
+    go:function(){tone(880,0.18,"sine",0.25);tone(1320,0.18,"sine",0.12,0.05);},
+    ok:function(){tone(784,0.14,"sine",0.22);tone(1175,0.22,"sine",0.2,0.1);},
+    bad:function(){tone(196,0.28,"sawtooth",0.12,0,140);},
+    timeup:function(){tone(440,0.18,"triangle",0.18);tone(330,0.28,"triangle",0.18,0.16);},
+    fanfare:function(){[523,659,784,1047].forEach(function(f,i){tone(f,0.22,"sine",0.18,i*0.12);});}
+  };
+})();
+
+/* ================= CONFIG ================= */
+var NQ=25, QTIME=15, BASE_TIME=15;
+var MODES={
+  exam:{label:"Hard exam simulation",hint:"Gets harder: Q1–8 two-step BODMAS, Q9–17 brackets, Q18–25 three-step calculations with close values.",plan:function(i){return i<8?1:(i<17?2:3);}},
+  bodmas:{label:"BODMAS drill",hint:"Two-step calculations where the order of operations decides the answer (for example 30 − 4 × 5). Good for fixing BODMAS mistakes.",plan:function(i){return i%2?1:2;}},
+  extreme:{label:"Extreme",hint:"Every bubble has 3 operations and the results are very close together. Much harder than the real test, for building a big margin.",plan:function(){return 3;}}
+};
+var mode="exam";
+
+/* ================= QUESTION GENERATOR (multi-step, BODMAS) ================= */
+function ri(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+/* each template returns a display string using × ÷ + − and brackets */
+var T={
+ 1:[ // two operations, no brackets: BODMAS decides
+  function(){return ri(5,60)+" + "+ri(2,12)+" × "+ri(2,12);},
+  function(){return ri(3,12)+" × "+ri(3,12)+" − "+ri(2,40);},
+  function(){return ri(40,150)+" − "+ri(2,9)+" × "+ri(2,9);},
+  function(){var b=ri(2,12);return (b*ri(2,12))+" ÷ "+b+" + "+ri(3,60);},
+  function(){var c=ri(2,9),m=ri(2,6);return (c*m)+" × "+ri(2,12)+" ÷ "+c;},
+  function(){var b=ri(2,9);return ri(30,120)+" − "+(b*ri(2,12))+" ÷ "+b;},
+  function(){return ri(20,90)+" + "+ri(10,60)+" − "+ri(5,50);}
+ ],
+ 2:[ // brackets
+  function(){return "("+ri(3,20)+" + "+ri(3,20)+") × "+ri(2,9);},
+  function(){var a=ri(15,40);return "("+a+" − "+ri(2,a-3)+") × "+ri(2,9);},
+  function(){var c=ri(2,9),k=ri(3,15),a=ri(1,c*k-1);return "("+a+" + "+(c*k-a)+") ÷ "+c;},
+  function(){return ri(2,9)+" × ("+ri(10,30)+" − "+ri(2,9)+")";},
+  function(){var c=ri(3,9),k=ri(3,12),b=ri(2,20);return "("+(c*k+b)+" − "+b+") ÷ "+c;},
+  function(){return ri(2,9)+" × "+ri(2,9)+" − "+ri(2,6)+" × "+ri(2,6);}
+ ],
+ 3:[ // three operations
+  function(){return ri(2,9)+" × "+ri(2,9)+" + "+ri(2,9)+" × "+ri(2,9);},
+  function(){var d=ri(2,9);return ri(4,12)+" × "+ri(4,12)+" − "+(d*ri(2,9))+" ÷ "+d;},
+  function(){return "("+ri(4,20)+" + "+ri(4,20)+") × "+ri(2,6)+" − "+ri(5,40);},
+  function(){var b=ri(2,9);return (b*ri(3,12))+" ÷ "+b+" + "+ri(2,9)+" × "+ri(2,9);},
+  function(){var c=ri(2,6),k=ri(3,12),b=ri(2,20);return "("+(c*k+b)+" − "+b+") ÷ "+c+" + "+ri(10,60);},
+  function(){return ri(20,80)+" + "+ri(2,9)+" × "+ri(2,9)+" − "+ri(5,30);},
+  function(){var a=ri(12,30);return "("+a+" − "+ri(2,a-4)+") × "+ri(2,6)+" + "+ri(5,40);}
+ ]
+};
+function ev(e){var js=e.replace(/×/g,"*").replace(/÷/g,"/").replace(/−/g,"-");return Function("return ("+js+")")();}
+function show(e){return e;}
+/* bubble label: long expressions break cleanly before the last + or − (or × / ÷) */
+function bubbleLabel(e){
+  if(e.length<=13)return e;
+  var m=e.match(/^(.*) ([+−×÷] [^ ]+)$/);
+  return m?m[1]+"<br>"+m[2]:e;
+}
+var SPREAD={1:[5,60],2:[3,40],3:[1,12]};
+function makeQ(level){
+  for(var t=0;t<4000;t++){
+    var ex=[],v=[],ok=true;
+    for(var k=0;k<3;k++){
+      var e=pick(T[level])(),x=ev(e);
+      if(!(isFinite(x)&&Math.round(x)===x&&x>=0&&x<=300)){ok=false;break;}
+      ex.push(e);v.push(x);
+    }
+    if(!ok)continue;
+    if(v[0]===v[1]||v[1]===v[2]||v[0]===v[2])continue;
+    var sp=Math.max.apply(null,v)-Math.min.apply(null,v),r=SPREAD[level];
+    if(sp<r[0]||sp>r[1])continue;
+    return{ex:ex,v:v,level:level};
+  }
+  return makeQ(level);
+}
+function correctOrder(q){return[0,1,2].sort(function(i,j){return q.v[i]-q.v[j];});}
+
+/* ================= STATE ================= */
+var lastTick=0,Q=[],cur=0,taps=[],qStart=0,tick=null,results=[],showFb=false,startedAt=0,cname="",attempts=0,locked=false;
+try{attempts=parseInt(localStorage.getItem("bub2_attempts")||"0",10)||0;}catch(e){}
+var $=function(id){return document.getElementById(id);};
+SCORM.init();(function(){var n=SCORM.name();if(n)$("cname").value=n;})();
+if(attempts)$("attemptInfo").textContent="Pattern 2 games played on this device: "+attempts+". Every game has new questions.";
+function setMode(m){mode=m;Array.prototype.forEach.call($("modeSeg").children,function(b){b.classList.toggle("on",b.dataset.m===m);});$("modeHint").textContent=MODES[m].hint;}
+Array.prototype.forEach.call($("modeSeg").children,function(b){b.onclick=function(){setMode(b.dataset.m);};});
+setMode("exam");
+$("sndToggle").checked=SND.on;
+function syncSnd(){$("sndBtn").textContent=SND.on?"🔊":"🔇";$("sndToggle").checked=SND.on;}
+$("sndToggle").onchange=function(){SND.set(this.checked);syncSnd();if(SND.on){SND.unlock();SND.pop(2);}};
+$("sndBtn").onclick=function(){SND.set(!SND.on);syncSnd();SND.unlock();};
+syncSnd();
+$("startBtn").onclick=begin;
+$("againBtn").onclick=function(){$("result").classList.add("hidden");$("start").classList.remove("hidden");window.scrollTo(0,0);};
+
+function begin(){
+  cname=$("cname").value.trim();showFb=$("fbToggle").checked;QTIME=$("slowToggle").checked?20:BASE_TIME;
+  Q=[];for(var i=0;i<NQ;i++)Q.push(makeQ(MODES[mode].plan(i)));
+  results=[];cur=0;
+  var d=$("pdots");d.innerHTML="";for(i=0;i<NQ;i++)d.appendChild(document.createElement("i"));
+  $("start").classList.add("hidden");$("game").classList.remove("hidden");window.scrollTo(0,0);
+  SND.unlock();var c=3;$("cnum").textContent=c;$("count").classList.remove("hidden");SND.beep();
+  var iv=setInterval(function(){c--;if(c>0){$("cnum").textContent=c;SND.beep();}else{clearInterval(iv);$("count").classList.add("hidden");SND.go();startedAt=Date.now();showQ();}},700);
+}
+
+/* place 3 bubbles at random, non-overlapping positions */
+function positions(){
+  var ar=$("arena"),W=ar.clientWidth,H=ar.clientHeight,r=(W<500?56:75)+6,pts=[];
+  for(var t=0;t<2000&&pts.length<3;t++){
+    var x=r+Math.random()*(W-2*r),y=r+Math.random()*(H-2*r),ok=true;
+    for(var k=0;k<pts.length;k++){var dx=pts[k][0]-x,dy=pts[k][1]-y;if(dx*dx+dy*dy<(2.15*r)*(2.15*r)){ok=false;break;}}
+    if(ok)pts.push([x,y]);
+    if(t===1999&&pts.length<3){pts=[[W*.25,H*.3],[W*.72,H*.3],[W*.5,H*.75]];}
+  }
+  return pts;
+}
+function showQ(){
+  var q=Q[cur];taps=[];locked=false;lastTick=0;
+  $("qlab").textContent="Q"+(cur+1);$("qof").textContent="of "+NQ;
+  var ar=$("arena");ar.innerHTML="";var P=positions();
+  q.ex.forEach(function(e,i){
+    var b=document.createElement("button");b.className="bub";b.style.left=P[i][0]+"px";b.style.top=P[i][1]+"px";
+    b.style.animationDelay="0s,"+(i*0.4)+"s";b.innerHTML=bubbleLabel(e);b.dataset.i=i;
+    b.addEventListener("pointerdown",function(ev){ev.preventDefault();tap(+this.dataset.i,this);});
+    ar.appendChild(b);
+  });
+  var dots=$("pdots").children;for(var i=0;i<NQ;i++){if(i===cur)dots[i].className="c";}
+  qStart=Date.now();updTimer();clearInterval(tick);tick=setInterval(updTimer,100);
+}
+function updTimer(){
+  var el=(Date.now()-qStart)/1000,left=Math.max(0,QTIME-el),s=Math.ceil(left);
+  if(!locked&&s<=3&&s>0&&s!==lastTick){lastTick=s;SND.tick();}
+  $("tm").textContent=s;$("tm").className="tm"+(left<=3?" crit":left<=6?" warn":"");
+  $("tbar").style.width=(left/QTIME*100)+"%";
+  if(left<=0&&!locked)endQ(true);
+}
+function tap(i,el){
+  if(locked||taps.indexOf(i)>=0)return;
+  taps.push(i);el.classList.add("tapped");SND.pop(taps.length);
+  var o=document.createElement("span");o.className="ord";o.textContent=taps.length;el.appendChild(o);
+  if(taps.length===3)endQ(false);
+}
+function endQ(timeout){
+  locked=true;clearInterval(tick);
+  var q=Q[cur],co=correctOrder(q),t=Math.min(QTIME,(Date.now()-qStart)/1000);
+  var ok=!timeout&&taps.length===3&&taps.every(function(x,k){return x===co[k];});
+  results.push({q:q,taps:taps.slice(),co:co,ok:ok,timeout:timeout&&taps.length<3,t:t});
+  var dot=$("pdots").children[cur];dot.className=showFb?(ok?"ok":"bad"):"d";
+  var delay=250;
+  if(timeout&&taps.length<3)SND.timeup();
+  if(showFb){
+    setTimeout(function(){ok?SND.ok():(!(timeout&&taps.length<3)&&SND.bad());},120);
+    delay=1100;
+    Array.prototype.forEach.call($("arena").querySelectorAll(".bub"),function(b){
+      var i=+b.dataset.i;b.classList.remove("tapped");b.classList.add(ok?"ok":"bad");
+      if(!ok){var s=b.querySelector(".ord");if(!s){s=document.createElement("span");s.className="ord";b.appendChild(s);}s.textContent=co.indexOf(i)+1;}
+    });
+    var f=document.createElement("div");f.className="fb "+(ok?"ok":"bad");
+    f.textContent=ok?"✓ Correct":(timeout&&taps.length<3?"⏱ Time up. Numbers show the correct order":"✗ Wrong. Numbers show the correct order");
+    $("arena").appendChild(f);
+  }
+  setTimeout(function(){cur++;if(cur<NQ)showQ();else finish();},delay);
+}
+
+/* ================= RESULTS ================= */
+function fmt1(x){return x.toFixed(1)+"s";}
+function colorFor(p){return p>=80?"#16a34a":p>=60?"var(--amber)":"var(--rose)";}
+function finish(){
+  SND.fanfare();
+  $("game").classList.add("hidden");$("result").classList.remove("hidden");window.scrollTo(0,0);
+  attempts++;try{localStorage.setItem("bub2_attempts",String(attempts));}catch(e){}
+  var correct=results.filter(function(r){return r.ok;}).length,to=results.filter(function(r){return r.timeout;}).length;
+  var answered=results.filter(function(r){return !r.timeout;});
+  var avg=answered.length?answered.reduce(function(s,r){return s+r.t;},0)/answered.length:0;
+  var acc=Math.round(correct/NQ*100),total=Math.round((Date.now()-startedAt)/1000);
+  SCORM.report(acc,total);
+  var d=new Date();
+  $("rTag").textContent="Pattern 2 Report · "+MODES[mode].label+" · "+QTIME+"s timer · Game "+attempts;
+  $("rTitle").textContent=(cname?cname+"'s ":"Your ")+"Pattern 2 Result";
+  $("rSub").textContent="Played on "+d.toLocaleDateString()+" at "+d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})+". "+answered.length+" of "+NQ+" questions answered in time.";
+  $("sScore").textContent=correct+" / "+NQ;$("sScore").style.color=colorFor(acc);
+  $("sAcc").textContent=acc+"%";$("sAcc").style.color=colorFor(acc);
+  $("sAvg").textContent=answered.length?fmt1(avg):"–";
+  $("sTo").textContent=to;$("sTo").style.color=to?"var(--rose)":"#16a34a";
+
+  var v,vt;
+  if(acc>=85){v="Excellent: test ready ✓";vt="Outstanding. You handle multi-step calculations quickly and accurately."+(QTIME>15?" Now try the 15-second timer.":"");}
+  else if(acc>=65){v="Good: almost there";vt="A solid base for a hard pattern. Work on the weak areas below, then try Extreme mode.";}
+  else{v="Needs practice";vt="This pattern is much harder than the real test. Use the BODMAS drill and the 20-second training time until you reach 80%+, and keep practising the standard Bubbles game too.";}
+  $("verdict").textContent=v;$("verdict").style.color=colorFor(acc);$("verdictTxt").textContent=vt;
+
+  // breakdown by stage and by operator
+  var groups=[];
+  [[1,"Two-step BODMAS"],[2,"Brackets"],[3,"Three-step, close values"]].forEach(function(g){
+    var rs=results.filter(function(r){return r.q.level===g[0];});if(rs.length)groups.push([g[1],rs]);});
+  [["÷","Questions containing ÷"],["(","Questions containing brackets"]].forEach(function(g){
+    var rs=results.filter(function(r){return r.q.ex.some(function(e){return e.indexOf(g[0])>=0;});});if(rs.length)groups.push([g[1],rs]);});
+  $("bars").innerHTML=groups.map(function(g){var c=g[1].filter(function(r){return r.ok;}).length,p=Math.round(c/g[1].length*100);
+    return'<div class="b"><span>'+g[0]+'</span><div class="track"><i style="width:'+p+'%;background:'+colorFor(p)+'"></i></div><span class="pct">'+c+'/'+g[1].length+'</span></div>';}).join("");
+
+  $("chart").innerHTML=results.map(function(r){var h=Math.max(3,r.t/QTIME*100);var c=r.timeout?"var(--amber)":(r.ok?"#16a34a":"var(--rose)");
+    return'<div title="Q'+'" style="height:'+h+'%;background:'+c+'"></div>';}).join("");
+  $("chartL").innerHTML=results.map(function(r,i){return"<span>"+(i+1)+"</span>";}).join("");
+
+  var f=[],wrong=results.filter(function(r){return !r.ok&&!r.timeout;}).length;
+  var lateHalf=results.slice(13).filter(function(r){return r.ok;}).length/12,earlyHalf=results.slice(0,13).filter(function(r){return r.ok;}).length/13;
+  f.push(to===0?["good","✓","No timeouts. You answered every question within 15 seconds."]:["bad","!",to+" question(s) timed out. When about 3 seconds are left, tap your best guess. A guess may be right, but a blank is always wrong."]);
+  if(wrong>0)f.push([wrong<=3?"warn":"bad","!",wrong+" question(s) answered in the wrong order. Check the review below: were they calculation slips, close values, or a descending-order habit?"]);
+  var reversed=results.filter(function(r){return r.taps.length===3&&r.taps[0]===r.co[2]&&r.taps[2]===r.co[0];}).length;
+  if(reversed>=2)f.push(["bad","!","You tapped "+reversed+" question(s) in fully reversed (descending) order. Remember: ascending means smallest → largest."]);
+  if(answered.length&&avg<=8)f.push(["good","✓","Great speed: "+fmt1(avg)+" on average. You have buffer time to double-check close values."]);
+  else if(answered.length&&avg>11)f.push(["warn","!","Average time is "+fmt1(avg)+". Estimate first (round to the nearest 10) and calculate exactly only when two bubbles are close."]);
+  if(earlyHalf-lateHalf>0.25)f.push(["warn","!","Your accuracy dropped in the second half. Practise full 25-question rounds to build stamina, and reset your focus after every question."]);
+  if(acc>=85)f.push(["good","✓","Accuracy of "+acc+"% on the hard pattern: the real game should feel comfortable."]);
+  var bodErr=results.filter(function(r){return !r.ok&&!r.timeout&&r.q.level===1;}).length;
+  if(bodErr>=2)f.push(["warn","!",bodErr+" mistakes on two-step BODMAS questions. Remember: × and ÷ before + and −, so 30 − 4 × 5 = 30 − 20 = 10."]);
+  $("flags").innerHTML=f.map(function(x){return'<div class="flag '+x[0]+'"><span class="ic">'+x[1]+'</span><span>'+x[2]+'</span></div>';}).join("");
+
+  renderReview("all");
+  Array.prototype.forEach.call($("filters").children,function(b){b.onclick=function(){Array.prototype.forEach.call($("filters").children,function(x){x.classList.remove("on");});b.classList.add("on");renderReview(b.dataset.f);};});
+}
+function renderReview(fl){
+  var rows=results.map(function(r,i){
+    var cls=r.ok?"ok":(r.timeout?"to":"bad");if(fl!=="all"&&fl!==cls)return"";
+    var vals=r.q.ex.map(function(e,k){return show(e)+" = <b>"+r.q.v[k]+"</b>";}).join("<br>");
+    var yo=r.taps.length?r.taps.map(function(k){return r.q.v[k];}).join(" → ")+(r.taps.length<3?" (incomplete)":""):"—";
+    var co=r.co.map(function(k){return r.q.v[k];}).join(" → ");
+    var pill={ok:'<span class="pill p-ok">Correct</span>',bad:'<span class="pill p-bad">Wrong</span>',to:'<span class="pill p-to">Timed out</span>'}[cls];
+    return"<tr><td>"+(i+1)+"</td><td class='mono'>"+vals+"</td><td class='mono'>"+yo+"</td><td class='mono'><b>"+co+"</b></td><td class='mono'>"+fmt1(r.t)+"</td><td>"+pill+"</td></tr>";
+  }).join("");
+  $("review").innerHTML=rows||'<tr><td colspan="6" style="text-align:center;color:var(--muted)">Nothing here. Well done!</td></tr>';
+}
+window.addEventListener("beforeunload",function(e){if(!$("game").classList.contains("hidden")){e.preventDefault();e.returnValue="";}});
+window.addEventListener("unload",function(){SCORM.finish();});
+</script>
+</body>
+</html>
