@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Networking, Security &amp; Cloud – Complete Guide</title>
+<style>
+  :root{
+    --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889;
+    --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff; --brand-line:#d9ccff;
+    --teal:#0e9f8a; --teal-soft:#e2f7f3;
+    --amber:#c77700; --amber-soft:#fff4dd;
+    --rose:#d63a5a; --rose-soft:#ffe8ee;
+    --sky:#2563eb; --sky-soft:#e6efff;
+    --line:#e6e4f0; --bg-alt:#f8f7fc;
+  }
+  @page{ size:A4; margin:16mm 15mm 18mm 15mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); font-size:10pt; line-height:1.55; }
+  h1,h2,h3,h4{ margin:0; line-height:1.2; letter-spacing:-.01em; }
+  p{ margin:0 0 8px; }
+  ul{ margin:4px 0 8px; padding-left:18px; }
+  li{ margin:2px 0; }
+  li::marker{ color:var(--brand); }
+  b,strong{ font-weight:650; }
+  code,.mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.6pt; }
+  .page-break{ break-before:page; }
+  .avoid{ break-inside:avoid; }
+  h2,h3,h4,.sec-head{ break-after:avoid; page-break-after:avoid; }
+
+  /* ---------- COVER ---------- */
+  .cover{ height:297mm; width:210mm; position:relative; overflow:hidden; color:#fff;
+    background:radial-gradient(120% 80% at 100% 0%, #7c4dff 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #1fb6a0 0%, transparent 50%),
+               linear-gradient(160deg,#1a1240 0%,#2a1a6e 55%,#140f33 100%);
+    padding:24mm 20mm 18mm; display:flex; flex-direction:column; }
+  .cover .grid{ position:absolute; inset:0; opacity:.08;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:14mm 14mm; }
+  .cover > *{ position:relative; }
+  .tag{ display:inline-block; font-size:8.5pt; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.08); }
+  .cover h1{ font-size:40pt; font-weight:800; margin-top:20mm; line-height:1.05; letter-spacing:-.02em; }
+  .cover h1 span{ color:#b9a6ff; }
+  .cover .sub{ font-size:13pt; opacity:.85; margin-top:6mm; max-width:150mm; }
+  .cover .roles{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10mm; }
+  .cover .roles div{ padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); font-weight:600; font-size:10pt; }
+  .cover .stats{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .cover .stat{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px; }
+  .cover .stat b{ display:block; font-size:22pt; font-weight:800; }
+  .cover .stat span{ font-size:8.5pt; opacity:.8; }
+  .cover .foot{ margin-top:10mm; font-size:8pt; opacity:.65; display:flex; justify-content:space-between; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .sec-num{ flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff; font-weight:800; font-size:15pt; }
+  .sec-head h2{ font-size:19pt; font-weight:800; }
+  .sec-head .kicker{ font-size:8pt; text-transform:uppercase; letter-spacing:.14em; color:var(--brand); font-weight:700; margin-bottom:2px; }
+  h3{ font-size:12.5pt; font-weight:750; margin:16px 0 8px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  h3 .pill{ font-size:8pt; font-weight:600; padding:3px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand); }
+  h4{ font-size:10.5pt; font-weight:700; margin:10px 0 4px; }
+  .lead{ color:var(--ink-2); font-size:10.5pt; }
+
+  /* ---------- CARDS ---------- */
+  .cards{ display:grid; gap:10px; margin:10px 0; }
+  .c2{ grid-template-columns:1fr 1fr; } .c3{ grid-template-columns:repeat(3,1fr); } .c4{ grid-template-columns:repeat(4,1fr); }
+  .card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid; }
+  .card.alt{ background:var(--bg-alt); }
+  .card .lbl{ font-size:7.8pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .card .val{ font-size:15pt; font-weight:800; margin-top:2px; }
+  .card .val small{ font-size:9pt; font-weight:600; color:var(--muted); }
+  .role-card{ border-top:4px solid var(--brand); }
+  .role-card.t{ border-top-color:var(--teal);} .role-card.a{ border-top-color:var(--amber);} .role-card.s{ border-top-color:var(--sky);}
+  .role-card h4{ margin:0 0 2px; font-size:11pt; }
+  .role-card .code{ font-size:8pt; color:var(--muted); font-weight:600; }
+  .role-card .ctc{ font-size:16pt; font-weight:800; margin:8px 0 2px; }
+
+  /* ---------- CALLOUTS ---------- */
+  .note{ border-radius:12px; padding:11px 14px 11px 14px; margin:10px 0; break-inside:avoid; border-left:4px solid; }
+  .note .t{ font-weight:750; font-size:9.5pt; margin-bottom:3px; display:block; }
+  .note p:last-child,.note ul:last-child{ margin-bottom:0; }
+  .note.info{ background:var(--sky-soft); border-color:var(--sky);} .note.info .t{ color:var(--sky);}
+  .note.tip{ background:var(--teal-soft); border-color:var(--teal);} .note.tip .t{ color:var(--teal);}
+  .note.warn{ background:var(--amber-soft); border-color:var(--amber);} .note.warn .t{ color:var(--amber);}
+  .note.alert{ background:var(--rose-soft); border-color:var(--rose);} .note.alert .t{ color:var(--rose);}
+  .note.brand{ background:var(--brand-soft); border-color:var(--brand);} .note.brand .t{ color:var(--brand);}
+
+  /* ---------- TABLES ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0 12px; font-size:9.2pt; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  thead th{ background:var(--ink); color:#fff; text-align:left; font-weight:650; padding:9px 11px; font-size:8.6pt; letter-spacing:.02em; }
+  tbody td{ padding:8px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--bg-alt); }
+  tr{ break-inside:avoid; }
+  td.c{ text-align:center; white-space:nowrap; } th.c{ text-align:center; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:8pt; font-weight:700; white-space:nowrap; }
+  .b-yes{ background:var(--rose-soft); color:var(--rose);} .b-no{ background:var(--teal-soft); color:var(--teal);}
+  .b-mid{ background:var(--amber-soft); color:var(--amber);} .b-fin{ background:var(--brand-soft); color:var(--brand);}
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:12px 0 16px; }
+  .step{ position:relative; text-align:center; padding:12px 6px 10px; border-radius:12px; background:var(--bg-alt); border:1px solid var(--line); }
+  .step .n{ width:26px; height:26px; margin:0 auto 6px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:9pt; color:#fff; background:var(--brand); }
+  .step:nth-child(even) .n{ background:var(--teal); }
+  .step:last-child .n{ background:var(--amber); }
+  .step b{ display:block; font-size:8.4pt; line-height:1.25; }
+  .step span{ display:block; font-size:7.4pt; color:var(--muted); margin-top:3px; }
+  .step:not(:last-child)::after{ content:"›"; position:absolute; right:-7px; top:16px; font-size:14pt; color:var(--brand); font-weight:800; }
+
+  /* ---------- CODE ---------- */
+  pre{ background:#16132e; color:#e8e6ff; border-radius:12px; padding:12px 14px; margin:8px 0 10px; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; line-height:1.55; white-space:pre-wrap; break-inside:avoid; }
+  pre .k{ color:#c4b5fd; } pre .c{ color:#8b88b0; } pre .s{ color:#5eead4; } pre .n{ color:#fcd34d; }
+  .kbd{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* ---------- MISC ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+  .chip{ font-size:8.4pt; padding:4px 10px; border-radius:999px; background:var(--brand-soft); color:#3b1fa8; font-weight:600; }
+  .chip.t{ background:var(--teal-soft); color:#0b6e60; } .chip.r{ background:var(--rose-soft); color:#a3213f; }
+  .game{ display:flex; gap:12px; }
+  .game .ic{ flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#fff; font-size:13pt; }
+  .week{ border-left:4px solid var(--brand); }
+  .week:nth-child(2){ border-left-color:var(--teal);} .week:nth-child(3){ border-left-color:var(--amber);} .week:nth-child(4){ border-left-color:var(--rose);}
+  .check li{ list-style:none; position:relative; padding-left:4px; }
+  .check{ padding-left:20px; }
+  .check li::before{ content:"✓"; position:absolute; left:-18px; top:0; color:var(--teal); font-weight:800; }
+  .disclaimer{ font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; margin-top:16px; }
+</style><style>
+  :root{ --pa:#16a34a; --pb:#7c3aed; --pc:#2563eb; --pd:#ea580c; --cy:#06b6d4; }
+  .cover{ background:
+      linear-gradient(rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(100% 70% at 100% 0%, #0e7490 0%, transparent 55%),
+      radial-gradient(90% 60% at 0% 100%, #4338ca 0%, transparent 55%),
+      linear-gradient(160deg,#06101f 0%,#0a1a33 55%,#040a14 100%); }
+  .cover .grid{ display:none; }
+  .cover h1 span{ color:#67e8f9; }
+  .cover .mono-tag{ font-family:"DejaVu Sans Mono",monospace; font-size:9pt; color:#67e8f9; margin-top:6mm; opacity:.9; }
+  .sec-head{ break-inside:avoid; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; background:#eef2f7; padding:0 4px; border-radius:4px; font-size:8.4pt; }
+  pre code{ background:none; padding:0; white-space:pre; }
+  h3{ break-after:avoid; }
+
+  /* part theming */
+  .part{ --pc1:#16a34a; --pc2:#22c55e; --pcs:#e8f8ee; }
+  .part.b{ --pc1:#7c3aed; --pc2:#a78bfa; --pcs:#f1ebff; }
+  .part.c{ --pc1:#2563eb; --pc2:#38bdf8; --pcs:#e7f0ff; }
+  .part.d{ --pc1:#ea580c; --pc2:#fb923c; --pcs:#fff1e6; }
+  .part .sec-num{ background:linear-gradient(135deg,var(--pc1),var(--pc2)); }
+  .part .sec-head .kicker{ color:var(--pc1); }
+  .part li::marker{ color:var(--pc1); }
+  .banner{ border-radius:16px; padding:18px 22px; color:#fff; margin:0 0 14px; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,var(--pc1),#0a1a33); break-inside:avoid; }
+  .banner .pl{ font:700 8.5pt "DejaVu Sans Mono",monospace; letter-spacing:.12em; opacity:.85; }
+  .banner h2{ font-size:22pt; font-weight:800; margin:4px 0 4px; color:#fff; }
+  .banner p{ margin:0; opacity:.9; font-size:9.6pt; max-width:150mm; }
+  .banner .chips{ margin:10px 0 0; }
+  .banner .chip{ background:rgba(255,255,255,.14); color:#fff; }
+  .banner .big{ position:absolute; right:18px; top:10px; font:800 54pt Inter,sans-serif; opacity:.14; }
+  .def{ border:1px solid var(--line); border-left:4px solid var(--pc1,#2563eb); border-radius:10px; padding:7px 11px; margin:6px 0; font-size:9.2pt; background:#fff; break-inside:avoid; }
+  .def b.t{ color:var(--pc1,#2563eb); }
+  .trap{ border:1px dashed #e11d48; background:#fff5f7; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .trap b{ color:#e11d48; }
+  table.tight td, table.tight th{ padding:4.5px 8px; font-size:8.6pt; }
+  table.tight{ margin:6px 0 10px; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  pre .k{ background:none; border:0; padding:0; font-size:inherit; white-space:inherit; }
+  .k{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* MCQs */
+  .mcq{ display:grid; grid-template-columns:34px 1fr; gap:8px; border:1px solid var(--line); border-radius:12px; padding:9px 12px; margin:7px 0; break-inside:avoid; background:#fff; }
+  .mcq .qn{ font:800 9pt Inter,sans-serif; color:#fff; background:var(--pc1,#2563eb); border-radius:7px; height:22px; display:grid; place-items:center; }
+  .mcq .qt{ font-size:9.4pt; font-weight:600; }
+  .mcq .tg{ display:inline-block; font-size:7.6pt; font-weight:700; color:var(--pc1); background:var(--pcs); border-radius:99px; padding:1px 8px; margin-right:6px; }
+  .mcq pre{ margin:6px 0; font-size:8.2pt; }
+  .opts{ list-style:none; padding:0; margin:5px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:3px 14px; font-size:9pt; }
+  .opts li{ margin:0; } .opts li b{ color:var(--pc1); margin-right:4px; }
+  .mcqs2{ columns:2; column-gap:10px; } .mcqs2 .mcq{ display:inline-grid; width:100%; }
+  .keyt td{ font-size:8.3pt; padding:6px 9px; } .keyt td.ans{ font-weight:800; color:var(--pc1); text-align:center; }
+  .keyt td:first-child{ width:7%; } .keyt td:nth-child(2){ width:6%; } .keyt td:nth-child(3){ width:24%; }
+  .sheet td,.sheet th{ text-align:center; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; padding:5px 8px; }
+  .sheet th{ background:#217346; } .sheet td:first-child{ background:#f0f2f5; font-weight:700; color:#6b6889; width:6%; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:9.4pt; }
+  .toc li b{ width:30px; font-family:"DejaVu Sans Mono",monospace; }
+</style>
+<style>
+  .cover{ background:
+      linear-gradient(rgba(56,189,248,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(56,189,248,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(90% 60% at 100% 0%, #2563eb 0%, transparent 55%),
+      radial-gradient(60% 45% at 0% 100%, #dc2626 0%, transparent 60%),
+      radial-gradient(60% 45% at 100% 100%, #0891b2 0%, transparent 60%),
+      linear-gradient(160deg,#050c1f 0%,#0a1633 55%,#040811 100%); }
+  .cover h1 span{ color:#7dd3fc; }
+  .part.s{ --pc1:#dc2626; --pc2:#f87171; --pcs:#fdecec; }
+  .part.cl{ --pc1:#0891b2; --pc2:#22d3ee; --pcs:#e2f6fa; }
+  .banner.s{ background:linear-gradient(135deg,#dc2626,#2a0606); }
+  .banner.cl{ background:linear-gradient(135deg,#0891b2,#04232b); }
+  .banner.n{ background:linear-gradient(135deg,#2563eb,#081633); }
+  .two{ align-items:start; }
+  .steps{ counter-reset:s; padding:0; list-style:none; margin:6px 0; }
+  .steps li{ counter-increment:s; position:relative; padding-left:28px; margin:5px 0; font-size:9pt; }
+  .steps li::before{ content:counter(s); position:absolute; left:0; top:0; width:19px; height:19px; border-radius:50%; background:var(--pc1); color:#fff; font-weight:800; font-size:8pt; display:grid; place-items:center; }
+  .callout{ border-radius:12px; background:var(--pcs); padding:9px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .callout b.t{ color:var(--pc1); display:block; }
+  .osi{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin:8px 0; }
+  .osi div{ border-radius:8px; padding:7px 5px; color:#fff; text-align:center; font-size:7.8pt; line-height:1.25; }
+  .osi div b{ display:block; font-size:12pt; }
+  .flow{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin:8px 0; font-size:8.6pt; }
+  .flow span{ border:1px solid var(--line); background:#fff; border-radius:8px; padding:5px 9px; font-weight:600; }
+  .flow i{ font-style:normal; color:var(--pc1); font-weight:800; }
+  .keyt td{ padding:4px 8px !important; font-size:8.1pt !important; }
+  .resp td{ text-align:center; font-size:8.2pt; } .resp td:first-child{ text-align:left; font-weight:600; }
+  .resp .y{ background:#dbeafe !important; color:#1e40af; font-weight:700; } .resp .p{ background:#dcfce7 !important; color:#166534; font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Technical Assessment · Section C</span></div>
+  <h1>Networking,<br>Security &amp; Cloud<br><span>Complete Guide</span></h1>
+  <div class="mono-tag">&gt; ≈ 14 of 45 questions · the largest recall section · highest-scoring if revised_</div>
+  <p class="sub">Everything for Section C, from zero: network basics, the OSI and TCP/IP models, devices, IP addressing and subnetting, TCP/UDP, every key protocol and port, cybersecurity (CIA, cryptography, authentication, malware, attacks, defences), cloud computing and DevOps (SDLC, Agile, CI/CD, Git, Docker, Kubernetes). Includes 64 practice MCQs.</p>
+  <div class="roles"><div>🌐 Networking</div><div>🔐 Security</div><div>☁️ Cloud</div><div>⚙️ DevOps</div></div>
+  <div class="stats">
+    <div class="stat"><b>≈ 14</b><span>Questions in the test</span></div>
+    <div class="stat"><b>40+</b><span>Ports and protocols</span></div>
+    <div class="stat"><b>64</b><span>Practice MCQs</span></div>
+    <div class="stat"><b>✓</b><span>Subnet answers computed in code</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS ================= -->
+<section class="page-break part c">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#2563eb">00</b>What's tested and how to prepare</li>
+    <li><b style="color:#2563eb">N1</b>Network basics, types and topologies</li>
+    <li><b style="color:#2563eb">N2</b>OSI and TCP/IP models</li>
+    <li><b style="color:#2563eb">N3</b>Network devices and domains</li>
+    <li><b style="color:#2563eb">N4</b>IP addressing, subnetting and IPv6</li>
+    <li><b style="color:#2563eb">N5</b>Transport: TCP vs UDP and ports</li>
+    <li><b style="color:#2563eb">N6</b>Application protocols (HTTP, DNS, DHCP…)</li>
+    <li><b style="color:#2563eb">N7</b>Routing, switching and Wi-Fi</li>
+    <li><b style="color:#dc2626">S1</b>Security fundamentals</li>
+    <li><b style="color:#dc2626">S2</b>Cryptography and PKI</li>
+    <li><b style="color:#dc2626">S3</b>Authentication and access</li>
+    <li><b style="color:#dc2626">S4</b>Malware and attacks</li>
+    <li><b style="color:#dc2626">S5</b>Network defences and testing</li>
+    <li><b style="color:#0891b2">K1</b>Cloud computing and service models</li>
+    <li><b style="color:#0891b2">K2</b>Virtualisation, scaling and storage</li>
+    <li><b style="color:#0891b2">K3</b>SDLC, Agile and DevOps</li>
+    <li><b style="color:#0891b2">K4</b>Git, Docker and Kubernetes</li>
+    <li><b style="color:#2563eb">✓</b>Practice MCQs, answer keys and cheat sheet</li>
+  </ul>
+
+  <div class="sec-head" style="margin-top:16px"><div class="sec-num">00</div><div><div class="kicker">Know the section</div><h2>What's Tested &amp; How to Prepare</h2></div></div>
+  <p class="lead">Section C is the <b>largest section</b>, with about 14 of the 45 questions. The questions are mostly <b>direct recall</b>: which layer, which port, which attack, which cloud model. That makes it the best place to score heavily if you revise the tables in this guide.</p>
+  <table class="tight"><thead><tr><th style="width:24%">Area</th><th>Typical questions</th><th style="width:13%">Weight*</th></tr></thead><tbody>
+    <tr><td><b style="color:#2563eb">Networking</b></td><td>OSI layer of a device or protocol · port numbers · TCP vs UDP · IP class or private range · subnet host count · DNS/DHCP steps · HTTP status codes</td><td>~40%</td></tr>
+    <tr><td><b style="color:#dc2626">Security</b></td><td>CIA triad · symmetric vs asymmetric · hashing · malware types · phishing variants · SQLi/XSS · firewall/IDS/IPS/VPN</td><td>~30%</td></tr>
+    <tr><td><b style="color:#0891b2">Cloud &amp; DevOps</b></td><td>IaaS/PaaS/SaaS examples · deployment models · virtualisation · scaling · CI/CD · Git commands · Docker terms</td><td>~30%</td></tr>
+  </tbody></table>
+  <p style="font-size:8.4pt;color:var(--muted);margin-top:-4px">*An approximate split based on the published syllabus, not an official breakdown.</p>
+  <div class="note tip"><span class="t">How to prepare</span>Learn the <b>tables</b>, because they hold about 80% of the answers. Use flashcards for ports and layers. For subnetting, learn the 3 formulas in N4 and practise until a /27 or /26 question takes under 30 seconds.</div>
+</section>
+
+<!-- ================= N1 ================= -->
+<section class="page-break part c">
+  <div class="banner n"><div class="big">N</div><div class="pl">🌐 PART 1 · NETWORKING</div><h2>Computer Networks</h2>
+    <p>How devices connect and communicate: the models, the hardware, the addresses and the protocols. About 40% of Section C.</p></div>
+  <div class="sec-head"><div class="sec-num">N1</div><div><div class="kicker">The basics</div><h2>Network Basics, Types &amp; Topologies</h2></div></div>
+  <div class="def"><b class="t">Network</b>: two or more devices (nodes) connected to share data and resources. A <b>protocol</b> is an agreed set of rules for communication. <b>Bandwidth</b> = maximum data rate (bps). <b>Throughput</b> = the rate actually achieved. <b>Latency</b> = delay (ms). 1 Byte = 8 bits, so 100 <b>Mbps</b> ≈ 12.5 <b>MB/s</b>.</div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Type</th><th>Coverage</th><th>Example</th></tr></thead><tbody>
+      <tr><td><b>PAN</b></td><td>About 10 m around a person</td><td>Bluetooth earbuds</td></tr>
+      <tr><td><b>LAN</b></td><td>A room, building or campus</td><td>Office Wi-Fi or Ethernet</td></tr>
+      <tr><td><b>MAN</b></td><td>A city</td><td>A city cable network</td></tr>
+      <tr><td><b>WAN</b></td><td>A country or the world</td><td>The <b>Internet</b> (the largest WAN)</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Mode</th><th>Direction</th><th>Example</th></tr></thead><tbody>
+      <tr><td><b>Simplex</b></td><td>One way only</td><td>Keyboard → PC, TV broadcast</td></tr>
+      <tr><td><b>Half duplex</b></td><td>Both ways, one at a time</td><td>Walkie-talkie</td></tr>
+      <tr><td><b>Full duplex</b></td><td>Both ways at once</td><td>Phone call</td></tr>
+    </tbody></table>
+  </div>
+  <table class="tight"><thead><tr><th style="width:12%">Topology</th><th style="width:34%">Layout</th><th>Pros</th><th>Cons</th></tr></thead><tbody>
+    <tr><td><b>Bus</b></td><td>All devices on one backbone cable</td><td>Cheap, simple</td><td>The backbone is a single point of failure, and collisions are common</td></tr>
+    <tr><td><b>Star</b></td><td>All devices connect to a central switch or hub</td><td>Easy to manage. One broken cable affects only one device</td><td>The central device is a single point of failure. The most common LAN layout</td></tr>
+    <tr><td><b>Ring</b></td><td>Each device connects to two neighbours in a loop</td><td>Orderly (token passing)</td><td>One break can stop the ring (unless it's a dual ring)</td></tr>
+    <tr><td><b>Mesh</b></td><td>Every device links to every other (full mesh)</td><td>Very reliable, with many paths</td><td>Expensive: needs <b>n(n−1)/2</b> links</td></tr>
+    <tr><td><b>Tree</b></td><td>Hierarchical, with stars attached to a backbone</td><td>Scalable</td><td>Depends on the root</td></tr>
+    <tr><td><b>Hybrid</b></td><td>A mix of the above</td><td>Flexible</td><td>Complex</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Transmission media</b><br><b>Twisted pair</b> (Cat5e/Cat6, RJ-45, most LANs) · <b>Coaxial</b> (cable TV) · <b>Fibre optic</b> (light, fastest, long distance, immune to interference. Single-mode = long distance, multi-mode = short) · <b>Wireless</b> (radio, microwave, infrared).</div>
+    <div class="def"><b class="t">Architectures</b><br><b>Client–server</b>: central servers provide services (web, mail). <b>Peer-to-peer</b>: every node is both client and server (BitTorrent).</div>
+    <div class="def"><b class="t">Switching methods</b><br><b>Circuit switching</b>: a dedicated path for the whole session (old telephone network). <b>Packet switching</b>: data is split into packets that may take different routes (the internet).</div>
+  </div>
+</section>
+
+<!-- ================= N2 OSI ================= -->
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">N2</div><div><div class="kicker">The most-tested model</div><h2>OSI &amp; TCP/IP Models</h2></div></div>
+  <div class="osi">
+    <div style="background:#1e3a8a"><b>7</b>Application</div><div style="background:#1d4ed8"><b>6</b>Presentation</div><div style="background:#2563eb"><b>5</b>Session</div>
+    <div style="background:#0891b2"><b>4</b>Transport</div><div style="background:#0d9488"><b>3</b>Network</div><div style="background:#16a34a"><b>2</b>Data Link</div><div style="background:#65a30d"><b>1</b>Physical</div>
+  </div>
+  <p style="font-size:8.8pt;margin-top:0">Mnemonic: top to bottom, "<b>A</b>ll <b>P</b>eople <b>S</b>eem <b>T</b>o <b>N</b>eed <b>D</b>ata <b>P</b>rocessing". Bottom to top, "<b>P</b>lease <b>D</b>o <b>N</b>ot <b>T</b>hrow <b>S</b>ausage <b>P</b>izza <b>A</b>way".</p>
+  <table class="tight"><thead><tr><th>#</th><th style="width:12%">Layer</th><th style="width:27%">Responsibility</th><th>Protocols / standards</th><th style="width:14%">Devices</th><th style="width:10%">PDU</th><th style="width:11%">Address</th></tr></thead><tbody>
+    <tr><td>7</td><td><b>Application</b></td><td>Network services for applications and users</td><td>HTTP, HTTPS, FTP, SMTP, POP3, IMAP, DNS, DHCP, SSH, Telnet, SNMP</td><td>Gateway, L7 firewall</td><td>Data</td><td>—</td></tr>
+    <tr><td>6</td><td><b>Presentation</b></td><td>Translation, encryption, compression</td><td>SSL/TLS*, JPEG, GIF, MPEG, ASCII</td><td>—</td><td>Data</td><td>—</td></tr>
+    <tr><td>5</td><td><b>Session</b></td><td>Set up, manage and end sessions; checkpoints</td><td>NetBIOS, RPC, PPTP</td><td>—</td><td>Data</td><td>—</td></tr>
+    <tr><td>4</td><td><b>Transport</b></td><td>End-to-end delivery, segmentation, flow and error control, <b>ports</b></td><td>TCP, UDP</td><td>Load balancer (L4)</td><td>Segment / datagram</td><td>Port</td></tr>
+    <tr><td>3</td><td><b>Network</b></td><td>Logical addressing, <b>routing</b>, path selection</td><td>IP (v4/v6), ICMP, IPsec, OSPF, RIP</td><td><b>Router</b>, L3 switch</td><td>Packet</td><td>IP address</td></tr>
+    <tr><td>2</td><td><b>Data Link</b></td><td>Node-to-node delivery, framing, MAC, error detection (CRC)</td><td>Ethernet (802.3), Wi-Fi (802.11), PPP, ARP*</td><td><b>Switch</b>, bridge, NIC</td><td>Frame</td><td>MAC address</td></tr>
+    <tr><td>1</td><td><b>Physical</b></td><td>Bits over the medium: voltage, light, radio</td><td>Cables, RJ-45, USB, Bluetooth radio</td><td><b>Hub</b>, repeater, modem</td><td>Bits</td><td>—</td></tr>
+  </tbody></table>
+  <p style="font-size:8.4pt;color:var(--muted);margin-top:-4px">*TLS is usually placed at Layer 6 (some sources say 4–7). ARP works between Layers 2 and 3.</p>
+  <div class="two">
+    <div class="callout"><b class="t">Encapsulation: data going down the stack</b>
+      <div class="flow"><span>Data</span><i>→</i><span>+ TCP header = Segment</span><i>→</i><span>+ IP header = Packet</span><i>→</i><span>+ MAC header/trailer = Frame</span><i>→</i><span>Bits</span></div>
+      The receiver strips each header in reverse order (<b>de-encapsulation</b>).</div>
+    <table class="tight"><thead><tr><th>TCP/IP layer</th><th>OSI equivalent</th></tr></thead><tbody>
+      <tr><td>Application</td><td>7 + 6 + 5</td></tr><tr><td>Transport</td><td>4</td></tr>
+      <tr><td>Internet</td><td>3</td></tr><tr><td>Network Access / Link</td><td>2 + 1</td></tr>
+    </tbody></table>
+  </div>
+  <div class="def"><b class="t">OSI vs TCP/IP</b>: OSI is a 7-layer <b>reference/teaching</b> model. TCP/IP is a 4-layer <b>practical</b> model that the internet actually uses. (Some books describe TCP/IP with 5 layers by splitting Link into Data Link and Physical.)</div>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">N3</div><div><div class="kicker">The hardware</div><h2>Network Devices &amp; Domains</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:15%">Device</th><th style="width:8%">Layer</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><b>Repeater</b></td><td>1</td><td>Regenerates the signal to extend the distance</td></tr>
+    <tr><td><b>Hub</b></td><td>1</td><td>Broadcasts every bit to <b>all</b> ports. No intelligence. One collision domain</td></tr>
+    <tr><td><b>Bridge</b></td><td>2</td><td>Connects two LAN segments and filters by MAC</td></tr>
+    <tr><td><b>Switch</b></td><td>2</td><td>Forwards frames only to the right port using a <b>MAC address table</b>. Each port is its own collision domain</td></tr>
+    <tr><td><b>Router</b></td><td>3</td><td>Connects <b>different networks</b> and forwards packets by <b>IP</b> using a routing table. Separates broadcast domains</td></tr>
+    <tr><td><b>Gateway</b></td><td>All / 7</td><td>Connects networks that use <b>different protocols</b>. The "default gateway" is the router leading out of your LAN</td></tr>
+    <tr><td><b>Modem</b></td><td>1</td><td>Modulates and demodulates between digital data and analog signals (DSL, cable)</td></tr>
+    <tr><td><b>Access point</b></td><td>2</td><td>Connects wireless devices to a wired LAN</td></tr>
+    <tr><td><b>Firewall</b></td><td>3–7</td><td>Filters traffic by rules (see S5)</td></tr>
+    <tr><td><b>Load balancer</b></td><td>4 / 7</td><td>Spreads traffic across several servers</td></tr>
+    <tr><td><b>NIC</b></td><td>1–2</td><td>Network interface card. It holds the MAC address</td></tr>
+  </tbody></table>
+  <div class="def"><b class="t">Collision vs broadcast domain</b>: a <b>hub</b> has 1 collision domain and 1 broadcast domain. A <b>switch</b> has a collision domain <b>per port</b> but 1 broadcast domain (unless VLANs are used). A <b>router</b> has a separate broadcast domain <b>per interface</b>.</div>
+</section>
+
+<!-- ================= N4 IP ================= -->
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">N4</div><div><div class="kicker">Addresses</div><h2>IP Addressing, Subnetting &amp; IPv6</h2></div></div>
+  <div class="def"><b class="t">IPv4</b> = 32 bits written as 4 <b>octets</b> in dotted decimal (each 0–255), for example <code>192.168.1.10</code>. Every address has a <b>network part</b> and a <b>host part</b>, split by the <b>subnet mask</b> (<code>255.255.255.0</code>, or <b>/24</b> in CIDR notation, meaning 24 network bits).</div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Class</th><th>1st octet</th><th>Default mask</th><th>Use</th></tr></thead><tbody>
+      <tr><td>A</td><td>1 – 126</td><td>/8 (255.0.0.0)</td><td>Very large networks</td></tr>
+      <tr><td>B</td><td>128 – 191</td><td>/16 (255.255.0.0)</td><td>Medium</td></tr>
+      <tr><td>C</td><td>192 – 223</td><td>/24 (255.255.255.0)</td><td>Small</td></tr>
+      <tr><td>D</td><td>224 – 239</td><td>—</td><td>Multicast</td></tr>
+      <tr><td>E</td><td>240 – 255</td><td>—</td><td>Experimental</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Special address</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>10.0.0.0/8</td><td>Private (Class A range)</td></tr>
+      <tr><td>172.16.0.0 – 172.31.255.255</td><td>Private (/12)</td></tr>
+      <tr><td>192.168.0.0/16</td><td>Private (home routers)</td></tr>
+      <tr><td>127.0.0.0/8 (127.0.0.1)</td><td>Loopback (localhost)</td></tr>
+      <tr><td>169.254.0.0/16</td><td>APIPA: DHCP failed</td></tr>
+      <tr><td>0.0.0.0 / 255.255.255.255</td><td>"This host" / limited broadcast</td></tr>
+    </tbody></table>
+  </div>
+  <div class="callout"><b class="t">Subnetting in 3 formulas</b>
+    <ol class="steps">
+      <li><b>Host bits</b> h = 32 − prefix → <b>usable hosts</b> = 2ʰ − 2 (minus the network and broadcast addresses).</li>
+      <li><b>Block size</b> = 256 − (the mask's last non-255 octet) = 2ʰ in the last octet. Subnets start at multiples of the block size.</li>
+      <li>For any host: <b>network</b> = the block start at or below the host · <b>broadcast</b> = next block start − 1 · <b>usable hosts</b> = network + 1 up to broadcast − 1.</li>
+    </ol>
+    <b>Worked example: 192.168.10.77/26.</b> h = 6 → 62 hosts. The mask is 255.255.255.192, so the block is 64 and the blocks are .0, .64, .128, .192. 77 is in the <b>.64</b> block: network <b>192.168.10.64</b>, broadcast <b>.127</b>, hosts <b>.65–.126</b>.</div>
+  <table class="tight"><thead><tr><th>Prefix</th><th>Mask</th><th>Block</th><th>Usable hosts</th><th>Subnets in a /24</th></tr></thead><tbody>
+    <tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td><td>1</td></tr>
+    <tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td><td>2</td></tr>
+    <tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td><td>4</td></tr>
+    <tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td><td>8</td></tr>
+    <tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td><td>16</td></tr>
+    <tr><td>/29</td><td>255.255.255.248</td><td>8</td><td>6</td><td>32</td></tr>
+    <tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2 (point-to-point links)</td><td>64</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">IPv6</b><br>128 bits, written as 8 groups of 4 hex digits: <code>2001:0db8:0000:0000:0000:0000:0000:0001</code> → <code>2001:db8::1</code>. Leading zeros can be dropped, and <b>::</b> can be used <b>once</b>. There's <b>no broadcast</b> (it uses multicast and anycast instead). Loopback is <code>::1</code>.</div>
+    <div class="def"><b class="t">NAT / PAT</b><br>NAT translates private IPs to a public IP at the router. <b>PAT</b> (NAT overload) lets many devices share <b>one</b> public IP by using different ports. It's why home networks work with one ISP address.</div>
+    <div class="def"><b class="t">MAC address</b><br>48-bit physical (hardware) address, like <code>00:1A:2B:3C:4D:5E</code>. The first 24 bits are the <b>OUI</b> (manufacturer). <b>ARP</b> maps IP → MAC, and the old RARP maps MAC → IP.</div>
+  </div>
+  <div class="def"><b class="t">Public vs private IP · static vs dynamic</b>: a public IP is globally unique and routable on the internet. A private IP is reusable inside LANs and isn't routed on the internet. A <b>static</b> IP is fixed (servers). A <b>dynamic</b> IP is assigned by DHCP (laptops, phones). <b>Supernetting</b> or CIDR aggregation combines networks, such as two /24s into one /23.</div>
+</section>
+
+<!-- ================= N5 + N6 ================= -->
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">N5</div><div><div class="kicker">End-to-end delivery</div><h2>Transport: TCP vs UDP &amp; Ports</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:20%"></th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+    <tr><td>Connection</td><td><b>Connection-oriented</b>: 3-way handshake <b>SYN → SYN-ACK → ACK</b></td><td><b>Connectionless</b></td></tr>
+    <tr><td>Reliability</td><td>Guaranteed delivery, acknowledgements, retransmission, <b>ordering</b></td><td>Best effort: no ACKs, no ordering</td></tr>
+    <tr><td>Control</td><td>Flow control (sliding window) and congestion control</td><td>None</td></tr>
+    <tr><td>Header</td><td>20+ bytes</td><td>8 bytes</td></tr>
+    <tr><td>Speed</td><td>Slower</td><td>Faster, low latency</td></tr>
+    <tr><td>Used by</td><td>HTTP/HTTPS, FTP, SMTP, IMAP, SSH</td><td>DNS queries, DHCP, streaming, VoIP, gaming, TFTP, SNMP</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Connection teardown</b> uses 4 steps: FIN → ACK → FIN → ACK. <b>Port ranges</b>: well-known <b>0–1023</b> · registered 1024–49151 · dynamic/ephemeral 49152–65535. A <b>socket</b> = IP address + port number.</p>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">N6</div><div><div class="kicker">Layer 7</div><h2>Application Protocols</h2></div></div>
+  <table class="tight"><thead><tr><th>Port</th><th>Protocol</th><th>Transport</th><th>Purpose</th><th>Port</th><th>Protocol</th><th>Transport</th><th>Purpose</th></tr></thead><tbody>
+    <tr><td>20/21</td><td>FTP</td><td>TCP</td><td>File transfer (data/control)</td><td>110</td><td>POP3</td><td>TCP</td><td>Download mail</td></tr>
+    <tr><td>22</td><td>SSH / SFTP</td><td>TCP</td><td>Secure shell and file transfer</td><td>123</td><td>NTP</td><td>UDP</td><td>Time sync</td></tr>
+    <tr><td>23</td><td>Telnet</td><td>TCP</td><td>Remote login (plain text)</td><td>143</td><td>IMAP</td><td>TCP</td><td>Mail synced on the server</td></tr>
+    <tr><td>25</td><td>SMTP</td><td>TCP</td><td>Send mail (587 = submission)</td><td>161/162</td><td>SNMP</td><td>UDP</td><td>Network monitoring</td></tr>
+    <tr><td>53</td><td>DNS</td><td>UDP/TCP</td><td>Names → IP</td><td>389 / 636</td><td>LDAP / LDAPS</td><td>TCP</td><td>Directory services</td></tr>
+    <tr><td>67/68</td><td>DHCP</td><td>UDP</td><td>Auto IP (server/client)</td><td>443</td><td>HTTPS</td><td>TCP</td><td>Secure web (TLS)</td></tr>
+    <tr><td>69</td><td>TFTP</td><td>UDP</td><td>Trivial file transfer</td><td>993 / 995</td><td>IMAPS / POP3S</td><td>TCP</td><td>Secure mail</td></tr>
+    <tr><td>80</td><td>HTTP</td><td>TCP</td><td>Web</td><td>3306 / 1433</td><td>MySQL / MS SQL</td><td>TCP</td><td>Databases</td></tr>
+    <tr><td>88</td><td>Kerberos</td><td>TCP/UDP</td><td>Authentication tickets</td><td>3389</td><td>RDP</td><td>TCP</td><td>Remote desktop</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">HTTP / HTTPS</b><br>Request–response and <b>stateless</b> (cookies and sessions add state). Methods: <b>GET</b> (read), <b>POST</b> (create), <b>PUT</b> (replace), <b>PATCH</b> (partial update), <b>DELETE</b>, HEAD, OPTIONS. Versions: HTTP/1.1 (keep-alive) · HTTP/2 (multiplexing, binary) · HTTP/3 (over <b>QUIC</b>, which runs on <b>UDP</b>). <b>HTTPS</b> = HTTP over <b>TLS</b>, using a certificate plus encryption.</div>
+    <table class="tight"><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>1xx</td><td>Informational</td></tr>
+      <tr><td>2xx</td><td><b>Success</b>: 200 OK · 201 Created · 204 No Content</td></tr>
+      <tr><td>3xx</td><td><b>Redirect</b>: 301 Moved Permanently · 302 Found · 304 Not Modified</td></tr>
+      <tr><td>4xx</td><td><b>Client error</b>: 400 Bad Request · 401 Unauthorized · 403 Forbidden · 404 Not Found · 429 Too Many Requests</td></tr>
+      <tr><td>5xx</td><td><b>Server error</b>: 500 Internal · 502 Bad Gateway · 503 Unavailable · 504 Gateway Timeout</td></tr>
+    </tbody></table>
+  </div>
+  <div class="two">
+    <div class="callout"><b class="t">DNS: how www.example.com is resolved</b>
+      <ol class="steps"><li>Check the browser cache, then the OS cache and hosts file.</li><li>Ask the <b>recursive resolver</b> (usually the ISP's, or 8.8.8.8).</li>
+      <li>The resolver asks a <b>root</b> server, which sends it to the <b>.com TLD</b> server, which sends it to the <b>authoritative</b> server for example.com.</li><li>The IP is returned and cached for the record's <b>TTL</b>.</li></ol>
+      Records: <b>A</b> (IPv4) · <b>AAAA</b> (IPv6) · <b>CNAME</b> (alias) · <b>MX</b> (mail) · <b>NS</b> (name server) · <b>PTR</b> (reverse lookup) · <b>TXT</b> (verification).</div>
+    <div class="callout"><b class="t">DHCP: DORA</b>
+      <ol class="steps"><li><b>D</b>iscover: the client broadcasts "any DHCP server out there?"</li><li><b>O</b>ffer: the server offers an IP address.</li>
+      <li><b>R</b>equest: the client requests that offer.</li><li><b>A</b>cknowledge: the server confirms. The client gets an IP, mask, gateway and DNS for a <b>lease</b> period.</li></ol>
+      <b>ICMP</b> carries <code>ping</code> (echo request/reply) and <code>traceroute</code> (TTL expiry). <b>Useful commands</b>: ipconfig/ifconfig, ping, tracert/traceroute, nslookup, netstat.</div>
+  </div>
+</section>
+
+<!-- ================= N7 ================= -->
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">N7</div><div><div class="kicker">Getting packets around</div><h2>Routing, Switching &amp; Wi-Fi</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Routing</b><br><b>Static</b> routes are set manually (simple and predictable). <b>Dynamic</b> routes are learned automatically:<br>• <b>RIP</b>: distance-vector, metric = hop count, max 15 (16 = unreachable)<br>• <b>OSPF</b>: link-state, shortest path (Dijkstra), used inside organisations<br>• <b>BGP</b>: path-vector, routes <b>between</b> autonomous systems. It's the protocol of the internet.<br>The <b>default gateway</b> is where packets go when no specific route matches.</div>
+    <div class="def"><b class="t">Switching concepts</b><br>A <b>MAC table</b> maps port ↔ MAC. A <b>VLAN</b> logically splits one switch into separate broadcast domains (for example HR and IT). A <b>trunk</b> carries several VLANs (802.1Q tags). <b>STP</b> (Spanning Tree Protocol) prevents loops. A <b>Layer 3 switch</b> can also route.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Wi-Fi standard</th><th>Name</th><th>Band</th><th>Max speed (theoretical)</th></tr></thead><tbody>
+    <tr><td>802.11b</td><td>—</td><td>2.4 GHz</td><td>11 Mbps</td></tr>
+    <tr><td>802.11a / g</td><td>—</td><td>5 GHz / 2.4 GHz</td><td>54 Mbps</td></tr>
+    <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2.4 + 5 GHz</td><td>600 Mbps</td></tr>
+    <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>~3.5 Gbps</td></tr>
+    <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2.4 + 5 (+6) GHz</td><td>~9.6 Gbps</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>2.4 GHz</b> = longer range, slower, more interference. <b>5 GHz</b> = faster, shorter range. <b>Wireless security</b>: WEP (broken) → WPA (TKIP) → <b>WPA2</b> (AES-CCMP) → <b>WPA3</b> (SAE, strongest). The <b>SSID</b> is the network name. Ethernet is IEEE 802.3, Wi-Fi is 802.11 and Bluetooth was 802.15.1.</p>
+</section>
+
+<!-- ================= SECURITY ================= -->
+<section style="margin-top:22px" class="part s">
+  <div class="banner s"><div class="big">S</div><div class="pl">🔐 PART 2 · CYBERSECURITY</div><h2>Security</h2>
+    <p>Protecting systems and data: goals, cryptography, identity, threats and defences. About 30% of Section C. Most questions ask you to name the right term for a description.</p></div>
+  <div class="sec-head"><div class="sec-num">S1</div><div><div class="kicker">Core ideas</div><h2>Security Fundamentals</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">C · Confidentiality</b><br>Only authorised people can read the data. <i>Tools: encryption, access control.</i></div>
+    <div class="def"><b class="t">I · Integrity</b><br>The data isn't altered without detection. <i>Tools: hashing, digital signatures, checksums.</i></div>
+    <div class="def"><b class="t">A · Availability</b><br>Systems are up when needed. <i>Tools: backups, redundancy, DDoS protection.</i></div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:24%">Term</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td><b>AAA</b></td><td><b>Authentication</b> (who you are) → <b>Authorization</b> (what you may do) → <b>Accounting</b> (logging what you did)</td></tr>
+    <tr><td><b>Non-repudiation</b></td><td>The sender can't deny sending something (digital signatures)</td></tr>
+    <tr><td><b>Threat / Vulnerability / Risk</b></td><td>A threat is a possible danger · a vulnerability is a weakness · risk = likelihood × impact of a threat exploiting a vulnerability</td></tr>
+    <tr><td><b>Exploit</b></td><td>Code or a technique that takes advantage of a vulnerability</td></tr>
+    <tr><td><b>Least privilege</b></td><td>Give only the minimum access needed</td></tr>
+    <tr><td><b>Defence in depth</b></td><td>Multiple layers of security controls</td></tr>
+    <tr><td><b>Zero Trust</b></td><td>"Never trust, always verify." Every request is authenticated, even inside the network</td></tr>
+  </tbody></table>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">S2</div><div><div class="kicker">Secret writing</div><h2>Cryptography &amp; PKI</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:16%"></th><th>Symmetric</th><th>Asymmetric (public-key)</th><th>Hashing</th></tr></thead><tbody>
+    <tr><td>Keys</td><td><b>One shared key</b></td><td><b>Public + private</b> key pair</td><td>No key</td></tr>
+    <tr><td>Reversible?</td><td>Yes (decrypt)</td><td>Yes (decrypt with the other key)</td><td><b>No</b>: one-way</td></tr>
+    <tr><td>Speed</td><td>Fast (bulk data)</td><td>Slow (key exchange, signatures)</td><td>Very fast</td></tr>
+    <tr><td>Examples</td><td><b>AES</b> (128/192/256-bit), DES (56-bit, weak), 3DES, Blowfish</td><td><b>RSA</b>, ECC, Diffie–Hellman (key exchange), DSA</td><td><b>SHA-256</b>, SHA-3 · MD5 (128-bit) and SHA-1 (160-bit) are broken</td></tr>
+    <tr><td>Use</td><td>Encrypting files, disks, sessions</td><td>Sharing keys, signing, certificates</td><td>Passwords (with a <b>salt</b>), integrity checks</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">Digital signature</b><br>Hash the message, then encrypt the hash with the sender's <b>private key</b>. The receiver decrypts it with the sender's <b>public key</b> and compares hashes. This proves <b>authenticity, integrity and non-repudiation</b>. To send a <b>secret</b> message instead, encrypt it with the <b>receiver's public key</b>.</div>
+    <div class="def"><b class="t">PKI &amp; certificates</b><br>A <b>Certificate Authority (CA)</b> issues <b>X.509 digital certificates</b> that bind a public key to an identity. Browsers trust root CAs. <b>TLS</b> (the successor to SSL) uses certificates plus asymmetric key exchange, then a <b>symmetric</b> session key for speed.</div>
+  </div>
+  <div class="trap"><b>Encoding ≠ encryption ≠ hashing:</b> Base64 and URL encoding only change the representation and anyone can reverse them. Encryption needs a key to reverse. Hashing can't be reversed at all.</div>
+</section>
+
+<section class="part s">
+  <div class="sec-head"><div class="sec-num">S3</div><div><div class="kicker">Identity</div><h2>Authentication &amp; Access</h2></div></div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Factor</th><th>Examples</th></tr></thead><tbody>
+      <tr><td><b>Something you know</b></td><td>Password, PIN, security question</td></tr>
+      <tr><td><b>Something you have</b></td><td>Phone (OTP), smart card, hardware token</td></tr>
+      <tr><td><b>Something you are</b></td><td>Fingerprint, face, iris (biometrics)</td></tr>
+    </tbody></table>
+    <div class="def"><b class="t">MFA</b> uses factors from <b>different</b> categories (a password plus an OTP). Two passwords are still single-factor. <b>2FA</b> = exactly two factors.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%">Concept</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td><b>SSO</b></td><td>Single Sign-On: log in once and access many apps</td></tr>
+    <tr><td><b>OAuth 2.0</b></td><td><b>Authorization</b> framework ("allow this app to access my Google Drive") using access tokens</td></tr>
+    <tr><td><b>OpenID Connect</b></td><td><b>Authentication</b> layer on top of OAuth ("Sign in with Google")</td></tr>
+    <tr><td><b>SAML</b></td><td>XML-based SSO between an identity provider and an enterprise app</td></tr>
+    <tr><td><b>Kerberos</b></td><td>Ticket-based authentication in Windows domains (port 88)</td></tr>
+    <tr><td><b>RBAC / ABAC</b></td><td>Access based on role (Admin, Viewer) / on attributes (department, time)</td></tr>
+    <tr><td><b>JWT</b></td><td>JSON Web Token: a signed token carrying user claims, common in APIs</td></tr>
+  </tbody></table>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">S4</div><div><div class="kicker">Know your enemy</div><h2>Malware &amp; Attacks</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:15%">Malware</th><th>Key trait</th><th style="width:15%">Malware</th><th>Key trait</th></tr></thead><tbody>
+    <tr><td><b>Virus</b></td><td>Attaches to a host file. Spreads when the file runs</td><td><b>Worm</b></td><td><b>Self-replicates</b> across networks, with <b>no host</b> and no user action</td></tr>
+    <tr><td><b>Trojan</b></td><td>Disguised as legitimate software</td><td><b>Ransomware</b></td><td>Encrypts files and demands payment (WannaCry)</td></tr>
+    <tr><td><b>Spyware</b></td><td>Secretly collects information</td><td><b>Keylogger</b></td><td>Records keystrokes (passwords)</td></tr>
+    <tr><td><b>Adware</b></td><td>Unwanted ads</td><td><b>Rootkit</b></td><td>Hides deep in the OS and keeps admin access</td></tr>
+    <tr><td><b>Botnet</b></td><td>A network of infected "zombie" devices (used for DDoS)</td><td><b>Backdoor</b></td><td>A secret way in that bypasses authentication</td></tr>
+    <tr><td><b>Logic bomb</b></td><td>Triggers on a condition or date</td><td><b>Fileless</b></td><td>Lives only in memory or scripts</td></tr>
+  </tbody></table>
+  <table class="tight"><thead><tr><th style="width:20%">Attack</th><th>How it works</th><th style="width:30%">Defence</th></tr></thead><tbody>
+    <tr><td><b>Phishing</b></td><td>Fake email or site tricks the user into revealing data. <b>Spear phishing</b> = targeted · <b>Whaling</b> = executives · <b>Vishing</b> = voice · <b>Smishing</b> = SMS</td><td>Awareness training, email filtering, MFA</td></tr>
+    <tr><td><b>Social engineering</b></td><td>Manipulating people: <b>pretexting</b> (a made-up story), <b>baiting</b> (an infected USB), <b>tailgating/piggybacking</b> (following someone through a secure door), quid pro quo</td><td>Training, verification procedures</td></tr>
+    <tr><td><b>DoS / DDoS</b></td><td>Flooding a service (from many sources for DDoS, often a botnet): SYN flood, UDP flood</td><td>Rate limiting, CDN/scrubbing, redundancy</td></tr>
+    <tr><td><b>Man-in-the-Middle</b></td><td>Intercepting or altering traffic between two parties (fake Wi-Fi, <b>ARP spoofing</b>)</td><td>TLS/HTTPS, VPN, certificate checks</td></tr>
+    <tr><td><b>DNS spoofing / poisoning</b></td><td>Fake DNS answers redirect users to malicious sites</td><td>DNSSEC</td></tr>
+    <tr><td><b>SQL Injection</b></td><td>Malicious SQL in input: <code>' OR '1'='1</code></td><td><b>Parameterised queries</b>, input validation</td></tr>
+    <tr><td><b>XSS</b></td><td>Injected scripts run in other users' browsers</td><td>Output encoding, CSP</td></tr>
+    <tr><td><b>CSRF</b></td><td>Tricks a logged-in user's browser into sending an unwanted request</td><td>CSRF tokens, SameSite cookies</td></tr>
+    <tr><td><b>Brute force / dictionary</b></td><td>Trying many passwords. <b>Credential stuffing</b> reuses leaked passwords. <b>Password spraying</b> tries one common password on many accounts</td><td>Lockouts, MFA, strong unique passwords</td></tr>
+    <tr><td><b>Session hijacking</b></td><td>Stealing a session cookie or token</td><td>HTTPS, HttpOnly/Secure cookies, timeouts</td></tr>
+    <tr><td><b>Zero-day</b></td><td>Exploits a flaw before the vendor has a patch</td><td>Defence in depth, rapid patching</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part s">
+  <div class="sec-head"><div class="sec-num">S5</div><div><div class="kicker">Building walls</div><h2>Network Defences &amp; Security Testing</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:24%">Firewall type</th><th>How it filters</th></tr></thead><tbody>
+    <tr><td><b>Packet-filtering</b> (stateless)</td><td>Each packet by IP, port and protocol rules (L3/L4)</td></tr>
+    <tr><td><b>Stateful inspection</b></td><td>Tracks connection state and allows return traffic of established sessions</td></tr>
+    <tr><td><b>Proxy / application-level</b></td><td>Acts on the client's behalf and inspects application data (L7)</td></tr>
+    <tr><td><b>Next-Gen Firewall (NGFW)</b></td><td>Stateful filtering + app awareness + IPS + threat intelligence</td></tr>
+    <tr><td><b>WAF</b></td><td>Web Application Firewall: blocks SQLi, XSS and similar for websites</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">IDS vs IPS</b><br><b>IDS</b> (Intrusion Detection) <b>detects and alerts</b> (passive). <b>IPS</b> (Intrusion Prevention) sits inline and <b>blocks</b>. Both can be signature-based or anomaly-based.</div>
+    <div class="def"><b class="t">VPN</b><br>An encrypted tunnel over a public network. <b>Site-to-site</b> links offices, and <b>remote access</b> connects a user to the office. Protocols: <b>IPsec</b>, SSL/TLS VPN, WireGuard.</div>
+    <div class="def"><b class="t">DMZ</b><br>A buffer zone between the internet and the internal LAN, for public servers (web, mail).</div>
+    <div class="def"><b class="t">Honeypot</b><br>A decoy system that lures and studies attackers.</div>
+    <div class="def"><b class="t">SIEM</b><br>Collects and correlates logs to detect incidents (Splunk, QRadar). A <b>SOC</b> is the team that monitors them.</div>
+    <div class="def"><b class="t">Endpoint security</b><br>Antivirus/EDR, patching, encryption, least privilege, backups (the <b>3-2-1 rule</b>).</div>
+  </div>
+  <div class="two">
+    <div class="def"><b class="t">Vulnerability assessment vs penetration testing</b><br>A VA <b>finds and lists</b> weaknesses (scanners such as Nessus). A pen test <b>actively exploits</b> them to show the impact. <b>White box</b> = full knowledge · <b>black box</b> = none · <b>grey box</b> = partial. <b>Ethical hacking</b> is authorised testing.</div>
+    <div class="def"><b class="t">OWASP Top 10</b><br>A list of the most critical web app risks, such as broken access control, cryptographic failures, injection, insecure design, security misconfiguration, vulnerable components, and authentication failures.</div>
+  </div>
+</section>
+
+<!-- ================= CLOUD ================= -->
+<section class="page-break part cl">
+  <div class="banner cl"><div class="big">K</div><div class="pl">☁️ PART 3 · CLOUD &amp; DEVOPS</div><h2>Cloud Computing &amp; DevOps</h2>
+    <p>How modern IT is delivered and built: cloud service and deployment models, virtualisation, scaling, SDLC and Agile, CI/CD, Git, Docker and Kubernetes. About 30% of Section C.</p></div>
+  <div class="sec-head"><div class="sec-num">K1</div><div><div class="kicker">The cloud</div><h2>Cloud Computing &amp; Service Models</h2></div></div>
+  <div class="def"><b class="t">Cloud computing</b> means on-demand delivery of computing resources (servers, storage, databases, software) over the internet with <b>pay-as-you-go</b> pricing. It shifts spending from <b>CapEx</b> (buying hardware) to <b>OpEx</b> (renting). NIST's <b>5 essential characteristics</b>: on-demand self-service · broad network access · resource pooling (multi-tenancy) · rapid elasticity · measured service.</div>
+  <table class="tight resp"><thead><tr><th>Layer: who manages it?</th><th>On-premise</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr></thead><tbody>
+    <tr><td>Applications</td><td class="y">You</td><td class="y">You</td><td class="y">You</td><td class="p">Provider</td></tr>
+    <tr><td>Data</td><td class="y">You</td><td class="y">You</td><td class="y">You</td><td class="p">Provider*</td></tr>
+    <tr><td>Runtime &amp; middleware</td><td class="y">You</td><td class="y">You</td><td class="p">Provider</td><td class="p">Provider</td></tr>
+    <tr><td>Operating system</td><td class="y">You</td><td class="y">You</td><td class="p">Provider</td><td class="p">Provider</td></tr>
+    <tr><td>Virtualisation, servers, storage, network</td><td class="y">You</td><td class="p">Provider</td><td class="p">Provider</td><td class="p">Provider</td></tr>
+  </tbody></table>
+  <p style="font-size:8.4pt;color:var(--muted);margin-top:-4px">*In SaaS you still own your data and control who has access to it. This is the <b>shared responsibility model</b>.</p>
+  <table class="tight"><thead><tr><th style="width:12%">Model</th><th>You get</th><th>Examples</th></tr></thead><tbody>
+    <tr><td><b>IaaS</b></td><td>Virtual machines, storage, networks</td><td>AWS EC2, Azure Virtual Machines, Google Compute Engine</td></tr>
+    <tr><td><b>PaaS</b></td><td>A platform to deploy code. No OS management</td><td>Google App Engine, Heroku, Azure App Service, AWS Elastic Beanstalk</td></tr>
+    <tr><td><b>SaaS</b></td><td>Finished software in a browser</td><td>Gmail, Microsoft 365, Salesforce, Zoom, Dropbox</td></tr>
+    <tr><td><b>FaaS</b> (serverless)</td><td>Run functions on events and pay per execution</td><td>AWS Lambda, Azure Functions, Google Cloud Functions</td></tr>
+  </tbody></table>
+  <table class="tight"><thead><tr><th style="width:16%">Deployment</th><th>Meaning</th><th style="width:32%">Example</th></tr></thead><tbody>
+    <tr><td><b>Public</b></td><td>Shared provider infrastructure, open to anyone</td><td>AWS, Azure, GCP</td></tr>
+    <tr><td><b>Private</b></td><td>Dedicated to one organisation (on-premise or hosted)</td><td>A bank's internal cloud (OpenStack, VMware)</td></tr>
+    <tr><td><b>Hybrid</b></td><td>Private + public working together</td><td>Sensitive data on private, burst capacity on public</td></tr>
+    <tr><td><b>Community</b></td><td>Shared by organisations with common needs</td><td>Government agencies</td></tr>
+    <tr><td><b>Multi-cloud</b></td><td>Using several public providers</td><td>AWS + Azure, to avoid lock-in</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part cl">
+  <div class="sec-head"><div class="sec-num">K2</div><div><div class="kicker">Under the hood</div><h2>Virtualisation, Scaling &amp; Storage</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Virtualisation</b><br>A <b>hypervisor</b> runs several virtual machines on one physical server.<br><b>Type 1 (bare-metal)</b> runs directly on the hardware: VMware ESXi, Microsoft Hyper-V, KVM, Xen.<br><b>Type 2 (hosted)</b> runs on top of an OS: VirtualBox, VMware Workstation.</div>
+    <table class="tight"><thead><tr><th></th><th>Virtual machine</th><th>Container</th></tr></thead><tbody>
+      <tr><td>Contains</td><td>A full guest OS + app</td><td>App + dependencies only</td></tr>
+      <tr><td>Kernel</td><td>Its own</td><td><b>Shares</b> the host kernel</td></tr>
+      <tr><td>Size / start</td><td>GBs / minutes</td><td>MBs / seconds</td></tr>
+      <tr><td>Isolation</td><td>Strong</td><td>Process-level</td></tr>
+      <tr><td>Tools</td><td>VMware, Hyper-V</td><td>Docker, Kubernetes</td></tr>
+    </tbody></table>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">Scaling</b><br><b>Vertical (scale up)</b> = a bigger machine (more CPU/RAM). <b>Horizontal (scale out)</b> = more machines. <b>Elasticity</b> = scaling automatically up <i>and down</i> with demand (auto-scaling).</div>
+    <div class="def"><b class="t">High availability</b><br>Redundancy across <b>Availability Zones</b> (separate data centres within a <b>region</b>), load balancers and failover. SLAs are written as "nines" (99.99%).</div>
+    <div class="def"><b class="t">CDN</b><br>Edge servers cache content near users for speed (CloudFront, Azure CDN, Cloudflare).</div>
+  </div>
+  <table class="tight"><thead><tr><th>Storage type</th><th>How data is stored</th><th>Use</th><th>AWS / Azure / GCP</th></tr></thead><tbody>
+    <tr><td><b>Object</b></td><td>Objects with metadata in flat buckets, accessed over HTTP</td><td>Backups, media, data lakes</td><td>S3 / Blob Storage / Cloud Storage</td></tr>
+    <tr><td><b>Block</b></td><td>Raw volumes, like a disk</td><td>VM disks, databases</td><td>EBS / Managed Disks / Persistent Disk</td></tr>
+    <tr><td><b>File</b></td><td>A shared hierarchical file system</td><td>Shared folders</td><td>EFS / Azure Files / Filestore</td></tr>
+  </tbody></table>
+  <table class="tight"><thead><tr><th>Service</th><th>AWS</th><th>Azure</th><th>Google Cloud</th></tr></thead><tbody>
+    <tr><td>Virtual machines</td><td>EC2</td><td>Virtual Machines</td><td>Compute Engine</td></tr>
+    <tr><td>Serverless functions</td><td>Lambda</td><td>Functions</td><td>Cloud Functions</td></tr>
+    <tr><td>Managed SQL</td><td>RDS</td><td>SQL Database</td><td>Cloud SQL</td></tr>
+    <tr><td>NoSQL</td><td>DynamoDB</td><td>Cosmos DB</td><td>Firestore / Bigtable</td></tr>
+    <tr><td>Kubernetes</td><td>EKS</td><td>AKS</td><td>GKE</td></tr>
+    <tr><td>Private network</td><td>VPC</td><td>VNet</td><td>VPC</td></tr>
+    <tr><td>Identity &amp; access</td><td>IAM</td><td>Entra ID (Azure AD)</td><td>Cloud IAM</td></tr>
+  </tbody></table>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">K3</div><div><div class="kicker">How software gets built</div><h2>SDLC, Agile &amp; DevOps</h2></div></div>
+  <div class="def"><b class="t">SDLC phases</b>: Requirements → Design → Implementation (coding) → Testing → Deployment → Maintenance.</div>
+  <table class="tight"><thead><tr><th style="width:14%">Model</th><th>Idea</th><th style="width:30%">Best for</th></tr></thead><tbody>
+    <tr><td><b>Waterfall</b></td><td>Sequential phases with no going back</td><td>Fixed, clear requirements</td></tr>
+    <tr><td><b>V-Model</b></td><td>Waterfall with a matching test phase for each development phase</td><td>Safety-critical systems</td></tr>
+    <tr><td><b>Iterative / Incremental</b></td><td>Build in repeated cycles or pieces</td><td>Evolving products</td></tr>
+    <tr><td><b>Spiral</b></td><td>Iterations driven by <b>risk analysis</b></td><td>Large, high-risk projects</td></tr>
+    <tr><td><b>Agile</b></td><td>Short iterations, customer feedback, working software over documentation</td><td>Changing requirements (most modern teams)</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">Scrum</b> (an Agile framework)<br><b>Roles</b>: Product Owner (owns the backlog and priorities) · Scrum Master (facilitator, removes blockers) · Developers.<br><b>Events</b>: Sprint (1–4 weeks) · Sprint Planning · Daily Stand-up (15 minutes) · Sprint Review · Retrospective.<br><b>Artifacts</b>: Product Backlog · Sprint Backlog · Increment. <b>Kanban</b> is a visual board with WIP limits and no fixed sprints.</div>
+    <div class="def"><b class="t">DevOps</b><br>A culture plus practices that unite development and operations for fast, reliable delivery.<br>Lifecycle: <b>Plan → Code → Build → Test → Release → Deploy → Operate → Monitor</b> (an infinite loop).<br><b>CI</b>: merge small changes often, with an automatic build and test on every commit. <b>Continuous Delivery</b>: always releasable, with a manual approval. <b>Continuous Deployment</b>: released automatically.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Stage</th><th>Popular tools</th><th>Stage</th><th>Popular tools</th></tr></thead><tbody>
+    <tr><td>Version control</td><td>Git, GitHub, GitLab, Bitbucket</td><td>Containers</td><td>Docker</td></tr>
+    <tr><td>CI/CD</td><td>Jenkins, GitHub Actions, GitLab CI, Azure DevOps</td><td>Orchestration</td><td>Kubernetes</td></tr>
+    <tr><td>Build</td><td>Maven, Gradle, npm</td><td>Config management</td><td>Ansible, Chef, Puppet</td></tr>
+    <tr><td>Testing</td><td>Selenium, JUnit</td><td>Infrastructure as Code</td><td>Terraform, CloudFormation</td></tr>
+    <tr><td>Monitoring</td><td>Prometheus, Grafana, ELK stack</td><td>Artifact repository</td><td>Nexus, JFrog Artifactory</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part cl">
+  <div class="sec-head"><div class="sec-num">K4</div><div><div class="kicker">Hands-on tools</div><h2>Git, Docker &amp; Kubernetes</h2></div></div>
+  <div class="callout"><b class="t">Git: the 4 areas</b>
+    <div class="flow"><span>Working directory</span><i>— git add →</i><span>Staging area (index)</span><i>— git commit →</i><span>Local repository</span><i>— git push →</i><span>Remote (GitHub)</span></div>
+    <code>git pull</code> = <code>git fetch</code> (download) + <code>git merge</code>. Git is a <b>distributed</b> VCS: every clone has the full history. SVN is centralised.</div>
+  <table class="tight"><thead><tr><th>Command</th><th>Does</th><th>Command</th><th>Does</th></tr></thead><tbody>
+    <tr><td><code>git init</code></td><td>Create a new repo</td><td><code>git branch x</code></td><td>Create a branch</td></tr>
+    <tr><td><code>git clone &lt;url&gt;</code></td><td>Copy a remote repo locally</td><td><code>git checkout x</code> / <code>git switch x</code></td><td>Switch branch</td></tr>
+    <tr><td><code>git status</code></td><td>Show changed and staged files</td><td><code>git merge x</code></td><td>Merge x into the current branch</td></tr>
+    <tr><td><code>git add .</code></td><td>Stage all changes</td><td><code>git rebase</code></td><td>Replay commits onto another base</td></tr>
+    <tr><td><code>git commit -m "msg"</code></td><td>Save a snapshot locally</td><td><code>git stash</code></td><td>Shelve uncommitted work</td></tr>
+    <tr><td><code>git push</code></td><td>Upload commits to the remote</td><td><code>git log</code> / <code>git diff</code></td><td>History / changes</td></tr>
+    <tr><td><code>git fetch</code></td><td>Download without merging</td><td><code>git revert</code></td><td>New commit that undoes an old one (safe)</td></tr>
+    <tr><td><code>git pull</code></td><td>Fetch + merge</td><td><code>git reset</code></td><td>Move HEAD back (can discard work)</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Fork</b> = your own server-side copy of someone else's repo. <b>Pull/merge request</b> = asking for your branch to be reviewed and merged. A <b>merge conflict</b> happens when two changes touch the same lines, so you fix them by hand. <code>.gitignore</code> lists files Git should ignore.</p>
+  <div class="two">
+<pre><span class="c"># Dockerfile</span>
+<span class="k">FROM</span> python:3.12-slim     <span class="c"># base image</span>
+<span class="k">WORKDIR</span> /app
+<span class="k">COPY</span> . .                  <span class="c"># copy source</span>
+<span class="k">RUN</span> pip install -r req.txt <span class="c"># runs at BUILD time</span>
+<span class="k">EXPOSE</span> <span class="n">8000</span>              <span class="c"># documents the port</span>
+<span class="k">CMD</span> [<span class="s">"python"</span>, <span class="s">"app.py"</span>]  <span class="c"># default at RUN time</span></pre>
+    <table class="tight"><thead><tr><th>Docker term</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td><b>Image</b></td><td>A read-only, layered template</td></tr>
+      <tr><td><b>Container</b></td><td>A <b>running instance</b> of an image</td></tr>
+      <tr><td><b>Dockerfile</b></td><td>The recipe used to build an image</td></tr>
+      <tr><td><b>Registry</b></td><td>Stores images (Docker Hub, ECR)</td></tr>
+      <tr><td><b>Volume</b></td><td>Persistent data outside the container</td></tr>
+      <tr><td><b>Compose</b></td><td>A YAML file that runs multi-container apps</td></tr>
+    </tbody></table>
+  </div>
+  <p style="font-size:9pt"><b>Commands</b>: <code>docker build -t app .</code> · <code>docker run -p 8000:8000 app</code> · <code>docker ps</code> (running containers) · <code>docker images</code> · <code>docker pull/push</code> · <code>docker stop</code> · <code>docker logs</code> · <code>docker exec -it id sh</code>.</p>
+  <table class="tight"><thead><tr><th style="width:18%">Kubernetes object</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td><b>Cluster</b></td><td>A control plane plus <b>worker nodes</b> (machines)</td></tr>
+    <tr><td><b>Pod</b></td><td>The <b>smallest deployable unit</b>: one or more containers sharing a network and storage</td></tr>
+    <tr><td><b>Deployment</b></td><td>Declares the desired number of pod replicas, with rolling updates and self-healing</td></tr>
+    <tr><td><b>Service</b></td><td>A stable network endpoint / load balancer in front of pods</td></tr>
+    <tr><td><b>Namespace · ConfigMap · Secret</b></td><td>Logical isolation · configuration · sensitive values</td></tr>
+  </tbody></table>
+</section>
+
+<!-- ================= MCQs ================= -->
+<section class="page-break part c">
+  <div class="sec-head"><div class="sec-num">✓1</div><div><div class="kicker">Networking</div><h2>Practice Set 1 · Networking</h2></div></div>
+  <p class="lead">S1–S8 are subnetting questions, <b>computed with Python's ipaddress library</b>. N1–N20 cover concepts, layers, devices, ports and protocols.</p>
+  <div class="mcq"><div class="qn">S1</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span>How many <b>usable host</b> addresses are in a <code>/27</code> subnet?</div><ol class="opts"><li><b>A</b> 32</li><li><b>B</b> 62</li><li><b>C</b> 27</li><li><b>D</b> 30</li></ol></div></div><div class="mcq"><div class="qn">S2</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span>What is the <b>network address</b> of host <code>192.168.10.77/26</code>?</div><ol class="opts"><li><b>A</b> 192.168.10.64</li><li><b>B</b> 192.168.10.0</li><li><b>C</b> 192.168.10.128</li><li><b>D</b> 192.168.10.76</li></ol></div></div><div class="mcq"><div class="qn">S3</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span>What is the <b>broadcast address</b> of <code>172.16.5.130/25</code>?</div><ol class="opts"><li><b>A</b> 172.16.5.127</li><li><b>B</b> 172.16.5.255</li><li><b>C</b> 172.16.255.255</li><li><b>D</b> 172.16.5.128</li></ol></div></div><div class="mcq"><div class="qn">S4</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span>What is the subnet mask for prefix <code>/28</code>?</div><ol class="opts"><li><b>A</b> 255.255.255.240</li><li><b>B</b> 255.255.255.224</li><li><b>C</b> 255.255.255.248</li><li><b>D</b> 255.255.240.0</li></ol></div></div><div class="mcq"><div class="qn">S5</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span>What is the <b>last usable host</b> in <code>10.1.1.0/29</code>?</div><ol class="opts"><li><b>A</b> 10.1.1.8</li><li><b>B</b> 10.1.1.6</li><li><b>C</b> 10.1.1.7</li><li><b>D</b> 10.1.1.5</li></ol></div></div><div class="mcq"><div class="qn">S6</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span>How many <code>/26</code> subnets fit in one <code>/24</code> network?</div><ol class="opts"><li><b>A</b> 6</li><li><b>B</b> 2</li><li><b>C</b> 4</li><li><b>D</b> 64</li></ol></div></div><div class="mcq"><div class="qn">S7</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span>Which address is in the same subnet as <code>192.168.1.70/27</code>?</div><ol class="opts"><li><b>A</b> 192.168.1.90</li><li><b>B</b> 192.168.1.30</li><li><b>C</b> 192.168.1.60</li><li><b>D</b> 192.168.1.100</li></ol></div></div><div class="mcq"><div class="qn">S8</div><div class="qb"><div class="qt"><span class='tg'>Subnetting</span><code>172.20.14.9</code> is a:</div><ol class="opts"><li><b>A</b> Loopback address</li><li><b>B</b> Multicast address</li><li><b>C</b> Private IPv4 address</li><li><b>D</b> Public IPv4 address</li></ol></div></div><div class="mcq"><div class="qn">N1</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>In which topology is every device connected to every other device?</div><ol class="opts"><li><b>A</b> Ring</li><li><b>B</b> Bus</li><li><b>C</b> Mesh</li><li><b>D</b> Star</li></ol></div></div><div class="mcq"><div class="qn">N2</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>How many links does a full mesh of 6 devices need?</div><ol class="opts"><li><b>A</b> 6</li><li><b>B</b> 30</li><li><b>C</b> 12</li><li><b>D</b> 15</li></ol></div></div><div class="mcq"><div class="qn">N3</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Communication that goes in both directions, but only one at a time (like a walkie-talkie), is:</div><ol class="opts"><li><b>A</b> Simplex</li><li><b>B</b> Full duplex</li><li><b>C</b> Multiplex</li><li><b>D</b> Half duplex</li></ol></div></div><div class="mcq"><div class="qn">N4</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which OSI layer does encryption, compression and data formatting?</div><ol class="opts"><li><b>A</b> Presentation (6)</li><li><b>B</b> Application (7)</li><li><b>C</b> Transport (4)</li><li><b>D</b> Session (5)</li></ol></div></div><div class="mcq"><div class="qn">N5</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>The data unit at the Data Link layer is called a:</div><ol class="opts"><li><b>A</b> Packet</li><li><b>B</b> Frame</li><li><b>C</b> Segment</li><li><b>D</b> Bit</li></ol></div></div><div class="mcq"><div class="qn">N6</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which device separates BROADCAST domains?</div><ol class="opts"><li><b>A</b> Repeater</li><li><b>B</b> Switch</li><li><b>C</b> Hub</li><li><b>D</b> Router</li></ol></div></div><div class="mcq"><div class="qn">N7</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which protocol finds the MAC address for a known IP address?</div><ol class="opts"><li><b>A</b> DHCP</li><li><b>B</b> ICMP</li><li><b>C</b> ARP</li><li><b>D</b> DNS</li></ol></div></div><div class="mcq"><div class="qn">N8</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>A MAC address is how long?</div><ol class="opts"><li><b>A</b> 48 bits</li><li><b>B</b> 64 bits</li><li><b>C</b> 128 bits</li><li><b>D</b> 32 bits</li></ol></div></div><div class="mcq"><div class="qn">N9</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>IPv6 addresses are how long?</div><ol class="opts"><li><b>A</b> 128 bits</li><li><b>B</b> 32 bits</li><li><b>C</b> 256 bits</li><li><b>D</b> 64 bits</li></ol></div></div><div class="mcq"><div class="qn">N10</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which of these does IPv6 NOT have?</div><ol class="opts"><li><b>A</b> Multicast addresses</li><li><b>B</b> Unicast addresses</li><li><b>C</b> Broadcast addresses</li><li><b>D</b> Anycast addresses</li></ol></div></div><div class="mcq"><div class="qn">N11</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>What is the correct order of the TCP 3-way handshake?</div><ol class="opts"><li><b>A</b> FIN → ACK → SYN</li><li><b>B</b> SYN → ACK → SYN-ACK</li><li><b>C</b> ACK → SYN → FIN</li><li><b>D</b> SYN → SYN-ACK → ACK</li></ol></div></div><div class="mcq"><div class="qn">N12</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which transport protocol do DNS queries normally use?</div><ol class="opts"><li><b>A</b> TCP (port 80)</li><li><b>B</b> UDP (port 67)</li><li><b>C</b> TCP (port 25)</li><li><b>D</b> UDP (port 53)</li></ol></div></div><div class="mcq"><div class="qn">N13</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>SSH runs on which port?</div><ol class="opts"><li><b>A</b> 23</li><li><b>B</b> 21</li><li><b>C</b> 22</li><li><b>D</b> 25</li></ol></div></div><div class="mcq"><div class="qn">N14</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which protocol is used to RETRIEVE email while keeping it synced on the server?</div><ol class="opts"><li><b>A</b> POP3</li><li><b>B</b> IMAP</li><li><b>C</b> SMTP</li><li><b>D</b> SNMP</li></ol></div></div><div class="mcq"><div class="qn">N15</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>HTTP status 301 means:</div><ol class="opts"><li><b>A</b> Moved permanently (redirect)</li><li><b>B</b> Server error</li><li><b>C</b> Unauthorized</li><li><b>D</b> Created</li></ol></div></div><div class="mcq"><div class="qn">N16</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which HTTP method is meant for creating a new resource?</div><ol class="opts"><li><b>A</b> POST</li><li><b>B</b> DELETE</li><li><b>C</b> GET</li><li><b>D</b> HEAD</li></ol></div></div><div class="mcq"><div class="qn">N17</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which DNS record maps a domain name to an IPv4 address?</div><ol class="opts"><li><b>A</b> AAAA</li><li><b>B</b> A</li><li><b>C</b> MX</li><li><b>D</b> CNAME</li></ol></div></div><div class="mcq"><div class="qn">N18</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>The DHCP process in order is:</div><ol class="opts"><li><b>A</b> Discover, Offer, Request, Acknowledge</li><li><b>B</b> Discover, Request, Offer, Acknowledge</li><li><b>C</b> Request, Offer, Discover, Acknowledge</li><li><b>D</b> Offer, Discover, Acknowledge, Request</li></ol></div></div><div class="mcq"><div class="qn">N19</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>RIP considers a route unreachable at a hop count of:</div><ol class="opts"><li><b>A</b> 16</li><li><b>B</b> 255</li><li><b>C</b> 8</li><li><b>D</b> 15</li></ol></div></div><div class="mcq"><div class="qn">N20</div><div class="qb"><div class="qt"><span class='tg'>Networking</span>Which Wi-Fi security protocol is the newest and strongest?</div><ol class="opts"><li><b>A</b> WPA2</li><li><b>B</b> WPA</li><li><b>C</b> WEP</li><li><b>D</b> WPA3</li></ol></div></div>
+  <div class="avoid-head"><h3>Set 1 · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct</th><th>Why</th></tr></thead><tbody><tr><td><b>S1</b></td><td class='ans'>D</td><td>30</td><td>Host bits = 32 − 27 = 5, and 2⁵ − 2 = 30. The network and broadcast addresses aren't usable.</td></tr><tr><td><b>S2</b></td><td class='ans'>A</td><td>192.168.10.64</td><td>A /26 makes blocks of 64: .0, .64, .128 and .192. 77 falls in the .64 block.</td></tr><tr><td><b>S3</b></td><td class='ans'>B</td><td>172.16.5.255</td><td>A /25 makes blocks of 128. 130 is in the .128 block, so its broadcast is the last address, .255.</td></tr><tr><td><b>S4</b></td><td class='ans'>A</td><td>255.255.255.240</td><td>28 ones: 255.255.255 + 11110000₂ (240).</td></tr><tr><td><b>S5</b></td><td class='ans'>B</td><td>10.1.1.6</td><td>A /29 has 8 addresses: .0 (network), .1–.6 (hosts) and .7 (broadcast).</td></tr><tr><td><b>S6</b></td><td class='ans'>C</td><td>4</td><td>You borrow 2 bits (26 − 24), and 2² = 4 subnets of 64 addresses each.</td></tr><tr><td><b>S7</b></td><td class='ans'>A</td><td>192.168.1.90</td><td>A /27 makes blocks of 32. .70 is in .64–.95, and only .90 falls in that range.</td></tr><tr><td><b>S8</b></td><td class='ans'>C</td><td>Private IPv4 address</td><td>172.16.0.0 to 172.31.255.255 is a private range (RFC 1918).</td></tr><tr><td><b>N1</b></td><td class='ans'>C</td><td>Mesh</td><td>A full mesh of n devices needs n(n−1)/2 links. It's very reliable but expensive.</td></tr><tr><td><b>N2</b></td><td class='ans'>D</td><td>15</td><td>n(n−1)/2 = 6 × 5 / 2 = 15.</td></tr><tr><td><b>N3</b></td><td class='ans'>D</td><td>Half duplex</td><td>Simplex is one direction only (a keyboard or TV broadcast). Full duplex is both directions at once (a phone call).</td></tr><tr><td><b>N4</b></td><td class='ans'>A</td><td>Presentation (6)</td><td>Layer 6 translates the data format.</td></tr><tr><td><b>N5</b></td><td class='ans'>B</td><td>Frame</td><td>L4 = segment, L3 = packet, L2 = frame, L1 = bits.</td></tr><tr><td><b>N6</b></td><td class='ans'>D</td><td>Router</td><td>Switches separate collision domains, routers separate broadcast domains, and hubs separate neither.</td></tr><tr><td><b>N7</b></td><td class='ans'>C</td><td>ARP</td><td>ARP (Address Resolution Protocol). DNS resolves names to IPs.</td></tr><tr><td><b>N8</b></td><td class='ans'>A</td><td>48 bits</td><td>48 bits, written as 6 hex pairs. The first 24 bits (the OUI) identify the manufacturer.</td></tr><tr><td><b>N9</b></td><td class='ans'>A</td><td>128 bits</td><td>Written as 8 groups of 4 hex digits. :: compresses consecutive zero groups, and can be used only once.</td></tr><tr><td><b>N10</b></td><td class='ans'>C</td><td>Broadcast addresses</td><td>IPv6 replaces broadcast with multicast.</td></tr><tr><td><b>N11</b></td><td class='ans'>D</td><td>SYN → SYN-ACK → ACK</td><td>Connection teardown uses FIN and ACK (4 steps).</td></tr><tr><td><b>N12</b></td><td class='ans'>D</td><td>UDP (port 53)</td><td>DNS uses UDP 53 for normal queries and TCP 53 for zone transfers and large responses.</td></tr><tr><td><b>N13</b></td><td class='ans'>C</td><td>22</td><td>21 = FTP, 22 = SSH, 23 = Telnet (unencrypted), 25 = SMTP.</td></tr><tr><td><b>N14</b></td><td class='ans'>B</td><td>IMAP</td><td>SMTP sends mail. POP3 downloads it (and usually deletes it from the server). IMAP keeps it synced on the server.</td></tr><tr><td><b>N15</b></td><td class='ans'>A</td><td>Moved permanently (redirect)</td><td>401 = unauthorized, 5xx = server errors, 201 = created.</td></tr><tr><td><b>N16</b></td><td class='ans'>A</td><td>POST</td><td>GET reads, POST creates, PUT replaces, PATCH partially updates, DELETE removes.</td></tr><tr><td><b>N17</b></td><td class='ans'>B</td><td>A</td><td>AAAA is for IPv6, MX for mail servers, and CNAME for aliases.</td></tr><tr><td><b>N18</b></td><td class='ans'>A</td><td>Discover, Offer, Request, Acknowledge</td><td>Remember DORA.</td></tr><tr><td><b>N19</b></td><td class='ans'>A</td><td>16</td><td>RIP's maximum usable hop count is 15. OSPF is link-state, and BGP routes between autonomous systems (the internet).</td></tr><tr><td><b>N20</b></td><td class='ans'>D</td><td>WPA3</td><td>WEP is broken. WPA2 uses AES, and WPA3 adds SAE.</td></tr></tbody></table>
+</section>
+
+<section class="page-break part s">
+  <div class="sec-head"><div class="sec-num">✓2</div><div><div class="kicker">Security</div><h2>Practice Set 2 · Security</h2></div></div>
+  <div class="mcq"><div class="qn">X1</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Ensuring data is not altered in transit is which part of the CIA triad?</div><ol class="opts"><li><b>A</b> Integrity</li><li><b>B</b> Confidentiality</li><li><b>C</b> Availability</li><li><b>D</b> Authentication</li></ol></div></div><div class="mcq"><div class="qn">X2</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Verifying WHO a user is, is called:</div><ol class="opts"><li><b>A</b> Accounting</li><li><b>B</b> Authorization</li><li><b>C</b> Authentication</li><li><b>D</b> Auditing</li></ol></div></div><div class="mcq"><div class="qn">X3</div><div class="qb"><div class="qt"><span class='tg'>Security</span>A password plus an OTP sent to your phone is an example of:</div><ol class="opts"><li><b>A</b> Biometrics</li><li><b>B</b> Single sign-on</li><li><b>C</b> Multi-factor authentication</li><li><b>D</b> Role-based access</li></ol></div></div><div class="mcq"><div class="qn">X4</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Which algorithm is asymmetric?</div><ol class="opts"><li><b>A</b> RSA</li><li><b>B</b> 3DES</li><li><b>C</b> AES</li><li><b>D</b> DES</li></ol></div></div><div class="mcq"><div class="qn">X5</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Hashing is used to store passwords because it is:</div><ol class="opts"><li><b>A</b> Compressed</li><li><b>B</b> One-way (it can't be reversed)</li><li><b>C</b> Fast to decrypt</li><li><b>D</b> Symmetric</li></ol></div></div><div class="mcq"><div class="qn">X6</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Base64 is:</div><ol class="opts"><li><b>A</b> A digital signature</li><li><b>B</b> Strong encryption</li><li><b>C</b> A hash function</li><li><b>D</b> Encoding, not encryption</li></ol></div></div><div class="mcq"><div class="qn">X7</div><div class="qb"><div class="qt"><span class='tg'>Security</span>A digital signature is created with the sender's:</div><ol class="opts"><li><b>A</b> Password</li><li><b>B</b> Public key</li><li><b>C</b> Private key</li><li><b>D</b> Session key</li></ol></div></div><div class="mcq"><div class="qn">X8</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Malware that spreads across networks BY ITSELF, without a host file, is a:</div><ol class="opts"><li><b>A</b> Virus</li><li><b>B</b> Trojan</li><li><b>C</b> Rootkit</li><li><b>D</b> Worm</li></ol></div></div><div class="mcq"><div class="qn">X9</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Malware disguised as useful software is a:</div><ol class="opts"><li><b>A</b> Worm</li><li><b>B</b> Botnet</li><li><b>C</b> Trojan</li><li><b>D</b> Adware</li></ol></div></div><div class="mcq"><div class="qn">X10</div><div class="qb"><div class="qt"><span class='tg'>Security</span>A targeted phishing attack on a company's CEO or senior executives is called:</div><ol class="opts"><li><b>A</b> Whaling</li><li><b>B</b> Vishing</li><li><b>C</b> Baiting</li><li><b>D</b> Smishing</li></ol></div></div><div class="mcq"><div class="qn">X11</div><div class="qb"><div class="qt"><span class='tg'>Security</span>An attacker follows an employee through a secure door without a badge. This is:</div><ol class="opts"><li><b>A</b> Pretexting</li><li><b>B</b> Sniffing</li><li><b>C</b> Tailgating</li><li><b>D</b> Spoofing</li></ol></div></div><div class="mcq"><div class="qn">X12</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Thousands of infected devices flood a website so real users can't reach it. This is:</div><ol class="opts"><li><b>A</b> Brute force</li><li><b>B</b> SQL injection</li><li><b>C</b> DDoS</li><li><b>D</b> MITM</li></ol></div></div><div class="mcq"><div class="qn">X13</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Injecting malicious JavaScript into a web page that other users view is:</div><ol class="opts"><li><b>A</b> Cross-Site Scripting (XSS)</li><li><b>B</b> SQL injection</li><li><b>C</b> Session fixation</li><li><b>D</b> CSRF</li></ol></div></div><div class="mcq"><div class="qn">X14</div><div class="qb"><div class="qt"><span class='tg'>Security</span>The best defence against SQL injection is:</div><ol class="opts"><li><b>A</b> A bigger database</li><li><b>B</b> Strong passwords</li><li><b>C</b> Parameterised queries / prepared statements</li><li><b>D</b> Using HTTPS</li></ol></div></div><div class="mcq"><div class="qn">X15</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Which device DETECTS and also BLOCKS malicious traffic inline?</div><ol class="opts"><li><b>A</b> IPS</li><li><b>B</b> Proxy cache</li><li><b>C</b> IDS</li><li><b>D</b> Hub</li></ol></div></div><div class="mcq"><div class="qn">X16</div><div class="qb"><div class="qt"><span class='tg'>Security</span>A network zone holding public-facing servers, isolated from the internal LAN, is a:</div><ol class="opts"><li><b>A</b> VLAN trunk</li><li><b>B</b> Honeypot</li><li><b>C</b> VPN</li><li><b>D</b> DMZ</li></ol></div></div><div class="mcq"><div class="qn">X17</div><div class="qb"><div class="qt"><span class='tg'>Security</span>A firewall that tracks the state of connections is:</div><ol class="opts"><li><b>A</b> Stateful</li><li><b>B</b> Circuit-free</li><li><b>C</b> Static NAT</li><li><b>D</b> Packet-filtering (stateless)</li></ol></div></div><div class="mcq"><div class="qn">X18</div><div class="qb"><div class="qt"><span class='tg'>Security</span>Testing a system with FULL knowledge of its internals is:</div><ol class="opts"><li><b>A</b> Grey-box testing</li><li><b>B</b> Black-box testing</li><li><b>C</b> White-box testing</li><li><b>D</b> Fuzzing only</li></ol></div></div>
+  <div class="avoid-head"><h3>Set 2 · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct</th><th>Why</th></tr></thead><tbody><tr><td><b>X1</b></td><td class='ans'>A</td><td>Integrity</td><td>Hashes and digital signatures protect integrity.</td></tr><tr><td><b>X2</b></td><td class='ans'>C</td><td>Authentication</td><td>Authorization decides what they can do. Accounting logs what they did (together, AAA).</td></tr><tr><td><b>X3</b></td><td class='ans'>C</td><td>Multi-factor authentication</td><td>Something you KNOW plus something you HAVE.</td></tr><tr><td><b>X4</b></td><td class='ans'>A</td><td>RSA</td><td>RSA uses a public/private key pair. The others use one shared key.</td></tr><tr><td><b>X5</b></td><td class='ans'>B</td><td>One-way (it can't be reversed)</td><td>Add a unique salt to each password to defeat rainbow tables.</td></tr><tr><td><b>X6</b></td><td class='ans'>D</td><td>Encoding, not encryption</td><td>Anyone can decode Base64. It only changes the representation.</td></tr><tr><td><b>X7</b></td><td class='ans'>C</td><td>Private key</td><td>Anyone verifies it with the sender's public key. That gives authenticity, integrity and non-repudiation.</td></tr><tr><td><b>X8</b></td><td class='ans'>D</td><td>Worm</td><td>A virus needs a host file and a user action.</td></tr><tr><td><b>X9</b></td><td class='ans'>C</td><td>Trojan</td><td>Named after the Trojan horse.</td></tr><tr><td><b>X10</b></td><td class='ans'>A</td><td>Whaling</td><td>Vishing uses voice calls and smishing uses SMS.</td></tr><tr><td><b>X11</b></td><td class='ans'>C</td><td>Tailgating</td><td>A physical social-engineering attack.</td></tr><tr><td><b>X12</b></td><td class='ans'>C</td><td>DDoS</td><td>Distributed Denial of Service, often launched from a botnet.</td></tr><tr><td><b>X13</b></td><td class='ans'>A</td><td>Cross-Site Scripting (XSS)</td><td>Prevent it with output encoding and input validation.</td></tr><tr><td><b>X14</b></td><td class='ans'>C</td><td>Parameterised queries / prepared statements</td><td>They keep data separate from the SQL code.</td></tr><tr><td><b>X15</b></td><td class='ans'>A</td><td>IPS</td><td>An IDS only detects and alerts. An IPS prevents.</td></tr><tr><td><b>X16</b></td><td class='ans'>D</td><td>DMZ</td><td>Demilitarised zone. Web and mail servers often sit there.</td></tr><tr><td><b>X17</b></td><td class='ans'>A</td><td>Stateful</td><td>A WAF protects web apps (Layer 7). A next-generation firewall (NGFW) adds application awareness and IPS.</td></tr><tr><td><b>X18</b></td><td class='ans'>C</td><td>White-box testing</td><td>Black box means no knowledge. Grey box means partial knowledge.</td></tr></tbody></table>
+</section>
+
+<section class="page-break part cl">
+  <div class="sec-head"><div class="sec-num">✓3</div><div><div class="kicker">Cloud &amp; DevOps</div><h2>Practice Set 3 · Cloud &amp; DevOps</h2></div></div>
+  <div class="mcq"><div class="qn">C1</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Which is NOT one of NIST's 5 essential cloud characteristics?</div><ol class="opts"><li><b>A</b> Measured service</li><li><b>B</b> Fixed long-term hardware contracts</li><li><b>C</b> On-demand self-service</li><li><b>D</b> Rapid elasticity</li></ol></div></div><div class="mcq"><div class="qn">C2</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>In PaaS, the CUSTOMER manages:</div><ol class="opts"><li><b>A</b> Applications and data</li><li><b>B</b> Networking hardware</li><li><b>C</b> The hypervisor</li><li><b>D</b> Physical servers</li></ol></div></div><div class="mcq"><div class="qn">C3</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>AWS Lambda / Azure Functions are examples of:</div><ol class="opts"><li><b>A</b> SaaS</li><li><b>B</b> FaaS (serverless)</li><li><b>C</b> IaaS</li><li><b>D</b> On-premise</li></ol></div></div><div class="mcq"><div class="qn">C4</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Google Workspace, Salesforce and Zoom are examples of:</div><ol class="opts"><li><b>A</b> PaaS</li><li><b>B</b> FaaS</li><li><b>C</b> SaaS</li><li><b>D</b> IaaS</li></ol></div></div><div class="mcq"><div class="qn">C5</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Moving from buying servers to paying monthly for cloud usage shifts spending from:</div><ol class="opts"><li><b>A</b> CapEx to CapEx</li><li><b>B</b> OpEx to OpEx</li><li><b>C</b> CapEx to OpEx</li><li><b>D</b> OpEx to CapEx</li></ol></div></div><div class="mcq"><div class="qn">C6</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Adding MORE servers to handle load is:</div><ol class="opts"><li><b>A</b> Horizontal scaling (scale out)</li><li><b>B</b> Virtualisation</li><li><b>C</b> Caching</li><li><b>D</b> Vertical scaling (scale up)</li></ol></div></div><div class="mcq"><div class="qn">C7</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>VMware ESXi and Microsoft Hyper-V are:</div><ol class="opts"><li><b>A</b> Container engines</li><li><b>B</b> Type 2 (hosted) hypervisors</li><li><b>C</b> Type 1 (bare-metal) hypervisors</li><li><b>D</b> Load balancers</li></ol></div></div><div class="mcq"><div class="qn">C8</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Compared with VMs, containers:</div><ol class="opts"><li><b>A</b> Need a type 1 hypervisor</li><li><b>B</b> Each include a full guest OS</li><li><b>C</b> Can't run on Linux</li><li><b>D</b> Share the host OS kernel and start faster</li></ol></div></div><div class="mcq"><div class="qn">C9</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Amazon S3 / Azure Blob Storage are examples of:</div><ol class="opts"><li><b>A</b> Object storage</li><li><b>B</b> Block storage</li><li><b>C</b> Relational databases</li><li><b>D</b> File storage</li></ol></div></div><div class="mcq"><div class="qn">C10</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>A network of edge servers that caches content close to users is a:</div><ol class="opts"><li><b>A</b> VPC</li><li><b>B</b> VPN</li><li><b>C</b> CDN</li><li><b>D</b> NAS</li></ol></div></div><div class="mcq"><div class="qn">C11</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Which SDLC model completes each phase fully before the next, with no going back?</div><ol class="opts"><li><b>A</b> Iterative</li><li><b>B</b> Spiral</li><li><b>C</b> Waterfall</li><li><b>D</b> Agile</li></ol></div></div><div class="mcq"><div class="qn">C12</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>In Scrum, a fixed time-box (usually 1–4 weeks) to deliver an increment is a:</div><ol class="opts"><li><b>A</b> Stand-up</li><li><b>B</b> Backlog</li><li><b>C</b> Sprint</li><li><b>D</b> Epic</li></ol></div></div><div class="mcq"><div class="qn">C13</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>In Continuous Integration, every code change:</div><ol class="opts"><li><b>A</b> Is merged often and automatically built and tested</li><li><b>B</b> Must be emailed to the tester</li><li><b>C</b> Is reviewed only at the end of the project</li><li><b>D</b> Goes straight to production without tests</li></ol></div></div><div class="mcq"><div class="qn">C14</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Which Git command moves changes into the staging area?</div><ol class="opts"><li><b>A</b> git stash</li><li><b>B</b> git commit</li><li><b>C</b> git push</li><li><b>D</b> git add</li></ol></div></div><div class="mcq"><div class="qn">C15</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span><code>git pull</code> is equivalent to:</div><ol class="opts"><li><b>A</b> git fetch + git merge</li><li><b>B</b> git add + git commit</li><li><b>C</b> git clone + git push</li><li><b>D</b> git branch + git checkout</li></ol></div></div><div class="mcq"><div class="qn">C16</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>In a Dockerfile, which instruction sets the BASE image?</div><ol class="opts"><li><b>A</b> EXPOSE</li><li><b>B</b> RUN</li><li><b>C</b> FROM</li><li><b>D</b> CMD</li></ol></div></div><div class="mcq"><div class="qn">C17</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>The smallest deployable unit in Kubernetes is a:</div><ol class="opts"><li><b>A</b> Node</li><li><b>B</b> Namespace</li><li><b>C</b> Cluster</li><li><b>D</b> Pod</li></ol></div></div><div class="mcq"><div class="qn">C18</div><div class="qb"><div class="qt"><span class='tg'>Cloud &amp; DevOps</span>Writing infrastructure as version-controlled code (for example with Terraform) is called:</div><ol class="opts"><li><b>A</b> Containerisation</li><li><b>B</b> Virtualisation</li><li><b>C</b> Serverless</li><li><b>D</b> Infrastructure as Code (IaC)</li></ol></div></div>
+  <div class="avoid-head"><h3>Set 3 · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct</th><th>Why</th></tr></thead><tbody><tr><td><b>C1</b></td><td class='ans'>B</td><td>Fixed long-term hardware contracts</td><td>The 5 are: on-demand self-service, broad network access, resource pooling, rapid elasticity and measured service.</td></tr><tr><td><b>C2</b></td><td class='ans'>A</td><td>Applications and data</td><td>The provider manages everything up to the runtime and OS.</td></tr><tr><td><b>C3</b></td><td class='ans'>B</td><td>FaaS (serverless)</td><td>You upload functions, they run on events, and you pay per execution.</td></tr><tr><td><b>C4</b></td><td class='ans'>C</td><td>SaaS</td><td>Ready-to-use software delivered over the internet.</td></tr><tr><td><b>C5</b></td><td class='ans'>C</td><td>CapEx to OpEx</td><td>CapEx is capital expenditure (upfront). OpEx is operational expenditure (pay as you go).</td></tr><tr><td><b>C6</b></td><td class='ans'>A</td><td>Horizontal scaling (scale out)</td><td>Vertical scaling means a bigger machine.</td></tr><tr><td><b>C7</b></td><td class='ans'>C</td><td>Type 1 (bare-metal) hypervisors</td><td>Type 2 hypervisors run on a host OS (VirtualBox, VMware Workstation).</td></tr><tr><td><b>C8</b></td><td class='ans'>D</td><td>Share the host OS kernel and start faster</td><td>This makes them lightweight and portable.</td></tr><tr><td><b>C9</b></td><td class='ans'>A</td><td>Object storage</td><td>Block storage is like a disk (EBS). File storage is a shared file system (EFS).</td></tr><tr><td><b>C10</b></td><td class='ans'>C</td><td>CDN</td><td>Examples: CloudFront, Azure CDN, Cloudflare.</td></tr><tr><td><b>C11</b></td><td class='ans'>C</td><td>Waterfall</td><td>Spiral is risk-driven. Agile works in short iterations.</td></tr><tr><td><b>C12</b></td><td class='ans'>C</td><td>Sprint</td><td>Roles: Product Owner, Scrum Master, Developers.</td></tr><tr><td><b>C13</b></td><td class='ans'>A</td><td>Is merged often and automatically built and tested</td><td>CD (Continuous Delivery/Deployment) automates the release.</td></tr><tr><td><b>C14</b></td><td class='ans'>D</td><td>git add</td><td>Working directory → (add) → staging → (commit) → local repo → (push) → remote.</td></tr><tr><td><b>C15</b></td><td class='ans'>A</td><td>git fetch + git merge</td><td>git fetch only downloads and doesn't merge.</td></tr><tr><td><b>C16</b></td><td class='ans'>C</td><td>FROM</td><td>RUN runs at build time, CMD is the default command at run time, and EXPOSE documents a port.</td></tr><tr><td><b>C17</b></td><td class='ans'>D</td><td>Pod</td><td>A pod holds one or more containers. A node is a machine. A cluster is a set of nodes.</td></tr><tr><td><b>C18</b></td><td class='ans'>D</td><td>Infrastructure as Code (IaC)</td><td>Ansible, Chef and Puppet handle configuration management.</td></tr></tbody></table>
+</section>
+
+<!-- ================= PLAN ================= -->
+<section class="page-break part c">
+  <div class="sec-head"><div class="sec-num">Z</div><div><div class="kicker">Get exam-ready</div><h2>5-Day Plan &amp; Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:12%">Day</th><th>Plan (about 1.5 hours)</th></tr></thead><tbody>
+    <tr><td><b>Day 1</b></td><td>N1–N3: topologies, the OSI table (layer, device, PDU, protocols), devices. Make flashcards.</td></tr>
+    <tr><td><b>Day 2</b></td><td>N4–N7: IP classes and private ranges, <b>subnetting drills</b> (20 problems), TCP vs UDP, the ports table, HTTP codes, DNS and DHCP.</td></tr>
+    <tr><td><b>Day 3</b></td><td>S1–S5: CIA and AAA, the crypto comparison, MFA factors, the malware and attack tables, firewalls, IDS/IPS, VPN, DMZ.</td></tr>
+    <tr><td><b>Day 4</b></td><td>K1–K4: the responsibility matrix, examples of each model, virtualisation, scaling, storage types, Scrum, CI/CD, Git, Docker and Kubernetes.</td></tr>
+    <tr><td><b>Day 5</b></td><td>All three practice sets, timed at about 40 seconds per question. Re-read the tables for every question you get wrong.</td></tr>
+  </tbody></table>
+  <div class="cards c3">
+    <div class="card" style="border-top:4px solid #2563eb"><h4 style="margin-top:0;color:#2563eb">Networking</h4><ul style="font-size:8.3pt;margin:0">
+      <li>OSI 7→1: App, Pres, Sess, Trans, Net, DL, Phys</li>
+      <li>PDU: data → segment → packet → frame → bits</li>
+      <li>Hub L1 · switch L2 (MAC) · router L3 (IP)</li>
+      <li>Router separates broadcast domains</li>
+      <li>Private: 10/8 · 172.16–31 · 192.168/16 · loopback 127</li>
+      <li>Hosts = 2ʰ − 2 · /26 = 62 · /27 = 30 · /28 = 14</li>
+      <li>TCP: SYN, SYN-ACK, ACK · UDP: fast, no guarantee</li>
+      <li>21 FTP · 22 SSH · 23 Telnet · 25 SMTP · 53 DNS</li>
+      <li>67/68 DHCP · 80 HTTP · 443 HTTPS · 3389 RDP</li>
+      <li>DHCP = DORA · DNS: A, AAAA, CNAME, MX</li>
+      <li>4xx client error · 5xx server error · 404 / 403 / 500</li>
+      <li>IPv6 128-bit, no broadcast · MAC 48-bit · ARP: IP → MAC</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #dc2626"><h4 style="margin-top:0;color:#dc2626">Security</h4><ul style="font-size:8.3pt;margin:0">
+      <li>CIA: Confidentiality, Integrity, Availability</li>
+      <li>AuthN = who · AuthZ = what · Accounting = log</li>
+      <li>Symmetric AES · asymmetric RSA · hash SHA-256</li>
+      <li>MD5 and SHA-1 are broken · salt your hashes</li>
+      <li>Sign with your private key · encrypt with the receiver's public key</li>
+      <li>MFA = know + have + are (different factors)</li>
+      <li>Worm self-spreads · virus needs a host · trojan disguised</li>
+      <li>Whaling = executives · vishing = voice · smishing = SMS</li>
+      <li>SQLi → parameterised queries · XSS → encode output</li>
+      <li>IDS detects · IPS blocks · WAF protects web apps</li>
+      <li>DMZ for public servers · VPN = encrypted tunnel</li>
+      <li>White / black / grey box = full / no / partial knowledge</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #0891b2"><h4 style="margin-top:0;color:#0891b2">Cloud &amp; DevOps</h4><ul style="font-size:8.3pt;margin:0">
+      <li>IaaS EC2 · PaaS App Engine · SaaS Gmail · FaaS Lambda</li>
+      <li>PaaS: you manage the app and data only</li>
+      <li>Public · Private · Hybrid · Community · Multi-cloud</li>
+      <li>CapEx → OpEx · NIST's 5 characteristics</li>
+      <li>Type 1 hypervisor ESXi/Hyper-V · Type 2 VirtualBox</li>
+      <li>Containers share the kernel · VMs have a full OS</li>
+      <li>Scale up = bigger · scale out = more machines</li>
+      <li>Object S3 · block EBS · file EFS</li>
+      <li>Waterfall sequential · Spiral risk · Agile iterations</li>
+      <li>Scrum: PO, SM, Devs · sprint 1–4 weeks</li>
+      <li>add → commit → push · pull = fetch + merge</li>
+      <li>FROM base · container = running image · pod is the smallest</li>
+    </ul></div>
+  </div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Accenture or any vendor named. Product names belong to their owners. Wi-Fi speeds are theoretical maximums. All questions are original practice questions.</p>
+</section>
+
+</body>
+</html>
