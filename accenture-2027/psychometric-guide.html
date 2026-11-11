@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Psychometric / Behavioural Assessment – Zero to Hero Guide</title>
+<style>
+  :root{
+    --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889;
+    --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff; --brand-line:#d9ccff;
+    --teal:#0e9f8a; --teal-soft:#e2f7f3;
+    --amber:#c77700; --amber-soft:#fff4dd;
+    --rose:#d63a5a; --rose-soft:#ffe8ee;
+    --sky:#2563eb; --sky-soft:#e6efff;
+    --line:#e6e4f0; --bg-alt:#f8f7fc;
+  }
+  @page{ size:A4; margin:16mm 15mm 18mm 15mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); font-size:10pt; line-height:1.55; }
+  h1,h2,h3,h4{ margin:0; line-height:1.2; letter-spacing:-.01em; }
+  p{ margin:0 0 8px; }
+  ul{ margin:4px 0 8px; padding-left:18px; }
+  li{ margin:2px 0; }
+  li::marker{ color:var(--brand); }
+  b,strong{ font-weight:650; }
+  code,.mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.6pt; }
+  .page-break{ break-before:page; }
+  .avoid{ break-inside:avoid; }
+  h2,h3,h4,.sec-head{ break-after:avoid; page-break-after:avoid; }
+
+  /* ---------- COVER ---------- */
+  .cover{ height:297mm; width:210mm; position:relative; overflow:hidden; color:#fff;
+    background:radial-gradient(120% 80% at 100% 0%, #7c4dff 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #1fb6a0 0%, transparent 50%),
+               linear-gradient(160deg,#1a1240 0%,#2a1a6e 55%,#140f33 100%);
+    padding:24mm 20mm 18mm; display:flex; flex-direction:column; }
+  .cover .grid{ position:absolute; inset:0; opacity:.08;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:14mm 14mm; }
+  .cover > *{ position:relative; }
+  .tag{ display:inline-block; font-size:8.5pt; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.08); }
+  .cover h1{ font-size:40pt; font-weight:800; margin-top:20mm; line-height:1.05; letter-spacing:-.02em; }
+  .cover h1 span{ color:#b9a6ff; }
+  .cover .sub{ font-size:13pt; opacity:.85; margin-top:6mm; max-width:150mm; }
+  .cover .roles{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10mm; }
+  .cover .roles div{ padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); font-weight:600; font-size:10pt; }
+  .cover .stats{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .cover .stat{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px; }
+  .cover .stat b{ display:block; font-size:22pt; font-weight:800; }
+  .cover .stat span{ font-size:8.5pt; opacity:.8; }
+  .cover .foot{ margin-top:10mm; font-size:8pt; opacity:.65; display:flex; justify-content:space-between; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .sec-num{ flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff; font-weight:800; font-size:15pt; }
+  .sec-head h2{ font-size:19pt; font-weight:800; }
+  .sec-head .kicker{ font-size:8pt; text-transform:uppercase; letter-spacing:.14em; color:var(--brand); font-weight:700; margin-bottom:2px; }
+  h3{ font-size:12.5pt; font-weight:750; margin:16px 0 8px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  h3 .pill{ font-size:8pt; font-weight:600; padding:3px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand); }
+  h4{ font-size:10.5pt; font-weight:700; margin:10px 0 4px; }
+  .lead{ color:var(--ink-2); font-size:10.5pt; }
+
+  /* ---------- CARDS ---------- */
+  .cards{ display:grid; gap:10px; margin:10px 0; }
+  .c2{ grid-template-columns:1fr 1fr; } .c3{ grid-template-columns:repeat(3,1fr); } .c4{ grid-template-columns:repeat(4,1fr); }
+  .card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid; }
+  .card.alt{ background:var(--bg-alt); }
+  .card .lbl{ font-size:7.8pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .card .val{ font-size:15pt; font-weight:800; margin-top:2px; }
+  .card .val small{ font-size:9pt; font-weight:600; color:var(--muted); }
+  .role-card{ border-top:4px solid var(--brand); }
+  .role-card.t{ border-top-color:var(--teal);} .role-card.a{ border-top-color:var(--amber);} .role-card.s{ border-top-color:var(--sky);}
+  .role-card h4{ margin:0 0 2px; font-size:11pt; }
+  .role-card .code{ font-size:8pt; color:var(--muted); font-weight:600; }
+  .role-card .ctc{ font-size:16pt; font-weight:800; margin:8px 0 2px; }
+
+  /* ---------- CALLOUTS ---------- */
+  .note{ border-radius:12px; padding:11px 14px 11px 14px; margin:10px 0; break-inside:avoid; border-left:4px solid; }
+  .note .t{ font-weight:750; font-size:9.5pt; margin-bottom:3px; display:block; }
+  .note p:last-child,.note ul:last-child{ margin-bottom:0; }
+  .note.info{ background:var(--sky-soft); border-color:var(--sky);} .note.info .t{ color:var(--sky);}
+  .note.tip{ background:var(--teal-soft); border-color:var(--teal);} .note.tip .t{ color:var(--teal);}
+  .note.warn{ background:var(--amber-soft); border-color:var(--amber);} .note.warn .t{ color:var(--amber);}
+  .note.alert{ background:var(--rose-soft); border-color:var(--rose);} .note.alert .t{ color:var(--rose);}
+  .note.brand{ background:var(--brand-soft); border-color:var(--brand);} .note.brand .t{ color:var(--brand);}
+
+  /* ---------- TABLES ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0 12px; font-size:9.2pt; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  thead th{ background:var(--ink); color:#fff; text-align:left; font-weight:650; padding:9px 11px; font-size:8.6pt; letter-spacing:.02em; }
+  tbody td{ padding:8px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--bg-alt); }
+  tr{ break-inside:avoid; }
+  td.c{ text-align:center; white-space:nowrap; } th.c{ text-align:center; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:8pt; font-weight:700; white-space:nowrap; }
+  .b-yes{ background:var(--rose-soft); color:var(--rose);} .b-no{ background:var(--teal-soft); color:var(--teal);}
+  .b-mid{ background:var(--amber-soft); color:var(--amber);} .b-fin{ background:var(--brand-soft); color:var(--brand);}
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:12px 0 16px; }
+  .step{ position:relative; text-align:center; padding:12px 6px 10px; border-radius:12px; background:var(--bg-alt); border:1px solid var(--line); }
+  .step .n{ width:26px; height:26px; margin:0 auto 6px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:9pt; color:#fff; background:var(--brand); }
+  .step:nth-child(even) .n{ background:var(--teal); }
+  .step:last-child .n{ background:var(--amber); }
+  .step b{ display:block; font-size:8.4pt; line-height:1.25; }
+  .step span{ display:block; font-size:7.4pt; color:var(--muted); margin-top:3px; }
+  .step:not(:last-child)::after{ content:"›"; position:absolute; right:-7px; top:16px; font-size:14pt; color:var(--brand); font-weight:800; }
+
+  /* ---------- CODE ---------- */
+  pre{ background:#16132e; color:#e8e6ff; border-radius:12px; padding:12px 14px; margin:8px 0 10px; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; line-height:1.55; white-space:pre-wrap; break-inside:avoid; }
+  pre .k{ color:#c4b5fd; } pre .c{ color:#8b88b0; } pre .s{ color:#5eead4; } pre .n{ color:#fcd34d; }
+  .kbd{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* ---------- MISC ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+  .chip{ font-size:8.4pt; padding:4px 10px; border-radius:999px; background:var(--brand-soft); color:#3b1fa8; font-weight:600; }
+  .chip.t{ background:var(--teal-soft); color:#0b6e60; } .chip.r{ background:var(--rose-soft); color:#a3213f; }
+  .game{ display:flex; gap:12px; }
+  .game .ic{ flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#fff; font-size:13pt; }
+  .week{ border-left:4px solid var(--brand); }
+  .week:nth-child(2){ border-left-color:var(--teal);} .week:nth-child(3){ border-left-color:var(--amber);} .week:nth-child(4){ border-left-color:var(--rose);}
+  .check li{ list-style:none; position:relative; padding-left:4px; }
+  .check{ padding-left:20px; }
+  .check li::before{ content:"✓"; position:absolute; left:-18px; top:0; color:var(--teal); font-weight:800; }
+  .disclaimer{ font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; margin-top:16px; }
+</style>
+<style>
+  /* guide-specific additions */
+  .sec-head{ break-inside:avoid; }
+  .cover{ background:radial-gradient(110% 80% at 100% 0%, #14b8a6 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #7c4dff 0%, transparent 52%),
+               linear-gradient(160deg,#0f1b3d 0%,#1e1a5e 55%,#120f33 100%); }
+  .cover h1 span{ color:#7ff0dc; }
+  .scale{ display:inline-flex; gap:3px; vertical-align:middle; }
+  .scale i{ font-style:normal; width:24px; height:18px; border-radius:5px; display:grid; place-items:center;
+    font-size:6.8pt; font-weight:700; color:#9a97b5; background:#f1f0f7; border:1px solid var(--line); }
+  .scale i.on{ background:var(--teal); color:#fff; border-color:var(--teal); }
+  .scale i.ok{ background:var(--teal-soft); color:#0b6e60; border-color:#9fe3d6; }
+  .scale.neg i.on{ background:var(--rose); border-color:var(--rose); }
+  .scale.neg i.ok{ background:var(--rose-soft); color:#a3213f; border-color:#f5b3c2; }
+  .bigscale{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin:10px 0; }
+  .bigscale div{ text-align:center; border-radius:10px; padding:10px 4px; border:1px solid var(--line); background:var(--bg-alt); font-size:8.6pt; font-weight:650; }
+  .bigscale div b{ display:block; font-size:14pt; color:var(--brand); }
+  .trait{ border-left:4px solid var(--brand); }
+  .trait .row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; }
+  .trait .row div{ font-size:8.8pt; }
+  .trait .eg{ margin-top:6px; padding:6px 9px; border-radius:8px; background:var(--bg-alt); font-size:8.7pt; }
+  .q{ border:1px solid var(--line); border-radius:12px; padding:11px 14px; margin:8px 0; break-inside:avoid; }
+  .q .qh{ font-weight:700; font-size:9.6pt; margin-bottom:6px; }
+  .q .opt{ display:flex; gap:8px; font-size:9pt; padding:4px 8px; border-radius:7px; margin:2px 0; }
+  .q .opt b{ flex:none; width:16px; }
+  .q .opt.best{ background:var(--teal-soft); color:#0b5a4f; font-weight:600; }
+  .q .opt.bad{ color:#8d8aa8; }
+  .q .why{ font-size:8.7pt; margin-top:6px; color:var(--ink-2); border-top:1px dashed var(--line); padding-top:6px; }
+  .pt td{ font-size:8.8pt; }
+  .pt td:first-child{ width:4%; color:var(--muted); font-weight:700; }
+  .pt td.r{ width:22%; }
+  .myth td:first-child{ color:var(--rose); font-weight:600; } .myth td:last-child{ color:#0b6e60; }
+  .rule{ display:flex; gap:12px; align-items:flex-start; padding:10px 12px; border-radius:12px; border:1px solid var(--line); break-inside:avoid; }
+  .rule .no{ flex:none; width:30px; height:30px; border-radius:9px; display:grid; place-items:center; color:#fff; font-weight:800; background:linear-gradient(135deg,var(--brand),var(--brand-2)); }
+  .rule h4{ margin:0 0 2px; }
+  .rule p{ margin:0; font-size:9pt; color:var(--ink-2); }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:7px 0; border-bottom:1px dashed var(--line); font-size:9.6pt; }
+  .toc li b{ color:var(--brand); width:22px; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2027 · Assessment 1 · Part A</span></div>
+  <h1>Psychometric &amp;<br>Behavioural Test<br><span>Zero to Hero Guide</span></h1>
+  <p class="sub">Everything you need to understand, prepare for and confidently clear the Behavioural Assessment, starting from zero. Written in simple language, with real-style practice questions and explained answers.</p>
+  <div class="roles">
+    <div>What the test is</div><div>Traits measured</div><div>Consistency checks</div><div>60+ practice items</div><div>7-day plan</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>54</b><span>Questions</span></div>
+    <div class="stat"><b>20</b><span>Minutes</span></div>
+    <div class="stat"><b>~22s</b><span>Per question</span></div>
+    <div class="stat"><b>0</b><span>Right or wrong answers, but many "risky" ones</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2027</span></div>
+</section>
+
+<!-- ================= CONTENTS ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b>01</b>What is a psychometric test?</li>
+    <li><b>02</b>The Accenture Behavioural round at a glance</li>
+    <li><b>03</b>Question formats you will see</li>
+    <li><b>04</b>Understanding the answer scale</li>
+    <li><b>05</b>The traits being measured</li>
+    <li><b>06</b>Consistency checks and "trap" statements</li>
+    <li><b>07</b>The 12 golden rules</li>
+    <li><b>08</b>Practice Set 1: 40 statements with answers</li>
+    <li><b>09</b>Practice Set 2: situational judgement</li>
+    <li><b>10</b>Practice Set 3: consistency drill</li>
+    <li><b>11</b>Time management for 54 questions</li>
+    <li><b>12</b>7-day preparation plan</li>
+    <li><b>13</b>Frequently asked questions</li>
+    <li><b>14</b>One-page revision sheet</li>
+  </ul>
+
+  <div class="note brand"><span class="t">How to use this guide</span>
+    <ul>
+      <li><b>Never heard of a psychometric test?</b> Read Sections 1–7 in order. They build your understanding step by step.</li>
+      <li><b>Already know the basics?</b> Skip to Section 6 (consistency checks) and Section 7 (golden rules), then do the practice sets.</li>
+      <li><b>Exam tomorrow?</b> Read Section 14, the one-page revision sheet, and do Practice Set 1.</li>
+    </ul>
+  </div>
+
+  <div class="note warn"><span class="t">An honest word before you start</span>This guide does <b>not</b> teach you to fake a personality. Faking is risky: the test is designed to catch it, and the interviewer may later ask about the same traits. Instead, this guide teaches you to <b>understand what each question is really asking</b>, to <b>answer as your best professional self</b>, and to <b>stay consistent</b>. That is exactly what companies want to see.</div>
+
+  <!-- ===== 01 ===== -->
+  <div class="sec-head" style="margin-top:22px"><div class="sec-num">01</div><div><div class="kicker">The basics</div><h2>What Is a Psychometric Test?</h2></div></div>
+  <p><b>"Psycho"</b> means mind and <b>"metric"</b> means measurement. A psychometric test measures <b>how you think, behave and react</b> in different situations. It is not about knowledge, so you can't study facts for it the way you would for a technical test.</p>
+  <p>The <b>behavioural</b> (personality) part asks you to rate statements about yourself, such as <i>"I enjoy working with people from different backgrounds."</i> Your answers build a <b>personality profile</b>. The company then compares that profile with the qualities it wants in its employees.</p>
+
+  <h3>Why do companies like Accenture use it?</h3>
+  <div class="cards c3">
+    <div class="card alt"><h4 style="margin-top:0">Culture fit</h4><p style="margin:0;font-size:9pt">Will you work well in large, diverse, client-facing teams?</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Work style</h4><p style="margin:0;font-size:9pt">Are you reliable, adaptable and willing to learn new technologies fast?</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Scale</h4><p style="margin:0;font-size:9pt">It's a fair, quick way to understand thousands of freshers before the interview.</p></div>
+  </div>
+</section>
+
+<!-- ================= MYTHS + 02 ================= -->
+<section style="margin-top:20px">
+  <h3>Myths vs Facts</h3>
+  <table class="myth">
+    <thead><tr><th style="width:42%">Myth ✗</th><th>Fact ✓</th></tr></thead>
+    <tbody>
+      <tr><td>"There are no right answers, so I can click anything."</td><td>There are no <i>correct</i> answers, but there are clearly <b>unsuitable</b> ones, such as agreeing that rules can be ignored. Careless clicking also creates inconsistencies.</td></tr>
+      <tr><td>"I should pick Strongly Agree for every positive statement."</td><td>An "all extreme" pattern looks unrealistic and can flag your profile as <b>socially desirable responding</b> (trying too hard to look good).</td></tr>
+      <tr><td>"It's not an elimination round, so it doesn't matter."</td><td>Candidates report no direct elimination, but your profile may still be used alongside other results. Treat it seriously. It takes only 20 minutes.</td></tr>
+      <tr><td>"I need to study psychology for this."</td><td>No. You only need to understand the <b>traits</b> being measured and the <b>question patterns</b>. This guide covers both.</td></tr>
+      <tr><td>"Neutral is the safest answer."</td><td>Choosing Neutral too often makes you look indecisive and gives the test little information. Use it rarely.</td></tr>
+      <tr><td>"Admitting any weakness will hurt me."</td><td>Small, honest admissions (like feeling nervous before big tasks) make your profile <b>believable</b>. Nobody is perfect, and the test knows that.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ===== 02 ===== -->
+  <div class="sec-head" style="margin-top:18px"><div class="sec-num">02</div><div><div class="kicker">Know your exam</div><h2>The Accenture Behavioural Round at a Glance</h2></div></div>
+  <div class="cards c4">
+    <div class="card alt"><div class="lbl">Questions</div><div class="val">54</div></div>
+    <div class="card alt"><div class="lbl">Duration</div><div class="val">20 <small>min</small></div></div>
+    <div class="card alt"><div class="lbl">Time per question</div><div class="val">~22 <small>sec</small></div></div>
+    <div class="card alt"><div class="lbl">Elimination</div><div class="val" style="color:var(--teal);font-size:12pt">Not reported</div></div>
+  </div>
+  <ul>
+    <li>It is <b>Part A of Assessment 1</b>. It is followed by the 20-minute Gamified Cognitive test (3 games), which <b>is</b> an elimination round.</li>
+    <li>You will see <b>personality-based situational statements</b> rated on an <b>agree / disagree scale</b>.</li>
+    <li>Statements cover <b>workplace behaviour, teamwork, integrity and adaptability</b>.</li>
+    <li>The test includes <b>consistency checks</b>: the same trait is asked in different ways at different points.</li>
+  </ul>
+  <div class="note info"><span class="t">Why it still matters</span>Even if this round doesn't eliminate anyone by itself, it is your first impression on the platform. A calm, consistent performance here also sets a good rhythm for the gamified round straight after it.</div>
+</section>
+
+<!-- ================= 03 + 04 ================= -->
+<section style="margin-top:20px">
+  <div class="sec-head"><div class="sec-num">03</div><div><div class="kicker">Recognise the pattern</div><h2>Question Formats You Will See</h2></div></div>
+  <p class="lead">The main Accenture format is the <b>agree/disagree statement</b>. It's still worth knowing the other two common formats, because psychometric tests often mix them.</p>
+
+  <div class="cards" style="grid-template-columns:1fr">
+    <div class="card">
+      <h4 style="margin-top:0"><span class="chip" style="margin-right:6px">Format 1 · Main</span>Self-rating statement (Likert scale)</h4>
+      <p style="font-size:9pt;margin:0 0 6px">You read a statement about yourself and choose how much you agree.</p>
+      <div class="eg" style="background:var(--bg-alt);border-radius:8px;padding:8px 10px;font-size:9pt"><b>"I stay calm when deadlines are tight."</b><br>
+      Strongly Disagree · Disagree · Neutral · Agree · Strongly Agree</div>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0"><span class="chip t" style="margin-right:6px">Format 2</span>Situational statement</h4>
+      <p style="font-size:9pt;margin:0 0 6px">A workplace situation is described, and you rate how likely you are to react in a given way.</p>
+      <div class="eg" style="background:var(--bg-alt);border-radius:8px;padding:8px 10px;font-size:9pt"><b>"If a teammate is struggling with their task, I would offer to help even if it's not my responsibility."</b></div>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0"><span class="chip r" style="margin-right:6px">Format 3</span>Forced choice (most / least like me)</h4>
+      <p style="font-size:9pt;margin:0 0 6px">You see 2–4 statements that all sound positive, and you must pick the one that is <b>most</b> (or least) like you. This makes faking hard, so just pick what is truly closest to you.</p>
+      <div class="eg" style="background:var(--bg-alt);border-radius:8px;padding:8px 10px;font-size:9pt">A. I plan my work in detail &nbsp;·&nbsp; B. I enjoy meeting new people &nbsp;·&nbsp; C. I like solving difficult problems</div>
+    </div>
+  </div>
+
+  <!-- ===== 04 ===== -->
+  <div class="sec-head" style="margin-top:18px"><div class="sec-num">04</div><div><div class="kicker">The most important skill</div><h2>Understanding the Answer Scale</h2></div></div>
+  <div class="bigscale">
+    <div><b>SD</b>Strongly Disagree</div><div><b>D</b>Disagree</div><div><b>N</b>Neutral</div><div><b>A</b>Agree</div><div><b>SA</b>Strongly Agree</div>
+  </div>
+  <p>Every statement is either <b>positive</b> (it describes a good workplace quality) or <b>negative</b> (it describes a weak or risky quality). Your first job is to tell which kind it is.</p>
+  <table>
+    <thead><tr><th style="width:26%">Statement type</th><th style="width:38%">Example</th><th>Best response zone</th></tr></thead>
+    <tbody>
+      <tr><td><b>Core positive</b><br><span style="font-size:8.4pt;color:var(--muted)">integrity, ownership, teamwork</span></td><td>"I always complete the work I have committed to."</td><td><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span> Strongly Agree or Agree</td></tr>
+      <tr><td><b>Mild positive</b><br><span style="font-size:8.4pt;color:var(--muted)">nice to have, depends on person</span></td><td>"I enjoy being the centre of attention in a group."</td><td><span class="scale"><i>SD</i><i>D</i><i class="ok">N</i><i class="on">A</i><i>SA</i></span> Agree, or Neutral if it's true for you</td></tr>
+      <tr><td><b>Core negative</b><br><span style="font-size:8.4pt;color:var(--muted)">dishonesty, rule-breaking</span></td><td>"It's okay to bend the rules if no one finds out."</td><td><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span> Strongly Disagree</td></tr>
+      <tr><td><b>Mild negative</b><br><span style="font-size:8.4pt;color:var(--muted)">normal human weakness</span></td><td>"I get irritated when plans change suddenly."</td><td><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span> Disagree</td></tr>
+      <tr><td><b>Honesty check</b><br><span style="font-size:8.4pt;color:var(--muted)">"never" / "always" claims</span></td><td>"I have never been late for anything in my life."</td><td><span class="scale neg"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span> Disagree, because nobody is perfect</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip"><span class="t">The 3-second method</span>
+    <ol style="margin:4px 0 0;padding-left:18px">
+      <li><b>Spot the trait:</b> what quality is this statement about?</li>
+      <li><b>Spot the direction:</b> is it positive or negative for a professional?</li>
+      <li><b>Pick the strength:</b> use "Strongly" only for core values (integrity, ownership, teamwork). Use plain Agree or Disagree for the rest.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= 05 TRAITS ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">05</div><div><div class="kicker">What's really being measured</div><h2>The Traits Being Measured</h2></div></div>
+  <p class="lead">Most personality tests are built on the <b>Big Five</b> model of personality. Companies then map it to workplace qualities. Learn these once and you will recognise almost every statement.</p>
+
+  <h3>The Big Five (OCEAN), made simple</h3>
+  <table>
+    <thead><tr><th style="width:20%">Trait</th><th style="width:34%">What it means</th><th>What a workplace profile usually shows</th></tr></thead>
+    <tbody>
+      <tr><td><b>O</b>penness</td><td>Curiosity, open to new ideas and learning</td><td><b>High:</b> eager to learn new tech and comfortable with change</td></tr>
+      <tr><td><b>C</b>onscientiousness</td><td>Organised, responsible, careful, hard-working</td><td><b>High:</b> the most valued trait for freshers (meets deadlines, checks work)</td></tr>
+      <tr><td><b>E</b>xtraversion</td><td>Social energy, talkative, assertive</td><td><b>Moderate to high:</b> comfortable with people. You don't need to be the loudest.</td></tr>
+      <tr><td><b>A</b>greeableness</td><td>Cooperative, kind, helpful, trusting</td><td><b>High, but balanced:</b> helpful and polite, yet able to disagree respectfully</td></tr>
+      <tr><td><b>N</b>euroticism</td><td>Stress, anxiety, mood swings</td><td><b>Low:</b> calm under pressure, handles criticism well</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The 8 workplace traits that matter for IT services</h3>
+  <div class="cards c2">
+    <div class="card trait">
+      <h4 style="margin:0">1 · Teamwork &amp; Collaboration</h4>
+      <div class="row"><div><b>Looks like:</b> shares credit, helps teammates, values other opinions.</div><div><b>Red flag:</b> "I prefer to work alone", "Others slow me down".</div></div>
+      <div class="eg">"I enjoy working with people who think differently from me." → <b>Agree / Strongly Agree</b></div>
+    </div>
+    <div class="card trait" style="border-left-color:var(--teal)">
+      <h4 style="margin:0">2 · Adaptability &amp; Flexibility</h4>
+      <div class="row"><div><b>Looks like:</b> handles changing requirements, new tools, new locations.</div><div><b>Red flag:</b> "I dislike change", "I need a fixed routine".</div></div>
+      <div class="eg">"I am comfortable when my task changes at short notice." → <b>Agree</b></div>
+    </div>
+    <div class="card trait" style="border-left-color:var(--rose)">
+      <h4 style="margin:0">3 · Integrity &amp; Ethics</h4>
+      <div class="row"><div><b>Looks like:</b> honest, follows rules, admits mistakes.</div><div><b>Red flag:</b> any agreement with lying, cheating or hiding errors.</div></div>
+      <div class="eg">"I would report a mistake even if no one else noticed it." → <b>Strongly Agree</b></div>
+    </div>
+    <div class="card trait" style="border-left-color:var(--amber)">
+      <h4 style="margin:0">4 · Ownership &amp; Dependability</h4>
+      <div class="row"><div><b>Looks like:</b> finishes what they start, meets deadlines, takes responsibility.</div><div><b>Red flag:</b> blaming others, leaving tasks half done.</div></div>
+      <div class="eg">"When I commit to a deadline, I make sure I meet it." → <b>Strongly Agree</b></div>
+    </div>
+    <div class="card trait" style="border-left-color:var(--sky)">
+      <h4 style="margin:0">5 · Learning Agility</h4>
+      <div class="row"><div><b>Looks like:</b> enjoys learning, asks questions, picks up new skills fast.</div><div><b>Red flag:</b> "I only like doing what I already know".</div></div>
+      <div class="eg">"I enjoy learning new technologies on my own." → <b>Strongly Agree</b></div>
+    </div>
+    <div class="card trait" style="border-left-color:var(--brand-2)">
+      <h4 style="margin:0">6 · Resilience &amp; Stress Handling</h4>
+      <div class="row"><div><b>Looks like:</b> stays calm, recovers from failure, accepts feedback.</div><div><b>Red flag:</b> "Criticism upsets me for days", "I panic under pressure".</div></div>
+      <div class="eg">"I see negative feedback as a chance to improve." → <b>Agree / Strongly Agree</b></div>
+    </div>
+    <div class="card trait" style="border-left-color:var(--teal)">
+      <h4 style="margin:0">7 · Client &amp; Quality Focus</h4>
+      <div class="row"><div><b>Looks like:</b> cares about the end user, checks work, pays attention to detail.</div><div><b>Red flag:</b> "Good enough is fine", "Details don't matter".</div></div>
+      <div class="eg">"I double-check my work before submitting it." → <b>Strongly Agree</b></div>
+    </div>
+    <div class="card trait" style="border-left-color:var(--amber)">
+      <h4 style="margin:0">8 · Communication &amp; Initiative</h4>
+      <div class="row"><div><b>Looks like:</b> speaks up, asks for help early, suggests ideas.</div><div><b>Red flag:</b> "I keep problems to myself", "I wait to be told what to do".</div></div>
+      <div class="eg">"If I am stuck, I ask for help instead of wasting time." → <b>Agree</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 CONSISTENCY ================= -->
+<section style="margin-top:20px">
+  <div class="sec-head"><div class="sec-num">06</div><div><div class="kicker">Where most people slip</div><h2>Consistency Checks &amp; Trap Statements</h2></div></div>
+  <p class="lead">The test asks about the <b>same trait several times</b>, worded differently and spread across the test. If your answers contradict each other, your profile is marked <b>inconsistent</b>, which is one of the few real ways to perform badly here.</p>
+
+  <h3>How a consistency cluster works</h3>
+  <p>Here are three statements that all measure <b>teamwork</b>. They might appear as question 5, question 23 and question 47:</p>
+  <table>
+    <thead><tr><th style="width:8%">Q</th><th>Statement</th><th style="width:16%">Direction</th><th style="width:26%">Consistent answer</th></tr></thead>
+    <tbody>
+      <tr><td>5</td><td>"I enjoy working as part of a team."</td><td>Positive</td><td><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td></tr>
+      <tr><td>23</td><td>"I get more done when I work alone than with others."</td><td>Reversed</td><td><span class="scale neg"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span></td></tr>
+      <tr><td>47</td><td>"When my team succeeds, I feel it is my success too."</td><td>Positive</td><td><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td></tr>
+    </tbody>
+  </table>
+  <div class="note alert"><span class="t">The common mistake</span>A candidate who answers <b>Strongly Agree</b> to Q5 but also <b>Agree</b> to Q23 has contradicted themselves. The test notices this pattern.</div>
+
+  <h3>Reverse-keyed statements: read every word</h3>
+  <p>A <b>reversed</b> statement describes the <i>opposite</i> of a good trait, so the good answer is <b>Disagree</b>. Watch for these words:</p>
+  <div class="chips"><span class="chip r">not</span><span class="chip r">rarely</span><span class="chip r">avoid</span><span class="chip r">dislike</span><span class="chip r">find it difficult</span><span class="chip r">prefer to work alone</span><span class="chip r">get upset</span><span class="chip r">put off</span></div>
+  <div class="cards c2">
+    <div class="card"><p style="margin:0;font-size:9pt">"I <b>rarely</b> finish tasks before the deadline."<br>→ This is about <b>ownership</b>, reversed. Answer <b>Disagree</b>.</p></div>
+    <div class="card"><p style="margin:0;font-size:9pt">"I find it <b>difficult</b> to adjust to new teams."<br>→ This is about <b>adaptability</b>, reversed. Answer <b>Disagree</b>.</p></div>
+  </div>
+
+  <h3>The "too good to be true" trap (lie-scale items)</h3>
+  <p>Some statements describe <b>perfect behaviour that no real human has</b>. They test whether you are answering honestly or just trying to look good. If you strongly agree with all of them, your whole profile may be treated as less believable.</p>
+  <table>
+    <thead><tr><th>Trap statement</th><th style="width:30%">Smart answer</th></tr></thead>
+    <tbody>
+      <tr><td>"I have <b>never</b> told even a small lie."</td><td><span class="scale neg"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span> Disagree</td></tr>
+      <tr><td>"I <b>always</b> like everyone I meet."</td><td><span class="scale neg"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span> Disagree</td></tr>
+      <tr><td>"I have <b>never</b> felt angry at anyone."</td><td><span class="scale neg"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span> Disagree</td></tr>
+      <tr><td>"I <b>sometimes</b> feel nervous before an important task."</td><td><span class="scale"><i>SD</i><i>D</i><i class="ok">N</i><i class="on">A</i><i>SA</i></span> Agree is fine, because it's normal</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip"><span class="t">Rule of thumb</span>Words like <b>"never"</b>, <b>"always"</b>, <b>"everyone"</b> and <b>"in my whole life"</b> next to a perfect behaviour are a signal. Real people are good <i>most</i> of the time, not <i>all</i> of the time.</div>
+</section>
+
+<!-- ================= 07 RULES ================= -->
+<section style="margin-top:20px">
+  <div class="sec-head"><div class="sec-num">07</div><div><div class="kicker">Remember these</div><h2>The 12 Golden Rules</h2></div></div>
+  <div class="cards c2">
+    <div class="rule"><div class="no">1</div><div><h4>Be your best professional self</h4><p>Answer as the person you are at your best at work or college, not on a lazy Sunday.</p></div></div>
+    <div class="rule"><div class="no">2</div><div><h4>Stay consistent</h4><p>Decide your "stand" on each trait once, and keep it every time that trait appears.</p></div></div>
+    <div class="rule"><div class="no">3</div><div><h4>Read every word</h4><p>"Not", "rarely" and "avoid" flip the meaning. Most mistakes come from skim-reading.</p></div></div>
+    <div class="rule"><div class="no">4</div><div><h4>Integrity is non-negotiable</h4><p>Always strongly reject lying, cheating, hiding mistakes or bending rules.</p></div></div>
+    <div class="rule"><div class="no">5</div><div><h4>Avoid the all-extreme pattern</h4><p>Mix Agree and Strongly Agree. Save "Strongly" for core values.</p></div></div>
+    <div class="rule"><div class="no">6</div><div><h4>Limit Neutral</h4><p>Use it rarely, only when you truly don't lean either way. Aim for fewer than 5 out of 54.</p></div></div>
+    <div class="rule"><div class="no">7</div><div><h4>Don't claim perfection</h4><p>Disagree with "I have never…" and "I always…" claims of perfect behaviour.</p></div></div>
+    <div class="rule"><div class="no">8</div><div><h4>Team over ego</h4><p>Prefer collaboration, shared credit and helping others, while still owning your own work.</p></div></div>
+    <div class="rule"><div class="no">9</div><div><h4>Welcome change</h4><p>Agree with flexibility: new tasks, new tools, relocation, shifting priorities.</p></div></div>
+    <div class="rule"><div class="no">10</div><div><h4>Show calm, not anxiety</h4><p>Disagree with panic, stress-outs and taking feedback personally.</p></div></div>
+    <div class="rule"><div class="no">11</div><div><h4>Trust your first instinct</h4><p>You get about 22 seconds per question. Overthinking leads to inconsistency.</p></div></div>
+    <div class="rule"><div class="no">12</div><div><h4>Answer every question</h4><p>Skipped or timed-out items weaken your profile. Never leave any blank.</p></div></div>
+  </div>
+
+  <h3>The balanced profile you are aiming for</h3>
+  <table>
+    <thead><tr><th>Trait</th><th>Target level</th><th>One-line description</th></tr></thead>
+    <tbody>
+      <tr><td>Integrity</td><td><span class="badge b-yes">Very high</span></td><td>Honest, ethical, follows rules, admits mistakes</td></tr>
+      <tr><td>Ownership / Dependability</td><td><span class="badge b-yes">Very high</span></td><td>Finishes what they start and meets deadlines</td></tr>
+      <tr><td>Teamwork</td><td><span class="badge b-yes">Very high</span></td><td>Cooperative and helpful, values others</td></tr>
+      <tr><td>Learning agility / Openness</td><td><span class="badge b-mid">High</span></td><td>Curious, picks up new technology fast</td></tr>
+      <tr><td>Adaptability</td><td><span class="badge b-mid">High</span></td><td>Comfortable with change and uncertainty</td></tr>
+      <tr><td>Calmness / Resilience</td><td><span class="badge b-mid">High</span></td><td>Handles pressure and feedback well</td></tr>
+      <tr><td>Sociability / Assertiveness</td><td><span class="badge b-fin">Moderate to high</span></td><td>Comfortable with people. Doesn't need to dominate.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= 08 PRACTICE 1 ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">08</div><div><div class="kicker">Practice set 1</div><h2>40 Statements with Recommended Answers</h2></div></div>
+  <p class="lead">Cover the right two columns, answer each statement yourself, then compare. Dark green or red marks the best answer. Light shading marks another acceptable answer.</p>
+  <table class="pt">
+    <thead><tr><th>#</th><th>Statement</th><th class="r">Recommended</th><th style="width:22%">Trait · Why</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>I enjoy working as part of a team.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Teamwork</td></tr>
+      <tr><td>2</td><td>I prefer to complete tasks alone rather than with others.</td><td class="r"><span class="scale neg"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span></td><td>Teamwork · reversed</td></tr>
+      <tr><td>3</td><td>I double-check my work before submitting it.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Quality focus</td></tr>
+      <tr><td>4</td><td>It's acceptable to bend company rules if it helps finish work faster.</td><td class="r"><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Integrity · core</td></tr>
+      <tr><td>5</td><td>I feel uncomfortable when my work plan changes suddenly.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Adaptability · reversed</td></tr>
+      <tr><td>6</td><td>I enjoy learning new tools and technologies.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Learning agility</td></tr>
+      <tr><td>7</td><td>When I make a mistake, I inform my lead immediately.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Integrity · ownership</td></tr>
+      <tr><td>8</td><td>I often put off difficult tasks until the last minute.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Conscientiousness · reversed</td></tr>
+      <tr><td>9</td><td>I stay calm when working under tight deadlines.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Resilience</td></tr>
+      <tr><td>10</td><td>Criticism of my work upsets me for a long time.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Resilience · reversed</td></tr>
+      <tr><td>11</td><td>I have never made a mistake at work or in college.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Lie-scale · too perfect</td></tr>
+      <tr><td>12</td><td>I like taking responsibility for important tasks.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Ownership</td></tr>
+      <tr><td>13</td><td>I am willing to relocate for work if needed.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Adaptability · PAN-India role</td></tr>
+      <tr><td>14</td><td>I respect opinions that are different from mine.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Teamwork · diversity</td></tr>
+      <tr><td>15</td><td>I keep my problems to myself rather than ask for help.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Communication · reversed</td></tr>
+      <tr><td>16</td><td>I enjoy being the centre of attention.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i class="ok">N</i><i class="on">A</i><i>SA</i></span></td><td>Extraversion · mild, be honest</td></tr>
+      <tr><td>17</td><td>I plan my day before I start working.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Organisation</td></tr>
+      <tr><td>18</td><td>Taking credit for a teammate's idea is fine if it helps my career.</td><td class="r"><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Integrity · core</td></tr>
+      <tr><td>19</td><td>I sometimes feel nervous before important presentations.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i class="ok">N</i><i class="on">A</i><i>SA</i></span></td><td>Honesty · normal feeling</td></tr>
+      <tr><td>20</td><td>I find it easy to start conversations with new people.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Sociability</td></tr>
+      <tr><td>21</td><td>Once I start something, I finish it.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Ownership</td></tr>
+      <tr><td>22</td><td>I get bored doing the same kind of work for long.</td><td class="r"><span class="scale"><i>SD</i><i class="ok">D</i><i class="on">N</i><i>A</i><i>SA</i></span></td><td>Tricky · avoid both extremes</td></tr>
+      <tr><td>23</td><td>I prefer clear instructions before starting a task.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i class="ok">N</i><i class="on">A</i><i>SA</i></span></td><td>Fine to agree · not "Strongly"</td></tr>
+      <tr><td>24</td><td>I can work effectively even when instructions are unclear.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Adaptability</td></tr>
+      <tr><td>25</td><td>Following procedures is a waste of time.</td><td class="r"><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Discipline · reversed</td></tr>
+      <tr><td>26</td><td>I like helping teammates even when it's not my task.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Teamwork · agreeableness</td></tr>
+      <tr><td>27</td><td>I lose my temper easily when things go wrong.</td><td class="r"><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Emotional stability</td></tr>
+      <tr><td>28</td><td>I set personal goals and track my progress.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Drive</td></tr>
+      <tr><td>29</td><td>I prefer sticking to methods that have always worked.</td><td class="r"><span class="scale"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span></td><td>Openness · mildly reversed</td></tr>
+      <tr><td>30</td><td>I speak up in meetings when I have a useful idea.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Initiative</td></tr>
+      <tr><td>31</td><td>I always agree with my seniors, even when I think they're wrong.</td><td class="r"><span class="scale neg"><i>SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Respectful assertiveness</td></tr>
+      <tr><td>32</td><td>I handle multiple tasks at the same time without losing track.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Organisation</td></tr>
+      <tr><td>33</td><td>If no one checks my work, I don't need to be careful.</td><td class="r"><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Integrity · quality</td></tr>
+      <tr><td>34</td><td>I enjoy solving difficult problems.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Problem solving</td></tr>
+      <tr><td>35</td><td>I worry a lot about things that may go wrong.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Anxiety · reversed</td></tr>
+      <tr><td>36</td><td>I treat everyone with respect, whatever their role.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Respect · inclusion</td></tr>
+      <tr><td>37</td><td>I am comfortable working late occasionally to meet a deadline.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td><td>Commitment</td></tr>
+      <tr><td>38</td><td>I get along with every single person I have ever met.</td><td class="r"><span class="scale neg"><i>SD</i><i class="on">D</i><i class="ok">N</i><i>A</i><i>SA</i></span></td><td>Lie-scale · too perfect</td></tr>
+      <tr><td>39</td><td>I see feedback as an opportunity to grow.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td><td>Growth mindset</td></tr>
+      <tr><td>40</td><td>I find it hard to trust my teammates with important work.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td><td>Trust · teamwork reversed</td></tr>
+    </tbody>
+  </table>
+  <div class="note info"><span class="t">Notice the pattern in this answer key</span>Even the "ideal" answers are not all Strongly Agree. Out of 40, only about 15 are "Strongly" answers, several are plain Agree or Disagree, and a couple sit at Neutral. This is what a <b>believable, balanced</b> profile looks like.</div>
+</section>
+
+<!-- ================= 09 SJT ================= -->
+<section style="margin-top:20px">
+  <div class="sec-head"><div class="sec-num">09</div><div><div class="kicker">Practice set 2</div><h2>Situational Judgement Practice</h2></div></div>
+  <p class="lead">These scenarios train you to think like a professional. Even when the real test uses only an agree/disagree scale, the same thinking tells you which statements to agree with. The best answer is highlighted.</p>
+
+  <div class="q"><div class="qh">1. You notice a bug in code you submitted yesterday. Nobody else has noticed it yet. What do you do?</div>
+    <div class="opt bad"><b>A</b>Stay quiet. If no one finds it, it's not a problem.</div>
+    <div class="opt bad"><b>B</b>Fix it silently without telling anyone.</div>
+    <div class="opt best"><b>C</b>Inform your lead, explain the impact, and fix it quickly.</div>
+    <div class="opt bad"><b>D</b>Wait to see if testing catches it.</div>
+    <div class="why"><b>Why C:</b> it shows integrity and ownership. B looks responsible, but hiding a change from the team breaks transparency.</div></div>
+
+  <div class="q"><div class="qh">2. A teammate keeps missing their part of the work, which delays the whole team.</div>
+    <div class="opt bad"><b>A</b>Complain about them to the manager straight away.</div>
+    <div class="opt best"><b>B</b>Talk to them privately, understand the issue, and offer help. Escalate only if it continues.</div>
+    <div class="opt bad"><b>C</b>Do their work yourself without saying anything.</div>
+    <div class="opt bad"><b>D</b>Ignore it, because it's not your problem.</div>
+    <div class="why"><b>Why B:</b> it balances empathy, teamwork and responsibility, and keeps escalation as a sensible next step.</div></div>
+
+  <div class="q"><div class="qh">3. Your manager assigns you a technology you have never used, with a one-week deadline.</div>
+    <div class="opt bad"><b>A</b>Say it's not your skill and ask for a different task.</div>
+    <div class="opt best"><b>B</b>Accept, make a quick learning plan, use documentation and colleagues, and share progress early.</div>
+    <div class="opt bad"><b>C</b>Accept and quietly hope you figure it out.</div>
+    <div class="opt bad"><b>D</b>Accept but ask for the deadline to be doubled right away.</div>
+    <div class="why"><b>Why B:</b> it shows learning agility, adaptability and communication. Raising a timeline risk <i>after</i> you have a plan is fine.</div></div>
+
+  <div class="q"><div class="qh">4. A client asks for a change late on a Friday that could affect the release.</div>
+    <div class="opt bad"><b>A</b>Make the change immediately without telling anyone.</div>
+    <div class="opt bad"><b>B</b>Refuse, because it's too late.</div>
+    <div class="opt best"><b>C</b>Acknowledge the request politely, check the impact with your lead, and agree a realistic plan with the client.</div>
+    <div class="opt bad"><b>D</b>Reply on Monday.</div>
+    <div class="why"><b>Why C:</b> it's client-focused but follows process. A risks the release, and B and D ignore the client.</div></div>
+
+  <div class="q"><div class="qh">5. Your senior suggests an approach you believe is less efficient.</div>
+    <div class="opt bad"><b>A</b>Follow it silently. Seniors are always right.</div>
+    <div class="opt best"><b>B</b>Respectfully share your alternative with reasons, then go with the team's final decision.</div>
+    <div class="opt bad"><b>C</b>Use your own approach without telling them.</div>
+    <div class="opt bad"><b>D</b>Argue until they agree.</div>
+    <div class="why"><b>Why B:</b> it combines respectful assertiveness with team discipline.</div></div>
+
+  <div class="q"><div class="qh">6. You receive harsh feedback on your first project in front of the team.</div>
+    <div class="opt bad"><b>A</b>Defend yourself strongly in the meeting.</div>
+    <div class="opt best"><b>B</b>Listen calmly, note the points, ask clarifying questions later, and improve.</div>
+    <div class="opt bad"><b>C</b>Feel demotivated and avoid that senior.</div>
+    <div class="opt bad"><b>D</b>Ignore it, because they don't understand your work.</div>
+    <div class="why"><b>Why B:</b> it shows resilience and a growth mindset.</div></div>
+
+  <div class="q"><div class="qh">7. You finish your tasks early. Your team is busy with a deadline.</div>
+    <div class="opt bad"><b>A</b>Log off early. You've done your part.</div>
+    <div class="opt best"><b>B</b>Tell your lead you are free and offer to help the team.</div>
+    <div class="opt bad"><b>C</b>Start a personal side project.</div>
+    <div class="opt bad"><b>D</b>Pretend to be busy.</div>
+    <div class="why"><b>Why B:</b> it shows initiative, team spirit and transparency.</div></div>
+
+  <div class="q"><div class="qh">8. A friend in another team asks you to share confidential client data "just for reference".</div>
+    <div class="opt bad"><b>A</b>Share it, since they're from the same company.</div>
+    <div class="opt bad"><b>B</b>Share only part of it.</div>
+    <div class="opt best"><b>C</b>Politely refuse and explain that the data is confidential. Suggest they request access through the proper channel.</div>
+    <div class="opt bad"><b>D</b>Ignore the message.</div>
+    <div class="why"><b>Why C:</b> data security and integrity are non-negotiable at an IT services company.</div></div>
+
+  <div class="q"><div class="qh">9. You are asked to join a project in a new city at short notice.</div>
+    <div class="opt bad"><b>A</b>Refuse, because you prefer your current location.</div>
+    <div class="opt best"><b>B</b>Accept positively, and discuss any genuine practical concerns with HR or your lead.</div>
+    <div class="opt bad"><b>C</b>Accept, then look for another job.</div>
+    <div class="opt bad"><b>D</b>Delay your answer as long as possible.</div>
+    <div class="why"><b>Why B:</b> it shows adaptability, which matters for a PAN-India role, and honest communication.</div></div>
+
+  <div class="q"><div class="qh">10. You are stuck on a problem for two hours and the deadline is close.</div>
+    <div class="opt bad"><b>A</b>Keep trying alone. Asking makes you look weak.</div>
+    <div class="opt best"><b>B</b>Summarise what you've tried and ask a teammate or lead for guidance.</div>
+    <div class="opt bad"><b>C</b>Submit incomplete work without saying anything.</div>
+    <div class="opt bad"><b>D</b>Copy a solution from the internet without understanding it.</div>
+    <div class="why"><b>Why B:</b> asking early, with context, is professional. It saves time and shows ownership.</div></div>
+</section>
+
+<!-- ================= 10 CONSISTENCY DRILL ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">10</div><div><div class="kicker">Practice set 3</div><h2>Consistency Drill</h2></div></div>
+  <p class="lead">Each group below measures <b>one trait</b> with different wording. Answer all items in a group the same way <i>in spirit</i>: agree with the positive ones and disagree with the reversed ones.</p>
+
+  <div class="cards" style="grid-template-columns:1fr">
+    <div class="card"><h4 style="margin-top:0">Group A · Ownership</h4>
+      <table style="margin:0" class="pt"><tbody>
+        <tr><td>a</td><td>I take full responsibility for my tasks.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td></tr>
+        <tr><td>b</td><td>If a task fails, it's usually due to others.</td><td class="r"><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span></td></tr>
+        <tr><td>c</td><td>I follow up on my work until it is complete.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td></tr>
+      </tbody></table></div>
+    <div class="card"><h4 style="margin-top:0">Group B · Adaptability</h4>
+      <table style="margin:0" class="pt"><tbody>
+        <tr><td>a</td><td>I adjust quickly to new situations.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td></tr>
+        <tr><td>b</td><td>I feel stressed when my routine is disturbed.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td></tr>
+        <tr><td>c</td><td>Change brings new opportunities to learn.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td></tr>
+      </tbody></table></div>
+    <div class="card"><h4 style="margin-top:0">Group C · Integrity</h4>
+      <table style="margin:0" class="pt"><tbody>
+        <tr><td>a</td><td>Honesty matters more than results.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="ok">A</i><i class="on">SA</i></span></td></tr>
+        <tr><td>b</td><td>Small shortcuts are fine if the result is good.</td><td class="r"><span class="scale neg"><i class="on">SD</i><i class="ok">D</i><i>N</i><i>A</i><i>SA</i></span></td></tr>
+        <tr><td>c</td><td>I would report a colleague's unethical act.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td></tr>
+      </tbody></table></div>
+    <div class="card"><h4 style="margin-top:0">Group D · Calm under pressure</h4>
+      <table style="margin:0" class="pt"><tbody>
+        <tr><td>a</td><td>I think clearly in stressful situations.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i>N</i><i class="on">A</i><i class="ok">SA</i></span></td></tr>
+        <tr><td>b</td><td>I panic when many things go wrong at once.</td><td class="r"><span class="scale neg"><i class="ok">SD</i><i class="on">D</i><i>N</i><i>A</i><i>SA</i></span></td></tr>
+        <tr><td>c</td><td>Pressure helps me focus on what matters.</td><td class="r"><span class="scale"><i>SD</i><i>D</i><i class="ok">N</i><i class="on">A</i><i>SA</i></span></td></tr>
+      </tbody></table></div>
+  </div>
+
+  <div class="note tip"><span class="t">Self-check after practice</span>
+    <ul>
+      <li>Did you agree with a positive item <b>and</b> its reversed partner? If so, that's an inconsistency. Re-read the reversed item slowly.</li>
+      <li>Did you choose Strongly Agree for more than about 60% of items? If so, mix in plain Agree for non-core traits.</li>
+      <li>Did you pick Neutral more than 4–5 times? If so, make firmer choices.</li>
+    </ul>
+  </div>
+
+  <!-- ===== 11 ===== -->
+  <div class="sec-head" style="margin-top:18px"><div class="sec-num">11</div><div><div class="kicker">Beat the clock</div><h2>Time Management for 54 Questions</h2></div></div>
+  <table>
+    <thead><tr><th>Checkpoint</th><th class="c">Time used</th><th class="c">Questions done</th><th>If you're behind</th></tr></thead>
+    <tbody>
+      <tr><td>Quarter-way</td><td class="c">5 min</td><td class="c">~14</td><td>Stop re-reading. Trust your first instinct.</td></tr>
+      <tr><td>Half-way</td><td class="c">10 min</td><td class="c">~27</td><td>Use the 3-second method: trait, direction, strength.</td></tr>
+      <tr><td>Three-quarters</td><td class="c">15 min</td><td class="c">~41</td><td>Speed up slightly. These are the same traits again.</td></tr>
+      <tr><td>Finish</td><td class="c">18–19 min</td><td class="c">54</td><td>Leave a minute spare. Never leave anything blank.</td></tr>
+    </tbody>
+  </table>
+  <div class="note warn"><span class="t">Don't rush either</span>About 22 seconds is more than enough for one statement. Most candidates finish early, and the real risk is <b>misreading</b> because of speed, not running out of time.</div>
+</section>
+
+<!-- ================= 12 PLAN + 13 FAQ ================= -->
+<section style="margin-top:20px">
+  <div class="sec-head"><div class="sec-num">12</div><div><div class="kicker">Get ready in a week</div><h2>7-Day Preparation Plan</h2></div></div>
+  <p class="lead">Just 30–40 minutes a day is enough. You'll go into the test calm and consistent.</p>
+  <table>
+    <thead><tr><th style="width:11%">Day</th><th style="width:30%">Focus</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr><td><b>Day 1</b></td><td>Understand the test</td><td>Read Sections 1–4. Learn the 5-point scale and the 3-second method.</td></tr>
+      <tr><td><b>Day 2</b></td><td>Learn the traits</td><td>Read Section 5. Write one real example from your life for each of the 8 workplace traits. These also help in your interview.</td></tr>
+      <tr><td><b>Day 3</b></td><td>Know yourself</td><td>Note your genuine strengths and weaker areas. Decide your honest, professional "stand" on each trait.</td></tr>
+      <tr><td><b>Day 4</b></td><td>Traps and consistency</td><td>Study Section 6. Practise spotting reversed words and "never/always" claims.</td></tr>
+      <tr><td><b>Day 5</b></td><td>Practice Set 1</td><td>Do all 40 statements in under 15 minutes. Compare with the key and note the patterns behind your mistakes.</td></tr>
+      <tr><td><b>Day 6</b></td><td>Practice Sets 2 &amp; 3</td><td>Solve the situational questions and the consistency drill. Take a free online Big Five test to see your natural profile.</td></tr>
+      <tr><td><b>Day 7</b></td><td>Revise and relax</td><td>Read the 12 golden rules and the one-page revision sheet. Sleep well. Also prepare for the gamified round that follows.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec-head" style="margin-top:18px"><div class="sec-num">13</div><div><div class="kicker">Your doubts answered</div><h2>Frequently Asked Questions</h2></div></div>
+  <div class="cards c2">
+    <div class="card"><h4 style="margin-top:0">Can I fail the behavioural test?</h4><p style="margin:0;font-size:9pt">Candidates report no direct elimination from this part. Still, a careless or inconsistent profile is a bad first impression, and it may be used with your other results.</p></div>
+    <div class="card"><h4 style="margin-top:0">Should I answer 100% honestly?</h4><p style="margin:0;font-size:9pt">Answer honestly, from your <b>best professional self</b>. Don't invent a personality, and don't share your worst habits either.</p></div>
+    <div class="card"><h4 style="margin-top:0">Can I go back and change answers?</h4><p style="margin:0;font-size:9pt">Usually not. Treat every answer as final, and read carefully the first time.</p></div>
+    <div class="card"><h4 style="margin-top:0">Is it okay to choose Neutral?</h4><p style="margin:0;font-size:9pt">Yes, occasionally, for statements where you genuinely don't lean either way. Overusing it looks indecisive.</p></div>
+    <div class="card"><h4 style="margin-top:0">What if two statements seem identical?</h4><p style="margin:0;font-size:9pt">That's deliberate: it's a consistency check. Give the same kind of answer, unless one of them is reverse-worded.</p></div>
+    <div class="card"><h4 style="margin-top:0">I'm an introvert. Is that bad?</h4><p style="margin:0;font-size:9pt">No. Many great engineers are introverts. Show that you collaborate and communicate well. You don't need to claim you love parties.</p></div>
+    <div class="card"><h4 style="margin-top:0">Will the interviewer see my results?</h4><p style="margin:0;font-size:9pt">It's possible. That's another reason to answer consistently with how you'll present yourself in the interview.</p></div>
+    <div class="card"><h4 style="margin-top:0">What happens right after this test?</h4><p style="margin:0;font-size:9pt">The Gamified Cognitive test (3 games in 20 min), which is an elimination round. Stay calm and keep your energy for it.</p></div>
+  </div>
+</section>
+
+<!-- ================= 14 REVISION SHEET ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">14</div><div><div class="kicker">Read this before the test</div><h2>One-Page Revision Sheet</h2></div></div>
+
+  <div class="cards c4">
+    <div class="card alt"><div class="lbl">Questions</div><div class="val">54</div></div>
+    <div class="card alt"><div class="lbl">Time</div><div class="val">20 <small>min</small></div></div>
+    <div class="card alt"><div class="lbl">Per question</div><div class="val">~22 <small>sec</small></div></div>
+    <div class="card alt"><div class="lbl">Neutral limit</div><div class="val">&lt; 5</div></div>
+  </div>
+
+  <div class="cards c2">
+    <div class="card" style="border-top:4px solid var(--teal)">
+      <h4 style="margin-top:0;color:var(--teal)">Agree / Strongly Agree with</h4>
+      <ul style="font-size:9.2pt;margin:0">
+        <li>Honesty, admitting mistakes, following rules</li>
+        <li>Finishing tasks and meeting deadlines</li>
+        <li>Teamwork, helping others, respecting differences</li>
+        <li>Learning new technologies, curiosity</li>
+        <li>Adapting to change and relocation</li>
+        <li>Accepting feedback, staying calm</li>
+        <li>Asking for help early, speaking up with ideas</li>
+        <li>Checking work quality, caring about the client</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:4px solid var(--rose)">
+      <h4 style="margin-top:0;color:var(--rose)">Disagree / Strongly Disagree with</h4>
+      <ul style="font-size:9.2pt;margin:0">
+        <li>Bending rules, lying, taking others' credit</li>
+        <li>Hiding mistakes or problems</li>
+        <li>Preferring to always work alone, distrusting the team</li>
+        <li>Disliking change, needing a fixed routine</li>
+        <li>Panicking, anger, being upset by criticism</li>
+        <li>Procrastinating, leaving tasks unfinished</li>
+        <li>"Never" / "always" perfect-behaviour claims</li>
+        <li>Blindly agreeing with seniors, or arguing aggressively</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note brand"><span class="t">The 3-second method</span><b>1. Trait</b>: what quality is this? &nbsp;→&nbsp; <b>2. Direction</b>: good or bad for a professional? &nbsp;→&nbsp; <b>3. Strength</b>: "Strongly" only for core values.</div>
+
+  <h3>Final checklist</h3>
+  <div class="cards c2">
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>Read every word, especially "not", "rarely" and "avoid"</li>
+      <li>Keep the same stand on the same trait</li>
+      <li>Mix Agree and Strongly Agree, not all extremes</li>
+      <li>Disagree with "too perfect" claims</li>
+    </ul></div>
+    <div class="card"><ul class="check" style="font-size:9.2pt;margin:0">
+      <li>Trust your first instinct, and don't overthink</li>
+      <li>Answer all 54, leaving none blank</li>
+      <li>Stay relaxed, because the gamified round comes next</li>
+      <li>Be your best professional self, not someone else</li>
+    </ul></div>
+  </div>
+
+  <div class="note tip" style="margin-top:14px"><span class="t">Remember</span>This round isn't about being perfect. It's about being <b>consistent, honest and professional</b>. If you follow this guide, you'll clear it comfortably. All the best!</div>
+
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only. It is not affiliated with, endorsed by, or an official document of Accenture. Practice statements are illustrative examples written for learning and are not actual test questions. The exam pattern is based on publicly shared notification summaries and candidate experiences, and may change. Always check the latest details on the official Accenture careers portal.</p>
+</section>
+
+</body>
+</html>
