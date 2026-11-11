@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pseudocode + OOPs – Complete Guide</title>
+<style>
+  :root{
+    --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889;
+    --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff; --brand-line:#d9ccff;
+    --teal:#0e9f8a; --teal-soft:#e2f7f3;
+    --amber:#c77700; --amber-soft:#fff4dd;
+    --rose:#d63a5a; --rose-soft:#ffe8ee;
+    --sky:#2563eb; --sky-soft:#e6efff;
+    --line:#e6e4f0; --bg-alt:#f8f7fc;
+  }
+  @page{ size:A4; margin:16mm 15mm 18mm 15mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); font-size:10pt; line-height:1.55; }
+  h1,h2,h3,h4{ margin:0; line-height:1.2; letter-spacing:-.01em; }
+  p{ margin:0 0 8px; }
+  ul{ margin:4px 0 8px; padding-left:18px; }
+  li{ margin:2px 0; }
+  li::marker{ color:var(--brand); }
+  b,strong{ font-weight:650; }
+  code,.mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.6pt; }
+  .page-break{ break-before:page; }
+  .avoid{ break-inside:avoid; }
+  h2,h3,h4,.sec-head{ break-after:avoid; page-break-after:avoid; }
+
+  /* ---------- COVER ---------- */
+  .cover{ height:297mm; width:210mm; position:relative; overflow:hidden; color:#fff;
+    background:radial-gradient(120% 80% at 100% 0%, #7c4dff 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #1fb6a0 0%, transparent 50%),
+               linear-gradient(160deg,#1a1240 0%,#2a1a6e 55%,#140f33 100%);
+    padding:24mm 20mm 18mm; display:flex; flex-direction:column; }
+  .cover .grid{ position:absolute; inset:0; opacity:.08;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:14mm 14mm; }
+  .cover > *{ position:relative; }
+  .tag{ display:inline-block; font-size:8.5pt; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.08); }
+  .cover h1{ font-size:40pt; font-weight:800; margin-top:20mm; line-height:1.05; letter-spacing:-.02em; }
+  .cover h1 span{ color:#b9a6ff; }
+  .cover .sub{ font-size:13pt; opacity:.85; margin-top:6mm; max-width:150mm; }
+  .cover .roles{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10mm; }
+  .cover .roles div{ padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); font-weight:600; font-size:10pt; }
+  .cover .stats{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .cover .stat{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px; }
+  .cover .stat b{ display:block; font-size:22pt; font-weight:800; }
+  .cover .stat span{ font-size:8.5pt; opacity:.8; }
+  .cover .foot{ margin-top:10mm; font-size:8pt; opacity:.65; display:flex; justify-content:space-between; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .sec-num{ flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff; font-weight:800; font-size:15pt; }
+  .sec-head h2{ font-size:19pt; font-weight:800; }
+  .sec-head .kicker{ font-size:8pt; text-transform:uppercase; letter-spacing:.14em; color:var(--brand); font-weight:700; margin-bottom:2px; }
+  h3{ font-size:12.5pt; font-weight:750; margin:16px 0 8px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  h3 .pill{ font-size:8pt; font-weight:600; padding:3px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand); }
+  h4{ font-size:10.5pt; font-weight:700; margin:10px 0 4px; }
+  .lead{ color:var(--ink-2); font-size:10.5pt; }
+
+  /* ---------- CARDS ---------- */
+  .cards{ display:grid; gap:10px; margin:10px 0; }
+  .c2{ grid-template-columns:1fr 1fr; } .c3{ grid-template-columns:repeat(3,1fr); } .c4{ grid-template-columns:repeat(4,1fr); }
+  .card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid; }
+  .card.alt{ background:var(--bg-alt); }
+  .card .lbl{ font-size:7.8pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .card .val{ font-size:15pt; font-weight:800; margin-top:2px; }
+  .card .val small{ font-size:9pt; font-weight:600; color:var(--muted); }
+  .role-card{ border-top:4px solid var(--brand); }
+  .role-card.t{ border-top-color:var(--teal);} .role-card.a{ border-top-color:var(--amber);} .role-card.s{ border-top-color:var(--sky);}
+  .role-card h4{ margin:0 0 2px; font-size:11pt; }
+  .role-card .code{ font-size:8pt; color:var(--muted); font-weight:600; }
+  .role-card .ctc{ font-size:16pt; font-weight:800; margin:8px 0 2px; }
+
+  /* ---------- CALLOUTS ---------- */
+  .note{ border-radius:12px; padding:11px 14px 11px 14px; margin:10px 0; break-inside:avoid; border-left:4px solid; }
+  .note .t{ font-weight:750; font-size:9.5pt; margin-bottom:3px; display:block; }
+  .note p:last-child,.note ul:last-child{ margin-bottom:0; }
+  .note.info{ background:var(--sky-soft); border-color:var(--sky);} .note.info .t{ color:var(--sky);}
+  .note.tip{ background:var(--teal-soft); border-color:var(--teal);} .note.tip .t{ color:var(--teal);}
+  .note.warn{ background:var(--amber-soft); border-color:var(--amber);} .note.warn .t{ color:var(--amber);}
+  .note.alert{ background:var(--rose-soft); border-color:var(--rose);} .note.alert .t{ color:var(--rose);}
+  .note.brand{ background:var(--brand-soft); border-color:var(--brand);} .note.brand .t{ color:var(--brand);}
+
+  /* ---------- TABLES ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0 12px; font-size:9.2pt; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  thead th{ background:var(--ink); color:#fff; text-align:left; font-weight:650; padding:9px 11px; font-size:8.6pt; letter-spacing:.02em; }
+  tbody td{ padding:8px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--bg-alt); }
+  tr{ break-inside:avoid; }
+  td.c{ text-align:center; white-space:nowrap; } th.c{ text-align:center; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:8pt; font-weight:700; white-space:nowrap; }
+  .b-yes{ background:var(--rose-soft); color:var(--rose);} .b-no{ background:var(--teal-soft); color:var(--teal);}
+  .b-mid{ background:var(--amber-soft); color:var(--amber);} .b-fin{ background:var(--brand-soft); color:var(--brand);}
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:12px 0 16px; }
+  .step{ position:relative; text-align:center; padding:12px 6px 10px; border-radius:12px; background:var(--bg-alt); border:1px solid var(--line); }
+  .step .n{ width:26px; height:26px; margin:0 auto 6px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:9pt; color:#fff; background:var(--brand); }
+  .step:nth-child(even) .n{ background:var(--teal); }
+  .step:last-child .n{ background:var(--amber); }
+  .step b{ display:block; font-size:8.4pt; line-height:1.25; }
+  .step span{ display:block; font-size:7.4pt; color:var(--muted); margin-top:3px; }
+  .step:not(:last-child)::after{ content:"›"; position:absolute; right:-7px; top:16px; font-size:14pt; color:var(--brand); font-weight:800; }
+
+  /* ---------- CODE ---------- */
+  pre{ background:#16132e; color:#e8e6ff; border-radius:12px; padding:12px 14px; margin:8px 0 10px; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; line-height:1.55; white-space:pre-wrap; break-inside:avoid; }
+  pre .k{ color:#c4b5fd; } pre .c{ color:#8b88b0; } pre .s{ color:#5eead4; } pre .n{ color:#fcd34d; }
+  .kbd{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* ---------- MISC ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+  .chip{ font-size:8.4pt; padding:4px 10px; border-radius:999px; background:var(--brand-soft); color:#3b1fa8; font-weight:600; }
+  .chip.t{ background:var(--teal-soft); color:#0b6e60; } .chip.r{ background:var(--rose-soft); color:#a3213f; }
+  .game{ display:flex; gap:12px; }
+  .game .ic{ flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#fff; font-size:13pt; }
+  .week{ border-left:4px solid var(--brand); }
+  .week:nth-child(2){ border-left-color:var(--teal);} .week:nth-child(3){ border-left-color:var(--amber);} .week:nth-child(4){ border-left-color:var(--rose);}
+  .check li{ list-style:none; position:relative; padding-left:4px; }
+  .check{ padding-left:20px; }
+  .check li::before{ content:"✓"; position:absolute; left:-18px; top:0; color:var(--teal); font-weight:800; }
+  .disclaimer{ font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; margin-top:16px; }
+</style><style>
+  :root{ --pa:#16a34a; --pb:#7c3aed; --pc:#2563eb; --pd:#ea580c; --cy:#06b6d4; }
+  .cover{ background:
+      linear-gradient(rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(100% 70% at 100% 0%, #0e7490 0%, transparent 55%),
+      radial-gradient(90% 60% at 0% 100%, #4338ca 0%, transparent 55%),
+      linear-gradient(160deg,#06101f 0%,#0a1a33 55%,#040a14 100%); }
+  .cover .grid{ display:none; }
+  .cover h1 span{ color:#67e8f9; }
+  .cover .mono-tag{ font-family:"DejaVu Sans Mono",monospace; font-size:9pt; color:#67e8f9; margin-top:6mm; opacity:.9; }
+  .sec-head{ break-inside:avoid; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; background:#eef2f7; padding:0 4px; border-radius:4px; font-size:8.4pt; }
+  pre code{ background:none; padding:0; white-space:pre; }
+  h3{ break-after:avoid; }
+
+  /* part theming */
+  .part{ --pc1:#16a34a; --pc2:#22c55e; --pcs:#e8f8ee; }
+  .part.b{ --pc1:#7c3aed; --pc2:#a78bfa; --pcs:#f1ebff; }
+  .part.c{ --pc1:#2563eb; --pc2:#38bdf8; --pcs:#e7f0ff; }
+  .part.d{ --pc1:#ea580c; --pc2:#fb923c; --pcs:#fff1e6; }
+  .part .sec-num{ background:linear-gradient(135deg,var(--pc1),var(--pc2)); }
+  .part .sec-head .kicker{ color:var(--pc1); }
+  .part li::marker{ color:var(--pc1); }
+  .banner{ border-radius:16px; padding:18px 22px; color:#fff; margin:0 0 14px; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,var(--pc1),#0a1a33); break-inside:avoid; }
+  .banner .pl{ font:700 8.5pt "DejaVu Sans Mono",monospace; letter-spacing:.12em; opacity:.85; }
+  .banner h2{ font-size:22pt; font-weight:800; margin:4px 0 4px; color:#fff; }
+  .banner p{ margin:0; opacity:.9; font-size:9.6pt; max-width:150mm; }
+  .banner .chips{ margin:10px 0 0; }
+  .banner .chip{ background:rgba(255,255,255,.14); color:#fff; }
+  .banner .big{ position:absolute; right:18px; top:10px; font:800 54pt Inter,sans-serif; opacity:.14; }
+  .def{ border:1px solid var(--line); border-left:4px solid var(--pc1,#2563eb); border-radius:10px; padding:7px 11px; margin:6px 0; font-size:9.2pt; background:#fff; break-inside:avoid; }
+  .def b.t{ color:var(--pc1,#2563eb); }
+  .trap{ border:1px dashed #e11d48; background:#fff5f7; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .trap b{ color:#e11d48; }
+  table.tight td, table.tight th{ padding:4.5px 8px; font-size:8.6pt; }
+  table.tight{ margin:6px 0 10px; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  pre .k{ background:none; border:0; padding:0; font-size:inherit; white-space:inherit; }
+  .k{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* MCQs */
+  .mcq{ display:grid; grid-template-columns:34px 1fr; gap:8px; border:1px solid var(--line); border-radius:12px; padding:9px 12px; margin:7px 0; break-inside:avoid; background:#fff; }
+  .mcq .qn{ font:800 9pt Inter,sans-serif; color:#fff; background:var(--pc1,#2563eb); border-radius:7px; height:22px; display:grid; place-items:center; }
+  .mcq .qt{ font-size:9.4pt; font-weight:600; }
+  .mcq .tg{ display:inline-block; font-size:7.6pt; font-weight:700; color:var(--pc1); background:var(--pcs); border-radius:99px; padding:1px 8px; margin-right:6px; }
+  .mcq pre{ margin:6px 0; font-size:8.2pt; }
+  .opts{ list-style:none; padding:0; margin:5px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:3px 14px; font-size:9pt; }
+  .opts li{ margin:0; } .opts li b{ color:var(--pc1); margin-right:4px; }
+  .mcqs2{ columns:2; column-gap:10px; } .mcqs2 .mcq{ display:inline-grid; width:100%; }
+  .keyt td{ font-size:8.3pt; padding:6px 9px; } .keyt td.ans{ font-weight:800; color:var(--pc1); text-align:center; }
+  .keyt td:first-child{ width:7%; } .keyt td:nth-child(2){ width:6%; } .keyt td:nth-child(3){ width:24%; }
+  .sheet td,.sheet th{ text-align:center; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; padding:5px 8px; }
+  .sheet th{ background:#217346; } .sheet td:first-child{ background:#f0f2f5; font-weight:700; color:#6b6889; width:6%; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:9.4pt; }
+  .toc li b{ width:30px; font-family:"DejaVu Sans Mono",monospace; }
+</style>
+<style>
+  .cover{ background:
+      linear-gradient(rgba(167,139,250,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(167,139,250,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(90% 60% at 100% 0%, #7c3aed 0%, transparent 55%),
+      radial-gradient(70% 50% at 0% 100%, #db2777 0%, transparent 60%),
+      linear-gradient(160deg,#0d0820 0%,#170f33 55%,#07040f 100%); }
+  .cover h1 span{ color:#c4b5fd; }
+  .part.o2{ --pc1:#db2777; --pc2:#f472b6; --pcs:#fdeaf3; }
+  .banner.o2{ background:linear-gradient(135deg,#db2777,#2a0716); }
+  .trace{ font-family:"DejaVu Sans Mono",monospace; }
+  .trace td,.trace th{ text-align:center; }
+  .two{ align-items:start; }
+  .steps{ counter-reset:s; padding:0; list-style:none; margin:6px 0; }
+  .steps li{ counter-increment:s; position:relative; padding-left:28px; margin:5px 0; font-size:9pt; }
+  .steps li::before{ content:counter(s); position:absolute; left:0; top:0; width:19px; height:19px; border-radius:50%; background:var(--pc1); color:#fff; font-weight:800; font-size:8pt; display:grid; place-items:center; }
+  .callout{ border-radius:12px; background:var(--pcs); padding:9px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .callout b.t{ color:var(--pc1); display:block; }
+  .mcq .qt pre{ margin:6px 0 2px; }
+  .bits td{ font-family:"DejaVu Sans Mono",monospace; text-align:center; }
+  .keyt td{ padding:4px 8px !important; font-size:8.1pt !important; }
+  .cheat ul{ font-size:8.3pt !important; }
+  .cheat li{ margin:1px 0; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Technical Assessment · Section B</span></div>
+  <h1>Pseudocode<br>+ OOPs<br><span>Complete Guide</span></h1>
+  <div class="mono-tag">&gt; ≈ 10 of 45 questions · trace code in your head · no pen &amp; paper_</div>
+  <p class="sub">The hardest section of the Technical Assessment, explained from zero: pseudocode syntax, operators and precedence traps, number systems, bitwise tricks, loops, recursion, arrays and strings, the patterns behind common code, and complete OOPs. Includes 59 practice MCQs whose answers come from actually running the code in C and Java.</p>
+  <div class="roles"><div>Operators &amp; traps</div><div>Bitwise</div><div>Loops</div><div>Recursion</div><div>Arrays &amp; strings</div><div>OOPs</div></div>
+  <div class="stats">
+    <div class="stat"><b>≈ 10</b><span>Questions in the test</span></div>
+    <div class="stat"><b>~90s</b><span>Per question</span></div>
+    <div class="stat"><b>59</b><span>Practice MCQs</span></div>
+    <div class="stat"><b>gcc + JDK</b><span>Answers verified by execution</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS ================= -->
+<section class="page-break part b">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#7c3aed">00</b>What's tested and the strategy</li>
+    <li><b style="color:#7c3aed">P1</b>The pseudocode language</li>
+    <li><b style="color:#7c3aed">P2</b>Operators, precedence and traps</li>
+    <li><b style="color:#7c3aed">P3</b>Number systems and two's complement</li>
+    <li><b style="color:#7c3aed">P4</b>Bitwise operations in depth</li>
+    <li><b style="color:#7c3aed">P5</b>Conditions and switch</li>
+    <li><b style="color:#7c3aed">P6</b>Loops and tracing</li>
+    <li><b style="color:#7c3aed">P7</b>Functions and recursion</li>
+    <li><b style="color:#7c3aed">P8</b>Arrays and strings</li>
+    <li><b style="color:#7c3aed">P9</b>"What does this code do?" patterns</li>
+    <li><b style="color:#db2777">O1</b>Classes, objects, constructors</li>
+    <li><b style="color:#db2777">O2</b>Encapsulation and access modifiers</li>
+    <li><b style="color:#db2777">O3</b>Abstraction: abstract classes and interfaces</li>
+    <li><b style="color:#db2777">O4</b>Inheritance and constructor chaining</li>
+    <li><b style="color:#db2777">O5</b>Polymorphism: overloading and overriding</li>
+    <li><b style="color:#db2777">O6</b>static, final, relationships and more</li>
+    <li><b style="color:#7c3aed">✓</b>Practice sets and answer keys</li>
+    <li><b style="color:#7c3aed">Z</b>7-day plan and cheat sheet</li>
+  </ul>
+
+  <div class="sec-head" style="margin-top:16px"><div class="sec-num">00</div><div><div class="kicker">Know the enemy</div><h2>What's Tested &amp; the Strategy</h2></div></div>
+  <p class="lead">About <b>10 of the 45</b> technical questions come from here. Most show a <b>10–12 line program</b> and ask for its output, and a few ask about OOPs concepts. You get <b>no pen and paper</b>, so everything is traced in your head. Candidates call it the trickiest part of the test.</p>
+  <table class="tight"><thead><tr><th style="width:26%">Question type</th><th>What they ask</th><th style="width:24%">Covered in</th></tr></thead><tbody>
+    <tr><td><b>Output of code</b> (most)</td><td>"What will be printed?", using loops, conditions, recursion and arrays</td><td>P5–P9</td></tr>
+    <tr><td><b>Bitwise logic</b></td><td>&amp; | ^ ~ &lt;&lt; &gt;&gt; on small numbers, often inside loops</td><td>P3–P4</td></tr>
+    <tr><td><b>Operator traps</b></td><td>Precedence, ++/--, integer division, mod with negatives, short-circuit</td><td>P2</td></tr>
+    <tr><td><b>Iteration counts</b></td><td>"How many times does the loop run?" or "What's the final value of i?"</td><td>P6</td></tr>
+    <tr><td><b>OOPs concept / output</b></td><td>The pillars, overloading vs overriding, constructor order, static, access</td><td>O1–O6</td></tr>
+  </tbody></table>
+  <div class="cards c3">
+    <div class="card alt"><h4 style="margin-top:0">🧠 Mental trace table</h4><p style="margin:0;font-size:8.8pt">Keep only the variables that change in your head, and update them line by line. Section P6 shows how.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">🔍 Spot the pattern</h4><p style="margin:0;font-size:8.8pt">Most snippets are disguised classics: digit sum, reverse, GCD, counting bits. Recognise one and you're done in seconds (P9).</p></div>
+    <div class="card alt"><h4 style="margin-top:0">⏱️ 2-minute rule</h4><p style="margin:0;font-size:8.8pt">If a trace passes 2 minutes, eliminate the options you can rule out, pick the best one and move on.</p></div>
+  </div>
+</section>
+
+<!-- ================= P1 LANGUAGE ================= -->
+<section class="page-break part b">
+  <div class="banner"><div class="big">P</div><div class="pl">PART 1 · PSEUDOCODE</div><h2>Reading &amp; Tracing Code</h2>
+    <p>Pseudocode is language-neutral, but it <b>behaves like C or Java</b>: integers truncate, characters are numbers, arrays start at 0, and operators follow C precedence. Learn these rules once and every question becomes mechanical.</p></div>
+  <div class="sec-head"><div class="sec-num">P1</div><div><div class="kicker">Syntax you'll see</div><h2>The Pseudocode Language</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:30%">Construct</th><th style="width:38%">Example</th><th>Meaning / rule</th></tr></thead><tbody>
+    <tr><td>Declaration</td><td><code>Integer a, b = 5</code> · <code>Float f</code> · <code>Char c</code></td><td>Integer holds whole numbers only</td></tr>
+    <tr><td>Assignment</td><td><code>Set a = b + 2</code> or <code>a = b + 2</code></td><td>The right side is evaluated first, then stored</td></tr>
+    <tr><td>Input / output</td><td><code>Read n</code> · <code>Print a, b</code></td><td>Usually printed with spaces between values</td></tr>
+    <tr><td>Condition</td><td><code>if (…) … else if (…) … else … end if</code></td><td>Only the first true branch runs</td></tr>
+    <tr><td>Counting loop</td><td><code>for (i = 1 to 5)</code></td><td><b>Inclusive</b> on both ends: runs 5 times</td></tr>
+    <tr><td>C-style loop</td><td><code>for (i = 0; i &lt; 5; i = i + 1)</code></td><td>Runs while the condition is true: i = 0…4</td></tr>
+    <tr><td>while / do-while</td><td><code>while (c) … end while</code> · <code>do … while (c)</code></td><td>do-while runs <b>at least once</b></td></tr>
+    <tr><td>Jump</td><td><code>break</code> · <code>continue</code></td><td>Leave the innermost loop · skip to the next pass</td></tr>
+    <tr><td>Function</td><td><code>Function f(Integer n) … return x … End Function</code></td><td>Parameters are passed <b>by value</b> unless stated</td></tr>
+    <tr><td>Arrays</td><td><code>Integer a[5]</code> → a[0]…a[4]</td><td>0-indexed. a[5] is out of bounds</td></tr>
+    <tr><td>Operators</td><td><code>mod</code> (or %), <code>&amp;&amp; || !</code>, <code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code></td><td>As in C/Java</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Integer division</b><br><code>7 / 2 = 3</code>, <code>2 / 5 = 0</code>, <code>-7 / 2 = -3</code> (truncates toward zero). If either side is a Float, the result keeps decimals: <code>7.0 / 2 = 3.5</code>.</div>
+    <div class="def"><b class="t">Characters</b><br>A Char is a small integer (its ASCII code): <code>'A' = 65</code>, <code>'a' = 97</code>, <code>'0' = 48</code>. <code>'A' + 1</code> = 66, which is 'B'. <code>'a' - 'A'</code> = 32.</div>
+    <div class="def"><b class="t">Integer storage</b><br>An Integer has limits (32-bit: about ±2.1 billion). Going past the maximum <b>wraps around</b> to negative (overflow). Assigning a decimal to an Integer <b>truncates</b>: <code>Integer x = 9.8</code> gives 9.</div>
+  </div>
+</section>
+
+<!-- ================= P2 OPERATORS ================= -->
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">P2</div><div><div class="kicker">Where most marks are lost</div><h2>Operators, Precedence &amp; Traps</h2></div></div>
+  <table class="tight"><thead><tr><th>Level</th><th>Operators (highest first)</th><th>Associativity</th><th>Example</th></tr></thead><tbody>
+    <tr><td>1</td><td><code>() [] .</code> and postfix <code>x++ x--</code></td><td>left → right</td><td>—</td></tr>
+    <tr><td>2</td><td>Unary <code>++x --x + - ! ~</code>, (type) casts</td><td>right → left</td><td><code>-~5</code> = 6</td></tr>
+    <tr><td>3</td><td><code>* / %</code></td><td>left → right</td><td><code>8 / 2 * 4</code> = 16</td></tr>
+    <tr><td>4</td><td><code>+ -</code></td><td>left → right</td><td><code>10 - 4 - 3</code> = 3</td></tr>
+    <tr><td>5</td><td><code>&lt;&lt; &gt;&gt;</code></td><td>left → right</td><td><code>1 &lt;&lt; 2 + 1</code> = 8</td></tr>
+    <tr><td>6</td><td><code>&lt; &lt;= &gt; &gt;=</code></td><td>left → right</td><td>—</td></tr>
+    <tr><td>7</td><td><code>== !=</code></td><td>left → right</td><td><code>3 &lt; 2 == 0</code> → (3 &lt; 2) == 0 = 1</td></tr>
+    <tr><td>8</td><td><code>&amp;</code></td><td>left → right</td><td><code>x &amp; 1 == 0</code> → x &amp; (1 == 0)</td></tr>
+    <tr><td>9</td><td><code>^</code></td><td>left → right</td><td>—</td></tr>
+    <tr><td>10</td><td><code>|</code></td><td>left → right</td><td><code>5 | 2 &amp; 3</code> = 5 | 2 = 7</td></tr>
+    <tr><td>11</td><td><code>&amp;&amp;</code></td><td>left → right</td><td>—</td></tr>
+    <tr><td>12</td><td><code>||</code></td><td>left → right</td><td><code>a || b &amp;&amp; c</code> → a || (b &amp;&amp; c)</td></tr>
+    <tr><td>13</td><td><code>?:</code></td><td>right → left</td><td>—</td></tr>
+    <tr><td>14</td><td><code>= += -= *= /= %= &amp;= |= ^= &lt;&lt;= &gt;&gt;=</code></td><td>right → left</td><td><code>a = b = 5</code></td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Memory trick:</b> <i>Unary → Arithmetic (* / % then + −) → Shift → Relational → Equality → Bitwise (&amp; ^ |) → Logical (&amp;&amp; ||) → Ternary → Assignment</i>.</p>
+  <div class="two">
+    <div class="def"><b class="t">++ and -- (pre vs post)</b><br>
+      <code>b = a++</code> → b gets the <b>old</b> value, then a increases.<br>
+      <code>b = ++a</code> → a increases <b>first</b>, then b gets the new value.<br>
+      With a = 5: <code>b = a++</code> gives b = 5, a = 6. <code>c = ++a</code> gives c = 7, a = 7.<br>
+      <span style="color:var(--muted);font-size:8.6pt">Avoid reasoning about <code>a++ + ++a</code> in one statement. In C that's undefined behaviour, and well-formed exam questions avoid it.</span></div>
+    <div class="def"><b class="t">Division &amp; mod with negatives (C/Java)</b><br>
+      Division truncates toward 0: <code>-7 / 2 = -3</code>, <code>7 / -2 = -3</code>.<br>
+      Mod takes the sign of the <b>dividend</b> (the left side): <code>-7 % 2 = -1</code>, <code>7 % -2 = 1</code>.<br>
+      Check: <code>(a / b) * b + a % b == a</code>.<br>
+      <span style="color:var(--muted);font-size:8.6pt">Excel's MOD(−7, 3) = 2 and Python's −7 % 3 = 2 follow the divisor's sign instead. Pseudocode follows C/Java.</span></div>
+    <div class="def"><b class="t">Short-circuit evaluation</b><br>
+      In <code>A &amp;&amp; B</code>, if A is false, <b>B is never evaluated</b>.<br>
+      In <code>A || B</code>, if A is true, B is never evaluated.<br>
+      This matters when B contains <code>++j</code> or a function call: those side effects might never happen.</div>
+    <div class="def"><b class="t">Truth values</b><br>
+      In C-style pseudocode, any <b>non-zero</b> value is true and 0 is false. Comparisons give 1 or 0: <code>(5 &gt; 3) + (2 &gt; 9)</code> = 1 + 0 = <b>1</b>. <code>!5</code> = 0, <code>!0</code> = 1.</div>
+  </div>
+  <div class="trap"><b>Top 6 operator traps:</b> ① <code>x &lt;&lt; 1 + 2</code> means x &lt;&lt; 3 · ② <code>x &amp; 1 == 0</code> means x &amp; 0 · ③ <code>=</code> inside if assigns (<code>if (a = 0)</code> is always false) · ④ integer <code>/</code> drops decimals before you multiply: <code>(1 / 2) * 10</code> = 0 · ⑤ the sign of a negative mod · ⑥ skipped side effects in &amp;&amp; and ||.</div>
+</section>
+
+<!-- ================= P3 NUMBER SYSTEMS ================= -->
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">P3</div><div><div class="kicker">Binary thinking</div><h2>Number Systems &amp; Two's Complement</h2></div></div>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">Decimal → binary (place-value method)</h3>
+      <table class="tight bits"><thead><tr><th>n</th><th>64</th><th>32</th><th>16</th><th>8</th><th>4</th><th>2</th><th>1</th></tr></thead><tbody>
+        <tr><td>13</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>21</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>58</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>100</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      </tbody></table>
+      <p style="font-size:8.8pt">Subtract the largest power of 2 that fits, mark a 1, and repeat. Or divide by 2 repeatedly and read the remainders from bottom to top.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Powers of 2 to memorise</h3>
+      <table class="tight bits"><tbody>
+        <tr><td>2⁰ = 1</td><td>2¹ = 2</td><td>2² = 4</td><td>2³ = 8</td></tr>
+        <tr><td>2⁴ = 16</td><td>2⁵ = 32</td><td>2⁶ = 64</td><td>2⁷ = 128</td></tr>
+        <tr><td>2⁸ = 256</td><td>2⁹ = 512</td><td>2¹⁰ = 1024</td><td>2¹⁶ = 65536</td></tr>
+      </tbody></table>
+      <p style="font-size:8.8pt"><b>Octal</b> groups bits in 3s and <b>hex</b> groups bits in 4s: 58 = 111 010 = <b>72</b>₈ = 0011 1010 = <b>3A</b>₁₆. In code, <code>0x</code> marks hex and a leading <code>0</code> marks octal in C (<code>010</code> = 8!).</p>
+    </div>
+  </div>
+  <div class="callout"><b class="t">Negative numbers: two's complement</b>
+    To get −x: <b>invert all the bits of x, then add 1</b>. In 8 bits, 5 = 00000101 → inverted 11111010 → +1 = <b>11111011</b> = −5. The leftmost bit is the sign (1 = negative). An 8-bit signed range is −128 to +127.<br>
+    <b>That's why <code>~x = −(x + 1)</code>:</b> inverting the bits is "−x − 1". So <code>~5 = −6</code>, <code>~0 = −1</code> and <code>~(−3) = 2</code>.</div>
+
+  <!-- ================= P4 BITWISE ================= -->
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">P4</div><div><div class="kicker">The #1 topic</div><h2>Bitwise Operations in Depth</h2></div></div>
+  <table class="tight"><thead><tr><th>Op</th><th>Name</th><th>Rule (bit by bit)</th><th>12 op 10 → (1100, 1010)</th></tr></thead><tbody>
+    <tr><td><code>&amp;</code></td><td>AND</td><td>1 only if <b>both</b> are 1</td><td>1000 = <b>8</b></td></tr>
+    <tr><td><code>|</code></td><td>OR</td><td>1 if <b>either</b> is 1</td><td>1110 = <b>14</b></td></tr>
+    <tr><td><code>^</code></td><td>XOR</td><td>1 if the bits are <b>different</b></td><td>0110 = <b>6</b></td></tr>
+    <tr><td><code>~</code></td><td>NOT</td><td>Flip every bit (= −x − 1)</td><td>~12 = <b>−13</b></td></tr>
+    <tr><td><code>&lt;&lt; n</code></td><td>Left shift</td><td>Moves bits left and fills with 0 (= ×2ⁿ)</td><td>12 &lt;&lt; 2 = <b>48</b></td></tr>
+    <tr><td><code>&gt;&gt; n</code></td><td>Right shift</td><td>Moves bits right (= ÷2ⁿ, rounding down for positives)</td><td>12 &gt;&gt; 2 = <b>3</b></td></tr>
+  </tbody></table>
+  <table class="tight"><thead><tr><th style="width:34%">Trick</th><th style="width:30%">Code</th><th>Example</th></tr></thead><tbody>
+    <tr><td>Is x odd?</td><td><code>x &amp; 1</code> (1 = odd)</td><td>7 &amp; 1 = 1 · 10 &amp; 1 = 0</td></tr>
+    <tr><td>Is bit k set?</td><td><code>(x &gt;&gt; k) &amp; 1</code></td><td>(13 &gt;&gt; 2) &amp; 1 = 1</td></tr>
+    <tr><td>Set / clear / toggle bit k</td><td><code>x | (1&lt;&lt;k)</code> · <code>x &amp; ~(1&lt;&lt;k)</code> · <code>x ^ (1&lt;&lt;k)</code></td><td>8 | 2 = 10 · 15 &amp; ~4 = 11 · 5 ^ 1 = 4</td></tr>
+    <tr><td>Clear the lowest 1-bit</td><td><code>x &amp; (x − 1)</code></td><td>12 &amp; 11 = 8</td></tr>
+    <tr><td>Keep only the lowest 1-bit</td><td><code>x &amp; (−x)</code></td><td>12 &amp; −12 = 4</td></tr>
+    <tr><td>Power of 2? (x &gt; 0)</td><td><code>(x &amp; (x − 1)) == 0</code></td><td>16 → yes · 12 → no</td></tr>
+    <tr><td>Count the 1-bits</td><td>loop <code>x = x &amp; (x − 1)</code> and count</td><td>58 → 4</td></tr>
+    <tr><td>Swap without a temp variable</td><td><code>a^=b; b^=a; a^=b</code></td><td>Works because x ^ x = 0 and x ^ 0 = x</td></tr>
+    <tr><td>Same or opposite signs?</td><td><code>(a ^ b) &lt; 0</code> → opposite</td><td>5 ^ −3 &lt; 0 → true</td></tr>
+  </tbody></table>
+  <div class="def"><b class="t">Identities worth knowing</b>: <code>a + b = (a ^ b) + 2·(a &amp; b)</code> · <code>a | b = (a ^ b) + (a &amp; b)</code> · <code>a ^ a = 0</code> · <code>a ^ 0 = a</code> · <code>~~a = a</code> · XOR is associative and commutative, so the order doesn't matter.</div>
+</section>
+
+<!-- ================= P5 CONDITIONS ================= -->
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">P5</div><div><div class="kicker">Branching</div><h2>Conditions &amp; switch</h2></div></div>
+  <div class="two">
+<pre><span class="k">Integer</span> a = <span class="n">5</span>, b = <span class="n">10</span>
+<span class="k">if</span> (a &gt; <span class="n">3</span>)
+    <span class="k">if</span> (b &lt; <span class="n">5</span>) <span class="k">Print</span> <span class="s">"X"</span>
+<span class="k">else</span> <span class="k">Print</span> <span class="s">"Y"</span>   <span class="c">// pairs with the INNER if → prints Y</span></pre>
+    <div class="def"><b class="t">Dangling else</b><br>An <code>else</code> always belongs to the <b>nearest</b> unmatched <code>if</code>, whatever the indentation. Indentation is just decoration.</div>
+  </div>
+  <div class="two">
+<pre><span class="k">switch</span> (k)            <span class="c">// k = 2</span>
+  <span class="k">case</span> <span class="n">1</span>: s = s + <span class="n">1</span>
+  <span class="k">case</span> <span class="n">2</span>: s = s + <span class="n">2</span>    <span class="c">// enters here</span>
+  <span class="k">case</span> <span class="n">3</span>: s = s + <span class="n">3</span>    <span class="c">// falls through!</span>
+          <span class="k">break</span>
+  <span class="k">default</span>: s = <span class="n">0</span></pre>
+    <div class="def"><b class="t">switch fall-through</b><br>Execution starts at the matching case and <b>keeps going</b> through the cases below until it reaches a <code>break</code>. With k = 2 and s = 0 at the start, s = 2 + 3 = <b>5</b>. <code>default</code> runs only when nothing matches, or when it's reached by falling through.</div>
+  </div>
+  <div class="trap"><b>Condition traps:</b> <code>if (x = 5)</code> assigns 5, which is non-zero, so it's always true · <code>if (a &gt; b &gt; c)</code> compares <code>(a &gt; b)</code>, which is 0 or 1, against c · a semicolon right after <code>if (…);</code> makes an empty statement, so the next line always runs · in an <b>else-if chain</b>, only the first true branch runs.</div>
+
+  <!-- ================= P6 LOOPS ================= -->
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">P6</div><div><div class="kicker">Repetition</div><h2>Loops &amp; Tracing</h2></div></div>
+  <div class="callout"><b class="t">The mental trace table: the core technique</b>
+    <ol class="steps">
+      <li>List only the variables that <b>change</b> inside the loop.</li>
+      <li>Write the values <b>before</b> the loop (pass 0).</li>
+      <li>For each pass: check the condition → run the body line by line → update the counter.</li>
+      <li>After 2–3 passes, <b>look for a pattern</b> (doubling, a running sum, alternation) and jump to the end.</li>
+    </ol></div>
+  <div class="two">
+<pre><span class="k">Integer</span> i = <span class="n">1</span>, s = <span class="n">0</span>
+<span class="k">while</span> (i &lt;= <span class="n">20</span>)
+    s = s + i
+    i = i * <span class="n">3</span>
+<span class="k">end while</span>
+<span class="k">Print</span> s, i</pre>
+    <table class="tight trace"><thead><tr><th>Pass</th><th>check i ≤ 20</th><th>s</th><th>i</th></tr></thead><tbody>
+      <tr><td>0</td><td>—</td><td>0</td><td>1</td></tr>
+      <tr><td>1</td><td>1 ✓</td><td>1</td><td>3</td></tr>
+      <tr><td>2</td><td>3 ✓</td><td>4</td><td>9</td></tr>
+      <tr><td>3</td><td>9 ✓</td><td>13</td><td>27</td></tr>
+      <tr><td>4</td><td>27 ✗ stop</td><td colspan="2">Output: <b>13 27</b></td></tr>
+    </tbody></table>
+  </div>
+  <table class="tight"><thead><tr><th style="width:55%">Loop shape</th><th>Number of iterations</th></tr></thead><tbody>
+    <tr><td><code>for (i = a to b)</code></td><td>b − a + 1 (0 if b &lt; a)</td></tr>
+    <tr><td><code>for (i = 0; i &lt; n; i++)</code></td><td>n · afterwards i = n</td></tr>
+    <tr><td><code>for (i = 0; i &lt; n; i += k)</code></td><td>⌈n / k⌉</td></tr>
+    <tr><td><code>for (i = 1; i &lt; n; i *= 2)</code></td><td>⌈log₂ n⌉ (i = 1, 2, 4…)</td></tr>
+    <tr><td><code>for i = 1 to n</code> containing <code>for j = 1 to n</code></td><td>n²</td></tr>
+    <tr><td><code>for i = 1 to n</code> containing <code>for j = 1 to i</code> (or <code>j = i to n</code>)</td><td>n(n + 1)/2</td></tr>
+    <tr><td><code>for i = 1 to n</code> containing <code>for j = i+1 to n</code></td><td>n(n − 1)/2 (pairs)</td></tr>
+    <tr><td>Three nested loops <code>1..n, 1..i, 1..j</code></td><td>n(n + 1)(n + 2)/6</td></tr>
+  </tbody></table>
+  <div class="trap"><b>Loop traps:</b> off-by-one (<code>&lt;</code> vs <code>&lt;=</code>) · the value of the counter <b>after</b> the loop (one past the last value) · <code>break</code> leaves only the <b>innermost</b> loop · <code>continue</code> in a for-loop still runs the update step · changing the loop variable inside the body · a <b>semicolon after <code>for(…);</code></b> gives an empty body that runs once in total.</div>
+</section>
+
+<!-- ================= P7 RECURSION ================= -->
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">P7</div><div><div class="kicker">Functions calling themselves</div><h2>Functions &amp; Recursion</h2></div></div>
+  <div class="def"><b class="t">Every recursive function needs</b> (1) a <b>base case</b> that stops it and (2) a <b>recursive case</b> that moves toward the base case. Each call gets its <b>own copy</b> of its local variables, stored on the call stack. Without a base case you get infinite recursion and a <b>stack overflow</b>.</div>
+  <div class="two">
+<pre><span class="k">Function</span> f(<span class="k">Integer</span> n)
+    <span class="k">if</span> (n == <span class="n">0</span>) <span class="k">return</span> <span class="n">0</span>
+    <span class="k">return</span> n mod <span class="n">10</span> + f(n / <span class="n">10</span>)
+<span class="k">End Function</span>
+<span class="k">Print</span> f(<span class="n">472</span>)</pre>
+    <table class="tight trace"><thead><tr><th>Going down (calls)</th><th>Coming back (returns)</th></tr></thead><tbody>
+      <tr><td>f(472) = 2 + f(47)</td><td>2 + 11 = <b>13</b></td></tr>
+      <tr><td>f(47) = 7 + f(4)</td><td>7 + 4 = 11</td></tr>
+      <tr><td>f(4) = 4 + f(0)</td><td>4 + 0 = 4</td></tr>
+      <tr><td>f(0) → base case</td><td>0</td></tr>
+    </tbody></table>
+  </div>
+  <div class="two">
+    <div class="def"><b class="t">Head vs tail printing</b><br>
+      <code>Print n; f(n−1)</code> → prints on the way <b>down</b>: 3 2 1<br>
+      <code>f(n−1); Print n</code> → prints on the way <b>up</b>: 1 2 3<br>
+      With both: 3 2 1 1 2 3.</div>
+    <div class="def"><b class="t">Branching recursion (two calls)</b><br>Draw a <b>recursion tree</b>. The number of calls in naive Fibonacci is C(n) = C(n−1) + C(n−2) + 1: C(5) = 15 and C(10) = 177. The values repeat, which is why memoisation helps.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:36%">Recognise this recursion…</th><th>…it computes</th></tr></thead><tbody>
+    <tr><td><code>n * f(n−1)</code>, f(0) = 1</td><td>n! (factorial): f(5) = 120</td></tr>
+    <tr><td><code>f(n−1) + f(n−2)</code></td><td>Fibonacci: 0 1 1 2 3 5 8 13…</td></tr>
+    <tr><td><code>n % 10 + f(n / 10)</code></td><td>Sum of digits</td></tr>
+    <tr><td><code>1 + f(n / 10)</code></td><td>Number of digits</td></tr>
+    <tr><td><code>g(b, a % b)</code>, g(a, 0) = a</td><td>GCD (Euclid). LCM = a·b / GCD</td></tr>
+    <tr><td><code>a * p(a, b−1)</code>, or squaring</td><td>Power aᵇ</td></tr>
+    <tr><td><code>a + g(a, b−1)</code></td><td>Multiplication a × b</td></tr>
+    <tr><td><code>n % 2 + f(n / 2)</code></td><td>Number of 1-bits in n</td></tr>
+    <tr><td><code>f(n / 2)</code> then <code>Print n % 2</code></td><td>Prints n in binary</td></tr>
+    <tr><td><code>rev(n/10, r*10 + n%10)</code></td><td>Reverses the digits</td></tr>
+  </tbody></table>
+  <div class="def"><b class="t">Call by value vs reference</b><br><b>By value</b>: the function gets a copy, so changes don't affect the caller (a swap(a, b) by value does nothing). <b>By reference / pointer</b>: changes affect the caller. In Java, primitives are copied, and for objects <b>the reference is copied</b>: the function can change the object's fields, but can't make the caller's variable point somewhere else.</div>
+  <div class="def"><b class="t">Static / global variables in recursion</b> are <b>shared</b> by all calls, unlike local variables. If a function does <code>count = count + 1</code> on a global, count ends up as the <b>total number of calls</b>.</div>
+</section>
+
+<!-- ================= P8 ARRAYS & STRINGS ================= -->
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">P8</div><div><div class="kicker">Collections</div><h2>Arrays &amp; Strings</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Arrays</b><br>Fixed size, contiguous memory, 0-indexed. <code>a[i]</code> is O(1). The last index is <b>n − 1</b>. <b>2D arrays</b> are stored row by row (row-major): m[i][j] is row i, column j. The main diagonal is m[i][i] and the anti-diagonal is m[i][n−1−i].</div>
+    <div class="def"><b class="t">Strings</b><br>A sequence of characters, with s[0] first. In C a string ends with <code>'\0'</code>, so <code>char s[6]</code> holds 5 letters. In Java, Strings are <b>immutable</b>, so methods return new strings.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:30%">Pattern</th><th style="width:40%">Code idea</th><th>Effect</th></tr></thead><tbody>
+    <tr><td>Running max / min</td><td><code>m = a[0]; if (a[i] &gt; m) m = a[i]</code></td><td>Largest element</td></tr>
+    <tr><td>Reverse in place</td><td><code>swap(a[i], a[n−1−i])</code> for i &lt; n/2</td><td>Reversed array</td></tr>
+    <tr><td>Prefix sum</td><td><code>a[i] = a[i] + a[i−1]</code></td><td>Running totals</td></tr>
+    <tr><td>Shift / rotate left</td><td><code>t = a[0]; a[i] = a[i+1]; a[n−1] = t</code></td><td>Rotate by 1</td></tr>
+    <tr><td>Count matches</td><td><code>if (a[i] == x) c++</code></td><td>Frequency</td></tr>
+    <tr><td>One bubble-sort pass</td><td><code>if (a[i] &gt; a[i+1]) swap</code></td><td>The largest value moves to the end</td></tr>
+    <tr><td>Palindrome check</td><td>compare <code>s[i]</code> with <code>s[n−1−i]</code></td><td>Reads the same backwards</td></tr>
+    <tr><td>Case conversion</td><td><code>c − 32</code> (lower → upper), <code>c + 32</code></td><td>'a' (97) → 'A' (65)</td></tr>
+    <tr><td>Digit character → value</td><td><code>c − '0'</code></td><td>'7' → 7</td></tr>
+    <tr><td>Vowel / consonant count</td><td>check the character against AEIOU</td><td>Counts</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">ASCII anchors</b><br>'0'–'9' = 48–57 · 'A'–'Z' = 65–90 · 'a'–'z' = 97–122 · space = 32</div>
+    <div class="def"><b class="t">Array traps</b><br>Index n is out of bounds · loops from 1 skip a[0] · modifying the array while reading it changes later values (prefix sums!)</div>
+    <div class="def"><b class="t">String traps</b><br>Length vs last index (n − 1) · case sensitivity ('A' ≠ 'a') · in Java, <code>==</code> compares references and <code>equals()</code> compares content</div>
+  </div>
+
+  <!-- ================= P9 PATTERNS ================= -->
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">P9</div><div><div class="kicker">Recognise, don't trace</div><h2>"What Does This Code Do?" Patterns</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:45%">If the loop does this…</th><th>…the program computes</th></tr></thead><tbody>
+    <tr><td><code>s += n % 10; n /= 10</code></td><td>Sum of digits</td></tr>
+    <tr><td><code>r = r*10 + n % 10; n /= 10</code></td><td>Reverse of the number (compare with the original → palindrome check)</td></tr>
+    <tr><td><code>s += (n%10)³ …; compare s with n</code></td><td>Armstrong number check (153 = 1³ + 5³ + 3³)</td></tr>
+    <tr><td><code>for d = 2 while d*d ≤ n: if n % d == 0 → not prime</code></td><td>Prime test</td></tr>
+    <tr><td><code>sum of d where n % d == 0, d &lt; n</code>, compared with n</td><td>Perfect number (6, 28)</td></tr>
+    <tr><td><code>while b ≠ 0: t = b; b = a % b; a = t</code></td><td>GCD</td></tr>
+    <tr><td><code>c += n &amp; 1; n &gt;&gt;= 1</code> or <code>n &amp;= n − 1</code></td><td>Number of 1-bits</td></tr>
+    <tr><td><code>r += (n % 2) * p; p *= 10; n /= 2</code></td><td>Binary digits as a decimal-looking number</td></tr>
+    <tr><td><code>f = f * i</code> for i = 1..n</td><td>Factorial</td></tr>
+    <tr><td><code>t = a + b; a = b; b = t</code></td><td>Fibonacci</td></tr>
+    <tr><td><code>r ^= i</code> over a range</td><td>XOR 1..n follows the cycle n, 1, n+1, 0 by n mod 4</td></tr>
+  </tbody></table>
+</section>
+
+<!-- ================= OOPS ================= -->
+<section class="page-break part o2">
+  <div class="banner o2"><div class="big">O</div><div class="pl">PART 2 · OBJECT-ORIENTED PROGRAMMING</div><h2>OOPs, Complete</h2>
+    <p>OOPs questions test definitions (the four pillars), rules (what can be overloaded, overridden or inherited) and short Java-like outputs (constructor order, which method runs). Every rule below is shown in a small example.</p>
+    <div class="chips"><span class="chip">Class &amp; object</span><span class="chip">Encapsulation</span><span class="chip">Abstraction</span><span class="chip">Inheritance</span><span class="chip">Polymorphism</span><span class="chip">static · final</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">O1</div><div><div class="kicker">The basics</div><h2>Classes, Objects &amp; Constructors</h2></div></div>
+  <div class="two">
+<pre><span class="k">class</span> Student {
+    String name;          <span class="c">// attribute (state)</span>
+    <span class="k">int</span> marks;
+    Student(String n, <span class="k">int</span> m) {   <span class="c">// constructor</span>
+        <span class="k">this</span>.name = n; <span class="k">this</span>.marks = m;
+    }
+    <span class="k">boolean</span> passed() { <span class="k">return</span> marks &gt;= <span class="n">40</span>; } <span class="c">// method</span>
+}
+Student s = <span class="k">new</span> Student(<span class="s">"Ravi"</span>, <span class="n">72</span>);  <span class="c">// object</span></pre>
+    <div>
+      <div class="def"><b class="t">Class vs Object</b><br>A <b>class</b> is a blueprint that defines state (fields) and behaviour (methods). An <b>object</b> is an instance created with <code>new</code>, which allocates memory on the <b>heap</b>. Many objects can come from one class.</div>
+      <div class="def"><b class="t">Constructor</b><br>Same name as the class, <b>no return type</b> (not even void), runs automatically when <code>new</code> is called. If you write none, Java supplies a <b>default no-argument constructor</b>, but only if you write no constructors at all.</div>
+    </div>
+  </div>
+  <table class="tight"><thead><tr><th>Constructor type</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>Default (no-argument)</td><td>No parameters. Fields get defaults: 0, false, null</td></tr>
+    <tr><td>Parameterised</td><td>Takes values to initialise the object</td></tr>
+    <tr><td>Copy constructor</td><td>Builds a new object from an existing one (explicit in C++, written by hand in Java)</td></tr>
+    <tr><td>Overloaded constructors</td><td>Several constructors with different parameter lists. <code>this(…)</code> calls another one</td></tr>
+    <tr><td>Destructor</td><td>C++ only (<code>~ClassName()</code>). Java has <b>garbage collection</b> instead</td></tr>
+  </tbody></table>
+  <div class="def"><b class="t"><code>this</code></b> refers to the <b>current object</b>. Use it when a parameter has the same name as a field (<code>this.name = name</code>), or call <code>this(…)</code> from a constructor (it must be the first statement). Without <code>this</code>, a parameter <b>shadows</b> the field.</div>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">O2</div><div><div class="kicker">Pillar 1</div><h2>Encapsulation &amp; Access Modifiers</h2></div></div>
+  <div class="two">
+<pre><span class="k">class</span> Account {
+    <span class="k">private</span> <span class="k">double</span> balance;      <span class="c">// hidden</span>
+    <span class="k">public</span> <span class="k">double</span> getBalance() { <span class="k">return</span> balance; }
+    <span class="k">public</span> <span class="k">void</span> deposit(<span class="k">double</span> amt) {
+        <span class="k">if</span> (amt &gt; <span class="n">0</span>) balance += amt;   <span class="c">// validation</span>
+    }
+}</pre>
+    <div class="def"><b class="t">Encapsulation</b> = bundling data with the methods that operate on it, and <b>hiding</b> the data (<b>data hiding</b>). Others interact only through public methods, which can validate input. Benefits: control, security, and the freedom to change the internals later.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Modifier (Java)</th><th>Same class</th><th>Same package</th><th>Subclass (other package)</th><th>Everywhere</th></tr></thead><tbody>
+    <tr><td><code>private</code></td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+    <tr><td>default (no keyword)</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td></tr>
+    <tr><td><code>protected</code></td><td>✓</td><td>✓</td><td>✓</td><td>✗</td></tr>
+    <tr><td><code>public</code></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part o2">
+  <div class="sec-head"><div class="sec-num">O3</div><div><div class="kicker">Pillar 2</div><h2>Abstraction: Abstract Classes &amp; Interfaces</h2></div></div>
+  <p style="font-size:9.2pt"><b>Abstraction</b> means exposing <i>what</i> an object does and hiding <i>how</i>. You call <code>car.start()</code> without knowing about the engine's internals.</p>
+  <div class="two">
+<pre><span class="k">abstract class</span> Shape {
+    <span class="k">abstract double</span> area();        <span class="c">// no body</span>
+    <span class="k">void</span> describe() {             <span class="c">// concrete method</span>
+        System.out.print(<span class="s">"Area = "</span> + area());
+    }
+}
+<span class="k">class</span> Circle <span class="k">extends</span> Shape {
+    <span class="k">double</span> r; Circle(<span class="k">double</span> r){ <span class="k">this</span>.r = r; }
+    <span class="k">double</span> area() { <span class="k">return</span> <span class="n">3.14</span> * r * r; }
+}</pre>
+<pre><span class="k">interface</span> Payable {
+    <span class="k">int</span> LIMIT = <span class="n">1000</span>;      <span class="c">// public static final</span>
+    <span class="k">void</span> pay(<span class="k">int</span> amt);     <span class="c">// public abstract</span>
+    <span class="k">default void</span> info() {  <span class="c">// Java 8+</span>
+        System.out.print(<span class="s">"Payable"</span>);
+    }
+}
+<span class="k">class</span> Card <span class="k">implements</span> Payable {
+    <span class="k">public void</span> pay(<span class="k">int</span> amt) { … }
+}</pre>
+  </div>
+  <table class="tight"><thead><tr><th style="width:30%"></th><th>Abstract class</th><th>Interface</th></tr></thead><tbody>
+    <tr><td>Keyword</td><td><code>abstract class</code> / <code>extends</code></td><td><code>interface</code> / <code>implements</code></td></tr>
+    <tr><td>Methods</td><td>Abstract <b>and</b> concrete</td><td>Abstract, plus default and static (Java 8+) and private (Java 9+)</td></tr>
+    <tr><td>Fields</td><td>Any (instance state allowed)</td><td>Only <code>public static final</code> constants</td></tr>
+    <tr><td>Constructor</td><td><b>Yes</b> (called via super)</td><td>No</td></tr>
+    <tr><td>Inheritance</td><td>A class can extend <b>one</b></td><td>A class can implement <b>many</b></td></tr>
+    <tr><td>Can be instantiated?</td><td>No</td><td>No</td></tr>
+    <tr><td>Use when</td><td>Related classes share code and state ("is-a")</td><td>Unrelated classes share a capability ("can-do")</td></tr>
+  </tbody></table>
+  <div class="trap"><b>Rules:</b> a class with even one abstract method must be declared abstract · a concrete subclass must implement <b>all</b> inherited abstract methods, or be abstract itself · interface methods are implicitly <code>public</code>, so the implementing method must also be public.</div>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">O4</div><div><div class="kicker">Pillar 3</div><h2>Inheritance &amp; Constructor Chaining</h2></div></div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Type</th><th>Shape</th><th>In Java?</th></tr></thead><tbody>
+      <tr><td>Single</td><td>A → B</td><td>✓</td></tr>
+      <tr><td>Multilevel</td><td>A → B → C</td><td>✓</td></tr>
+      <tr><td>Hierarchical</td><td>A → B, A → C</td><td>✓</td></tr>
+      <tr><td>Multiple</td><td>A, B → C</td><td>Only through <b>interfaces</b></td></tr>
+      <tr><td>Hybrid</td><td>A mix of the above</td><td>Through interfaces</td></tr>
+    </tbody></table>
+    <div class="def"><b class="t">Why no multiple class inheritance? The diamond problem.</b> If B and C both override A's <code>m()</code> and D extends both, which <code>m()</code> does D get? Java forbids it for classes. C++ allows it and solves it with virtual inheritance.</div>
+  </div>
+  <div class="two">
+<pre><span class="k">class</span> A { A() { print(<span class="s">"A "</span>); } }
+<span class="k">class</span> B <span class="k">extends</span> A { B() { print(<span class="s">"B "</span>); } }
+<span class="k">class</span> C <span class="k">extends</span> B { C() { print(<span class="s">"C"</span>); } }
+<span class="k">new</span> C();   <span class="c">// prints: A B C</span></pre>
+    <div class="def"><b class="t">Constructor chaining</b><br>The first line of every constructor is an implicit <code>super()</code>. Constructors run <b>from the top of the hierarchy down</b>: parent before child. Use <code>super(args)</code> to call a parameterised parent constructor. It must be the <b>first statement</b>. If the parent has no no-argument constructor, the child <b>must</b> call <code>super(args)</code>.</div>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">What is inherited?</b><br>Public and protected members (and default ones in the same package). <b>Not</b> private members (they exist but can't be accessed), and <b>not constructors</b>.</div>
+    <div class="def"><b class="t"><code>super</code></b><br><code>super.method()</code> calls the parent's version. <code>super.field</code> accesses a parent field hidden by the child.</div>
+    <div class="def"><b class="t">Initialisation order</b><br>Static blocks (once, at class load) → instance initialiser blocks → constructor body. Parent before child at each stage.</div>
+  </div>
+</section>
+
+<section class="part o2">
+  <div class="sec-head"><div class="sec-num">O5</div><div><div class="kicker">Pillar 4</div><h2>Polymorphism: Overloading &amp; Overriding</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:22%"></th><th>Overloading (compile-time / static)</th><th>Overriding (run-time / dynamic)</th></tr></thead><tbody>
+    <tr><td>Where</td><td>Same class (or inherited)</td><td>Parent → child</td></tr>
+    <tr><td>Method name</td><td>Same</td><td>Same</td></tr>
+    <tr><td>Parameters</td><td><b>Must differ</b> (number, type or order)</td><td><b>Must be the same</b></td></tr>
+    <tr><td>Return type</td><td>Can differ, but a difference in return type <b>alone isn't enough</b></td><td>Same, or a subtype (covariant)</td></tr>
+    <tr><td>Access</td><td>Any</td><td>Can't be <b>more restrictive</b> (public → protected isn't allowed)</td></tr>
+    <tr><td>Decided by</td><td>Compiler, from the argument types</td><td>JVM, from the <b>actual object</b> type</td></tr>
+    <tr><td>static / private / final methods</td><td>Can be overloaded</td><td>Can't be overridden (static ones are <i>hidden</i>)</td></tr>
+  </tbody></table>
+  <div class="two">
+<pre><span class="k">class</span> Animal { <span class="k">void</span> sound() { print(<span class="s">"..."</span>); } }
+<span class="k">class</span> Dog <span class="k">extends</span> Animal {
+    <span class="k">void</span> sound() { print(<span class="s">"Woof"</span>); } }
+Animal a = <span class="k">new</span> Dog();  <span class="c">// upcasting (implicit)</span>
+a.sound();             <span class="c">// Woof → dynamic dispatch</span></pre>
+    <div class="def"><b class="t">The golden rule for output questions</b><br><b>Reference type</b> decides what you're <i>allowed</i> to call, as well as fields and static methods.<br><b>Object type</b> decides which <b>overridden instance method</b> actually runs.<br>So <code>a.x</code> uses Animal's field, but <code>a.sound()</code> uses Dog's method.</div>
+  </div>
+  <div class="def"><b class="t">Overload resolution order</b>: exact match → widening of primitives (int → long → float → double) → autoboxing (int → Integer) → varargs. So <code>f(5.0f)</code> with only <code>f(int)</code>, <code>f(long)</code> and <code>f(double)</code> available calls <b>f(double)</b>. <b>Downcasting</b> <code>(Dog) a</code> must be explicit, and throws <code>ClassCastException</code> if the object isn't really a Dog.</div>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">O6</div><div><div class="kicker">Keywords &amp; relationships</div><h2>static, final, Relationships &amp; More</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t"><code>static</code></b> belongs to the <b>class</b>, not to objects. One copy is shared by all objects (counters, constants). Static methods can't use <code>this</code> or call instance members directly. Call them as <code>ClassName.method()</code>.</div>
+    <div class="def"><b class="t"><code>final</code></b>: a final variable can't be reassigned · a final method can't be overridden · a final class can't be extended (for example, <code>String</code>).</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%">Relationship</th><th>Meaning</th><th style="width:30%">Example</th></tr></thead><tbody>
+    <tr><td><b>Inheritance</b> (is-a)</td><td>A child is a specialised parent</td><td>Dog is an Animal</td></tr>
+    <tr><td><b>Association</b> (uses-a)</td><td>Objects know or use each other, with independent lifetimes</td><td>Teacher ↔ Student</td></tr>
+    <tr><td><b>Aggregation</b> (weak has-a)</td><td>A whole contains parts that <b>can exist alone</b></td><td>Team has Players</td></tr>
+    <tr><td><b>Composition</b> (strong has-a)</td><td>The parts <b>die with</b> the whole</td><td>House has Rooms · Car has an Engine</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Object class</b><br>The root of every Java class. It provides <code>toString()</code>, <code>equals()</code>, <code>hashCode()</code> and <code>getClass()</code>.</div>
+    <div class="def"><b class="t">== vs equals()</b><br><code>==</code> compares <b>references</b> (same object?). <code>equals()</code> compares <b>content</b>, if the class overrides it, as String does.</div>
+    <div class="def"><b class="t">Garbage collection</b><br>The JVM frees objects that are no longer referenced. You can't force it: <code>System.gc()</code> is only a request.</div>
+    <div class="def"><b class="t">Coupling &amp; cohesion</b><br>Good design has <b>low coupling</b> (few dependencies between classes) and <b>high cohesion</b> (each class has one focused job).</div>
+    <div class="def"><b class="t">Exceptions (basics)</b><br><code>try</code> → <code>catch</code> → <code>finally</code>. The finally block <b>always runs</b> (even after a return in try). Checked exceptions must be handled or declared.</div>
+    <div class="def"><b class="t">OOP languages</b><br>Java, C++, C#, Python. C is <b>procedural</b>, not OOP. "Pure" OOP languages (like Smalltalk) treat everything as an object.</div>
+  </div>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<section class="page-break part b">
+  <div class="sec-head"><div class="sec-num">✓1</div><div><div class="kicker">Trace in your head</div><h2>Practice Set 1 · Pseudocode Output</h2></div></div>
+  <p class="lead">33 questions covering every topic in P1–P9. <b>Each answer was produced by compiling and running an equivalent C program</b>, so it matches C/Java behaviour exactly. Trace without paper, aiming for under 90 seconds each.</p>
+  <div class="mcq"><div class="qn">P1</div><div class="qb"><div class="qt"><span class='tg'>Precedence</span> What is the output?<pre>Integer a = 10, b = 4, c = 3
+Print a - b * c / 2 + a mod c</pre></div><ol class="opts"><li><b>A</b> -1</li><li><b>B</b> 4</li><li><b>C</b> 7</li><li><b>D</b> 5</li></ol></div></div><div class="mcq"><div class="qn">P2</div><div class="qb"><div class="qt"><span class='tg'>Shift vs +</span> What is the output?<pre>Integer x = 3
+Print x &lt;&lt; 1 + 2</pre></div><ol class="opts"><li><b>A</b> 9</li><li><b>B</b> 8</li><li><b>C</b> 12</li><li><b>D</b> 24</li></ol></div></div><div class="mcq"><div class="qn">P3</div><div class="qb"><div class="qt"><span class='tg'>& vs ==</span> What is the output?<pre>Integer x = 6
+if (x &amp; 1 == 0) Print "Even"
+else Print "Odd"</pre></div><ol class="opts"><li><b>A</b> Error</li><li><b>B</b> Odd</li><li><b>C</b> Even</li><li><b>D</b> EvenOdd</li></ol></div></div><div class="mcq"><div class="qn">P4</div><div class="qb"><div class="qt"><span class='tg'>Pre / post increment</span> What is the output?<pre>Integer a = 5, b, c
+b = a++
+c = ++a
+Print a, b, c</pre></div><ol class="opts"><li><b>A</b> 7 5 6</li><li><b>B</b> 7 6 7</li><li><b>C</b> 6 5 6</li><li><b>D</b> 7 5 7</li></ol></div></div><div class="mcq"><div class="qn">P5</div><div class="qb"><div class="qt"><span class='tg'>Compound assignment</span> What is the output?<pre>Integer x = 10
+x -= 3
+x *= 2
+x %= 5
+Print x</pre></div><ol class="opts"><li><b>A</b> 2</li><li><b>B</b> 0</li><li><b>C</b> 4</li><li><b>D</b> 14</li></ol></div></div><div class="mcq"><div class="qn">P6</div><div class="qb"><div class="qt"><span class='tg'>Negative / and mod</span> What is the output?<pre>Integer a = -7, b = 2
+Print a / b, a mod b</pre></div><ol class="opts"><li><b>A</b> -4 -1</li><li><b>B</b> -4 1</li><li><b>C</b> -3 -1</li><li><b>D</b> -3 1</li></ol></div></div><div class="mcq"><div class="qn">P7</div><div class="qb"><div class="qt"><span class='tg'>Ternary</span> What is the output?<pre>Integer a = 4, b = 9
+Integer m = (a &gt; b) ? a : ((b &gt; 8) ? b - 8 : b)
+Print m</pre></div><ol class="opts"><li><b>A</b> 1</li><li><b>B</b> 8</li><li><b>C</b> 9</li><li><b>D</b> 4</li></ol></div></div><div class="mcq"><div class="qn">P8</div><div class="qb"><div class="qt"><span class='tg'>Short-circuit</span> What is the output?<pre>Integer i = 0, j = 0
+if (i &gt; 0 &amp;&amp; ++j &gt; 0) i = 5
+if (i == 0 || ++j &gt; 0) i = 7
+Print i, j</pre></div><ol class="opts"><li><b>A</b> 7 0</li><li><b>B</b> 5 1</li><li><b>C</b> 7 2</li><li><b>D</b> 7 1</li></ol></div></div><div class="mcq"><div class="qn">P9</div><div class="qb"><div class="qt"><span class='tg'>AND / OR / XOR</span> What is the output?<pre>Integer a = 21, b = 13
+Print a &amp; b, a | b, a ^ b</pre></div><ol class="opts"><li><b>A</b> 4 30 26</li><li><b>B</b> 5 29 24</li><li><b>C</b> 5 29 8</li><li><b>D</b> 13 21 8</li></ol></div></div><div class="mcq"><div class="qn">P10</div><div class="qb"><div class="qt"><span class='tg'>NOT and shifts</span> What is the output?<pre>Integer n = 12
+Print (~n) + (n &gt;&gt; 2) + (n &lt;&lt; 1)</pre></div><ol class="opts"><li><b>A</b> 14</li><li><b>B</b> 15</li><li><b>C</b> -14</li><li><b>D</b> 38</li></ol></div></div><div class="mcq"><div class="qn">P11</div><div class="qb"><div class="qt"><span class='tg'>Kernighan's bit count</span> What is the output?<pre>Integer x = 58, c = 0
+while (x != 0)
+    x = x &amp; (x - 1)
+    c = c + 1
+end while
+Print c</pre></div><ol class="opts"><li><b>A</b> 6</li><li><b>B</b> 4</li><li><b>C</b> 5</li><li><b>D</b> 3</li></ol></div></div><div class="mcq"><div class="qn">P12</div><div class="qb"><div class="qt"><span class='tg'>Power-of-two test</span> What is the output?<pre>Integer cnt = 0
+for (i = 1 to 20)
+    if ((i &amp; (i - 1)) == 0) cnt = cnt + 1
+end for
+Print cnt</pre></div><ol class="opts"><li><b>A</b> 5</li><li><b>B</b> 4</li><li><b>C</b> 20</li><li><b>D</b> 10</li></ol></div></div><div class="mcq"><div class="qn">P13</div><div class="qb"><div class="qt"><span class='tg'>XOR of a range</span> What is the output?<pre>Integer r = 0
+for (i = 1 to 6)
+    r = r ^ i
+end for
+Print r</pre></div><ol class="opts"><li><b>A</b> 21</li><li><b>B</b> 6</li><li><b>C</b> 0</li><li><b>D</b> 7</li></ol></div></div><div class="mcq"><div class="qn">P14</div><div class="qb"><div class="qt"><span class='tg'>Decimal → binary digits</span> What is the output?<pre>Integer n = 25, r = 0, p = 1
+while (n &gt; 0)
+    r = r + (n mod 2) * p
+    p = p * 10
+    n = n / 2
+end while
+Print r</pre></div><ol class="opts"><li><b>A</b> 11000</li><li><b>B</b> 25</li><li><b>C</b> 11001</li><li><b>D</b> 10011</li></ol></div></div><div class="mcq"><div class="qn">P15</div><div class="qb"><div class="qt"><span class='tg'>Switch fall-through</span> What is the output?<pre>Integer k = 2, s = 0
+switch (k)
+    case 1: s = s + 1
+    case 2: s = s + 2
+    case 3: s = s + 3
+            break
+    case 4: s = s + 4
+end switch
+Print s</pre></div><ol class="opts"><li><b>A</b> 5</li><li><b>B</b> 2</li><li><b>C</b> 6</li><li><b>D</b> 9</li></ol></div></div><div class="mcq"><div class="qn">P16</div><div class="qb"><div class="qt"><span class='tg'>Dangling else</span> What is the output?<pre>Integer a = 5, b = 10
+if (a &gt; 3)
+    if (b &lt; 5) Print "X"
+else Print "Y"</pre></div><ol class="opts"><li><b>A</b> Y</li><li><b>B</b> Nothing</li><li><b>C</b> XY</li><li><b>D</b> X</li></ol></div></div><div class="mcq"><div class="qn">P17</div><div class="qb"><div class="qt"><span class='tg'>Triple nested loop</span> What is the output?<pre>Integer c = 0
+for (i = 1 to 5)
+  for (j = 1 to i)
+    for (k = 1 to j)
+      c = c + 1
+Print c</pre></div><ol class="opts"><li><b>A</b> 125</li><li><b>B</b> 35</li><li><b>C</b> 15</li><li><b>D</b> 55</li></ol></div></div><div class="mcq"><div class="qn">P18</div><div class="qb"><div class="qt"><span class='tg'>Multiplicative loop</span> What is the output?<pre>Integer c = 0
+for (i = 1; i &lt; 100; i = i * 3)
+    c = c + 1
+Print c</pre></div><ol class="opts"><li><b>A</b> 4</li><li><b>B</b> 5</li><li><b>C</b> 6</li><li><b>D</b> 33</li></ol></div></div><div class="mcq"><div class="qn">P19</div><div class="qb"><div class="qt"><span class='tg'>continue</span> What is the output?<pre>Integer s = 0
+for (i = 1 to 10)
+    if (i mod 3 == 0) continue
+    s = s + i
+end for
+Print s</pre></div><ol class="opts"><li><b>A</b> 18</li><li><b>B</b> 37</li><li><b>C</b> 36</li><li><b>D</b> 55</li></ol></div></div><div class="mcq"><div class="qn">P20</div><div class="qb"><div class="qt"><span class='tg'>Fibonacci-style loop</span> What is the output?<pre>Integer a = 1, b = 1, t
+for (i = 1 to 6)
+    t = a + b
+    a = b
+    b = t
+end for
+Print b</pre></div><ol class="opts"><li><b>A</b> 34</li><li><b>B</b> 13</li><li><b>C</b> 8</li><li><b>D</b> 21</li></ol></div></div><div class="mcq"><div class="qn">P21</div><div class="qb"><div class="qt"><span class='tg'>do-while</span> What is the output?<pre>Integer n = 0
+do
+    n = n + 5
+while (n &lt; 0)
+Print n</pre></div><ol class="opts"><li><b>A</b> 0</li><li><b>B</b> 5</li><li><b>C</b> -5</li><li><b>D</b> Infinite loop</li></ol></div></div><div class="mcq"><div class="qn">P22</div><div class="qb"><div class="qt"><span class='tg'>Recursion print order</span> What is the output?<pre>Function f(Integer n)
+    if (n == 0) return
+    Print n
+    f(n - 1)
+    Print n
+End Function
+f(3)</pre></div><ol class="opts"><li><b>A</b> 1 2 3 3 2 1</li><li><b>B</b> 3 2 1</li><li><b>C</b> 3 2 1 0 1 2 3</li><li><b>D</b> 3 2 1 1 2 3</li></ol></div></div><div class="mcq"><div class="qn">P23</div><div class="qb"><div class="qt"><span class='tg'>Counting recursive calls</span> What is the output?<pre>Integer calls = 0
+Function fib(Integer n)
+    calls = calls + 1
+    if (n &lt;= 1) return n
+    return fib(n-1) + fib(n-2)
+End Function
+fib(5)
+Print calls</pre></div><ol class="opts"><li><b>A</b> 5</li><li><b>B</b> 15</li><li><b>C</b> 9</li><li><b>D</b> 8</li></ol></div></div><div class="mcq"><div class="qn">P24</div><div class="qb"><div class="qt"><span class='tg'>Recursion as multiplication</span> What is the output?<pre>Function g(Integer a, Integer b)
+    if (b == 0) return 0
+    return a + g(a, b - 1)
+End Function
+Print g(7, 4)</pre></div><ol class="opts"><li><b>A</b> 74</li><li><b>B</b> 11</li><li><b>C</b> 7</li><li><b>D</b> 28</li></ol></div></div><div class="mcq"><div class="qn">P25</div><div class="qb"><div class="qt"><span class='tg'>Accumulator recursion</span> What is the output?<pre>Function rev(Integer n, Integer r)
+    if (n == 0) return r
+    return rev(n / 10, r * 10 + n mod 10)
+End Function
+Print rev(1203, 0)</pre></div><ol class="opts"><li><b>A</b> 1203</li><li><b>B</b> 30210</li><li><b>C</b> 3021</li><li><b>D</b> 321</li></ol></div></div><div class="mcq"><div class="qn">P26</div><div class="qb"><div class="qt"><span class='tg'>Two-branch recursion</span> What is the output?<pre>Function f(Integer n)
+    if (n &lt;= 0) return 1
+    return f(n - 1) + f(n - 2)
+End Function
+Print f(4)</pre></div><ol class="opts"><li><b>A</b> 8</li><li><b>B</b> 13</li><li><b>C</b> 5</li><li><b>D</b> 3</li></ol></div></div><div class="mcq"><div class="qn">P27</div><div class="qb"><div class="qt"><span class='tg'>Array reversal</span> What is the output?<pre>Integer a[6] = {1, 2, 3, 4, 5, 6}
+for (i = 0 to 2)
+    swap(a[i], a[5 - i])
+end for
+Print a[1] + a[4]</pre></div><ol class="opts"><li><b>A</b> 7</li><li><b>B</b> 5</li><li><b>C</b> 9</li><li><b>D</b> 7.0</li></ol></div></div><div class="mcq"><div class="qn">P28</div><div class="qb"><div class="qt"><span class='tg'>Prefix sums</span> What is the output?<pre>Integer a[5] = {2, 4, 1, 3, 5}
+for (i = 1 to 4)
+    a[i] = a[i] + a[i - 1]
+end for
+Print a[2] + a[4]</pre></div><ol class="opts"><li><b>A</b> 21</li><li><b>B</b> 22</li><li><b>C</b> 15</li><li><b>D</b> 6</li></ol></div></div><div class="mcq"><div class="qn">P29</div><div class="qb"><div class="qt"><span class='tg'>Characters are numbers</span> What is the output?<pre>Char c = 'A'
+c = c + 5
+Print c</pre></div><ol class="opts"><li><b>A</b> A5</li><li><b>B</b> 70</li><li><b>C</b> E</li><li><b>D</b> F</li></ol></div></div><div class="mcq"><div class="qn">P30</div><div class="qb"><div class="qt"><span class='tg'>Vowel counting</span> What is the output?<pre>String s = "PSEUDOCODE"
+Integer v = 0
+for (i = 0 to length(s) - 1)
+    if (s[i] is one of A, E, I, O, U) v = v + 1
+end for
+Print v</pre></div><ol class="opts"><li><b>A</b> 4</li><li><b>B</b> 10</li><li><b>C</b> 5</li><li><b>D</b> 6</li></ol></div></div><div class="mcq"><div class="qn">P31</div><div class="qb"><div class="qt"><span class='tg'>Call by value</span> What is the output?<pre>Function change(Integer x)
+    x = x * 2
+End Function
+Integer a = 5
+change(a)
+Print a</pre></div><ol class="opts"><li><b>A</b> 5</li><li><b>B</b> 0</li><li><b>C</b> Error</li><li><b>D</b> 10</li></ol></div></div><div class="mcq"><div class="qn">P32</div><div class="qb"><div class="qt"><span class='tg'>2D array diagonals</span> What is the output?<pre>Integer m[3][3] = {{1,2,3},{4,5,6},{7,8,9}}
+Integer s = 0
+for (i = 0 to 2)
+    s = s + m[i][i] + m[i][2 - i]
+end for
+Print s</pre></div><ol class="opts"><li><b>A</b> 45</li><li><b>B</b> 30</li><li><b>C</b> 25</li><li><b>D</b> 15</li></ol></div></div><div class="mcq"><div class="qn">P33</div><div class="qb"><div class="qt"><span class='tg'>Prime counting</span> What is the output?<pre>Integer cnt = 0
+for (n = 2 to 20)
+    Integer p = 1
+    for (d = 2; d * d &lt;= n; d = d + 1)
+        if (n mod d == 0) p = 0
+    cnt = cnt + p
+end for
+Print cnt</pre></div><ol class="opts"><li><b>A</b> 9</li><li><b>B</b> 10</li><li><b>C</b> 7</li><li><b>D</b> 8</li></ol></div></div>
+  <div class="avoid-head"><h3>Set 1 · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct</th><th>Why</th></tr></thead><tbody><tr><td><b>P1</b></td><td class='ans'>D</td><td><code>5</code></td><td>* / % are evaluated first, left to right: b*c = 12, 12/2 = 6, a mod c = 1. Then 10 − 6 + 1 = 5.</td></tr><tr><td><b>P2</b></td><td class='ans'>D</td><td><code>24</code></td><td>+ binds tighter than <<, so this is x << 3 = 3 × 8 = 24, not (x << 1) + 2.</td></tr><tr><td><b>P3</b></td><td class='ans'>B</td><td><code>Odd</code></td><td>== binds tighter than &, so this is x & (1 == 0) = 6 & 0 = 0, which is false, so the else branch prints Odd even though 6 is even. Write (x & 1) == 0.</td></tr><tr><td><b>P4</b></td><td class='ans'>D</td><td><code>7 5 7</code></td><td>b = a++ uses 5, then a becomes 6. c = ++a makes a 7 first, then uses 7.</td></tr><tr><td><b>P5</b></td><td class='ans'>C</td><td><code>4</code></td><td>10 → 7 → 14 → 14 mod 5 = 4.</td></tr><tr><td><b>P6</b></td><td class='ans'>C</td><td><code>-3 -1</code></td><td>In C and Java, integer division truncates toward zero (−3.5 → −3), and the remainder takes the sign of the dividend: −7 = 2 × (−3) − 1.</td></tr><tr><td><b>P7</b></td><td class='ans'>A</td><td><code>1</code></td><td>a > b is false, so the inner ternary runs: b > 8 is true, so b − 8 = 1.</td></tr><tr><td><b>P8</b></td><td class='ans'>A</td><td><code>7 0</code></td><td>In &&, a false left side skips the right side. In ||, a true left side skips the right side. So ++j never runs, and j stays 0.</td></tr><tr><td><b>P9</b></td><td class='ans'>B</td><td><code>5 29 24</code></td><td>10101 & 01101 = 00101 = 5. | = 11101 = 29. ^ = 11000 = 24.</td></tr><tr><td><b>P10</b></td><td class='ans'>A</td><td><code>14</code></td><td>~12 = −13, 12 >> 2 = 3 and 12 << 1 = 24. −13 + 3 + 24 = 14.</td></tr><tr><td><b>P11</b></td><td class='ans'>B</td><td><code>4</code></td><td>x & (x − 1) clears the lowest 1-bit each pass. 58 = 111010 has four 1s.</td></tr><tr><td><b>P12</b></td><td class='ans'>A</td><td><code>5</code></td><td>Powers of two have exactly one 1-bit, so i & (i − 1) = 0. Up to 20 they are 1, 2, 4, 8 and 16.</td></tr><tr><td><b>P13</b></td><td class='ans'>D</td><td><code>7</code></td><td>1^2 = 3, 3^3 = 0, 0^4 = 4, 4^5 = 1, 1^6 = 7. (XOR from 1 to n repeats with a period of 4.)</td></tr><tr><td><b>P14</b></td><td class='ans'>C</td><td><code>11001</code></td><td>It builds the binary digits as a decimal-looking number: 25 = 11001₂.</td></tr><tr><td><b>P15</b></td><td class='ans'>A</td><td><code>5</code></td><td>It jumps to case 2, and with no break it falls into case 3: 2 + 3 = 5. Then break stops it.</td></tr><tr><td><b>P16</b></td><td class='ans'>A</td><td><code>Y</code></td><td>else always pairs with the NEAREST unmatched if, which is the inner one, whatever the indentation. a > 3 is true and b < 5 is false, so Y prints.</td></tr><tr><td><b>P17</b></td><td class='ans'>B</td><td><code>35</code></td><td>For each i, the inner loops run 1 + 2 + … + i = i(i + 1)/2 times. 1 + 3 + 6 + 10 + 15 = 35.</td></tr><tr><td><b>P18</b></td><td class='ans'>B</td><td><code>5</code></td><td>i takes the values 1, 3, 9, 27, 81 (243 stops the loop), so 5 iterations.</td></tr><tr><td><b>P19</b></td><td class='ans'>B</td><td><code>37</code></td><td>It adds 1 to 10 but skips the multiples of 3: 55 − (3 + 6 + 9) = 37.</td></tr><tr><td><b>P20</b></td><td class='ans'>D</td><td><code>21</code></td><td>b goes 2, 3, 5, 8, 13, 21.</td></tr><tr><td><b>P21</b></td><td class='ans'>B</td><td><code>5</code></td><td>A do-while loop body always runs at least once, and the condition is checked afterwards.</td></tr><tr><td><b>P22</b></td><td class='ans'>D</td><td><code>3 2 1 1 2 3</code></td><td>Prints before the call appear on the way down (3 2 1). Prints after the call appear on the way back up (1 2 3).</td></tr><tr><td><b>P23</b></td><td class='ans'>B</td><td><code>15</code></td><td>The number of calls is C(n) = C(n−1) + C(n−2) + 1, with C(0) = C(1) = 1. C(5) = 15. That's why naive Fibonacci is O(2ⁿ).</td></tr><tr><td><b>P24</b></td><td class='ans'>D</td><td><code>28</code></td><td>It adds a to itself b times: 7 + 7 + 7 + 7 = 28.</td></tr><tr><td><b>P25</b></td><td class='ans'>C</td><td><code>3021</code></td><td>Each call moves the last digit of n onto r, so the digits come out reversed: 3021.</td></tr><tr><td><b>P26</b></td><td class='ans'>A</td><td><code>8</code></td><td>f(−1) = f(0) = 1, f(1) = 2, f(2) = 3, f(3) = 5, f(4) = 8.</td></tr><tr><td><b>P27</b></td><td class='ans'>A</td><td><code>7</code></td><td>The array becomes {6, 5, 4, 3, 2, 1}, so a[1] = 5 and a[4] = 2, giving 7.</td></tr><tr><td><b>P28</b></td><td class='ans'>B</td><td><code>22</code></td><td>The running totals are 2, 6, 7, 10, 15. a[2] + a[4] = 7 + 15 = 22.</td></tr><tr><td><b>P29</b></td><td class='ans'>D</td><td><code>F</code></td><td>'A' is ASCII 65, and 65 + 5 = 70, which is 'F'.</td></tr><tr><td><b>P30</b></td><td class='ans'>C</td><td><code>5</code></td><td>E, U, O, O, E gives 5.</td></tr><tr><td><b>P31</b></td><td class='ans'>A</td><td><code>5</code></td><td>A copy of a is doubled inside the function. The caller's a is unchanged.</td></tr><tr><td><b>P32</b></td><td class='ans'>B</td><td><code>30</code></td><td>Main diagonal 1 + 5 + 9 plus anti-diagonal 3 + 5 + 7 = 30. The centre 5 is counted twice.</td></tr><tr><td><b>P33</b></td><td class='ans'>D</td><td><code>8</code></td><td>It counts the primes from 2 to 20: 2, 3, 5, 7, 11, 13, 17, 19.</td></tr></tbody></table>
+</section>
+
+<section class="page-break part o2">
+  <div class="sec-head"><div class="sec-num">✓2</div><div><div class="kicker">OOPs</div><h2>Practice Set 2 · OOPs Output &amp; Concepts</h2></div></div>
+  <p class="lead">J-questions are real Java programs, <b>run with the JDK to produce the answer key</b>. T-questions test concepts and rules.</p>
+  <div class="mcq"><div class="qn">J1</div><div class="qb"><div class="qt"><span class='tg'>Constructor chaining</span> What is the output? (Java)<pre>class A { A() { System.out.print("A "); } }
+class B extends A { B() { System.out.print("B "); } }
+class C extends B { C() { System.out.print("C"); } }
+// inside main():
+new C();</pre></div><ol class="opts"><li><b>A</b> A C</li><li><b>B</b> A B C</li><li><b>C</b> C B A</li><li><b>D</b> C</li></ol></div></div><div class="mcq"><div class="qn">J2</div><div class="qb"><div class="qt"><span class='tg'>Fields vs methods</span> What is the output? (Java)<pre>class P { int x = 10; void show() { System.out.print("P" + x); } }
+class Q extends P { int x = 20; void show() { System.out.print("Q" + x); } }
+// inside main():
+P obj = new Q();
+System.out.print(obj.x + " ");
+obj.show();</pre></div><ol class="opts"><li><b>A</b> 20 P20</li><li><b>B</b> 10 P10</li><li><b>C</b> 20 Q20</li><li><b>D</b> 10 Q20</li></ol></div></div><div class="mcq"><div class="qn">J3</div><div class="qb"><div class="qt"><span class='tg'>Static method hiding</span> What is the output? (Java)<pre>class P { static void hi() { System.out.print("P"); } }
+class Q extends P { static void hi() { System.out.print("Q"); } }
+// inside main():
+P o = new Q();
+o.hi();</pre></div><ol class="opts"><li><b>A</b> Q</li><li><b>B</b> P</li><li><b>C</b> PQ</li><li><b>D</b> Compile error</li></ol></div></div><div class="mcq"><div class="qn">J4</div><div class="qb"><div class="qt"><span class='tg'>Overload resolution</span> What is the output? (Java)<pre>static void f(int a) { System.out.print("int "); }
+static void f(long a) { System.out.print("long "); }
+static void f(double a) { System.out.print("double"); }
+// inside main():
+f(5); f(5L); f(5.0f);</pre></div><ol class="opts"><li><b>A</b> long long double</li><li><b>B</b> int long double</li><li><b>C</b> int int double</li><li><b>D</b> Compile error</li></ol></div></div><div class="mcq"><div class="qn">J5</div><div class="qb"><div class="qt"><span class='tg'>super.method()</span> What is the output? (Java)<pre>class A { void m() { System.out.print("A"); } }
+class B extends A { void m() { super.m(); System.out.print("B"); } }
+// inside main():
+new B().m();</pre></div><ol class="opts"><li><b>A</b> AB</li><li><b>B</b> B</li><li><b>C</b> A</li><li><b>D</b> BA</li></ol></div></div><div class="mcq"><div class="qn">J6</div><div class="qb"><div class="qt"><span class='tg'>static counter</span> What is the output? (Java)<pre>class Counter {
+    static int count = 0; int id;
+    Counter() { count++; id = count; }
+}
+// inside main():
+Counter c1 = new Counter(), c2 = new Counter(), c3 = new Counter();
+System.out.print(c1.id + " " + Counter.count);</pre></div><ol class="opts"><li><b>A</b> 3 3</li><li><b>B</b> 1 1</li><li><b>C</b> 1 3</li><li><b>D</b> 0 3</li></ol></div></div><div class="mcq"><div class="qn">J7</div><div class="qb"><div class="qt"><span class='tg'>this vs local</span> What is the output? (Java)<pre>class Box {
+    int w = 5;
+    void set(int w)  { w = w * 2; }
+    void set2(int w) { this.w = w * 2; }
+}
+// inside main():
+Box b = new Box();
+b.set(10);  System.out.print(b.w + " ");
+b.set2(10); System.out.print(b.w);</pre></div><ol class="opts"><li><b>A</b> 5 20</li><li><b>B</b> 20 20</li><li><b>C</b> 10 20</li><li><b>D</b> 5 10</li></ol></div></div><div class="mcq"><div class="qn">J8</div><div class="qb"><div class="qt"><span class='tg'>Abstract + polymorphism</span> What is the output? (Java)<pre>abstract class Shape { abstract int area(); }
+class Sq extends Shape { int s; Sq(int s) { this.s = s; } int area() { return s * s; } }
+class Rect extends Shape { int l, b; Rect(int l, int b) { this.l = l; this.b = b; } int area() { return l * b; } }
+// inside main():
+Shape[] arr = { new Sq(3), new Rect(2, 5), new Sq(2) };
+int t = 0;
+for (Shape s : arr) t += s.area();
+System.out.print(t);</pre></div><ol class="opts"><li><b>A</b> 13</li><li><b>B</b> 19</li><li><b>C</b> 23</li><li><b>D</b> Compile error</li></ol></div></div><div class="mcq"><div class="qn">J9</div><div class="qb"><div class="qt"><span class='tg'>super(arg)</span> What is the output? (Java)<pre>class A { A(int x) { System.out.print("A" + x + " "); } }
+class B extends A { B() { super(5); System.out.print("B"); } }
+// inside main():
+new B();</pre></div><ol class="opts"><li><b>A</b> A5 B</li><li><b>B</b> B A5</li><li><b>C</b> Compile error</li><li><b>D</b> B</li></ol></div></div><div class="mcq"><div class="qn">J10</div><div class="qb"><div class="qt"><span class='tg'>Interface default method</span> What is the output? (Java)<pre>interface I { default String hi() { return "I"; } }
+class X implements I { }
+class Y implements I { public String hi() { return "Y"; } }
+// inside main():
+System.out.print(new X().hi() + new Y().hi());</pre></div><ol class="opts"><li><b>A</b> II</li><li><b>B</b> IY</li><li><b>C</b> YY</li><li><b>D</b> Compile error</li></ol></div></div><div class="mcq"><div class="qn">J11</div><div class="qb"><div class="qt"><span class='tg'>Passing references</span> What is the output? (Java)<pre>class N { int v; }
+static void inc(N n) { n.v++; }
+static void reset(N n) { n = new N(); n.v = 100; }
+// inside main():
+N n = new N(); n.v = 1;
+inc(n); reset(n);
+System.out.print(n.v);</pre></div><ol class="opts"><li><b>A</b> 1</li><li><b>B</b> 100</li><li><b>C</b> 2</li><li><b>D</b> 101</li></ol></div></div><div class="mcq"><div class="qn">J12</div><div class="qb"><div class="qt"><span class='tg'>== vs equals</span> What is the output? (Java)<pre>// inside main():
+String a = new String("hi"), b = new String("hi");
+System.out.print((a == b) + " " + a.equals(b));</pre></div><ol class="opts"><li><b>A</b> true false</li><li><b>B</b> true true</li><li><b>C</b> false false</li><li><b>D</b> false true</li></ol></div></div><div class="mcq"><div class="qn">J13</div><div class="qb"><div class="qt"><span class='tg'>Initialisation order</span> What is the output? (Java)<pre>class T {
+    static { System.out.print("S "); }
+    { System.out.print("I "); }
+    T() { System.out.print("C "); }
+}
+// inside main():
+new T(); new T();</pre></div><ol class="opts"><li><b>A</b> I C I C</li><li><b>B</b> S I C S I C</li><li><b>C</b> S C I C I</li><li><b>D</b> S I C I C</li></ol></div></div><div class="mcq"><div class="qn">J14</div><div class="qb"><div class="qt"><span class='tg'>Upcast and downcast</span> What is the output? (Java)<pre>class A { String n() { return "A"; } }
+class B extends A { String n() { return "B"; } String only() { return "only"; } }
+// inside main():
+A a = new B();
+System.out.print(a.n() + " " + ((B) a).only());</pre></div><ol class="opts"><li><b>A</b> A only</li><li><b>B</b> B</li><li><b>C</b> Compile error</li><li><b>D</b> B only</li></ol></div></div>
+  <div class="mcq"><div class="qn">T1</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Two methods differ ONLY in return type, e.g. <code>int f()</code> and <code>double f()</code>. Result?</div><ol class="opts"><li><b>A</b> Valid overriding</li><li><b>B</b> Compile error</li><li><b>C</b> Valid overloading</li><li><b>D</b> Runtime error</li></ol></div></div><div class="mcq"><div class="qn">T2</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Can a constructor be overridden?</div><ol class="opts"><li><b>A</b> No</li><li><b>B</b> Only if it's public</li><li><b>C</b> Yes, always</li><li><b>D</b> Only in abstract classes</li></ol></div></div><div class="mcq"><div class="qn">T3</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Can an abstract class have a constructor?</div><ol class="opts"><li><b>A</b> Yes</li><li><b>B</b> No</li><li><b>C</b> Only if it has no abstract methods</li><li><b>D</b> Only a private one</li></ol></div></div><div class="mcq"><div class="qn">T4</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>By default, variables declared in a Java interface are:</div><ol class="opts"><li><b>A</b> public static final</li><li><b>B</b> protected</li><li><b>C</b> private</li><li><b>D</b> instance variables</li></ol></div></div><div class="mcq"><div class="qn">T5</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>The 'diamond problem' arises with:</div><ol class="opts"><li><b>A</b> Method overloading</li><li><b>B</b> Multiple inheritance of classes</li><li><b>C</b> Encapsulation</li><li><b>D</b> Single inheritance</li></ol></div></div><div class="mcq"><div class="qn">T6</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>A class declared <code>final</code>:</div><ol class="opts"><li><b>A</b> Cannot have objects</li><li><b>B</b> Cannot be extended</li><li><b>C</b> Must be abstract</li><li><b>D</b> Cannot have methods</li></ol></div></div><div class="mcq"><div class="qn">T7</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>A Car HAS an Engine, and the Engine is destroyed with the Car. This relationship is:</div><ol class="opts"><li><b>A</b> Composition</li><li><b>B</b> Association only</li><li><b>C</b> Inheritance</li><li><b>D</b> Aggregation</li></ol></div></div><div class="mcq"><div class="qn">T8</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Which call must be the FIRST statement in a constructor if you use it?</div><ol class="opts"><li><b>A</b> System.out.print</li><li><b>B</b> return</li><li><b>C</b> new</li><li><b>D</b> super(...) or this(...)</li></ol></div></div><div class="mcq"><div class="qn">T9</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Private methods of a parent class are:</div><ol class="opts"><li><b>A</b> Public in the child</li><li><b>B</b> Overridden automatically</li><li><b>C</b> Not inherited, so they can't be overridden</li><li><b>D</b> Static by default</li></ol></div></div><div class="mcq"><div class="qn">T10</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Wrapping data with methods and restricting direct access to the data is:</div><ol class="opts"><li><b>A</b> Abstraction</li><li><b>B</b> Polymorphism</li><li><b>C</b> Inheritance</li><li><b>D</b> Encapsulation</li></ol></div></div><div class="mcq"><div class="qn">T11</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Showing only essential features and hiding implementation details is:</div><ol class="opts"><li><b>A</b> Overloading</li><li><b>B</b> Encapsulation</li><li><b>C</b> Abstraction</li><li><b>D</b> Inheritance</li></ol></div></div><div class="mcq"><div class="qn">T12</div><div class="qb"><div class="qt"><span class='tg'>Concept</span>Which is decided at RUN time?</div><ol class="opts"><li><b>A</b> Which overridden method runs</li><li><b>B</b> Field access through a reference</li><li><b>C</b> Static method calls</li><li><b>D</b> Which overloaded method runs</li></ol></div></div>
+  <div class="avoid-head"><h3>Set 2 · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct</th><th>Why</th></tr></thead><tbody><tr><td><b>J1</b></td><td class='ans'>B</td><td><code>A B C</code></td><td>Every constructor first calls its parent's constructor (an implicit super()), so the order runs from the top down: A, then B, then C.</td></tr><tr><td><b>J2</b></td><td class='ans'>D</td><td><code>10 Q20</code></td><td>Fields are NOT polymorphic: obj.x uses the reference type P, giving 10. Methods ARE polymorphic: show() runs Q's version, which sees Q's x = 20.</td></tr><tr><td><b>J3</b></td><td class='ans'>B</td><td><code>P</code></td><td>Static methods are hidden, not overridden. They're chosen by the reference type (P), not by the object.</td></tr><tr><td><b>J4</b></td><td class='ans'>B</td><td><code>int long double</code></td><td>Java picks the most specific match. A float has no exact match here, so it widens to double.</td></tr><tr><td><b>J5</b></td><td class='ans'>A</td><td><code>AB</code></td><td>super.m() runs the parent's version first, then B prints.</td></tr><tr><td><b>J6</b></td><td class='ans'>C</td><td><code>1 3</code></td><td>A static field is shared by all objects (count = 3). id is per object: c1 got 1.</td></tr><tr><td><b>J7</b></td><td class='ans'>A</td><td><code>5 20</code></td><td>In set(), w is the parameter, which shadows the field, so the field stays 5. this.w refers to the field.</td></tr><tr><td><b>J8</b></td><td class='ans'>C</td><td><code>23</code></td><td>Each object runs its own area(): 9 + 10 + 4 = 23. An abstract class can't be instantiated, but its references can point to subclass objects.</td></tr><tr><td><b>J9</b></td><td class='ans'>A</td><td><code>A5 B</code></td><td>super(5) must be the first statement, so the parent constructor runs first.</td></tr><tr><td><b>J10</b></td><td class='ans'>B</td><td><code>IY</code></td><td>X inherits the default method. Y overrides it (it must be public).</td></tr><tr><td><b>J11</b></td><td class='ans'>C</td><td><code>2</code></td><td>Java passes a COPY of the reference. inc changes the shared object, giving 2. reset only re-points its local copy, so the caller's object is untouched.</td></tr><tr><td><b>J12</b></td><td class='ans'>D</td><td><code>false true</code></td><td>== compares references, and these are two different objects. equals() compares content.</td></tr><tr><td><b>J13</b></td><td class='ans'>D</td><td><code>S I C I C</code></td><td>The static block runs once, when the class loads. Then, for every object, the instance block runs before the constructor.</td></tr><tr><td><b>J14</b></td><td class='ans'>D</td><td><code>B only</code></td><td>Upcasting is implicit and keeps the overriding behaviour. To call a B-only method, you must explicitly downcast.</td></tr><tr><td><b>T1</b></td><td class='ans'>B</td><td><code>Compile error</code></td><td>Overloading needs different parameter lists. A different return type alone isn't enough.</td></tr><tr><td><b>T2</b></td><td class='ans'>A</td><td><code>No</code></td><td>Constructors aren't inherited, so they can't be overridden. They can be overloaded.</td></tr><tr><td><b>T3</b></td><td class='ans'>A</td><td><code>Yes</code></td><td>Yes. It runs when a subclass object is created, through super().</td></tr><tr><td><b>T4</b></td><td class='ans'>A</td><td><code>public static final</code></td><td>Interface fields are constants.</td></tr><tr><td><b>T5</b></td><td class='ans'>B</td><td><code>Multiple inheritance of classes</code></td><td>If two parents both define a method, which one does the child get? Java avoids this by forbidding multiple class inheritance.</td></tr><tr><td><b>T6</b></td><td class='ans'>B</td><td><code>Cannot be extended</code></td><td>For example, String is final. A final method can't be overridden, and a final variable can't be reassigned.</td></tr><tr><td><b>T7</b></td><td class='ans'>A</td><td><code>Composition</code></td><td>Composition is a strong has-a. In aggregation (weak has-a), the part can exist independently, like a Team and its Players.</td></tr><tr><td><b>T8</b></td><td class='ans'>D</td><td><code>super(...) or this(...)</code></td><td>You can use only one of them, and it must come first.</td></tr><tr><td><b>T9</b></td><td class='ans'>C</td><td><code>Not inherited, so they can't be overridden</code></td><td>A method with the same name in the child is a new, unrelated method.</td></tr><tr><td><b>T10</b></td><td class='ans'>D</td><td><code>Encapsulation</code></td><td>Use private fields with public getters and setters.</td></tr><tr><td><b>T11</b></td><td class='ans'>C</td><td><code>Abstraction</code></td><td>This is done with abstract classes and interfaces.</td></tr><tr><td><b>T12</b></td><td class='ans'>A</td><td><code>Which overridden method runs</code></td><td>Dynamic dispatch. Overloading, field access and static calls are resolved at compile time.</td></tr></tbody></table>
+</section>
+
+<!-- ================= PLAN ================= -->
+<section class="page-break part b">
+  <div class="sec-head"><div class="sec-num">Z</div><div><div class="kicker">Get exam-ready</div><h2>7-Day Plan &amp; Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:12%">Day</th><th>Plan (60–90 minutes)</th></tr></thead><tbody>
+    <tr><td><b>Day 1</b></td><td>P1–P2. Learn the precedence table by heart, and do 20 ++/--, division and mod drills.</td></tr>
+    <tr><td><b>Day 2</b></td><td>P3–P4. Convert 30 numbers to binary, and practise &amp; | ^ ~ &lt;&lt; &gt;&gt; until each takes under 10 seconds.</td></tr>
+    <tr><td><b>Day 3</b></td><td>P5–P6. Trace 10 loops <b>without paper</b> and memorise the iteration-count formulas.</td></tr>
+    <tr><td><b>Day 4</b></td><td>P7–P9. Draw recursion stacks for 6 functions and learn the pattern table.</td></tr>
+    <tr><td><b>Day 5</b></td><td>Practice Set 1, timed. For every wrong answer, note which trap caught you.</td></tr>
+    <tr><td><b>Day 6</b></td><td>O1–O6. Explain each pillar aloud with an example, then do Practice Set 2.</td></tr>
+    <tr><td><b>Day 7</b></td><td>Redo the questions you got wrong, then read the cheat sheet below.</td></tr>
+  </tbody></table>
+  <div class="cards c2 cheat">
+    <div class="card" style="border-top:4px solid #7c3aed"><h4 style="margin-top:0;color:#7c3aed">Pseudocode in 12 lines</h4><ul style="font-size:8.8pt;margin:0">
+      <li>Precedence: unary → * / % → + − → &lt;&lt; &gt;&gt; → relational → == → &amp; → ^ → | → &amp;&amp; → || → ?: → =</li>
+      <li><code>x &lt;&lt; 1 + 2</code> = x &lt;&lt; 3 · <code>x &amp; 1 == 0</code> = x &amp; 0</li>
+      <li>Integer <code>/</code> truncates toward 0 · <code>%</code> takes the sign of the left operand: −7 % 2 = −1</li>
+      <li><code>a++</code> uses the value then adds · <code>++a</code> adds then uses</li>
+      <li>&amp;&amp; / || short-circuit, so side effects may be skipped</li>
+      <li><code>~x = −x − 1</code> · <code>x&lt;&lt;n = x·2ⁿ</code> · <code>x&gt;&gt;n = x/2ⁿ</code> · <code>x^x = 0</code></li>
+      <li><code>x &amp; (x−1)</code> clears the lowest bit · <code>x &amp; 1</code> tests odd</li>
+      <li>else pairs with the nearest if · switch falls through until a break</li>
+      <li>for a to b runs b − a + 1 times · i *= 2 runs log₂n times · triangle loops run n(n+1)/2</li>
+      <li>Recursion: expand down, combine on the way up · printing after the call gives reverse order</li>
+      <li>Naive fib calls: C(n) = C(n−1) + C(n−2) + 1 · globals count calls</li>
+      <li>Arrays 0-indexed · 'A' = 65, 'a' = 97, '0' = 48 · call by value doesn't change the caller</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #db2777"><h4 style="margin-top:0;color:#db2777">OOPs in 12 lines</h4><ul style="font-size:8.8pt;margin:0">
+      <li>Encapsulation = hide data · Abstraction = hide implementation</li>
+      <li>Inheritance = is-a · Polymorphism = one interface, many forms</li>
+      <li>Overloading: same class, different parameters, compile time · return type alone isn't enough</li>
+      <li>Overriding: same signature, child class, run time · can't reduce access</li>
+      <li>Fields and static methods follow the reference type · instance methods follow the object type</li>
+      <li>Constructors: no return type, not inherited, can't be overridden, can be overloaded</li>
+      <li>Constructor order: parent → child · <code>super()</code> / <code>this()</code> must come first</li>
+      <li>Initialisation: static block (once) → instance block → constructor</li>
+      <li>Abstract class: can have a constructor and state, extend only one · Interface: constants only, implement many</li>
+      <li>Java: no multiple class inheritance (the diamond problem), so use interfaces</li>
+      <li>private &lt; default &lt; protected &lt; public · final = no change, override or extend</li>
+      <li>Composition = part dies with the whole · Aggregation = part survives · == vs equals()</li>
+    </ul></div>
+  </div>
+  <div class="note tip" style="margin-top:12px"><span class="t">Exam-day mindset</span>Read the code <b>once fully</b> before tracing, and spot the pattern if there is one. Trace with a mental table, and check the traps: precedence, integer division, ++, short-circuit, else pairing, fall-through. Only then look at the options.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Accenture. The pseudocode follows common C/Java conventions, and the real test's notation may vary slightly. All questions are original. Code answers were generated by running equivalent C (gcc) and Java (OpenJDK 21) programs.</p>
+</section>
+
+</body>
+</html>
