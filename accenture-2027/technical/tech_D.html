@@ -1,0 +1,129 @@
+
+<!-- ======================= PART D ======================= -->
+<section class="page-break part d">
+  <div class="banner"><div class="big">D</div><div class="pl">PART D · ≈ 14 QUESTIONS</div><h2>CS Fundamentals (Programming)</h2>
+    <p>The basics every programmer must know: data types, operators, control flow, functions, data structures, searching and sorting, Big-O and DBMS. Expect a mix of concept and small-logic questions.</p>
+    <div class="chips"><span class="chip">Data types</span><span class="chip">Control flow</span><span class="chip">Stack · Queue · Linked list</span><span class="chip">Search &amp; sort</span><span class="chip">Big-O</span><span class="chip">DBMS &amp; SQL</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">D1</div><div><div class="kicker">The building blocks</div><h2>Data Types, Operators &amp; Control Flow</h2></div></div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Java type</th><th>Size</th><th>Range / note</th></tr></thead><tbody>
+      <tr><td>byte</td><td>1 B</td><td>−128 to 127</td></tr>
+      <tr><td>short</td><td>2 B</td><td>−32,768 to 32,767</td></tr>
+      <tr><td>int</td><td>4 B</td><td>about ±2.1 billion</td></tr>
+      <tr><td>long</td><td>8 B</td><td>very large integers</td></tr>
+      <tr><td>float / double</td><td>4 B / 8 B</td><td>decimals (double is more precise)</td></tr>
+      <tr><td>char</td><td>2 B</td><td>Unicode (C's char = 1 byte)</td></tr>
+      <tr><td>boolean</td><td>—</td><td>true / false</td></tr>
+    </tbody></table>
+    <div>
+      <div class="def"><b class="t">Type casting</b><br><b>Implicit (widening)</b>: int → long → float → double, done automatically.<br><b>Explicit (narrowing)</b>: <code>(int) 9.7</code> = 9, which truncates.</div>
+      <div class="def"><b class="t">Integer overflow</b><br>Going past the maximum wraps around: in Java, <code>Integer.MAX_VALUE + 1</code> becomes the most negative int.</div>
+      <div class="def"><b class="t">Integer vs real division</b><br><code>7 / 2 = 3</code> but <code>7.0 / 2 = 3.5</code>. <code>-7 / 2 = -3</code> in C/Java (truncates toward 0).</div>
+    </div>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">if / else-if / switch</b><br>In a switch, a <b>missing break</b> falls through to the next case.</div>
+    <div class="def"><b class="t">for / while / do-while</b><br><b>do-while</b> always runs <b>at least once</b>, because the condition is checked at the end.</div>
+    <div class="def"><b class="t">Short-circuit</b><br>In <code>a &amp;&amp; b</code>, b isn't evaluated if a is false. In <code>a || b</code>, b isn't evaluated if a is true.</div>
+  </div>
+  <div class="two">
+    <div class="def"><b class="t">Functions: call by value vs reference</b><br><b>By value</b>: a copy is passed, so the original is unchanged. <b>By reference</b>: the function works on the original. Java passes everything by value (for objects, the value is the reference).</div>
+    <div class="def"><b class="t">Arrays &amp; strings</b><br>An array is a fixed-size, contiguous block, 0-indexed, with O(1) access by index. Java Strings are <b>immutable</b>. Use StringBuilder for repeated changes. A C string ends with <code>'\0'</code>.</div>
+  </div>
+</section>
+
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">D2</div><div><div class="kicker">Organise data</div><h2>Data Structures</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Stack: LIFO</b><br><code>push</code>, <code>pop</code>, <code>peek</code>, all O(1). Overflow when full, underflow when empty.<br><b>Uses:</b> function calls (the call stack), undo, browser back button, balanced brackets, expression evaluation, DFS.</div>
+    <div class="def"><b class="t">Queue: FIFO</b><br><code>enqueue</code> at the rear, <code>dequeue</code> from the front, O(1).<br><b>Variants:</b> circular queue, deque (both ends), priority queue (by priority, often a heap).<br><b>Uses:</b> CPU scheduling, printers, BFS.</div>
+    <div class="def"><b class="t">Linked list</b><br>Nodes of <code>data + next</code> pointer. Insert or delete at the head is <b>O(1)</b>. Access by index is <b>O(n)</b>. Types: singly, doubly (prev + next) and circular.</div>
+    <div class="def"><b class="t">Trees &amp; graphs</b><br><b>Binary Search Tree</b>: left &lt; node &lt; right, with search O(log n) on average and O(n) when skewed. Traversals: in-order (sorted output), pre-order, post-order. A <b>graph</b> has vertices and edges. BFS uses a queue; DFS uses a stack or recursion.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Structure</th><th>Access</th><th>Search</th><th>Insert</th><th>Delete</th></tr></thead><tbody>
+    <tr><td>Array</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td></tr>
+    <tr><td>Linked list</td><td>O(n)</td><td>O(n)</td><td>O(1) at head</td><td>O(1) at head</td></tr>
+    <tr><td>Stack / Queue</td><td>—</td><td>O(n)</td><td>O(1)</td><td>O(1)</td></tr>
+    <tr><td>BST (balanced)</td><td>—</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+    <tr><td>Hash table</td><td>—</td><td>O(1) average</td><td>O(1) average</td><td>O(1) average</td></tr>
+  </tbody></table>
+  <h3>Expression notation (stack questions)</h3>
+  <table class="tight"><thead><tr><th>Infix</th><th>Prefix (Polish)</th><th>Postfix (Reverse Polish)</th></tr></thead><tbody>
+    <tr><td><code>A + B</code></td><td><code>+ A B</code></td><td><code>A B +</code></td></tr>
+    <tr><td><code>A + B * C</code></td><td><code>+ A * B C</code></td><td><code>A B C * +</code></td></tr>
+    <tr><td><code>(A + B) * C</code></td><td><code>* + A B C</code></td><td><code>A B + C *</code></td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Evaluating postfix:</b> scan left to right. Push numbers. When you meet an operator, pop the top two, apply the operator as (second-popped op first-popped), and push the result. Example: <code>5 1 2 + 4 * + 3 -</code> → 1 + 2 = 3, 3 × 4 = 12, 5 + 12 = 17, 17 − 3 = <b>14</b>.</p>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">D3</div><div><div class="kicker">Find &amp; order</div><h2>Searching, Sorting &amp; Big-O</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Linear search</b><br>Checks each element: O(n). Works on unsorted data.</div>
+    <div class="def"><b class="t">Binary search</b><br>Needs <b>sorted</b> data. Compare with the middle and discard half each step: O(log n). Searching 1,024 items takes at most 10–11 comparisons.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable?</th><th>Idea</th></tr></thead><tbody>
+    <tr><td>Bubble</td><td>O(n)*</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td><td>Swap adjacent pairs; the largest "bubbles" to the end</td></tr>
+    <tr><td>Selection</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>No</td><td>Pick the minimum and put it in front</td></tr>
+    <tr><td>Insertion</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td><td>Insert each item into the sorted left part</td></tr>
+    <tr><td>Merge</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td><td>Divide, sort halves, merge</td></tr>
+    <tr><td>Quick</td><td>O(n log n)</td><td>O(n log n)</td><td><b>O(n²)</b></td><td>O(log n)</td><td>No</td><td>Partition around a pivot</td></tr>
+    <tr><td>Heap</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>No</td><td>Build a max-heap and extract repeatedly</td></tr>
+  </tbody></table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:-4px">*With the "stop if no swaps" optimisation, on already-sorted input.</p>
+  <h3>Big-O from code</h3>
+  <table class="tight"><thead><tr><th>Pattern</th><th>Complexity</th></tr></thead><tbody>
+    <tr><td>Fixed number of steps</td><td>O(1)</td></tr>
+    <tr><td>Halving or doubling loop (<code>i = i*2</code>, binary search)</td><td>O(log n)</td></tr>
+    <tr><td>Single loop to n</td><td>O(n)</td></tr>
+    <tr><td>Loop to n containing a halving loop; merge sort</td><td>O(n log n)</td></tr>
+    <tr><td>Two nested loops to n</td><td>O(n²)</td></tr>
+    <tr><td>Naive recursive Fibonacci; all subsets</td><td>O(2ⁿ)</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Rules:</b> drop constants (O(2n) = O(n)), keep only the dominant term (O(n² + n) = O(n²)). Sequential blocks add, and nested blocks multiply. Growth order: 1 &lt; log n &lt; n &lt; n log n &lt; n² &lt; 2ⁿ &lt; n!</p>
+</section>
+
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">D4</div><div><div class="kicker">Store data</div><h2>DBMS Basics</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">DBMS vs RDBMS</b><br>An <b>RDBMS</b> stores data in related <b>tables</b> (rows = records/tuples, columns = attributes) and uses SQL. Examples: MySQL, Oracle, PostgreSQL, SQL Server. NoSQL examples: MongoDB, Cassandra.</div>
+    <div class="def"><b class="t">ACID (transactions)</b><br><b>A</b>tomicity: all or nothing. <b>C</b>onsistency: valid state to valid state. <b>I</b>solation: concurrent transactions don't interfere. <b>D</b>urability: committed data survives crashes.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%">Key</th><th>Definition</th></tr></thead><tbody>
+    <tr><td><b>Super key</b></td><td>Any set of columns that uniquely identifies a row</td></tr>
+    <tr><td><b>Candidate key</b></td><td>A minimal super key (no extra columns)</td></tr>
+    <tr><td><b>Primary key</b></td><td>The chosen candidate key: <b>unique + NOT NULL</b>, one per table</td></tr>
+    <tr><td><b>Alternate key</b></td><td>Candidate keys not chosen as primary</td></tr>
+    <tr><td><b>Foreign key</b></td><td>A column referencing another table's primary key (referential integrity)</td></tr>
+    <tr><td><b>Composite key</b></td><td>A key made of 2 or more columns</td></tr>
+    <tr><td><b>Unique key</b></td><td>Values must be unique but can be NULL (one NULL in most databases)</td></tr>
+  </tbody></table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Normal form</th><th>Rule</th></tr></thead><tbody>
+      <tr><td>1NF</td><td>Atomic (single) values, no repeating groups</td></tr>
+      <tr><td>2NF</td><td>1NF + no <b>partial</b> dependency on part of a composite key</td></tr>
+      <tr><td>3NF</td><td>2NF + no <b>transitive</b> dependency (non-key → non-key)</td></tr>
+      <tr><td>BCNF</td><td>Every determinant is a candidate key</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>SQL family</th><th>Commands</th></tr></thead><tbody>
+      <tr><td>DDL (structure)</td><td>CREATE, ALTER, DROP, TRUNCATE, RENAME</td></tr>
+      <tr><td>DML (data)</td><td>INSERT, UPDATE, DELETE</td></tr>
+      <tr><td>DQL (query)</td><td>SELECT</td></tr>
+      <tr><td>DCL (access)</td><td>GRANT, REVOKE</td></tr>
+      <tr><td>TCL (transactions)</td><td>COMMIT, ROLLBACK, SAVEPOINT</td></tr>
+    </tbody></table>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">DELETE</b><br>DML. Removes rows (can use WHERE). Can be rolled back. Slower.</div>
+    <div class="def"><b class="t">TRUNCATE</b><br>DDL. Removes <b>all</b> rows quickly but keeps the table structure.</div>
+    <div class="def"><b class="t">DROP</b><br>DDL. Removes the whole table: structure and data.</div>
+  </div>
+  <div class="def"><b class="t">Query order and joins.</b> Written order: <code>SELECT … FROM … WHERE … GROUP BY … HAVING … ORDER BY</code>. WHERE filters rows <b>before</b> grouping, and HAVING filters <b>groups</b>. INNER JOIN returns only matching rows. LEFT JOIN returns all left rows (NULL where there's no match), and RIGHT JOIN returns all right rows. An ER diagram shows <b>entities</b> (rectangles), <b>attributes</b> (ovals) and <b>relationships</b> (diamonds) with cardinality 1:1, 1:N or M:N.</div>
+</section>
+
+<section class="page-break part d">
+  <div class="sec-head"><div class="sec-num">D✓</div><div><div class="kicker">Test yourself</div><h2>Part D · Practice MCQs</h2></div></div>
+  <p class="lead">A mix of concept and small-logic questions. Aim for under 45 seconds each.</p>
+  <!--MCQ_D-->
+  <div class="avoid-head"><h3>Part D · Answer key</h3></div>
+  <!--KEY_D-->
+</section>

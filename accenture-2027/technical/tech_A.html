@@ -1,0 +1,171 @@
+
+<!-- ======================= PART A ======================= -->
+<section class="page-break part a">
+  <div class="banner"><div class="big">A</div><div class="pl">PART A · ≈ 7 QUESTIONS</div><h2>MS Office &amp; Common Applications</h2>
+    <p>The fastest marks in the test. Most questions ask about an Excel formula's output, the purpose of a feature, or a shortcut key. Learn the patterns below and these become 20-second questions.</p>
+    <div class="chips"><span class="chip">Excel formulas</span><span class="chip">VLOOKUP · IF · COUNTIF</span><span class="chip">Errors</span><span class="chip">Word</span><span class="chip">PowerPoint</span><span class="chip">Shortcuts</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">A1</div><div><div class="kicker">Excel foundations</div><h2>References, Formulas &amp; Order of Operations</h2></div></div>
+  <div class="def"><b class="t">Formula basics.</b> Every formula starts with <code>=</code>. A cell is named by column letter + row number (<code>B3</code>). A range uses a colon (<code>A1:C5</code>), and separate cells use commas (<code>SUM(A1,C1)</code>).</div>
+
+  <h3>Cell references: the most-tested Excel concept</h3>
+  <table class="tight">
+    <thead><tr><th>Type</th><th>Looks like</th><th>When copied to another cell…</th><th>Example: copy from C1 to D2</th></tr></thead>
+    <tbody>
+      <tr><td><b>Relative</b></td><td><code>A1</code></td><td>Row and column both shift</td><td><code>=A1</code> → <code>=B2</code></td></tr>
+      <tr><td><b>Absolute</b></td><td><code>$A$1</code></td><td>Nothing shifts (it's locked)</td><td><code>=$A$1</code> → <code>=$A$1</code></td></tr>
+      <tr><td><b>Mixed (column locked)</b></td><td><code>$A1</code></td><td>Only the row shifts</td><td><code>=$A1</code> → <code>=$A2</code></td></tr>
+      <tr><td><b>Mixed (row locked)</b></td><td><code>A$1</code></td><td>Only the column shifts</td><td><code>=A$1</code> → <code>=B$1</code></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:9pt">Press <span class="k">F4</span> while editing a reference to cycle through A1 → $A$1 → A$1 → $A1. <b>Rule:</b> the <code>$</code> sign "pins" whatever comes right after it.</p>
+
+  <h3>Order of operations in Excel</h3>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Priority</th><th>Operator</th></tr></thead><tbody>
+      <tr><td>1</td><td><code>( )</code> brackets</td></tr>
+      <tr><td>2</td><td><code>-</code> negation (unary minus)</td></tr>
+      <tr><td>3</td><td><code>%</code> percent</td></tr>
+      <tr><td>4</td><td><code>^</code> power</td></tr>
+      <tr><td>5</td><td><code>*</code> <code>/</code></td></tr>
+      <tr><td>6</td><td><code>+</code> <code>-</code></td></tr>
+      <tr><td>7</td><td><code>&amp;</code> join text</td></tr>
+      <tr><td>8</td><td><code>= &lt; &gt; &lt;= &gt;= &lt;&gt;</code> comparison</td></tr>
+    </tbody></table>
+    <div>
+      <div class="def"><b class="t">Examples</b><br><code>=2+3*4</code> → <b>14</b><br><code>=(2+3)*4</code> → <b>20</b><br><code>=10/2*5</code> → <b>25</b> (left to right)<br><code>=2^3^2</code> → <b>64</b> (Excel works left to right: (2³)² )<br><code>="5"&amp;"5"</code> → <b>55</b> (text)</div>
+      <div class="trap"><b>Trap:</b> <code>=-2^2</code> gives <b>4</b> in Excel, not -4, because negation is applied <i>before</i> the power. Write <code>=-(2^2)</code> to get -4.</div>
+    </div>
+  </div>
+
+  <h3>The sample sheet used in the examples and MCQs</h3>
+  <table class="sheet"><thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead><tbody>
+    <tr><td>1</td><td><b>Name</b></td><td><b>Dept</b></td><td><b>Salary</b></td></tr>
+    <tr><td>2</td><td>Asha</td><td>HR</td><td>40000</td></tr>
+    <tr><td>3</td><td>Ravi</td><td>IT</td><td>55000</td></tr>
+    <tr><td>4</td><td>Meena</td><td>IT</td><td>62000</td></tr>
+    <tr><td>5</td><td>John</td><td>Sales</td><td>38000</td></tr>
+    <tr><td>6</td><td>Priya</td><td>HR</td><td>45000</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">A1</div><div><div class="kicker">Must-know functions</div><h2>Excel Functions with Outputs</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:22%">Function</th><th style="width:34%">What it does</th><th>Example (sample sheet) → result</th></tr></thead>
+    <tbody>
+      <tr><td><code>SUM</code> / <code>AVERAGE</code></td><td>Adds / averages numbers</td><td><code>=AVERAGE(C2:C6)</code> → 48000</td></tr>
+      <tr><td><code>MAX</code> / <code>MIN</code></td><td>Largest / smallest value</td><td><code>=MAX(C2:C6)</code> → 62000</td></tr>
+      <tr><td><code>LARGE</code> / <code>SMALL</code></td><td>k-th largest / smallest</td><td><code>=LARGE(C2:C6,2)</code> → 55000</td></tr>
+      <tr><td><code>COUNT</code></td><td>Counts <b>numeric</b> cells</td><td><code>=COUNT(A1:C6)</code> → 5</td></tr>
+      <tr><td><code>COUNTA</code></td><td>Counts <b>non-empty</b> cells</td><td><code>=COUNTA(A1:A6)</code> → 6</td></tr>
+      <tr><td><code>COUNTBLANK</code></td><td>Counts empty cells</td><td>—</td></tr>
+      <tr><td><code>COUNTIF(range, criteria)</code></td><td>Counts the cells that meet a condition</td><td><code>=COUNTIF(C2:C6,"&gt;45000")</code> → 2</td></tr>
+      <tr><td><code>COUNTIFS</code></td><td>Counts with several conditions (AND)</td><td><code>=COUNTIFS(B2:B6,"IT",C2:C6,"&gt;60000")</code> → 1</td></tr>
+      <tr><td><code>SUMIF(range, criteria, sum_range)</code></td><td>Adds values where a condition is true</td><td><code>=SUMIF(B2:B6,"IT",C2:C6)</code> → 117000</td></tr>
+      <tr><td><code>AVERAGEIF</code></td><td>Averages values where a condition is true</td><td><code>=AVERAGEIF(B2:B6,"HR",C2:C6)</code> → 42500</td></tr>
+      <tr><td><code>IF(test, if_true, if_false)</code></td><td>Returns one of two values</td><td><code>=IF(C5&gt;=40000,"OK","Low")</code> → Low</td></tr>
+      <tr><td>Nested <code>IF</code></td><td>Several conditions</td><td><code>=IF(C4&gt;60000,"A",IF(C4&gt;45000,"B","C"))</code> → A</td></tr>
+      <tr><td><code>AND</code> / <code>OR</code> / <code>NOT</code></td><td>Combine conditions (TRUE/FALSE)</td><td><code>=AND(B3="IT",C3&gt;50000)</code> → TRUE</td></tr>
+      <tr><td><code>IFERROR(value, alt)</code></td><td>Shows <i>alt</i> if there's an error</td><td><code>=IFERROR(10/0,"NA")</code> → NA</td></tr>
+      <tr><td><code>ROUND</code> / <code>ROUNDUP</code> / <code>ROUNDDOWN</code></td><td>Round to n digits</td><td><code>=ROUND(3.14159,2)</code> → 3.14 · <code>=ROUNDUP(2.01,0)</code> → 3</td></tr>
+      <tr><td><code>INT</code> / <code>MOD</code></td><td>Round down / remainder</td><td><code>=INT(7.9)</code> → 7 · <code>=MOD(17,5)</code> → 2</td></tr>
+      <tr><td><code>LEN</code></td><td>Number of characters</td><td><code>=LEN("Accenture")</code> → 9</td></tr>
+      <tr><td><code>LEFT</code> / <code>RIGHT</code> / <code>MID</code></td><td>Extract characters</td><td><code>=MID("Accenture",3,4)</code> → "cent"</td></tr>
+      <tr><td><code>UPPER</code> / <code>LOWER</code> / <code>PROPER</code></td><td>Change case</td><td><code>=PROPER("ravi kumar")</code> → Ravi Kumar</td></tr>
+      <tr><td><code>TRIM</code></td><td>Removes extra spaces</td><td><code>=TRIM("  a  b ")</code> → "a b"</td></tr>
+      <tr><td><code>CONCAT</code> / <code>&amp;</code></td><td>Joins text</td><td><code>=A2&amp;"-"&amp;B2</code> → Asha-HR</td></tr>
+      <tr><td><code>TODAY()</code> / <code>NOW()</code></td><td>Current date / date + time</td><td>Recalculates automatically</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Lookup functions</h3>
+  <div class="def"><b class="t">VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])</b><br>
+    Searches the <b>first column</b> of the table and returns the value from column number <i>col_index_num</i> of the <b>same row</b>.<br>
+    <code>FALSE</code> (or 0) = <b>exact match</b>. <code>TRUE</code> (or omitted) = <b>approximate match</b>, which needs the first column sorted ascending.<br>
+    <code>=VLOOKUP("Ravi",A2:C6,2,FALSE)</code> → <b>IT</b> &nbsp; · &nbsp; <code>=VLOOKUP("Ravi",A2:C6,3,FALSE)</code> → <b>55000</b></div>
+  <div class="three">
+    <div class="def"><b class="t">HLOOKUP</b><br>Same as VLOOKUP, but searches the first <b>row</b> and returns from row number n.</div>
+    <div class="def"><b class="t">INDEX + MATCH</b><br><code>=INDEX(C2:C6,MATCH("John",A2:A6,0))</code> → 38000. It can look left, which VLOOKUP cannot.</div>
+    <div class="def"><b class="t">XLOOKUP</b> (newer Excel)<br><code>=XLOOKUP("John",A2:A6,C2:C6)</code> → 38000. Exact match by default.</div>
+  </div>
+  <div class="trap"><b>VLOOKUP traps:</b> (1) It only looks to the <b>right</b> of the first column. (2) A <code>col_index_num</code> larger than the table width gives <code>#REF!</code>. (3) A value that isn't found gives <code>#N/A</code>. (4) If you forget <code>FALSE</code>, it does an approximate match, which can return wrong results on unsorted data.</div>
+</section>
+
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">A2</div><div><div class="kicker">Recognise instantly</div><h2>Excel Errors &amp; Key Features</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:18%">Error</th><th>Meaning</th><th style="width:38%">Typical cause</th></tr></thead>
+    <tbody>
+      <tr><td><code>#DIV/0!</code></td><td>Division by zero</td><td><code>=A1/0</code>, or dividing by an empty cell</td></tr>
+      <tr><td><code>#N/A</code></td><td>Value not available</td><td>VLOOKUP/MATCH didn't find the value</td></tr>
+      <tr><td><code>#VALUE!</code></td><td>Wrong data type</td><td><code>="abc"+5</code></td></tr>
+      <tr><td><code>#REF!</code></td><td>Invalid cell reference</td><td>A referenced cell was deleted, or the column index is out of range</td></tr>
+      <tr><td><code>#NAME?</code></td><td>Excel doesn't recognise the text</td><td>A misspelt function, like <code>=SUMM(A1:A3)</code>, or text without quotes</td></tr>
+      <tr><td><code>#NUM!</code></td><td>Invalid number</td><td><code>=SQRT(-4)</code></td></tr>
+      <tr><td><code>#NULL!</code></td><td>Ranges don't intersect</td><td>A space used instead of a comma between ranges</td></tr>
+      <tr><td><code>####</code></td><td>Not a real error</td><td>The column is too narrow to show the value</td></tr>
+    </tbody>
+  </table>
+  <div class="three">
+    <div class="def"><b class="t">Pivot Table</b><br>Summarises large data by grouping (for example, total salary per department) without writing formulas.</div>
+    <div class="def"><b class="t">Conditional Formatting</b><br>Changes how a cell looks (colour, icons, data bars) based on its value, for example highlighting salaries above 50000.</div>
+    <div class="def"><b class="t">Data Validation</b><br>Restricts what can be typed in a cell: a drop-down list, number limits or dates.</div>
+    <div class="def"><b class="t">Freeze Panes</b><br>Keeps header rows or columns visible while you scroll (View tab).</div>
+    <div class="def"><b class="t">Filter &amp; Sort</b><br>Filter <i>hides</i> rows that don't match. Sort <i>reorders</i> rows. Shortcut: <span class="k">Ctrl+Shift+L</span>.</div>
+    <div class="def"><b class="t">Charts</b><br>Use a <b>pie</b> chart for parts of a whole, a <b>line</b> chart for trends over time, a <b>column/bar</b> chart for comparisons and a <b>scatter</b> chart for relationships.</div>
+    <div class="def"><b class="t">Flash Fill</b> (<span class="k">Ctrl+E</span>)<br>Spots a pattern from your typing and fills the rest of the column, for example extracting first names.</div>
+    <div class="def"><b class="t">Goal Seek</b><br>Finds the input value needed to reach a target result (What-If Analysis).</div>
+    <div class="def"><b class="t">Workbook vs worksheet</b><br>A workbook is the <b>file</b> (.xlsx). Worksheets are the <b>tabs</b> inside it.</div>
+  </div>
+
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">A3</div><div><div class="kicker">Beyond Excel</div><h2>Word, PowerPoint &amp; Shortcuts</h2></div></div>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">MS Word essentials</h3>
+      <ul style="font-size:9pt">
+        <li><b>Styles</b> (Heading 1, 2…) give a consistent format and power the automatic <b>Table of Contents</b> (References tab).</li>
+        <li><b>Page break</b> starts a new page. A <b>section break</b> lets a part of the document have different headers, footers, orientation or margins.</li>
+        <li><b>Header/Footer</b> repeat on every page, for page numbers and titles.</li>
+        <li><b>Mail Merge</b> creates bulk personalised letters, labels or emails from a data list (Mailings tab).</li>
+        <li><b>Track Changes</b> and <b>Comments</b> are used for reviewing (Review tab).</li>
+        <li><b>Find &amp; Replace</b> (<span class="k">Ctrl+H</span>) and <b>Format Painter</b> (copies formatting).</li>
+        <li><b>Line spacing</b>, <b>indents</b> and <b>alignment</b>: left, centre, right, justify.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">PowerPoint essentials</h3>
+      <ul style="font-size:9pt">
+        <li><b>Slide Master</b> controls the theme, fonts, logo and layouts of <b>all</b> slides.</li>
+        <li><b>Animation</b> moves <i>objects</i> on a slide. <b>Transition</b> is the effect <i>between slides</i>.</li>
+        <li><b>Views:</b> Normal (editing), <b>Slide Sorter</b> (rearranging slides), Reading, Notes Page and Presenter View (speaker notes plus the next slide).</li>
+        <li><b>Speaker notes</b> are visible only to the presenter.</li>
+        <li><b>Hide Slide</b> keeps a slide in the file but skips it during the show.</li>
+        <li>File types: <code>.pptx</code> (presentation), <code>.ppsx</code> (opens straight into the slideshow), <code>.potx</code> (template).</li>
+      </ul>
+    </div>
+  </div>
+  <table class="tight">
+    <thead><tr><th>Shortcut</th><th>Action</th><th>Shortcut</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><span class="k">Ctrl+Z / Ctrl+Y</span></td><td>Undo / Redo</td><td><span class="k">F4</span> (Excel)</td><td>Toggle $ references</td></tr>
+      <tr><td><span class="k">Ctrl+C / X / V</span></td><td>Copy / Cut / Paste</td><td><span class="k">F2</span> (Excel)</td><td>Edit active cell</td></tr>
+      <tr><td><span class="k">Ctrl+B / I / U</span></td><td>Bold / Italic / Underline</td><td><span class="k">Alt+=</span> (Excel)</td><td>AutoSum</td></tr>
+      <tr><td><span class="k">Ctrl+F / Ctrl+H</span></td><td>Find / Replace</td><td><span class="k">Ctrl+;</span> / <span class="k">Ctrl+Shift+;</span></td><td>Insert today's date / current time</td></tr>
+      <tr><td><span class="k">Ctrl+K</span></td><td>Insert hyperlink</td><td><span class="k">Alt+Enter</span> (Excel)</td><td>New line inside a cell</td></tr>
+      <tr><td><span class="k">Ctrl+E / L / R / J</span> (Word)</td><td>Centre / Left / Right / Justify</td><td><span class="k">Ctrl+Space</span> / <span class="k">Shift+Space</span></td><td>Select column / row (Excel)</td></tr>
+      <tr><td><span class="k">Ctrl+Enter</span> (Word)</td><td>Page break</td><td><span class="k">Ctrl+D</span> / <span class="k">Ctrl+R</span> (Excel)</td><td>Fill down / fill right</td></tr>
+      <tr><td><span class="k">F7</span></td><td>Spelling &amp; grammar check</td><td><span class="k">Ctrl+M</span> (PowerPoint)</td><td>New slide</td></tr>
+      <tr><td><span class="k">F12</span></td><td>Save As</td><td><span class="k">F5</span> / <span class="k">Shift+F5</span> (PPT)</td><td>Slideshow from start / from current slide</td></tr>
+      <tr><td><span class="k">Ctrl+P / Ctrl+S</span></td><td>Print / Save</td><td><span class="k">Ctrl+D</span> (PowerPoint)</td><td>Duplicate slide</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page-break part a">
+  <div class="sec-head"><div class="sec-num">A✓</div><div><div class="kicker">Test yourself</div><h2>Part A · Practice MCQs</h2></div></div>
+  <p class="lead">Questions A1–A7 use the sample sheet (Name / Dept / Salary in rows 2–6). Aim for under 40 seconds each.</p>
+  <!--MCQ_A-->
+  <div class="avoid-head"><h3>Part A · Answer key</h3></div>
+  <!--KEY_A-->
+</section>

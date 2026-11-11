@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Technical Assessment – Zero to Hero Guide</title>
+<style>
+  :root{
+    --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889;
+    --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff; --brand-line:#d9ccff;
+    --teal:#0e9f8a; --teal-soft:#e2f7f3;
+    --amber:#c77700; --amber-soft:#fff4dd;
+    --rose:#d63a5a; --rose-soft:#ffe8ee;
+    --sky:#2563eb; --sky-soft:#e6efff;
+    --line:#e6e4f0; --bg-alt:#f8f7fc;
+  }
+  @page{ size:A4; margin:16mm 15mm 18mm 15mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); font-size:10pt; line-height:1.55; }
+  h1,h2,h3,h4{ margin:0; line-height:1.2; letter-spacing:-.01em; }
+  p{ margin:0 0 8px; }
+  ul{ margin:4px 0 8px; padding-left:18px; }
+  li{ margin:2px 0; }
+  li::marker{ color:var(--brand); }
+  b,strong{ font-weight:650; }
+  code,.mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.6pt; }
+  .page-break{ break-before:page; }
+  .avoid{ break-inside:avoid; }
+  h2,h3,h4,.sec-head{ break-after:avoid; page-break-after:avoid; }
+
+  /* ---------- COVER ---------- */
+  .cover{ height:297mm; width:210mm; position:relative; overflow:hidden; color:#fff;
+    background:radial-gradient(120% 80% at 100% 0%, #7c4dff 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #1fb6a0 0%, transparent 50%),
+               linear-gradient(160deg,#1a1240 0%,#2a1a6e 55%,#140f33 100%);
+    padding:24mm 20mm 18mm; display:flex; flex-direction:column; }
+  .cover .grid{ position:absolute; inset:0; opacity:.08;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:14mm 14mm; }
+  .cover > *{ position:relative; }
+  .tag{ display:inline-block; font-size:8.5pt; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.08); }
+  .cover h1{ font-size:40pt; font-weight:800; margin-top:20mm; line-height:1.05; letter-spacing:-.02em; }
+  .cover h1 span{ color:#b9a6ff; }
+  .cover .sub{ font-size:13pt; opacity:.85; margin-top:6mm; max-width:150mm; }
+  .cover .roles{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10mm; }
+  .cover .roles div{ padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); font-weight:600; font-size:10pt; }
+  .cover .stats{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .cover .stat{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px; }
+  .cover .stat b{ display:block; font-size:22pt; font-weight:800; }
+  .cover .stat span{ font-size:8.5pt; opacity:.8; }
+  .cover .foot{ margin-top:10mm; font-size:8pt; opacity:.65; display:flex; justify-content:space-between; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .sec-num{ flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff; font-weight:800; font-size:15pt; }
+  .sec-head h2{ font-size:19pt; font-weight:800; }
+  .sec-head .kicker{ font-size:8pt; text-transform:uppercase; letter-spacing:.14em; color:var(--brand); font-weight:700; margin-bottom:2px; }
+  h3{ font-size:12.5pt; font-weight:750; margin:16px 0 8px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  h3 .pill{ font-size:8pt; font-weight:600; padding:3px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand); }
+  h4{ font-size:10.5pt; font-weight:700; margin:10px 0 4px; }
+  .lead{ color:var(--ink-2); font-size:10.5pt; }
+
+  /* ---------- CARDS ---------- */
+  .cards{ display:grid; gap:10px; margin:10px 0; }
+  .c2{ grid-template-columns:1fr 1fr; } .c3{ grid-template-columns:repeat(3,1fr); } .c4{ grid-template-columns:repeat(4,1fr); }
+  .card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid; }
+  .card.alt{ background:var(--bg-alt); }
+  .card .lbl{ font-size:7.8pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .card .val{ font-size:15pt; font-weight:800; margin-top:2px; }
+  .card .val small{ font-size:9pt; font-weight:600; color:var(--muted); }
+  .role-card{ border-top:4px solid var(--brand); }
+  .role-card.t{ border-top-color:var(--teal);} .role-card.a{ border-top-color:var(--amber);} .role-card.s{ border-top-color:var(--sky);}
+  .role-card h4{ margin:0 0 2px; font-size:11pt; }
+  .role-card .code{ font-size:8pt; color:var(--muted); font-weight:600; }
+  .role-card .ctc{ font-size:16pt; font-weight:800; margin:8px 0 2px; }
+
+  /* ---------- CALLOUTS ---------- */
+  .note{ border-radius:12px; padding:11px 14px 11px 14px; margin:10px 0; break-inside:avoid; border-left:4px solid; }
+  .note .t{ font-weight:750; font-size:9.5pt; margin-bottom:3px; display:block; }
+  .note p:last-child,.note ul:last-child{ margin-bottom:0; }
+  .note.info{ background:var(--sky-soft); border-color:var(--sky);} .note.info .t{ color:var(--sky);}
+  .note.tip{ background:var(--teal-soft); border-color:var(--teal);} .note.tip .t{ color:var(--teal);}
+  .note.warn{ background:var(--amber-soft); border-color:var(--amber);} .note.warn .t{ color:var(--amber);}
+  .note.alert{ background:var(--rose-soft); border-color:var(--rose);} .note.alert .t{ color:var(--rose);}
+  .note.brand{ background:var(--brand-soft); border-color:var(--brand);} .note.brand .t{ color:var(--brand);}
+
+  /* ---------- TABLES ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0 12px; font-size:9.2pt; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  thead th{ background:var(--ink); color:#fff; text-align:left; font-weight:650; padding:9px 11px; font-size:8.6pt; letter-spacing:.02em; }
+  tbody td{ padding:8px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--bg-alt); }
+  tr{ break-inside:avoid; }
+  td.c{ text-align:center; white-space:nowrap; } th.c{ text-align:center; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:8pt; font-weight:700; white-space:nowrap; }
+  .b-yes{ background:var(--rose-soft); color:var(--rose);} .b-no{ background:var(--teal-soft); color:var(--teal);}
+  .b-mid{ background:var(--amber-soft); color:var(--amber);} .b-fin{ background:var(--brand-soft); color:var(--brand);}
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:12px 0 16px; }
+  .step{ position:relative; text-align:center; padding:12px 6px 10px; border-radius:12px; background:var(--bg-alt); border:1px solid var(--line); }
+  .step .n{ width:26px; height:26px; margin:0 auto 6px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:9pt; color:#fff; background:var(--brand); }
+  .step:nth-child(even) .n{ background:var(--teal); }
+  .step:last-child .n{ background:var(--amber); }
+  .step b{ display:block; font-size:8.4pt; line-height:1.25; }
+  .step span{ display:block; font-size:7.4pt; color:var(--muted); margin-top:3px; }
+  .step:not(:last-child)::after{ content:"›"; position:absolute; right:-7px; top:16px; font-size:14pt; color:var(--brand); font-weight:800; }
+
+  /* ---------- CODE ---------- */
+  pre{ background:#16132e; color:#e8e6ff; border-radius:12px; padding:12px 14px; margin:8px 0 10px; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; line-height:1.55; white-space:pre-wrap; break-inside:avoid; }
+  pre .k{ color:#c4b5fd; } pre .c{ color:#8b88b0; } pre .s{ color:#5eead4; } pre .n{ color:#fcd34d; }
+  .kbd{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* ---------- MISC ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+  .chip{ font-size:8.4pt; padding:4px 10px; border-radius:999px; background:var(--brand-soft); color:#3b1fa8; font-weight:600; }
+  .chip.t{ background:var(--teal-soft); color:#0b6e60; } .chip.r{ background:var(--rose-soft); color:#a3213f; }
+  .game{ display:flex; gap:12px; }
+  .game .ic{ flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#fff; font-size:13pt; }
+  .week{ border-left:4px solid var(--brand); }
+  .week:nth-child(2){ border-left-color:var(--teal);} .week:nth-child(3){ border-left-color:var(--amber);} .week:nth-child(4){ border-left-color:var(--rose);}
+  .check li{ list-style:none; position:relative; padding-left:4px; }
+  .check{ padding-left:20px; }
+  .check li::before{ content:"✓"; position:absolute; left:-18px; top:0; color:var(--teal); font-weight:800; }
+  .disclaimer{ font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; margin-top:16px; }
+</style>
+<style>
+  :root{ --pa:#16a34a; --pb:#7c3aed; --pc:#2563eb; --pd:#ea580c; --cy:#06b6d4; }
+  .cover{ background:
+      linear-gradient(rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(100% 70% at 100% 0%, #0e7490 0%, transparent 55%),
+      radial-gradient(90% 60% at 0% 100%, #4338ca 0%, transparent 55%),
+      linear-gradient(160deg,#06101f 0%,#0a1a33 55%,#040a14 100%); }
+  .cover .grid{ display:none; }
+  .cover h1 span{ color:#67e8f9; }
+  .cover .mono-tag{ font-family:"DejaVu Sans Mono",monospace; font-size:9pt; color:#67e8f9; margin-top:6mm; opacity:.9; }
+  .sec-head{ break-inside:avoid; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; background:#eef2f7; padding:0 4px; border-radius:4px; font-size:8.4pt; }
+  pre code{ background:none; padding:0; white-space:pre; }
+  h3{ break-after:avoid; }
+
+  /* part theming */
+  .part{ --pc1:#16a34a; --pc2:#22c55e; --pcs:#e8f8ee; }
+  .part.b{ --pc1:#7c3aed; --pc2:#a78bfa; --pcs:#f1ebff; }
+  .part.c{ --pc1:#2563eb; --pc2:#38bdf8; --pcs:#e7f0ff; }
+  .part.d{ --pc1:#ea580c; --pc2:#fb923c; --pcs:#fff1e6; }
+  .part .sec-num{ background:linear-gradient(135deg,var(--pc1),var(--pc2)); }
+  .part .sec-head .kicker{ color:var(--pc1); }
+  .part li::marker{ color:var(--pc1); }
+  .banner{ border-radius:16px; padding:18px 22px; color:#fff; margin:0 0 14px; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,var(--pc1),#0a1a33); break-inside:avoid; }
+  .banner .pl{ font:700 8.5pt "DejaVu Sans Mono",monospace; letter-spacing:.12em; opacity:.85; }
+  .banner h2{ font-size:22pt; font-weight:800; margin:4px 0 4px; color:#fff; }
+  .banner p{ margin:0; opacity:.9; font-size:9.6pt; max-width:150mm; }
+  .banner .chips{ margin:10px 0 0; }
+  .banner .chip{ background:rgba(255,255,255,.14); color:#fff; }
+  .banner .big{ position:absolute; right:18px; top:10px; font:800 54pt Inter,sans-serif; opacity:.14; }
+  .def{ border:1px solid var(--line); border-left:4px solid var(--pc1,#2563eb); border-radius:10px; padding:7px 11px; margin:6px 0; font-size:9.2pt; background:#fff; break-inside:avoid; }
+  .def b.t{ color:var(--pc1,#2563eb); }
+  .trap{ border:1px dashed #e11d48; background:#fff5f7; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .trap b{ color:#e11d48; }
+  table.tight td, table.tight th{ padding:4.5px 8px; font-size:8.6pt; }
+  table.tight{ margin:6px 0 10px; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  pre .k{ background:none; border:0; padding:0; font-size:inherit; white-space:inherit; }
+  .k{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* MCQs */
+  .mcq{ display:grid; grid-template-columns:34px 1fr; gap:8px; border:1px solid var(--line); border-radius:12px; padding:9px 12px; margin:7px 0; break-inside:avoid; background:#fff; }
+  .mcq .qn{ font:800 9pt Inter,sans-serif; color:#fff; background:var(--pc1,#2563eb); border-radius:7px; height:22px; display:grid; place-items:center; }
+  .mcq .qt{ font-size:9.4pt; font-weight:600; }
+  .mcq .tg{ display:inline-block; font-size:7.6pt; font-weight:700; color:var(--pc1); background:var(--pcs); border-radius:99px; padding:1px 8px; margin-right:6px; }
+  .mcq pre{ margin:6px 0; font-size:8.2pt; }
+  .opts{ list-style:none; padding:0; margin:5px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:3px 14px; font-size:9pt; }
+  .opts li{ margin:0; } .opts li b{ color:var(--pc1); margin-right:4px; }
+  .mcqs2{ columns:2; column-gap:10px; } .mcqs2 .mcq{ display:inline-grid; width:100%; }
+  .keyt td{ font-size:8.3pt; padding:6px 9px; } .keyt td.ans{ font-weight:800; color:var(--pc1); text-align:center; }
+  .keyt td:first-child{ width:7%; } .keyt td:nth-child(2){ width:6%; } .keyt td:nth-child(3){ width:24%; }
+  .sheet td,.sheet th{ text-align:center; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; padding:5px 8px; }
+  .sheet th{ background:#217346; } .sheet td:first-child{ background:#f0f2f5; font-weight:700; color:#6b6889; width:6%; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:9.4pt; }
+  .toc li b{ width:30px; font-family:"DejaVu Sans Mono",monospace; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Assessment 2</span></div>
+  <h1>Technical Assessment<br><span>Zero to Hero Guide</span></h1>
+  <div class="mono-tag">&gt; 45 questions · 45 minutes · 4 sections · most elimination-heavy round_</div>
+  <p class="sub">Every topic in the syllabus explained from scratch: MS Office, Pseudocode and OOPs, Networking, Security and Cloud, and CS Fundamentals. Includes examples, tables, exam traps and 79 practice MCQs with explained answers.</p>
+  <div class="roles">
+    <div>A · MS Office</div><div>B · Pseudocode + OOPs</div><div>C · Networking · Security · Cloud</div><div>D · CS Fundamentals</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>45</b><span>Questions</span></div>
+    <div class="stat"><b>45</b><span>Minutes</span></div>
+    <div class="stat"><b>79</b><span>Practice MCQs in this guide</span></div>
+    <div class="stat"><b>100%</b><span>Code answers verified by running them</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + PATTERN ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num" style="background:linear-gradient(135deg,#0e7490,#4338ca)">≡</div><div><div class="kicker" style="color:#0e7490">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#0e7490">00</b>Exam pattern and strategy</li>
+    <li><b style="color:var(--pa)">A1</b>Excel: references, formulas, functions</li>
+    <li><b style="color:var(--pa)">A2</b>Excel: errors, features and outputs</li>
+    <li><b style="color:var(--pa)">A3</b>Word, PowerPoint and shortcuts</li>
+    <li><b style="color:var(--pa)">A✓</b>Part A practice MCQs and answers</li>
+    <li><b style="color:var(--pb)">B1</b>Reading pseudocode and operators</li>
+    <li><b style="color:var(--pb)">B2</b>Binary and bitwise operations</li>
+    <li><b style="color:var(--pb)">B3</b>Loops, recursion, arrays and strings</li>
+    <li><b style="color:var(--pb)">B4</b>OOPs: the four pillars and beyond</li>
+    <li><b style="color:var(--pb)">B✓</b>Part B practice MCQs and answers</li>
+    <li><b style="color:var(--pc)">C1</b>OSI and TCP/IP models, devices, ports</li>
+    <li><b style="color:var(--pc)">C2</b>IP addressing and subnetting</li>
+    <li><b style="color:var(--pc)">C3</b>HTTP, DNS, DHCP and TCP vs UDP</li>
+    <li><b style="color:var(--pc)">C4</b>Security: encryption, malware, attacks</li>
+    <li><b style="color:var(--pc)">C5</b>Cloud and DevOps (CI/CD, Git, Docker)</li>
+    <li><b style="color:var(--pc)">C✓</b>Part C practice MCQs and answers</li>
+    <li><b style="color:var(--pd)">D1</b>Data types, operators, control flow</li>
+    <li><b style="color:var(--pd)">D2</b>Data structures</li>
+    <li><b style="color:var(--pd)">D3</b>Searching, sorting and Big-O</li>
+    <li><b style="color:var(--pd)">D4</b>DBMS basics</li>
+    <li><b style="color:var(--pd)">D✓</b>Part D practice MCQs and answers</li>
+    <li><b style="color:#0e7490">Z</b>14-day plan and final cheat sheet</li>
+  </ul>
+
+</section>
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num" style="background:linear-gradient(135deg,#0e7490,#4338ca)">00</div><div><div class="kicker" style="color:#0e7490">Know the battlefield</div><h2>Exam Pattern &amp; Strategy</h2></div></div>
+  <table>
+    <thead><tr><th style="width:25%">Sub-section</th><th class="c" style="width:11%">≈ Qs</th><th>Topics</th><th style="width:16%">Difficulty</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--pa)">A · MS Office &amp; Common Apps</b></td><td class="c">7</td><td>Excel functions and formulas (VLOOKUP, IF, COUNTIF), Word formatting, PowerPoint features, output-based questions, shortcut keys</td><td><span class="badge b-no">Easy marks</span></td></tr>
+      <tr><td><b style="color:var(--pb)">B · Pseudocode + OOPs</b></td><td class="c">10</td><td>Bitwise operations, loops and nested loops, recursion tracing, string and array manipulation, OOPs concepts, 10–12 line code tracing with no pen and paper</td><td><span class="badge b-yes">Hardest</span></td></tr>
+      <tr><td><b style="color:var(--pc)">C · Networking, Security &amp; Cloud</b></td><td class="c">14</td><td>OSI and TCP/IP, IP addressing, HTTP/HTTPS/DNS/DHCP, firewalls and VPN, encryption, malware, IaaS/PaaS/SaaS, deployment models, CI/CD, Git, Docker</td><td><span class="badge b-mid">Concept recall</span></td></tr>
+      <tr><td><b style="color:var(--pd)">D · CS Fundamentals</b></td><td class="c">14</td><td>Data types and operators, control structures, functions, arrays and strings, stack, queue and linked list, searching and sorting, time complexity, DBMS basics</td><td><span class="badge b-mid">Concept + logic</span></td></tr>
+    </tbody>
+  </table>
+  <div class="cards c3">
+    <div class="card alt"><h4 style="margin-top:0">⏱ 1 minute per question</h4><p style="margin:0;font-size:9pt">45 questions in 45 minutes. Recall-based questions (Parts A, C and D) should take about 30–40 seconds, which saves time for pseudocode.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">🧠 No pen and paper</h4><p style="margin:0;font-size:9pt">Practise tracing code in your head. Track only the variables that change, and work out the first 2–3 loop passes to spot the pattern.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">🚫 Most eliminations</h4><p style="margin:0;font-size:9pt">Candidates report this as the toughest filter. Parts C and D are pure memory, so revise them well: they're the easiest marks to secure.</p></div>
+  </div>
+  <h3>Your target score</h3>
+  <table class="tight"><thead><tr><th>Section</th><th class="c">Questions</th><th class="c">Safe target</th><th class="c">Strong target</th><th>Time budget</th></tr></thead><tbody>
+    <tr><td><b style="color:var(--pa)">A · MS Office</b></td><td class="c">7</td><td class="c">5</td><td class="c">7</td><td>~4 min (about 35 s each)</td></tr>
+    <tr><td><b style="color:var(--pb)">B · Pseudocode + OOPs</b></td><td class="c">10</td><td class="c">6</td><td class="c">8+</td><td>~15 min (about 90 s each)</td></tr>
+    <tr><td><b style="color:var(--pc)">C · Networking, Security, Cloud</b></td><td class="c">14</td><td class="c">10</td><td class="c">12+</td><td>~10 min (about 40 s each)</td></tr>
+    <tr><td><b style="color:var(--pd)">D · CS Fundamentals</b></td><td class="c">14</td><td class="c">10</td><td class="c">12+</td><td>~12 min (about 50 s each)</td></tr>
+    <tr><td><b>Total</b></td><td class="c">45</td><td class="c">31 (≈ 70%)</td><td class="c">39+ (≈ 87%)</td><td>~41 min, plus 4 min buffer</td></tr>
+  </tbody></table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:-4px">The official cut-off isn't published. These are self-set preparation targets, not official numbers.</p>
+  <div class="note warn"><span class="t">Answering strategy</span>Read all 4 options before you answer. Eliminate the obviously wrong ones, because two options are often close. Don't get stuck: if a pseudocode question takes more than 2 minutes, make your best guess and move on. Negative marking hasn't been reported, but always confirm the rules shown on the test screen.</div>
+</section>
+
+<!-- ======================= PART A ======================= -->
+<section class="page-break part a">
+  <div class="banner"><div class="big">A</div><div class="pl">PART A · ≈ 7 QUESTIONS</div><h2>MS Office &amp; Common Applications</h2>
+    <p>The fastest marks in the test. Most questions ask about an Excel formula's output, the purpose of a feature, or a shortcut key. Learn the patterns below and these become 20-second questions.</p>
+    <div class="chips"><span class="chip">Excel formulas</span><span class="chip">VLOOKUP · IF · COUNTIF</span><span class="chip">Errors</span><span class="chip">Word</span><span class="chip">PowerPoint</span><span class="chip">Shortcuts</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">A1</div><div><div class="kicker">Excel foundations</div><h2>References, Formulas &amp; Order of Operations</h2></div></div>
+  <div class="def"><b class="t">Formula basics.</b> Every formula starts with <code>=</code>. A cell is named by column letter + row number (<code>B3</code>). A range uses a colon (<code>A1:C5</code>), and separate cells use commas (<code>SUM(A1,C1)</code>).</div>
+
+  <h3>Cell references: the most-tested Excel concept</h3>
+  <table class="tight">
+    <thead><tr><th>Type</th><th>Looks like</th><th>When copied to another cell…</th><th>Example: copy from C1 to D2</th></tr></thead>
+    <tbody>
+      <tr><td><b>Relative</b></td><td><code>A1</code></td><td>Row and column both shift</td><td><code>=A1</code> → <code>=B2</code></td></tr>
+      <tr><td><b>Absolute</b></td><td><code>$A$1</code></td><td>Nothing shifts (it's locked)</td><td><code>=$A$1</code> → <code>=$A$1</code></td></tr>
+      <tr><td><b>Mixed (column locked)</b></td><td><code>$A1</code></td><td>Only the row shifts</td><td><code>=$A1</code> → <code>=$A2</code></td></tr>
+      <tr><td><b>Mixed (row locked)</b></td><td><code>A$1</code></td><td>Only the column shifts</td><td><code>=A$1</code> → <code>=B$1</code></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:9pt">Press <span class="k">F4</span> while editing a reference to cycle through A1 → $A$1 → A$1 → $A1. <b>Rule:</b> the <code>$</code> sign "pins" whatever comes right after it.</p>
+
+  <h3>Order of operations in Excel</h3>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Priority</th><th>Operator</th></tr></thead><tbody>
+      <tr><td>1</td><td><code>( )</code> brackets</td></tr>
+      <tr><td>2</td><td><code>-</code> negation (unary minus)</td></tr>
+      <tr><td>3</td><td><code>%</code> percent</td></tr>
+      <tr><td>4</td><td><code>^</code> power</td></tr>
+      <tr><td>5</td><td><code>*</code> <code>/</code></td></tr>
+      <tr><td>6</td><td><code>+</code> <code>-</code></td></tr>
+      <tr><td>7</td><td><code>&amp;</code> join text</td></tr>
+      <tr><td>8</td><td><code>= &lt; &gt; &lt;= &gt;= &lt;&gt;</code> comparison</td></tr>
+    </tbody></table>
+    <div>
+      <div class="def"><b class="t">Examples</b><br><code>=2+3*4</code> → <b>14</b><br><code>=(2+3)*4</code> → <b>20</b><br><code>=10/2*5</code> → <b>25</b> (left to right)<br><code>=2^3^2</code> → <b>64</b> (Excel works left to right: (2³)² )<br><code>="5"&amp;"5"</code> → <b>55</b> (text)</div>
+      <div class="trap"><b>Trap:</b> <code>=-2^2</code> gives <b>4</b> in Excel, not -4, because negation is applied <i>before</i> the power. Write <code>=-(2^2)</code> to get -4.</div>
+    </div>
+  </div>
+
+  <h3>The sample sheet used in the examples and MCQs</h3>
+  <table class="sheet"><thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead><tbody>
+    <tr><td>1</td><td><b>Name</b></td><td><b>Dept</b></td><td><b>Salary</b></td></tr>
+    <tr><td>2</td><td>Asha</td><td>HR</td><td>40000</td></tr>
+    <tr><td>3</td><td>Ravi</td><td>IT</td><td>55000</td></tr>
+    <tr><td>4</td><td>Meena</td><td>IT</td><td>62000</td></tr>
+    <tr><td>5</td><td>John</td><td>Sales</td><td>38000</td></tr>
+    <tr><td>6</td><td>Priya</td><td>HR</td><td>45000</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">A1</div><div><div class="kicker">Must-know functions</div><h2>Excel Functions with Outputs</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:22%">Function</th><th style="width:34%">What it does</th><th>Example (sample sheet) → result</th></tr></thead>
+    <tbody>
+      <tr><td><code>SUM</code> / <code>AVERAGE</code></td><td>Adds / averages numbers</td><td><code>=AVERAGE(C2:C6)</code> → 48000</td></tr>
+      <tr><td><code>MAX</code> / <code>MIN</code></td><td>Largest / smallest value</td><td><code>=MAX(C2:C6)</code> → 62000</td></tr>
+      <tr><td><code>LARGE</code> / <code>SMALL</code></td><td>k-th largest / smallest</td><td><code>=LARGE(C2:C6,2)</code> → 55000</td></tr>
+      <tr><td><code>COUNT</code></td><td>Counts <b>numeric</b> cells</td><td><code>=COUNT(A1:C6)</code> → 5</td></tr>
+      <tr><td><code>COUNTA</code></td><td>Counts <b>non-empty</b> cells</td><td><code>=COUNTA(A1:A6)</code> → 6</td></tr>
+      <tr><td><code>COUNTBLANK</code></td><td>Counts empty cells</td><td>—</td></tr>
+      <tr><td><code>COUNTIF(range, criteria)</code></td><td>Counts the cells that meet a condition</td><td><code>=COUNTIF(C2:C6,"&gt;45000")</code> → 2</td></tr>
+      <tr><td><code>COUNTIFS</code></td><td>Counts with several conditions (AND)</td><td><code>=COUNTIFS(B2:B6,"IT",C2:C6,"&gt;60000")</code> → 1</td></tr>
+      <tr><td><code>SUMIF(range, criteria, sum_range)</code></td><td>Adds values where a condition is true</td><td><code>=SUMIF(B2:B6,"IT",C2:C6)</code> → 117000</td></tr>
+      <tr><td><code>AVERAGEIF</code></td><td>Averages values where a condition is true</td><td><code>=AVERAGEIF(B2:B6,"HR",C2:C6)</code> → 42500</td></tr>
+      <tr><td><code>IF(test, if_true, if_false)</code></td><td>Returns one of two values</td><td><code>=IF(C5&gt;=40000,"OK","Low")</code> → Low</td></tr>
+      <tr><td>Nested <code>IF</code></td><td>Several conditions</td><td><code>=IF(C4&gt;60000,"A",IF(C4&gt;45000,"B","C"))</code> → A</td></tr>
+      <tr><td><code>AND</code> / <code>OR</code> / <code>NOT</code></td><td>Combine conditions (TRUE/FALSE)</td><td><code>=AND(B3="IT",C3&gt;50000)</code> → TRUE</td></tr>
+      <tr><td><code>IFERROR(value, alt)</code></td><td>Shows <i>alt</i> if there's an error</td><td><code>=IFERROR(10/0,"NA")</code> → NA</td></tr>
+      <tr><td><code>ROUND</code> / <code>ROUNDUP</code> / <code>ROUNDDOWN</code></td><td>Round to n digits</td><td><code>=ROUND(3.14159,2)</code> → 3.14 · <code>=ROUNDUP(2.01,0)</code> → 3</td></tr>
+      <tr><td><code>INT</code> / <code>MOD</code></td><td>Round down / remainder</td><td><code>=INT(7.9)</code> → 7 · <code>=MOD(17,5)</code> → 2</td></tr>
+      <tr><td><code>LEN</code></td><td>Number of characters</td><td><code>=LEN("Accenture")</code> → 9</td></tr>
+      <tr><td><code>LEFT</code> / <code>RIGHT</code> / <code>MID</code></td><td>Extract characters</td><td><code>=MID("Accenture",3,4)</code> → "cent"</td></tr>
+      <tr><td><code>UPPER</code> / <code>LOWER</code> / <code>PROPER</code></td><td>Change case</td><td><code>=PROPER("ravi kumar")</code> → Ravi Kumar</td></tr>
+      <tr><td><code>TRIM</code></td><td>Removes extra spaces</td><td><code>=TRIM("  a  b ")</code> → "a b"</td></tr>
+      <tr><td><code>CONCAT</code> / <code>&amp;</code></td><td>Joins text</td><td><code>=A2&amp;"-"&amp;B2</code> → Asha-HR</td></tr>
+      <tr><td><code>TODAY()</code> / <code>NOW()</code></td><td>Current date / date + time</td><td>Recalculates automatically</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Lookup functions</h3>
+  <div class="def"><b class="t">VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])</b><br>
+    Searches the <b>first column</b> of the table and returns the value from column number <i>col_index_num</i> of the <b>same row</b>.<br>
+    <code>FALSE</code> (or 0) = <b>exact match</b>. <code>TRUE</code> (or omitted) = <b>approximate match</b>, which needs the first column sorted ascending.<br>
+    <code>=VLOOKUP("Ravi",A2:C6,2,FALSE)</code> → <b>IT</b> &nbsp; · &nbsp; <code>=VLOOKUP("Ravi",A2:C6,3,FALSE)</code> → <b>55000</b></div>
+  <div class="three">
+    <div class="def"><b class="t">HLOOKUP</b><br>Same as VLOOKUP, but searches the first <b>row</b> and returns from row number n.</div>
+    <div class="def"><b class="t">INDEX + MATCH</b><br><code>=INDEX(C2:C6,MATCH("John",A2:A6,0))</code> → 38000. It can look left, which VLOOKUP cannot.</div>
+    <div class="def"><b class="t">XLOOKUP</b> (newer Excel)<br><code>=XLOOKUP("John",A2:A6,C2:C6)</code> → 38000. Exact match by default.</div>
+  </div>
+  <div class="trap"><b>VLOOKUP traps:</b> (1) It only looks to the <b>right</b> of the first column. (2) A <code>col_index_num</code> larger than the table width gives <code>#REF!</code>. (3) A value that isn't found gives <code>#N/A</code>. (4) If you forget <code>FALSE</code>, it does an approximate match, which can return wrong results on unsorted data.</div>
+</section>
+
+<section class="part a">
+  <div class="sec-head"><div class="sec-num">A2</div><div><div class="kicker">Recognise instantly</div><h2>Excel Errors &amp; Key Features</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:18%">Error</th><th>Meaning</th><th style="width:38%">Typical cause</th></tr></thead>
+    <tbody>
+      <tr><td><code>#DIV/0!</code></td><td>Division by zero</td><td><code>=A1/0</code>, or dividing by an empty cell</td></tr>
+      <tr><td><code>#N/A</code></td><td>Value not available</td><td>VLOOKUP/MATCH didn't find the value</td></tr>
+      <tr><td><code>#VALUE!</code></td><td>Wrong data type</td><td><code>="abc"+5</code></td></tr>
+      <tr><td><code>#REF!</code></td><td>Invalid cell reference</td><td>A referenced cell was deleted, or the column index is out of range</td></tr>
+      <tr><td><code>#NAME?</code></td><td>Excel doesn't recognise the text</td><td>A misspelt function, like <code>=SUMM(A1:A3)</code>, or text without quotes</td></tr>
+      <tr><td><code>#NUM!</code></td><td>Invalid number</td><td><code>=SQRT(-4)</code></td></tr>
+      <tr><td><code>#NULL!</code></td><td>Ranges don't intersect</td><td>A space used instead of a comma between ranges</td></tr>
+      <tr><td><code>####</code></td><td>Not a real error</td><td>The column is too narrow to show the value</td></tr>
+    </tbody>
+  </table>
+  <div class="three">
+    <div class="def"><b class="t">Pivot Table</b><br>Summarises large data by grouping (for example, total salary per department) without writing formulas.</div>
+    <div class="def"><b class="t">Conditional Formatting</b><br>Changes how a cell looks (colour, icons, data bars) based on its value, for example highlighting salaries above 50000.</div>
+    <div class="def"><b class="t">Data Validation</b><br>Restricts what can be typed in a cell: a drop-down list, number limits or dates.</div>
+    <div class="def"><b class="t">Freeze Panes</b><br>Keeps header rows or columns visible while you scroll (View tab).</div>
+    <div class="def"><b class="t">Filter &amp; Sort</b><br>Filter <i>hides</i> rows that don't match. Sort <i>reorders</i> rows. Shortcut: <span class="k">Ctrl+Shift+L</span>.</div>
+    <div class="def"><b class="t">Charts</b><br>Use a <b>pie</b> chart for parts of a whole, a <b>line</b> chart for trends over time, a <b>column/bar</b> chart for comparisons and a <b>scatter</b> chart for relationships.</div>
+    <div class="def"><b class="t">Flash Fill</b> (<span class="k">Ctrl+E</span>)<br>Spots a pattern from your typing and fills the rest of the column, for example extracting first names.</div>
+    <div class="def"><b class="t">Goal Seek</b><br>Finds the input value needed to reach a target result (What-If Analysis).</div>
+    <div class="def"><b class="t">Workbook vs worksheet</b><br>A workbook is the <b>file</b> (.xlsx). Worksheets are the <b>tabs</b> inside it.</div>
+  </div>
+
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">A3</div><div><div class="kicker">Beyond Excel</div><h2>Word, PowerPoint &amp; Shortcuts</h2></div></div>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">MS Word essentials</h3>
+      <ul style="font-size:9pt">
+        <li><b>Styles</b> (Heading 1, 2…) give a consistent format and power the automatic <b>Table of Contents</b> (References tab).</li>
+        <li><b>Page break</b> starts a new page. A <b>section break</b> lets a part of the document have different headers, footers, orientation or margins.</li>
+        <li><b>Header/Footer</b> repeat on every page, for page numbers and titles.</li>
+        <li><b>Mail Merge</b> creates bulk personalised letters, labels or emails from a data list (Mailings tab).</li>
+        <li><b>Track Changes</b> and <b>Comments</b> are used for reviewing (Review tab).</li>
+        <li><b>Find &amp; Replace</b> (<span class="k">Ctrl+H</span>) and <b>Format Painter</b> (copies formatting).</li>
+        <li><b>Line spacing</b>, <b>indents</b> and <b>alignment</b>: left, centre, right, justify.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">PowerPoint essentials</h3>
+      <ul style="font-size:9pt">
+        <li><b>Slide Master</b> controls the theme, fonts, logo and layouts of <b>all</b> slides.</li>
+        <li><b>Animation</b> moves <i>objects</i> on a slide. <b>Transition</b> is the effect <i>between slides</i>.</li>
+        <li><b>Views:</b> Normal (editing), <b>Slide Sorter</b> (rearranging slides), Reading, Notes Page and Presenter View (speaker notes plus the next slide).</li>
+        <li><b>Speaker notes</b> are visible only to the presenter.</li>
+        <li><b>Hide Slide</b> keeps a slide in the file but skips it during the show.</li>
+        <li>File types: <code>.pptx</code> (presentation), <code>.ppsx</code> (opens straight into the slideshow), <code>.potx</code> (template).</li>
+      </ul>
+    </div>
+  </div>
+  <table class="tight">
+    <thead><tr><th>Shortcut</th><th>Action</th><th>Shortcut</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><span class="k">Ctrl+Z / Ctrl+Y</span></td><td>Undo / Redo</td><td><span class="k">F4</span> (Excel)</td><td>Toggle $ references</td></tr>
+      <tr><td><span class="k">Ctrl+C / X / V</span></td><td>Copy / Cut / Paste</td><td><span class="k">F2</span> (Excel)</td><td>Edit active cell</td></tr>
+      <tr><td><span class="k">Ctrl+B / I / U</span></td><td>Bold / Italic / Underline</td><td><span class="k">Alt+=</span> (Excel)</td><td>AutoSum</td></tr>
+      <tr><td><span class="k">Ctrl+F / Ctrl+H</span></td><td>Find / Replace</td><td><span class="k">Ctrl+;</span> / <span class="k">Ctrl+Shift+;</span></td><td>Insert today's date / current time</td></tr>
+      <tr><td><span class="k">Ctrl+K</span></td><td>Insert hyperlink</td><td><span class="k">Alt+Enter</span> (Excel)</td><td>New line inside a cell</td></tr>
+      <tr><td><span class="k">Ctrl+E / L / R / J</span> (Word)</td><td>Centre / Left / Right / Justify</td><td><span class="k">Ctrl+Space</span> / <span class="k">Shift+Space</span></td><td>Select column / row (Excel)</td></tr>
+      <tr><td><span class="k">Ctrl+Enter</span> (Word)</td><td>Page break</td><td><span class="k">Ctrl+D</span> / <span class="k">Ctrl+R</span> (Excel)</td><td>Fill down / fill right</td></tr>
+      <tr><td><span class="k">F7</span></td><td>Spelling &amp; grammar check</td><td><span class="k">Ctrl+M</span> (PowerPoint)</td><td>New slide</td></tr>
+      <tr><td><span class="k">F12</span></td><td>Save As</td><td><span class="k">F5</span> / <span class="k">Shift+F5</span> (PPT)</td><td>Slideshow from start / from current slide</td></tr>
+      <tr><td><span class="k">Ctrl+P / Ctrl+S</span></td><td>Print / Save</td><td><span class="k">Ctrl+D</span> (PowerPoint)</td><td>Duplicate slide</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page-break part a">
+  <div class="sec-head"><div class="sec-num">A✓</div><div><div class="kicker">Test yourself</div><h2>Part A · Practice MCQs</h2></div></div>
+  <p class="lead">Questions A1–A7 use the sample sheet (Name / Dept / Salary in rows 2–6). Aim for under 40 seconds each.</p>
+  <div class="mcq"><div class="qn">QA1</div><div class="qb"><div class="qt">Using the sample sheet above, what does <code>=COUNTIF(B2:B6,"IT")</code> return?</div><ol class="opts"><li><b>A</b> 2</li><li><b>B</b> 117000</li><li><b>C</b> 1</li><li><b>D</b> 3</li></ol></div></div><div class="mcq"><div class="qn">QA2</div><div class="qb"><div class="qt">Using the sample sheet above, what does <code>=SUMIF(B2:B6,"HR",C2:C6)</code> return?</div><ol class="opts"><li><b>A</b> 2</li><li><b>B</b> 40000</li><li><b>C</b> 85000</li><li><b>D</b> 45000</li></ol></div></div><div class="mcq"><div class="qn">QA3</div><div class="qb"><div class="qt">Using the sample sheet above, what does <code>=VLOOKUP("Meena",A2:C6,3,FALSE)</code> return?</div><ol class="opts"><li><b>A</b> IT</li><li><b>B</b> #N/A</li><li><b>C</b> 62000</li><li><b>D</b> Meena</li></ol></div></div><div class="mcq"><div class="qn">QA4</div><div class="qb"><div class="qt">Using the sample sheet above, what does <code>=AVERAGE(C2:C6)</code> return?</div><ol class="opts"><li><b>A</b> 240000</li><li><b>B</b> 45000</li><li><b>C</b> 48000</li><li><b>D</b> 50000</li></ol></div></div><div class="mcq"><div class="qn">QA5</div><div class="qb"><div class="qt">Using the sample sheet above, what does <code>=MAX(C2:C6)-MIN(C2:C6)</code> return?</div><ol class="opts"><li><b>A</b> 17000</li><li><b>B</b> 62000</li><li><b>C</b> 24000</li><li><b>D</b> 38000</li></ol></div></div><div class="mcq"><div class="qn">QA6</div><div class="qb"><div class="qt">Using the sample sheet above, what does <code>=IF(C3&gt;50000,"High","Low")</code> return?</div><ol class="opts"><li><b>A</b> Low</li><li><b>B</b> 55000</li><li><b>C</b> TRUE</li><li><b>D</b> High</li></ol></div></div><div class="mcq"><div class="qn">QA7</div><div class="qb"><div class="qt">Using the sample sheet above, what does <code>=LEFT(A3,2)&amp;RIGHT(A4,1)</code> return?</div><ol class="opts"><li><b>A</b> Rav</li><li><b>B</b> Raa</li><li><b>C</b> Rae</li><li><b>D</b> Ra</li></ol></div></div><div class="mcq"><div class="qn">QA8</div><div class="qb"><div class="qt">You copy the formula <code>=A1*$B$1</code> from C1 down to C3. What does C3 contain?</div><ol class="opts"><li><b>A</b> =A3*$B$1</li><li><b>B</b> =C3*$B$1</li><li><b>C</b> =A1*$B$1</li><li><b>D</b> =A3*$B$3</li></ol></div></div><div class="mcq"><div class="qn">QA9</div><div class="qb"><div class="qt">Which key toggles a cell reference between relative, absolute and mixed while you edit a formula?</div><ol class="opts"><li><b>A</b> Ctrl + $</li><li><b>B</b> F2</li><li><b>C</b> F9</li><li><b>D</b> F4</li></ol></div></div><div class="mcq"><div class="qn">QA10</div><div class="qb"><div class="qt">What does <code>=MID("Accenture",3,4)</code> return?</div><ol class="opts"><li><b>A</b> Acce</li><li><b>B</b> cent</li><li><b>C</b> ente</li><li><b>D</b> ccen</li></ol></div></div><div class="mcq"><div class="qn">QA11</div><div class="qb"><div class="qt">What does <code>=INT(-3.7)</code> return in Excel?</div><ol class="opts"><li><b>A</b> -3.7</li><li><b>B</b> -3</li><li><b>C</b> 4</li><li><b>D</b> -4</li></ol></div></div><div class="mcq"><div class="qn">QA12</div><div class="qb"><div class="qt">A cell shows <b>#N/A</b> after a VLOOKUP. What is the most likely reason?</div><ol class="opts"><li><b>A</b> The lookup value was not found</li><li><b>B</b> A deleted cell reference</li><li><b>C</b> Division by zero</li><li><b>D</b> The column is too narrow</li></ol></div></div><div class="mcq"><div class="qn">QA13</div><div class="qb"><div class="qt">Which is the difference between COUNT and COUNTA?</div><ol class="opts"><li><b>A</b> They are identical</li><li><b>B</b> COUNTA counts only blank cells</li><li><b>C</b> COUNT counts text; COUNTA counts numbers</li><li><b>D</b> COUNT counts numbers; COUNTA counts all non-empty cells</li></ol></div></div><div class="mcq"><div class="qn">QA14</div><div class="qb"><div class="qt">In MS Word, which shortcut inserts a page break?</div><ol class="opts"><li><b>A</b> Ctrl + B</li><li><b>B</b> Alt + Enter</li><li><b>C</b> Shift + Enter</li><li><b>D</b> Ctrl + Enter</li></ol></div></div><div class="mcq"><div class="qn">QA15</div><div class="qb"><div class="qt">Which Word feature creates many personalised letters from one template and a list of names?</div><ol class="opts"><li><b>A</b> Mail Merge</li><li><b>B</b> Track Changes</li><li><b>C</b> Section Break</li><li><b>D</b> Styles</li></ol></div></div><div class="mcq"><div class="qn">QA16</div><div class="qb"><div class="qt">In PowerPoint, which key starts the slideshow from the CURRENT slide?</div><ol class="opts"><li><b>A</b> Alt + F5</li><li><b>B</b> Ctrl + F5</li><li><b>C</b> F5</li><li><b>D</b> Shift + F5</li></ol></div></div><div class="mcq"><div class="qn">QA17</div><div class="qb"><div class="qt">Where do you change the font and logo for ALL slides in a presentation at once?</div><ol class="opts"><li><b>A</b> Normal view</li><li><b>B</b> Slide Master</li><li><b>C</b> Reading view</li><li><b>D</b> Slide Sorter</li></ol></div></div><div class="mcq"><div class="qn">QA18</div><div class="qb"><div class="qt">What is the difference between an Animation and a Transition in PowerPoint?</div><ol class="opts"><li><b>A</b> Transition moves text; Animation changes slides</li><li><b>B</b> They are the same</li><li><b>C</b> Animation only works in Slide Sorter</li><li><b>D</b> Animation moves objects on a slide; Transition is the effect between slides</li></ol></div></div><div class="mcq"><div class="qn">QA19</div><div class="qb"><div class="qt">Which Excel feature limits the entries in a cell to a drop-down list?</div><ol class="opts"><li><b>A</b> Freeze Panes</li><li><b>B</b> Data Validation</li><li><b>C</b> Conditional Formatting</li><li><b>D</b> Pivot Table</li></ol></div></div>
+  <div class="avoid-head"><h3>Part A · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct option</th><th>Why</th></tr></thead><tbody><tr><td><b>A1</b></td><td class='ans'>A</td><td>2</td><td>COUNTIF counts the cells in B2:B6 equal to "IT": Ravi and Meena.</td></tr><tr><td><b>A2</b></td><td class='ans'>C</td><td>85000</td><td>SUMIF adds the salaries in C where B is "HR": 40000 + 45000.</td></tr><tr><td><b>A3</b></td><td class='ans'>C</td><td>62000</td><td>It finds "Meena" in the first column (exact match, because of FALSE) and returns the value from column 3 of the range.</td></tr><tr><td><b>A4</b></td><td class='ans'>C</td><td>48000</td><td>(40000 + 55000 + 62000 + 38000 + 45000) ÷ 5 = 240000 ÷ 5.</td></tr><tr><td><b>A5</b></td><td class='ans'>C</td><td>24000</td><td>62000 - 38000.</td></tr><tr><td><b>A6</b></td><td class='ans'>D</td><td>High</td><td>C3 = 55000, which is more than 50000, so IF returns the 'value if true'.</td></tr><tr><td><b>A7</b></td><td class='ans'>B</td><td>Raa</td><td>LEFT("Ravi", 2) = "Ra". RIGHT("Meena", 1) = "a". The & sign joins them into "Raa".</td></tr><tr><td><b>A8</b></td><td class='ans'>A</td><td>=A3*$B$1</td><td>The relative reference A1 changes with the row (A3). The absolute reference $B$1 stays fixed.</td></tr><tr><td><b>A9</b></td><td class='ans'>D</td><td>F4</td><td>F4 cycles A1 → $A$1 → A$1 → $A1.</td></tr><tr><td><b>A10</b></td><td class='ans'>B</td><td>cent</td><td>MID starts at character 3 (the second c) and takes 4 characters: c-e-n-t.</td></tr><tr><td><b>A11</b></td><td class='ans'>D</td><td>-4</td><td>INT rounds down to the nearest whole number. For negatives, 'down' means -4.</td></tr><tr><td><b>A12</b></td><td class='ans'>A</td><td>The lookup value was not found</td><td>#N/A means 'not available': the value wasn't found. #DIV/0! is division by zero, #### means the column is too narrow, and #REF! is an invalid reference.</td></tr><tr><td><b>A13</b></td><td class='ans'>D</td><td>COUNT counts numbers; COUNTA counts all non-empty cells</td><td>COUNT counts only numeric cells. COUNTA counts any non-empty cell, including text. COUNTBLANK counts empty cells.</td></tr><tr><td><b>A14</b></td><td class='ans'>D</td><td>Ctrl + Enter</td><td>Ctrl + Enter adds a page break. Shift + Enter is a line break within a paragraph.</td></tr><tr><td><b>A15</b></td><td class='ans'>A</td><td>Mail Merge</td><td>Mail Merge combines a main document with a data source, such as an Excel list.</td></tr><tr><td><b>A16</b></td><td class='ans'>D</td><td>Shift + F5</td><td>F5 starts from the first slide. Shift + F5 starts from the current slide.</td></tr><tr><td><b>A17</b></td><td class='ans'>B</td><td>Slide Master</td><td>Slide Master controls the layout and theme of every slide based on it.</td></tr><tr><td><b>A18</b></td><td class='ans'>D</td><td>Animation moves objects on a slide; Transition is the effect between slides</td><td>Animations apply to objects such as text and images. Transitions apply when you move from one slide to the next.</td></tr><tr><td><b>A19</b></td><td class='ans'>B</td><td>Data Validation</td><td>Data → Data Validation → List restricts input. Conditional Formatting only changes how cells look.</td></tr></tbody></table>
+</section>
+
+<!-- ======================= PART B ======================= -->
+<section class="page-break part b">
+  <div class="banner"><div class="big">B</div><div class="pl">PART B · ≈ 10 QUESTIONS · HARDEST SECTION</div><h2>Pseudocode + OOPs</h2>
+    <p>Short programs, 10–12 lines long, that you trace in your head and then predict the output. They test bitwise logic, loops, recursion and arrays, plus OOPs concepts. This section is where most marks are won or lost.</p>
+    <div class="chips"><span class="chip">Operators</span><span class="chip">Bitwise &amp; | ^ ~ &lt;&lt; &gt;&gt;</span><span class="chip">Loops</span><span class="chip">Recursion</span><span class="chip">Strings &amp; arrays</span><span class="chip">OOPs</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">B1</div><div><div class="kicker">Learn the language</div><h2>Reading Pseudocode &amp; Operators</h2></div></div>
+  <p>Pseudocode is language-neutral, but it behaves like C or Java. These are the conventions you'll see:</p>
+  <div class="two">
+<pre><span class="c">// declarations</span>
+<span class="k">Integer</span> a = <span class="n">5</span>, b
+<span class="k">Set</span> b = a + <span class="n">2</span>          <span class="c">// assignment</span>
+<span class="k">if</span> (a &gt; b) ... <span class="k">else</span> ... <span class="k">end if</span>
+<span class="k">for</span> (i = <span class="n">1</span> to <span class="n">5</span>) ... <span class="k">end for</span>  <span class="c">// 1..5 inclusive</span>
+<span class="k">while</span> (cond) ... <span class="k">end while</span>
+<span class="k">Function</span> f(<span class="k">Integer</span> n) ... <span class="k">return</span> x
+<span class="k">Print</span> a, b</pre>
+    <table class="tight"><thead><tr><th>Operator</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td><code>/</code> on integers</td><td>Integer division: <code>7/2 = 3</code></td></tr>
+      <tr><td><code>mod</code> or <code>%</code></td><td>Remainder: <code>17 mod 5 = 2</code></td></tr>
+      <tr><td><code>&amp;&amp; || !</code></td><td>Logical AND, OR, NOT</td></tr>
+      <tr><td><code>&amp; | ^ ~</code></td><td>Bitwise AND, OR, XOR, NOT</td></tr>
+      <tr><td><code>&lt;&lt; &gt;&gt;</code></td><td>Left / right shift</td></tr>
+      <tr><td><code>==</code> vs <code>=</code></td><td>Comparison vs assignment</td></tr>
+    </tbody></table>
+  </div>
+  <h3>Operator precedence (C/Java style, highest first)</h3>
+  <table class="tight"><thead><tr><th>Level</th><th>Operators</th><th>Example</th></tr></thead><tbody>
+    <tr><td>1</td><td><code>()</code> <code>[]</code></td><td>—</td></tr>
+    <tr><td>2</td><td>Unary <code>! ~ ++ -- -</code></td><td><code>~5 = -6</code></td></tr>
+    <tr><td>3</td><td><code>* / %</code></td><td><code>2 + 3 * 4 = 14</code></td></tr>
+    <tr><td>4</td><td><code>+ -</code></td><td><code>10 - 4 - 3 = 3</code> (left to right)</td></tr>
+    <tr><td>5</td><td><code>&lt;&lt; &gt;&gt;</code></td><td><code>1 &lt;&lt; 2 + 1 = 1 &lt;&lt; 3 = 8</code></td></tr>
+    <tr><td>6</td><td><code>&lt; &lt;= &gt; &gt;=</code> then <code>== !=</code></td><td>—</td></tr>
+    <tr><td>7</td><td><code>&amp;</code> then <code>^</code> then <code>|</code></td><td><code>5 | 2 &amp; 3 = 5 | 2 = 7</code></td></tr>
+    <tr><td>8</td><td><code>&amp;&amp;</code> then <code>||</code></td><td>—</td></tr>
+    <tr><td>9</td><td><code>?:</code>, then assignment <code>= += -=</code></td><td>—</td></tr>
+  </tbody></table>
+  <div class="trap"><b>Two classic traps:</b> (1) <code>+</code> binds tighter than <code>&lt;&lt;</code>, so <code>1 &lt;&lt; 2 + 1</code> is 8, not 5. (2) <code>==</code> binds tighter than <code>&amp;</code>, so <code>x &amp; 1 == 0</code> means <code>x &amp; (1 == 0)</code>. When unsure, assume the question wants the precedence rules applied literally.</div>
+  <div class="def"><b class="t">Increment operators.</b> <code>x++</code> uses the value <b>first</b>, then adds 1. <code>++x</code> adds 1 <b>first</b>. With <code>a = 5</code>: <code>b = a++</code> gives b = 5, a = 6, and <code>b = ++a</code> gives b = 6, a = 6.</div>
+</section>
+
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">B2</div><div><div class="kicker">The #1 topic</div><h2>Binary &amp; Bitwise Operations</h2></div></div>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">Decimal → binary in seconds</h3>
+      <p style="font-size:9pt">Write the place values <b>16 8 4 2 1</b> and mark the ones that add up to your number.</p>
+      <table class="tight"><thead><tr><th>n</th><th>16</th><th>8</th><th>4</th><th>2</th><th>1</th><th>Binary</th></tr></thead><tbody>
+        <tr><td>5</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td><code>00101</code></td></tr>
+        <tr><td>12</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td><code>01100</code></td></tr>
+        <tr><td>13</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td><code>01101</code></td></tr>
+        <tr><td>25</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td><code>11001</code></td></tr>
+      </tbody></table>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Truth table</h3>
+      <table class="tight"><thead><tr><th>a</th><th>b</th><th>a&amp;b</th><th>a|b</th><th>a^b</th></tr></thead><tbody>
+        <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+      </tbody></table>
+      <p style="font-size:8.8pt;margin:4px 0 0">AND = both 1 · OR = at least one 1 · XOR = <b>different</b> bits</p>
+    </div>
+  </div>
+  <h3>Worked examples with a = 12 (1100) and b = 10 (1010)</h3>
+  <table class="tight"><thead><tr><th>Expression</th><th>Binary working</th><th>Result</th></tr></thead><tbody>
+    <tr><td><code>a &amp; b</code></td><td>1100 &amp; 1010 = 1000</td><td><b>8</b></td></tr>
+    <tr><td><code>a | b</code></td><td>1100 | 1010 = 1110</td><td><b>14</b></td></tr>
+    <tr><td><code>a ^ b</code></td><td>1100 ^ 1010 = 0110</td><td><b>6</b></td></tr>
+    <tr><td><code>~a</code></td><td>−(a + 1)</td><td><b>−13</b></td></tr>
+    <tr><td><code>a &lt;&lt; 2</code></td><td>110000 = 12 × 2²</td><td><b>48</b></td></tr>
+    <tr><td><code>a &gt;&gt; 2</code></td><td>11 = 12 ÷ 2²</td><td><b>3</b></td></tr>
+  </tbody></table>
+  <h3>Shortcuts that save minutes</h3>
+  <div class="three">
+    <div class="def"><b class="t">Shifts</b><br><code>x &lt;&lt; n = x × 2ⁿ</code><br><code>x &gt;&gt; n = x ÷ 2ⁿ</code> (integer)</div>
+    <div class="def"><b class="t">NOT</b><br><code>~x = −(x + 1)</code><br><code>~0 = −1</code>, <code>~(−1) = 0</code></div>
+    <div class="def"><b class="t">XOR rules</b><br><code>x ^ x = 0</code> · <code>x ^ 0 = x</code><br>Three XORs swap two variables</div>
+    <div class="def"><b class="t">Odd or even</b><br><code>x &amp; 1</code> = 1 if odd, 0 if even</div>
+    <div class="def"><b class="t">Power of 2?</b><br><code>x &amp; (x − 1) == 0</code> for 1, 2, 4, 8…</div>
+    <div class="def"><b class="t">Identity</b><br><code>a + b = (a ^ b) + 2·(a &amp; b)</code><br><code>(a | b) = (a ^ b) + (a &amp; b)</code></div>
+  </div>
+  <div class="trap"><b>Remember:</b> <code>x &amp; (x − 1)</code> clears the lowest set bit. A loop that does this until x becomes 0 <b>counts the 1-bits</b>. So does a loop of <code>c += x &amp; 1; x &gt;&gt;= 1</code>.</div>
+</section>
+
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">B3</div><div><div class="kicker">Trace without paper</div><h2>Loops, Recursion, Arrays &amp; Strings</h2></div></div>
+  <h3>The trace-table technique</h3>
+  <div class="two">
+<pre><span class="k">Integer</span> s = <span class="n">0</span>, i = <span class="n">1</span>
+<span class="k">while</span> (i &lt;= <span class="n">10</span>)
+    s = s + i
+    i = i * <span class="n">2</span>
+<span class="k">end while</span>
+<span class="k">Print</span> s</pre>
+    <table class="tight"><thead><tr><th>Pass</th><th>i (start)</th><th>s after</th><th>i after</th></tr></thead><tbody>
+      <tr><td>1</td><td>1</td><td>1</td><td>2</td></tr><tr><td>2</td><td>2</td><td>3</td><td>4</td></tr>
+      <tr><td>3</td><td>4</td><td>7</td><td>8</td></tr><tr><td>4</td><td>8</td><td>15</td><td>16 → stop</td></tr>
+    </tbody></table>
+  </div>
+  <p style="font-size:9pt">Output: <b>15</b>. In your head, keep a mini table of only the variables that change. After 2–3 passes, look for the pattern (here i doubles, so s = 1 + 2 + 4 + 8).</p>
+  <h3>Loop-count formulas</h3>
+  <table class="tight"><thead><tr><th>Loop</th><th>Iterations</th></tr></thead><tbody>
+    <tr><td><code>for i = 1 to n</code></td><td>n</td></tr>
+    <tr><td><code>for i = a to b</code></td><td>b − a + 1</td></tr>
+    <tr><td><code>for i = 1 to n</code>, then inside <code>for j = 1 to n</code></td><td>n²</td></tr>
+    <tr><td><code>for i = 1 to n</code>, then inside <code>for j = i to n</code></td><td>n(n + 1)/2</td></tr>
+    <tr><td><code>i = 1; while (i &lt; n) i = i * 2</code></td><td>⌈log₂ n⌉</td></tr>
+    <tr><td><code>break</code> / <code>continue</code></td><td>break leaves the innermost loop; continue skips to the next pass</td></tr>
+  </tbody></table>
+  <h3>Recursion: unwind it on the way down, add it up on the way back</h3>
+  <div class="two">
+<pre><span class="k">Function</span> f(<span class="k">Integer</span> n)
+    <span class="k">if</span> (n == <span class="n">0</span>) <span class="k">return</span> <span class="n">0</span>
+    <span class="k">return</span> n mod <span class="n">10</span> + f(n / <span class="n">10</span>)
+<span class="k">Print</span> f(<span class="n">472</span>)</pre>
+    <div class="def"><b class="t">Trace (digit sum)</b><br>f(472) = 2 + f(47)<br>f(47) = 7 + f(4)<br>f(4) = 4 + f(0) = 4 + 0<br>Back up: 4 → 11 → <b>13</b></div>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">Factorial</b><br><code>f(n) = n × f(n−1)</code>, f(0) = 1 → f(5) = 120</div>
+    <div class="def"><b class="t">Fibonacci</b><br><code>f(n) = f(n−1) + f(n−2)</code> → 0 1 1 2 3 5 8 13…</div>
+    <div class="def"><b class="t">GCD (Euclid)</b><br><code>g(a, b) = g(b, a mod b)</code>, g(a, 0) = a</div>
+  </div>
+  <div class="trap"><b>Print order trap:</b> if a function prints <i>before</i> its recursive call, the output comes in forward order. If it prints <i>after</i> the call, the output comes in <b>reverse</b> order. For example, printing n after <code>f(n−1)</code> with n = 3 gives "1 2 3".</div>
+  <h3>Arrays &amp; strings</h3>
+  <ul style="font-size:9pt">
+    <li>Indexes usually start at <b>0</b>: an array of 5 elements runs from index 0 to 4. Going past the end is an <b>out-of-bounds</b> error.</li>
+    <li>Common patterns: running max/min, swapping <code>a[i]</code> and <code>a[n−1−i]</code> to reverse, counting characters, checking palindromes.</li>
+    <li>For a string s, <code>length(s)</code> gives the number of characters. <code>s[i]</code> is the i-th character, and <code>'A'</code> has ASCII code 65 (<code>'a'</code> = 97, <code>'0'</code> = 48).</li>
+  </ul>
+</section>
+
+<section class="part b">
+  <div class="sec-head"><div class="sec-num">B4</div><div><div class="kicker">Object-oriented programming</div><h2>OOPs: The Four Pillars &amp; Beyond</h2></div></div>
+  <div class="def"><b class="t">Class vs Object.</b> A <b>class</b> is a blueprint (for example, <code>Car</code>). An <b>object</b> is a real instance created from it (<code>Car c = new Car()</code>). The class defines <b>attributes</b> (data) and <b>methods</b> (behaviour).</div>
+  <table class="tight"><thead><tr><th style="width:17%">Pillar</th><th style="width:36%">Meaning</th><th>Example</th></tr></thead><tbody>
+    <tr><td><b>Encapsulation</b></td><td>Bundles data and methods together and hides internal state</td><td><code>private int balance;</code> accessed only through <code>getBalance()</code> / <code>deposit()</code></td></tr>
+    <tr><td><b>Abstraction</b></td><td>Shows <i>what</i> something does and hides <i>how</i></td><td><code>abstract class Shape { abstract double area(); }</code>, or interfaces</td></tr>
+    <tr><td><b>Inheritance</b></td><td>A child class reuses a parent's members (an "is-a" relationship)</td><td><code>class Dog extends Animal</code></td></tr>
+    <tr><td><b>Polymorphism</b></td><td>One name, many forms</td><td>Overloading (compile time) and overriding (run time)</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">Overloading (compile time)</b><br>Same method name in the <b>same class</b>, with different <b>parameters</b>.<br><code>add(int a, int b)</code> and <code>add(double a, double b)</code></div>
+    <div class="def"><b class="t">Overriding (run time)</b><br>A child <b>redefines</b> a parent method with the <b>same signature</b>. Which version runs depends on the <b>actual object</b>: <code>Animal a = new Dog(); a.sound();</code> runs Dog's sound().</div>
+  </div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Inheritance type</th><th>Shape</th></tr></thead><tbody>
+      <tr><td>Single</td><td>A → B</td></tr><tr><td>Multilevel</td><td>A → B → C</td></tr>
+      <tr><td>Hierarchical</td><td>A → B and A → C</td></tr>
+      <tr><td>Multiple</td><td>B, C → D (in Java, only through <b>interfaces</b>)</td></tr>
+      <tr><td>Hybrid</td><td>A combination of the above</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Access modifier</th><th>Visible in</th></tr></thead><tbody>
+      <tr><td><code>private</code></td><td>Same class only</td></tr>
+      <tr><td>default (none)</td><td>Same package</td></tr>
+      <tr><td><code>protected</code></td><td>Same package and subclasses</td></tr>
+      <tr><td><code>public</code></td><td>Everywhere</td></tr>
+    </tbody></table>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">Constructor</b><br>Same name as the class, <b>no return type</b>, runs automatically when an object is created. It can be overloaded.</div>
+    <div class="def"><b class="t">Abstract class vs Interface</b><br>An abstract class can have state and concrete methods. A class can <b>extend one</b> abstract class but <b>implement many</b> interfaces.</div>
+    <div class="def"><b class="t">static / this / super</b><br><code>static</code> belongs to the class, not to objects. <code>this</code> is the current object. <code>super</code> refers to the parent's members or constructor.</div>
+  </div>
+  <div class="trap"><b>Also know:</b> <code>final</code> class = can't be inherited · <code>final</code> method = can't be overridden · <b>association</b> (uses-a), <b>aggregation</b> (has-a, parts can exist alone) and <b>composition</b> (has-a, parts die with the whole).</div>
+</section>
+
+<section class="page-break part b">
+  <div class="sec-head"><div class="sec-num">B✓</div><div><div class="kicker">Test yourself</div><h2>Part B · Practice MCQs</h2></div></div>
+  <p class="lead">B1–B18 are pseudocode questions. <b>Each answer was verified by actually running the code.</b> B19–B26 cover OOPs. Trace in your head first, and aim for under 90 seconds each.</p>
+  <div class="mcq"><div class="qn">QB1</div><div class="qb"><div class="qt"><span class='tg'>Bitwise XOR and AND</span> What is the output?</div><pre>Integer a = 5, b = 9
+a = a ^ b
+b = a &amp; b
+Print a + b</pre><ol class="opts"><li><b>A</b> 20</li><li><b>B</b> 13</li><li><b>C</b> 14</li><li><b>D</b> 17</li></ol></div></div><div class="mcq"><div class="qn">QB2</div><div class="qb"><div class="qt"><span class='tg'>Counting set bits</span> What is the output?</div><pre>Integer x = 13, count = 0
+while (x &gt; 0)
+    count = count + (x &amp; 1)
+    x = x &gt;&gt; 1
+end while
+Print count</pre><ol class="opts"><li><b>A</b> 3</li><li><b>B</b> 13</li><li><b>C</b> 4</li><li><b>D</b> 2</li></ol></div></div><div class="mcq"><div class="qn">QB3</div><div class="qb"><div class="qt"><span class='tg'>Nested loop count</span> What is the output?</div><pre>Integer s = 0
+for (i = 1 to 4)
+    for (j = i to 4)
+        s = s + 1
+    end for
+end for
+Print s</pre><ol class="opts"><li><b>A</b> 8</li><li><b>B</b> 16</li><li><b>C</b> 6</li><li><b>D</b> 10</li></ol></div></div><div class="mcq"><div class="qn">QB4</div><div class="qb"><div class="qt"><span class='tg'>Recursion</span> What is the output?</div><pre>Function fun(Integer n)
+    if (n &lt;= 1) return 1
+    return n + fun(n - 2)
+End Function
+Print fun(7)</pre><ol class="opts"><li><b>A</b> 15</li><li><b>B</b> 13</li><li><b>C</b> 28</li><li><b>D</b> 16</li></ol></div></div><div class="mcq"><div class="qn">QB5</div><div class="qb"><div class="qt"><span class='tg'>mod and integer division</span> What is the output?</div><pre>Integer a = 10, b = 3
+Integer c = a mod b + a / b
+Print c</pre><ol class="opts"><li><b>A</b> 4</li><li><b>B</b> 1</li><li><b>C</b> 3</li><li><b>D</b> 4.33</li></ol></div></div><div class="mcq"><div class="qn">QB6</div><div class="qb"><div class="qt"><span class='tg'>Shift operators</span> What is the output?</div><pre>Integer p = 6
+p = (p &lt;&lt; 2) + (p &gt;&gt; 1)
+Print p</pre><ol class="opts"><li><b>A</b> 30</li><li><b>B</b> 26</li><li><b>C</b> 27</li><li><b>D</b> 15</li></ol></div></div><div class="mcq"><div class="qn">QB7</div><div class="qb"><div class="qt"><span class='tg'>Digit reversal</span> What is the output?</div><pre>Integer n = 1234, r = 0
+while (n != 0)
+    r = r * 10 + n mod 10
+    n = n / 10
+end while
+Print r</pre><ol class="opts"><li><b>A</b> 4123</li><li><b>B</b> 1234</li><li><b>C</b> 4321</li><li><b>D</b> 10</li></ol></div></div><div class="mcq"><div class="qn">QB8</div><div class="qb"><div class="qt"><span class='tg'>Bitwise NOT (~)</span> What is the output?</div><pre>Integer a = 7
+Print ~a + (a &amp; 3)</pre><ol class="opts"><li><b>A</b> 11</li><li><b>B</b> -4</li><li><b>C</b> -8</li><li><b>D</b> -5</li></ol></div></div><div class="mcq"><div class="qn">QB9</div><div class="qb"><div class="qt"><span class='tg'>Array traversal</span> What is the output?</div><pre>Integer arr[5] = {3, 8, 1, 9, 4}
+Integer m = arr[0]
+for (i = 1 to 4)
+    if (arr[i] &gt; m) m = arr[i]
+    else m = m - 1
+end for
+Print m</pre><ol class="opts"><li><b>A</b> 8</li><li><b>B</b> 3</li><li><b>C</b> 9</li><li><b>D</b> 7</li></ol></div></div><div class="mcq"><div class="qn">QB10</div><div class="qb"><div class="qt"><span class='tg'>Recursion with mod</span> What is the output?</div><pre>Function f(Integer n)
+    if (n == 0) return 0
+    return (n mod 2) + f(n / 2)
+End Function
+Print f(29)</pre><ol class="opts"><li><b>A</b> 4</li><li><b>B</b> 3</li><li><b>C</b> 29</li><li><b>D</b> 5</li></ol></div></div><div class="mcq"><div class="qn">QB11</div><div class="qb"><div class="qt"><span class='tg'>Loop with two variables</span> What is the output?</div><pre>Integer x = 2, y = 5
+for (i = 1 to 3)
+    x = x * y
+    y = y + x mod 7
+end for
+Print x, y</pre><ol class="opts"><li><b>A</b> 800 16</li><li><b>B</b> 880 16</li><li><b>C</b> 880 11</li><li><b>D</b> 80 11</li></ol></div></div><div class="mcq"><div class="qn">QB12</div><div class="qb"><div class="qt"><span class='tg'>Euclid's GCD</span> What is the output?</div><pre>Function g(Integer a, Integer b)
+    if (b == 0) return a
+    return g(b, a mod b)
+End Function
+Print g(84, 36)</pre><ol class="opts"><li><b>A</b> 6</li><li><b>B</b> 36</li><li><b>C</b> 12</li><li><b>D</b> 4</li></ol></div></div><div class="mcq"><div class="qn">QB13</div><div class="qb"><div class="qt"><span class='tg'>String indexing</span> What is the output?</div><pre>String s = "ACCENTURE"
+Integer c = 0
+for (i = 0 to length(s) - 1)
+    if (s[i] == 'E') c = c + i
+end for
+Print c</pre><ol class="opts"><li><b>A</b> 8</li><li><b>B</b> 2</li><li><b>C</b> 12</li><li><b>D</b> 11</li></ol></div></div><div class="mcq"><div class="qn">QB14</div><div class="qb"><div class="qt"><span class='tg'>XOR swap</span> What is the output?</div><pre>Integer a = 12, b = 25
+a = a ^ b
+b = a ^ b
+a = a ^ b
+Print a - b</pre><ol class="opts"><li><b>A</b> -13</li><li><b>B</b> 0</li><li><b>C</b> 13</li><li><b>D</b> 37</li></ol></div></div><div class="mcq"><div class="qn">QB15</div><div class="qb"><div class="qt"><span class='tg'>Nested loop with break</span> What is the output?</div><pre>Integer s = 0
+for (i = 1 to 5)
+    for (j = 1 to 5)
+        if (j &gt; i) break
+        s = s + j
+    end for
+end for
+Print s</pre><ol class="opts"><li><b>A</b> 25</li><li><b>B</b> 15</li><li><b>C</b> 35</li><li><b>D</b> 55</li></ol></div></div><div class="mcq"><div class="qn">QB16</div><div class="qb"><div class="qt"><span class='tg'>Fast power</span> What is the output?</div><pre>Function p(Integer b, Integer e)
+    if (e == 0) return 1
+    if (e mod 2 == 0) return p(b, e/2) * p(b, e/2)
+    return b * p(b, e - 1)
+End Function
+Print p(3, 5)</pre><ol class="opts"><li><b>A</b> 81</li><li><b>B</b> 125</li><li><b>C</b> 15</li><li><b>D</b> 243</li></ol></div></div><div class="mcq"><div class="qn">QB17</div><div class="qb"><div class="qt"><span class='tg'>AND, OR, XOR together</span> What is the output?</div><pre>Integer a = 10, b = 6
+Print (a &amp; b) + (a | b) - (a ^ b)</pre><ol class="opts"><li><b>A</b> 16</li><li><b>B</b> 4</li><li><b>C</b> 2</li><li><b>D</b> 14</li></ol></div></div><div class="mcq"><div class="qn">QB18</div><div class="qb"><div class="qt"><span class='tg'>While loop with if/else</span> What is the output?</div><pre>Integer n = 100, steps = 0
+while (n &gt; 1)
+    if (n mod 2 == 0) n = n / 2
+    else n = 3 * n + 1
+    steps = steps + 1
+end while
+Print steps</pre><ol class="opts"><li><b>A</b> 24</li><li><b>B</b> 7</li><li><b>C</b> 100</li><li><b>D</b> 25</li></ol></div></div><div class="mcq"><div class="qn">QB19</div><div class="qb"><div class="qt">Two methods in the same class have the same name but different parameter lists. This is called:</div><ol class="opts"><li><b>A</b> Method overloading</li><li><b>B</b> Method overriding</li><li><b>C</b> Encapsulation</li><li><b>D</b> Abstraction</li></ol></div></div><div class="mcq"><div class="qn">QB20</div><div class="qb"><div class="qt">Run-time (dynamic) polymorphism is achieved through:</div><ol class="opts"><li><b>A</b> Method overriding</li><li><b>B</b> Constructors</li><li><b>C</b> Method overloading</li><li><b>D</b> Static methods</li></ol></div></div><div class="mcq"><div class="qn">QB21</div><div class="qb"><div class="qt">Making fields private and giving access through getters and setters is an example of:</div><ol class="opts"><li><b>A</b> Abstraction</li><li><b>B</b> Encapsulation</li><li><b>C</b> Polymorphism</li><li><b>D</b> Inheritance</li></ol></div></div><div class="mcq"><div class="qn">QB22</div><div class="qb"><div class="qt">In Java, a class cannot extend two classes. Multiple inheritance of type is achieved using:</div><ol class="opts"><li><b>A</b> Packages</li><li><b>B</b> Final classes</li><li><b>C</b> Abstract classes</li><li><b>D</b> Interfaces</li></ol></div></div><div class="mcq"><div class="qn">QB23</div><div class="qb"><div class="qt">What is printed?<pre>class A { void show() { print("A") } }
+class B extends A { void show() { print("B") } }
+A obj = new B()
+obj.show()</pre></div><ol class="opts"><li><b>A</b> B</li><li><b>B</b> AB</li><li><b>C</b> Compile error</li><li><b>D</b> A</li></ol></div></div><div class="mcq"><div class="qn">QB24</div><div class="qb"><div class="qt">Which of these cannot be instantiated (you can't create an object of it directly)?</div><ol class="opts"><li><b>A</b> A final class</li><li><b>B</b> An abstract class</li><li><b>C</b> A class with a constructor</li><li><b>D</b> A subclass</li></ol></div></div><div class="mcq"><div class="qn">QB25</div><div class="qb"><div class="qt">Which statement about constructors is TRUE?</div><ol class="opts"><li><b>A</b> It must return void</li><li><b>B</b> It has the same name as the class and no return type</li><li><b>C</b> It can be called only once per program</li><li><b>D</b> It must be static</li></ol></div></div><div class="mcq"><div class="qn">QB26</div><div class="qb"><div class="qt">Which access modifier makes a member visible ONLY inside its own class?</div><ol class="opts"><li><b>A</b> protected</li><li><b>B</b> private</li><li><b>C</b> public</li><li><b>D</b> default (package)</li></ol></div></div>
+  <div class="avoid-head"><h3>Part B · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct option</th><th>Why</th></tr></thead><tbody><tr><td><b>B1</b></td><td class='ans'>A</td><td>20</td><td>a = 0101 ^ 1001 = 1100 = 12. b = 1100 & 1001 = 1000 = 8. 12 + 8 = 20.</td></tr><tr><td><b>B2</b></td><td class='ans'>A</td><td>3</td><td>13 = 1101 in binary. The loop adds the last bit each time and shifts right, so it counts the 1s: 3.</td></tr><tr><td><b>B3</b></td><td class='ans'>D</td><td>10</td><td>The inner loop runs 4, 3, 2, 1 times: 4 + 3 + 2 + 1 = 10.</td></tr><tr><td><b>B4</b></td><td class='ans'>D</td><td>16</td><td>fun(7) = 7 + fun(5) = 7 + 5 + fun(3) = 7 + 5 + 3 + fun(1) = 7 + 5 + 3 + 1 = 16.</td></tr><tr><td><b>B5</b></td><td class='ans'>A</td><td>4</td><td>10 mod 3 = 1. 10 / 3 = 3 (integer division drops the decimal). 1 + 3 = 4.</td></tr><tr><td><b>B6</b></td><td class='ans'>C</td><td>27</td><td>6 << 2 = 6 × 4 = 24. 6 >> 1 = 6 ÷ 2 = 3. 24 + 3 = 27.</td></tr><tr><td><b>B7</b></td><td class='ans'>C</td><td>4321</td><td>Each step takes the last digit (n mod 10) and appends it to r, so the number is reversed: 4321.</td></tr><tr><td><b>B8</b></td><td class='ans'>D</td><td>-5</td><td>~a = -(a + 1) = -8 (two's complement). 7 & 3 = 0111 & 0011 = 3. -8 + 3 = -5.</td></tr><tr><td><b>B9</b></td><td class='ans'>A</td><td>8</td><td>m = 3 → 8 (8 > 3) → 7 (1 is not bigger, so subtract 1) → 9 (9 > 7) → 8 (4 is not bigger). Answer: 8.</td></tr><tr><td><b>B10</b></td><td class='ans'>A</td><td>4</td><td>This adds the binary digits of n. 29 = 11101, which has four 1s, so the answer is 4.</td></tr><tr><td><b>B11</b></td><td class='ans'>B</td><td>880 16</td><td>Pass 1: x = 10, y = 5 + 3 = 8. Pass 2: x = 80, y = 8 + 3 = 11. Pass 3: x = 880, y = 11 + (880 mod 7 = 5) = 16.</td></tr><tr><td><b>B12</b></td><td class='ans'>C</td><td>12</td><td>g(84, 36) → g(36, 12) → g(12, 0) → 12. This is Euclid's algorithm for the greatest common divisor.</td></tr><tr><td><b>B13</b></td><td class='ans'>D</td><td>11</td><td>Indexes start at 0. The two E's are at positions 3 and 8, and 3 + 8 = 11.</td></tr><tr><td><b>B14</b></td><td class='ans'>C</td><td>13</td><td>Three XORs swap the values, so a = 25 and b = 12. 25 - 12 = 13.</td></tr><tr><td><b>B15</b></td><td class='ans'>C</td><td>35</td><td>For each i, the inner loop adds 1 + 2 + … + i. So the total is 1 + 3 + 6 + 10 + 15 = 35.</td></tr><tr><td><b>B16</b></td><td class='ans'>D</td><td>243</td><td>p(3, 5) works out 3⁵ using squaring: 3 × p(3, 4) = 3 × (p(3, 2))² = 3 × 9² = 243.</td></tr><tr><td><b>B17</b></td><td class='ans'>B</td><td>4</td><td>1010 & 0110 = 0010 = 2. 1010 | 0110 = 1110 = 14. 1010 ^ 0110 = 1100 = 12. 2 + 14 - 12 = 4.</td></tr><tr><td><b>B18</b></td><td class='ans'>D</td><td>25</td><td>This is the Collatz sequence. Trace it: 100 → 50 → 25 → 76 → 38 → 19 → … → 1, which takes 25 steps.</td></tr><tr><td><b>B19</b></td><td class='ans'>A</td><td>Method overloading</td><td>Overloading is compile-time polymorphism within one class.</td></tr><tr><td><b>B20</b></td><td class='ans'>A</td><td>Method overriding</td><td>The overridden method that runs is chosen at run time, based on the actual object.</td></tr><tr><td><b>B21</b></td><td class='ans'>B</td><td>Encapsulation</td><td>Encapsulation means bundling data with its methods and hiding the internal state.</td></tr><tr><td><b>B22</b></td><td class='ans'>D</td><td>Interfaces</td><td>A class can implement several interfaces.</td></tr><tr><td><b>B23</b></td><td class='ans'>A</td><td>B</td><td>The object is really a B, so B's overriding show() runs. This is run-time polymorphism.</td></tr><tr><td><b>B24</b></td><td class='ans'>B</td><td>An abstract class</td><td>Abstract classes can only be extended. Their subclasses can be instantiated.</td></tr><tr><td><b>B25</b></td><td class='ans'>B</td><td>It has the same name as the class and no return type</td><td>Constructors initialise objects. They have no return type, not even void.</td></tr><tr><td><b>B26</b></td><td class='ans'>B</td><td>private</td><td>The scope widens in this order: private < default < protected < public.</td></tr></tbody></table>
+</section>
+
+<!-- ======================= PART C ======================= -->
+<section class="page-break part c">
+  <div class="banner"><div class="big">C</div><div class="pl">PART C · ≈ 14 QUESTIONS</div><h2>Networking, Security &amp; Cloud</h2>
+    <p>Mostly recall: layers, ports, protocols, attack types, cloud models and DevOps tools. With the tables in this part memorised, this becomes the highest-scoring section.</p>
+    <div class="chips"><span class="chip">OSI &amp; TCP/IP</span><span class="chip">IP &amp; subnetting</span><span class="chip">HTTP · DNS · DHCP</span><span class="chip">Security</span><span class="chip">IaaS · PaaS · SaaS</span><span class="chip">CI/CD · Git · Docker</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">C1</div><div><div class="kicker">The reference models</div><h2>OSI &amp; TCP/IP Models, Devices, Ports</h2></div></div>
+  <table class="tight">
+    <thead><tr><th>#</th><th>OSI layer</th><th style="width:30%">Job</th><th>Protocols / examples</th><th>Device</th><th>Data unit</th></tr></thead>
+    <tbody>
+      <tr><td>7</td><td><b>Application</b></td><td>Network services for the user</td><td>HTTP, HTTPS, FTP, SMTP, DNS, DHCP</td><td>—</td><td>Data</td></tr>
+      <tr><td>6</td><td><b>Presentation</b></td><td>Format, encrypt, compress</td><td>SSL/TLS, JPEG, ASCII</td><td>—</td><td>Data</td></tr>
+      <tr><td>5</td><td><b>Session</b></td><td>Open, manage and close sessions</td><td>NetBIOS, RPC</td><td>—</td><td>Data</td></tr>
+      <tr><td>4</td><td><b>Transport</b></td><td>End-to-end delivery, ports, reliability</td><td>TCP, UDP</td><td>—</td><td>Segment / datagram</td></tr>
+      <tr><td>3</td><td><b>Network</b></td><td>Logical addressing and <b>routing</b></td><td>IP, ICMP (ping)</td><td>Router</td><td>Packet</td></tr>
+      <tr><td>2</td><td><b>Data Link</b></td><td>MAC addressing, framing, error detection</td><td>Ethernet, PPP, ARP*</td><td>Switch, bridge</td><td>Frame</td></tr>
+      <tr><td>1</td><td><b>Physical</b></td><td>Bits over the medium</td><td>Cables, Wi-Fi radio</td><td>Hub, repeater</td><td>Bits</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:-4px">*ARP maps IP → MAC and sits between Layers 2 and 3. Memory trick, top to bottom: "<b>A</b>ll <b>P</b>eople <b>S</b>eem <b>T</b>o <b>N</b>eed <b>D</b>ata <b>P</b>rocessing".</p>
+  <div class="two">
+    <table class="tight"><thead><tr><th>TCP/IP layer</th><th>= OSI layers</th></tr></thead><tbody>
+      <tr><td>Application</td><td>7, 6, 5</td></tr><tr><td>Transport</td><td>4</td></tr>
+      <tr><td>Internet</td><td>3</td></tr><tr><td>Network Access (Link)</td><td>2, 1</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Port</th><th>Protocol</th><th>Port</th><th>Protocol</th></tr></thead><tbody>
+      <tr><td>20/21</td><td>FTP</td><td>80</td><td>HTTP</td></tr>
+      <tr><td>22</td><td>SSH (secure remote login)</td><td>110</td><td>POP3</td></tr>
+      <tr><td>23</td><td>Telnet (insecure)</td><td>143</td><td>IMAP</td></tr>
+      <tr><td>25</td><td>SMTP (send email)</td><td>443</td><td>HTTPS</td></tr>
+      <tr><td>53</td><td>DNS</td><td>3306</td><td>MySQL</td></tr>
+      <tr><td>67/68</td><td>DHCP</td><td>3389</td><td>RDP</td></tr>
+    </tbody></table>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">Hub vs Switch vs Router</b><br>A hub sends to <b>all</b> ports (L1). A switch sends to the <b>right device</b> using the MAC address (L2). A router connects <b>different networks</b> using IP (L3).</div>
+    <div class="def"><b class="t">MAC vs IP</b><br>A MAC address is a 48-bit <b>physical</b> address burnt into the NIC. An IP address is a <b>logical</b> address that can change. ARP finds the MAC for an IP.</div>
+    <div class="def"><b class="t">LAN / MAN / WAN</b><br>Building → city → country or world. The Internet is the largest WAN. Topologies: bus, star (most common), ring, mesh, tree.</div>
+  </div>
+</section>
+
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">C2</div><div><div class="kicker">Addresses</div><h2>IP Addressing &amp; Subnetting</h2></div></div>
+  <div class="def"><b class="t">IPv4</b> = 32 bits, written as 4 octets (<code>192.168.1.10</code>), each 0–255. &nbsp; <b class="t">IPv6</b> = 128 bits, written in hexadecimal (<code>2001:db8::1</code>), created because IPv4 addresses ran out.</div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Class</th><th>First octet</th><th>Default mask</th></tr></thead><tbody>
+      <tr><td>A</td><td>1 – 126</td><td>255.0.0.0 (/8)</td></tr>
+      <tr><td>B</td><td>128 – 191</td><td>255.255.0.0 (/16)</td></tr>
+      <tr><td>C</td><td>192 – 223</td><td>255.255.255.0 (/24)</td></tr>
+      <tr><td>D</td><td>224 – 239</td><td>Multicast</td></tr>
+      <tr><td>E</td><td>240 – 255</td><td>Experimental</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Special range</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td>10.0.0.0/8</td><td>Private</td></tr>
+      <tr><td>172.16.0.0 – 172.31.255.255</td><td>Private</td></tr>
+      <tr><td>192.168.0.0/16</td><td>Private (home routers)</td></tr>
+      <tr><td>127.0.0.1</td><td>Loopback (localhost)</td></tr>
+      <tr><td>169.254.x.x</td><td>APIPA (DHCP failed)</td></tr>
+    </tbody></table>
+  </div>
+  <h3>Subnetting in 3 formulas</h3>
+  <div class="three">
+    <div class="def"><b class="t">Host bits</b><br>h = 32 − prefix<br>/26 → h = 6</div>
+    <div class="def"><b class="t">Usable hosts</b><br>2ʰ − 2<br>/26 → 64 − 2 = <b>62</b></div>
+    <div class="def"><b class="t">Block size</b><br>256 − last mask octet<br>/26 = .192 → blocks of <b>64</b></div>
+  </div>
+  <table class="tight"><thead><tr><th>Prefix</th><th>Mask</th><th>Addresses</th><th>Usable hosts</th></tr></thead><tbody>
+    <tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td></tr>
+    <tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td></tr>
+    <tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td></tr>
+    <tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td></tr>
+    <tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td></tr>
+    <tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2 (point-to-point links)</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt">Two addresses in every subnet are reserved: the <b>network address</b> (all host bits 0) and the <b>broadcast address</b> (all host bits 1). Example: in 192.168.1.64/26, the network is .64, the usable hosts are .65–.126 and the broadcast is .127.</p>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">C3</div><div><div class="kicker">How the web works</div><h2>HTTP, DNS, DHCP &amp; TCP vs UDP</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:20%"></th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+    <tr><td>Connection</td><td>Connection-oriented (3-way handshake: <b>SYN → SYN-ACK → ACK</b>)</td><td>Connectionless</td></tr>
+    <tr><td>Reliability</td><td>Guaranteed, ordered, retransmits lost data</td><td>No guarantee, no ordering</td></tr>
+    <tr><td>Speed</td><td>Slower (more overhead)</td><td>Faster (less overhead)</td></tr>
+    <tr><td>Used for</td><td>Web (HTTP/S), email, file transfer, SSH</td><td>Streaming, gaming, VoIP, DNS queries</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">HTTP</h3>
+      <ul style="font-size:9pt">
+        <li><b>HTTP</b> sends plain text on port 80. <b>HTTPS</b> = HTTP + TLS encryption on port 443 (the padlock icon).</li>
+        <li><b>Methods:</b> GET (read), POST (create), PUT (replace), PATCH (modify), DELETE.</li>
+        <li><b>Status codes:</b> 1xx info · <b>2xx success</b> (200 OK, 201 Created) · <b>3xx redirect</b> (301 moved permanently) · <b>4xx client error</b> (400 bad request, 401 unauthorised, 403 forbidden, 404 not found) · <b>5xx server error</b> (500 internal error, 503 unavailable).</li>
+        <li>HTTP is <b>stateless</b>. Cookies and sessions remember users between requests.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">DNS &amp; DHCP</h3>
+      <ul style="font-size:9pt">
+        <li><b>DNS</b> translates names to IP addresses (www.example.com → 93.184.x.x). It checks the browser cache, then the OS, then a recursive resolver, then the root, TLD and authoritative servers.</li>
+        <li><b>DNS records:</b> A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail server), NS (name server), TXT.</li>
+        <li><b>DHCP</b> automatically gives a device its IP address, subnet mask, gateway and DNS using <b>DORA</b>: Discover → Offer → Request → Acknowledge.</li>
+        <li><b>ICMP</b> is used by <code>ping</code> and <code>traceroute</code>. <b>NAT</b> maps private IPs to one public IP.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">C4</div><div><div class="kicker">Protect the system</div><h2>Security: Encryption, Malware, Attacks</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">CIA triad</b><br><b>C</b>onfidentiality: only authorised people can see the data.<br><b>I</b>ntegrity: the data isn't altered.<br><b>A</b>vailability: the system is accessible when needed.</div>
+    <div class="def"><b class="t">AuthN vs AuthZ</b><br><b>Authentication</b> answers "who are you?" (password, OTP, biometrics). <b>Authorization</b> answers "what are you allowed to do?" (permissions). <b>MFA</b> combines 2 or more factors.</div>
+    <div class="def"><b class="t">Firewall &amp; VPN</b><br>A <b>firewall</b> filters traffic by rules (packet-filtering, stateful, application/WAF). A <b>VPN</b> creates an encrypted tunnel over the internet. A <b>proxy</b> forwards requests on your behalf.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%">Technique</th><th>How it works</th><th style="width:28%">Examples</th></tr></thead><tbody>
+    <tr><td><b>Symmetric</b> encryption</td><td>The <b>same key</b> encrypts and decrypts. It's fast, but the key must be shared securely.</td><td>AES, DES, 3DES</td></tr>
+    <tr><td><b>Asymmetric</b> encryption</td><td>A <b>public key</b> encrypts and the <b>private key</b> decrypts. It solves key sharing but is slower.</td><td>RSA, ECC, Diffie–Hellman (key exchange)</td></tr>
+    <tr><td><b>Hashing</b></td><td>A <b>one-way</b> fixed-length fingerprint that can't be reversed. Used to store passwords and check integrity.</td><td>SHA-256, (MD5: weak)</td></tr>
+    <tr><td><b>Digital signature</b></td><td>The sender hashes the data and signs it with their <b>private</b> key. Anyone can verify it with the public key. It proves authenticity and integrity.</td><td>TLS certificates</td></tr>
+  </tbody></table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Malware</th><th>Key trait</th></tr></thead><tbody>
+      <tr><td>Virus</td><td>Attaches to a host file and spreads when it runs</td></tr>
+      <tr><td>Worm</td><td>Self-replicates over networks, <b>no host needed</b></td></tr>
+      <tr><td>Trojan</td><td>Disguised as legitimate software</td></tr>
+      <tr><td>Ransomware</td><td>Encrypts files and demands payment</td></tr>
+      <tr><td>Spyware / Keylogger</td><td>Secretly records activity or keystrokes</td></tr>
+      <tr><td>Adware</td><td>Unwanted ads</td></tr>
+      <tr><td>Rootkit</td><td>Hides deep in the OS to keep admin control</td></tr>
+      <tr><td>Botnet</td><td>A network of infected devices controlled remotely</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Attack</th><th>What happens</th></tr></thead><tbody>
+      <tr><td>Phishing</td><td>Fake email or site tricks you into giving data</td></tr>
+      <tr><td>DoS / DDoS</td><td>Floods a service so real users can't reach it</td></tr>
+      <tr><td>Man-in-the-Middle</td><td>Intercepts communication between two parties</td></tr>
+      <tr><td>SQL Injection</td><td>Malicious SQL in an input field (<code>' OR 1=1</code>)</td></tr>
+      <tr><td>XSS</td><td>Injects scripts into web pages viewed by others</td></tr>
+      <tr><td>Brute force</td><td>Tries many passwords until one works</td></tr>
+      <tr><td>Social engineering</td><td>Manipulates people, not systems</td></tr>
+      <tr><td>Zero-day</td><td>Exploits a flaw before a fix exists</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">C5</div><div><div class="kicker">Modern infrastructure</div><h2>Cloud &amp; DevOps</h2></div></div>
+  <div class="def"><b class="t">Cloud computing</b> means on-demand IT resources over the internet with pay-as-you-go pricing. NIST's <b>5 characteristics</b>: on-demand self-service, broad network access, resource pooling, rapid elasticity and measured service.</div>
+  <table class="tight"><thead><tr><th>Model</th><th>You manage</th><th>Provider manages</th><th>Examples</th></tr></thead><tbody>
+    <tr><td><b>IaaS</b></td><td>OS, runtime, apps, data</td><td>Hardware, network, virtualisation</td><td>AWS EC2, Azure VMs, Google Compute Engine</td></tr>
+    <tr><td><b>PaaS</b></td><td>Apps and data only</td><td>Everything up to the runtime</td><td>Google App Engine, Heroku, Azure App Service</td></tr>
+    <tr><td><b>SaaS</b></td><td>Nothing (you just use it)</td><td>Everything</td><td>Gmail, Microsoft 365, Salesforce, Zoom</td></tr>
+    <tr><td><b>FaaS</b> (serverless)</td><td>Function code</td><td>Servers, scaling</td><td>AWS Lambda, Azure Functions</td></tr>
+  </tbody></table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Deployment model</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>Public</td><td>Shared provider infrastructure (AWS, Azure, GCP)</td></tr>
+      <tr><td>Private</td><td>Dedicated to one organisation</td></tr>
+      <tr><td>Hybrid</td><td>Private + public combined</td></tr>
+      <tr><td>Community</td><td>Shared by organisations with common needs</td></tr>
+      <tr><td>Multi-cloud</td><td>Using several public providers</td></tr>
+    </tbody></table>
+    <div>
+      <div class="def"><b class="t">Virtualisation</b><br>A <b>hypervisor</b> runs several VMs on one physical server.</div>
+      <div class="def"><b class="t">VM vs Container</b><br>A VM includes a full guest OS (heavy). A container shares the host <b>kernel</b> (light and fast to start).</div>
+      <div class="def"><b class="t">Scaling</b><br><b>Vertical</b> = a bigger machine. <b>Horizontal</b> = more machines. <b>Elasticity</b> = scaling automatically with demand.</div>
+    </div>
+  </div>
+  <h3>DevOps, CI/CD, Git &amp; Docker</h3>
+  <div class="def"><b class="t">DevOps</b> brings development and operations together to deliver faster and more reliably. Pipeline: <b>Plan → Code → Build → Test → Release → Deploy → Operate → Monitor</b>. <b>CI</b> (Continuous Integration) means merging code often and automatically building and testing each change. <b>CD</b> means Continuous Delivery (always ready to release) or Continuous Deployment (released automatically). Tools: Jenkins, GitHub Actions, GitLab CI.</div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Git command</th><th>Does</th></tr></thead><tbody>
+      <tr><td><code>git init</code></td><td>Create a new local repo</td></tr>
+      <tr><td><code>git clone &lt;url&gt;</code></td><td>Copy a remote repo locally</td></tr>
+      <tr><td><code>git status</code></td><td>Show changed and staged files</td></tr>
+      <tr><td><code>git add</code></td><td>Stage changes</td></tr>
+      <tr><td><code>git commit -m</code></td><td>Save a snapshot locally</td></tr>
+      <tr><td><code>git push</code> / <code>git pull</code></td><td>Upload / download + merge</td></tr>
+      <tr><td><code>git fetch</code></td><td>Download without merging</td></tr>
+      <tr><td><code>git branch</code> / <code>git checkout</code></td><td>Create / switch branches</td></tr>
+      <tr><td><code>git merge</code> / <code>git stash</code></td><td>Combine branches / shelve changes</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Docker term</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>Dockerfile</td><td>Recipe of steps to build an image</td></tr>
+      <tr><td>Image</td><td>Read-only template (app + dependencies)</td></tr>
+      <tr><td>Container</td><td>A <b>running instance</b> of an image</td></tr>
+      <tr><td>Registry</td><td>Stores images (Docker Hub)</td></tr>
+      <tr><td><code>docker build / run</code></td><td>Build an image / start a container</td></tr>
+      <tr><td><code>docker ps</code></td><td>List running containers</td></tr>
+      <tr><td><b>Kubernetes</b></td><td>Orchestrates many containers (scaling, healing)</td></tr>
+    </tbody></table>
+  </div>
+  <div class="def"><b class="t">SDLC &amp; Agile.</b> <b>Waterfall</b> runs in sequential phases. <b>Agile</b> works in short iterations. <b>Scrum</b> uses sprints of 1–4 weeks, a Product Owner, a Scrum Master, daily stand-ups and a backlog.</div>
+</section>
+
+<section class="page-break part c">
+  <div class="sec-head"><div class="sec-num">C✓</div><div><div class="kicker">Test yourself</div><h2>Part C · Practice MCQs</h2></div></div>
+  <p class="lead">These are pure recall questions. Aim for under 30 seconds each, and revise the tables above for any you miss.</p>
+  <div class="mcq"><div class="qn">QC1</div><div class="qb"><div class="qt">Which OSI layer is responsible for routing packets between networks?</div><ol class="opts"><li><b>A</b> Data Link (Layer 2)</li><li><b>B</b> Network (Layer 3)</li><li><b>C</b> Transport (Layer 4)</li><li><b>D</b> Session (Layer 5)</li></ol></div></div><div class="mcq"><div class="qn">QC2</div><div class="qb"><div class="qt">A switch mainly operates at which OSI layer?</div><ol class="opts"><li><b>A</b> Application (Layer 7)</li><li><b>B</b> Data Link (Layer 2)</li><li><b>C</b> Network (Layer 3)</li><li><b>D</b> Physical (Layer 1)</li></ol></div></div><div class="mcq"><div class="qn">QC3</div><div class="qb"><div class="qt">Default port number for HTTPS:</div><ol class="opts"><li><b>A</b> 21</li><li><b>B</b> 8080</li><li><b>C</b> 443</li><li><b>D</b> 80</li></ol></div></div><div class="mcq"><div class="qn">QC4</div><div class="qb"><div class="qt">Which protocol automatically assigns IP addresses to devices?</div><ol class="opts"><li><b>A</b> FTP</li><li><b>B</b> DNS</li><li><b>C</b> ARP</li><li><b>D</b> DHCP</li></ol></div></div><div class="mcq"><div class="qn">QC5</div><div class="qb"><div class="qt">Which is a PRIVATE IPv4 address?</div><ol class="opts"><li><b>A</b> 192.168.1.10</li><li><b>B</b> 11.0.0.1</li><li><b>C</b> 8.8.8.8</li><li><b>D</b> 172.32.0.5</li></ol></div></div><div class="mcq"><div class="qn">QC6</div><div class="qb"><div class="qt">How many usable host addresses are in a /26 subnet?</div><ol class="opts"><li><b>A</b> 64</li><li><b>B</b> 62</li><li><b>C</b> 30</li><li><b>D</b> 126</li></ol></div></div><div class="mcq"><div class="qn">QC7</div><div class="qb"><div class="qt">Which statement about TCP and UDP is correct?</div><ol class="opts"><li><b>A</b> TCP is connection-oriented and reliable; UDP is connectionless and faster</li><li><b>B</b> UDP guarantees delivery; TCP does not</li><li><b>C</b> Both are Network-layer protocols</li><li><b>D</b> TCP is used for DNS queries by default; UDP for web pages</li></ol></div></div><div class="mcq"><div class="qn">QC8</div><div class="qb"><div class="qt">HTTP status code 404 means:</div><ol class="opts"><li><b>A</b> Internal Server Error</li><li><b>B</b> Not Found</li><li><b>C</b> Forbidden</li><li><b>D</b> OK</li></ol></div></div><div class="mcq"><div class="qn">QC9</div><div class="qb"><div class="qt">Which is an example of SYMMETRIC encryption?</div><ol class="opts"><li><b>A</b> SHA-256</li><li><b>B</b> RSA</li><li><b>C</b> AES</li><li><b>D</b> Diffie–Hellman</li></ol></div></div><div class="mcq"><div class="qn">QC10</div><div class="qb"><div class="qt">Malware that encrypts your files and demands payment is:</div><ol class="opts"><li><b>A</b> Spyware</li><li><b>B</b> Worm</li><li><b>C</b> Adware</li><li><b>D</b> Ransomware</li></ol></div></div><div class="mcq"><div class="qn">QC11</div><div class="qb"><div class="qt">An attacker inserts <code>' OR 1=1 --</code> into a login form. This attack is:</div><ol class="opts"><li><b>A</b> Phishing</li><li><b>B</b> DDoS</li><li><b>C</b> SQL Injection</li><li><b>D</b> Cross-Site Scripting</li></ol></div></div><div class="mcq"><div class="qn">QC12</div><div class="qb"><div class="qt">The 'CIA triad' in security stands for:</div><ol class="opts"><li><b>A</b> Confidentiality, Identity, Authentication</li><li><b>B</b> Confidentiality, Integrity, Availability</li><li><b>C</b> Control, Identity, Access</li><li><b>D</b> Cyber, Internet, Access</li></ol></div></div><div class="mcq"><div class="qn">QC13</div><div class="qb"><div class="qt">Renting virtual machines from AWS EC2 is an example of:</div><ol class="opts"><li><b>A</b> FaaS</li><li><b>B</b> SaaS</li><li><b>C</b> PaaS</li><li><b>D</b> IaaS</li></ol></div></div><div class="mcq"><div class="qn">QC14</div><div class="qb"><div class="qt">Using Gmail or Microsoft 365 in a browser is an example of:</div><ol class="opts"><li><b>A</b> On-premise</li><li><b>B</b> SaaS</li><li><b>C</b> PaaS</li><li><b>D</b> IaaS</li></ol></div></div><div class="mcq"><div class="qn">QC15</div><div class="qb"><div class="qt">A company keeps sensitive data in its private cloud and uses a public cloud for extra capacity. This is:</div><ol class="opts"><li><b>A</b> Community cloud</li><li><b>B</b> Hybrid cloud</li><li><b>C</b> Public cloud</li><li><b>D</b> Multi-tenant SaaS</li></ol></div></div><div class="mcq"><div class="qn">QC16</div><div class="qb"><div class="qt">Which Git command creates a local copy of a remote repository?</div><ol class="opts"><li><b>A</b> git commit</li><li><b>B</b> git clone</li><li><b>C</b> git pull</li><li><b>D</b> git init</li></ol></div></div><div class="mcq"><div class="qn">QC17</div><div class="qb"><div class="qt">In Docker, what is a container?</div><ol class="opts"><li><b>A</b> A file that lists build steps</li><li><b>B</b> A virtual machine with its own full OS kernel</li><li><b>C</b> A cloud provider</li><li><b>D</b> A running instance of an image</li></ol></div></div><div class="mcq"><div class="qn">QC18</div><div class="qb"><div class="qt">Continuous Integration (CI) mainly means:</div><ol class="opts"><li><b>A</b> Merging code often, with automated build and tests on each change</li><li><b>B</b> Manually testing at the end of the project</li><li><b>C</b> Writing code without version control</li><li><b>D</b> Deploying to production once a year</li></ol></div></div>
+  <div class="avoid-head"><h3>Part C · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct option</th><th>Why</th></tr></thead><tbody><tr><td><b>C1</b></td><td class='ans'>B</td><td>Network (Layer 3)</td><td>Routers and IP work at Layer 3.</td></tr><tr><td><b>C2</b></td><td class='ans'>B</td><td>Data Link (Layer 2)</td><td>Switches forward frames using MAC addresses (Layer 2). Hubs are Layer 1 and routers are Layer 3.</td></tr><tr><td><b>C3</b></td><td class='ans'>C</td><td>443</td><td>HTTP uses port 80 and HTTPS uses port 443.</td></tr><tr><td><b>C4</b></td><td class='ans'>D</td><td>DHCP</td><td>DHCP follows DORA: Discover, Offer, Request, Acknowledge.</td></tr><tr><td><b>C5</b></td><td class='ans'>A</td><td>192.168.1.10</td><td>The private ranges are 10.0.0.0/8, 172.16.0.0–172.31.255.255 and 192.168.0.0/16. 172.32.x.x is outside the range.</td></tr><tr><td><b>C6</b></td><td class='ans'>B</td><td>62</td><td>That leaves 32 - 26 = 6 host bits, and 2⁶ - 2 = 62. Two addresses are reserved for the network and broadcast.</td></tr><tr><td><b>C7</b></td><td class='ans'>A</td><td>TCP is connection-oriented and reliable; UDP is connectionless and faster</td><td>TCP sets up a connection with a 3-way handshake and guarantees delivery. UDP has no handshake and is used for streaming and DNS.</td></tr><tr><td><b>C8</b></td><td class='ans'>B</td><td>Not Found</td><td>2xx means success, 3xx redirect, 4xx client error (404 = not found, 403 = forbidden) and 5xx server error (500).</td></tr><tr><td><b>C9</b></td><td class='ans'>C</td><td>AES</td><td>AES uses one shared key. RSA is asymmetric. SHA-256 is hashing, not encryption.</td></tr><tr><td><b>C10</b></td><td class='ans'>D</td><td>Ransomware</td><td>Ransomware holds data hostage. A worm self-replicates across networks without a host file.</td></tr><tr><td><b>C11</b></td><td class='ans'>C</td><td>SQL Injection</td><td>Malicious SQL in the input changes the query. Prevent it with parameterised queries.</td></tr><tr><td><b>C12</b></td><td class='ans'>B</td><td>Confidentiality, Integrity, Availability</td><td>These are the three core goals of information security.</td></tr><tr><td><b>C13</b></td><td class='ans'>D</td><td>IaaS</td><td>IaaS gives you infrastructure: VMs, storage and networks. You manage the OS and everything above it.</td></tr><tr><td><b>C14</b></td><td class='ans'>B</td><td>SaaS</td><td>SaaS is ready-to-use software. The provider manages everything.</td></tr><tr><td><b>C15</b></td><td class='ans'>B</td><td>Hybrid cloud</td><td>Hybrid combines private and public clouds.</td></tr><tr><td><b>C16</b></td><td class='ans'>B</td><td>git clone</td><td>git init creates a new empty repo. git pull updates an existing one.</td></tr><tr><td><b>C17</b></td><td class='ans'>D</td><td>A running instance of an image</td><td>Image = template, container = running instance, Dockerfile = build recipe. Containers share the host kernel.</td></tr><tr><td><b>C18</b></td><td class='ans'>A</td><td>Merging code often, with automated build and tests on each change</td><td>CD (Continuous Delivery/Deployment) then automates releasing the tested code.</td></tr></tbody></table>
+</section>
+
+<!-- ======================= PART D ======================= -->
+<section class="page-break part d">
+  <div class="banner"><div class="big">D</div><div class="pl">PART D · ≈ 14 QUESTIONS</div><h2>CS Fundamentals (Programming)</h2>
+    <p>The basics every programmer must know: data types, operators, control flow, functions, data structures, searching and sorting, Big-O and DBMS. Expect a mix of concept and small-logic questions.</p>
+    <div class="chips"><span class="chip">Data types</span><span class="chip">Control flow</span><span class="chip">Stack · Queue · Linked list</span><span class="chip">Search &amp; sort</span><span class="chip">Big-O</span><span class="chip">DBMS &amp; SQL</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">D1</div><div><div class="kicker">The building blocks</div><h2>Data Types, Operators &amp; Control Flow</h2></div></div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Java type</th><th>Size</th><th>Range / note</th></tr></thead><tbody>
+      <tr><td>byte</td><td>1 B</td><td>−128 to 127</td></tr>
+      <tr><td>short</td><td>2 B</td><td>−32,768 to 32,767</td></tr>
+      <tr><td>int</td><td>4 B</td><td>about ±2.1 billion</td></tr>
+      <tr><td>long</td><td>8 B</td><td>very large integers</td></tr>
+      <tr><td>float / double</td><td>4 B / 8 B</td><td>decimals (double is more precise)</td></tr>
+      <tr><td>char</td><td>2 B</td><td>Unicode (C's char = 1 byte)</td></tr>
+      <tr><td>boolean</td><td>—</td><td>true / false</td></tr>
+    </tbody></table>
+    <div>
+      <div class="def"><b class="t">Type casting</b><br><b>Implicit (widening)</b>: int → long → float → double, done automatically.<br><b>Explicit (narrowing)</b>: <code>(int) 9.7</code> = 9, which truncates.</div>
+      <div class="def"><b class="t">Integer overflow</b><br>Going past the maximum wraps around: in Java, <code>Integer.MAX_VALUE + 1</code> becomes the most negative int.</div>
+      <div class="def"><b class="t">Integer vs real division</b><br><code>7 / 2 = 3</code> but <code>7.0 / 2 = 3.5</code>. <code>-7 / 2 = -3</code> in C/Java (truncates toward 0).</div>
+    </div>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">if / else-if / switch</b><br>In a switch, a <b>missing break</b> falls through to the next case.</div>
+    <div class="def"><b class="t">for / while / do-while</b><br><b>do-while</b> always runs <b>at least once</b>, because the condition is checked at the end.</div>
+    <div class="def"><b class="t">Short-circuit</b><br>In <code>a &amp;&amp; b</code>, b isn't evaluated if a is false. In <code>a || b</code>, b isn't evaluated if a is true.</div>
+  </div>
+  <div class="two">
+    <div class="def"><b class="t">Functions: call by value vs reference</b><br><b>By value</b>: a copy is passed, so the original is unchanged. <b>By reference</b>: the function works on the original. Java passes everything by value (for objects, the value is the reference).</div>
+    <div class="def"><b class="t">Arrays &amp; strings</b><br>An array is a fixed-size, contiguous block, 0-indexed, with O(1) access by index. Java Strings are <b>immutable</b>. Use StringBuilder for repeated changes. A C string ends with <code>'\0'</code>.</div>
+  </div>
+</section>
+
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">D2</div><div><div class="kicker">Organise data</div><h2>Data Structures</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Stack: LIFO</b><br><code>push</code>, <code>pop</code>, <code>peek</code>, all O(1). Overflow when full, underflow when empty.<br><b>Uses:</b> function calls (the call stack), undo, browser back button, balanced brackets, expression evaluation, DFS.</div>
+    <div class="def"><b class="t">Queue: FIFO</b><br><code>enqueue</code> at the rear, <code>dequeue</code> from the front, O(1).<br><b>Variants:</b> circular queue, deque (both ends), priority queue (by priority, often a heap).<br><b>Uses:</b> CPU scheduling, printers, BFS.</div>
+    <div class="def"><b class="t">Linked list</b><br>Nodes of <code>data + next</code> pointer. Insert or delete at the head is <b>O(1)</b>. Access by index is <b>O(n)</b>. Types: singly, doubly (prev + next) and circular.</div>
+    <div class="def"><b class="t">Trees &amp; graphs</b><br><b>Binary Search Tree</b>: left &lt; node &lt; right, with search O(log n) on average and O(n) when skewed. Traversals: in-order (sorted output), pre-order, post-order. A <b>graph</b> has vertices and edges. BFS uses a queue; DFS uses a stack or recursion.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Structure</th><th>Access</th><th>Search</th><th>Insert</th><th>Delete</th></tr></thead><tbody>
+    <tr><td>Array</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td></tr>
+    <tr><td>Linked list</td><td>O(n)</td><td>O(n)</td><td>O(1) at head</td><td>O(1) at head</td></tr>
+    <tr><td>Stack / Queue</td><td>—</td><td>O(n)</td><td>O(1)</td><td>O(1)</td></tr>
+    <tr><td>BST (balanced)</td><td>—</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+    <tr><td>Hash table</td><td>—</td><td>O(1) average</td><td>O(1) average</td><td>O(1) average</td></tr>
+  </tbody></table>
+  <h3>Expression notation (stack questions)</h3>
+  <table class="tight"><thead><tr><th>Infix</th><th>Prefix (Polish)</th><th>Postfix (Reverse Polish)</th></tr></thead><tbody>
+    <tr><td><code>A + B</code></td><td><code>+ A B</code></td><td><code>A B +</code></td></tr>
+    <tr><td><code>A + B * C</code></td><td><code>+ A * B C</code></td><td><code>A B C * +</code></td></tr>
+    <tr><td><code>(A + B) * C</code></td><td><code>* + A B C</code></td><td><code>A B + C *</code></td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Evaluating postfix:</b> scan left to right. Push numbers. When you meet an operator, pop the top two, apply the operator as (second-popped op first-popped), and push the result. Example: <code>5 1 2 + 4 * + 3 -</code> → 1 + 2 = 3, 3 × 4 = 12, 5 + 12 = 17, 17 − 3 = <b>14</b>.</p>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">D3</div><div><div class="kicker">Find &amp; order</div><h2>Searching, Sorting &amp; Big-O</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Linear search</b><br>Checks each element: O(n). Works on unsorted data.</div>
+    <div class="def"><b class="t">Binary search</b><br>Needs <b>sorted</b> data. Compare with the middle and discard half each step: O(log n). Searching 1,024 items takes at most 10–11 comparisons.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable?</th><th>Idea</th></tr></thead><tbody>
+    <tr><td>Bubble</td><td>O(n)*</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td><td>Swap adjacent pairs; the largest "bubbles" to the end</td></tr>
+    <tr><td>Selection</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>No</td><td>Pick the minimum and put it in front</td></tr>
+    <tr><td>Insertion</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>Yes</td><td>Insert each item into the sorted left part</td></tr>
+    <tr><td>Merge</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td><td>Divide, sort halves, merge</td></tr>
+    <tr><td>Quick</td><td>O(n log n)</td><td>O(n log n)</td><td><b>O(n²)</b></td><td>O(log n)</td><td>No</td><td>Partition around a pivot</td></tr>
+    <tr><td>Heap</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>No</td><td>Build a max-heap and extract repeatedly</td></tr>
+  </tbody></table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:-4px">*With the "stop if no swaps" optimisation, on already-sorted input.</p>
+  <h3>Big-O from code</h3>
+  <table class="tight"><thead><tr><th>Pattern</th><th>Complexity</th></tr></thead><tbody>
+    <tr><td>Fixed number of steps</td><td>O(1)</td></tr>
+    <tr><td>Halving or doubling loop (<code>i = i*2</code>, binary search)</td><td>O(log n)</td></tr>
+    <tr><td>Single loop to n</td><td>O(n)</td></tr>
+    <tr><td>Loop to n containing a halving loop; merge sort</td><td>O(n log n)</td></tr>
+    <tr><td>Two nested loops to n</td><td>O(n²)</td></tr>
+    <tr><td>Naive recursive Fibonacci; all subsets</td><td>O(2ⁿ)</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Rules:</b> drop constants (O(2n) = O(n)), keep only the dominant term (O(n² + n) = O(n²)). Sequential blocks add, and nested blocks multiply. Growth order: 1 &lt; log n &lt; n &lt; n log n &lt; n² &lt; 2ⁿ &lt; n!</p>
+</section>
+
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">D4</div><div><div class="kicker">Store data</div><h2>DBMS Basics</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">DBMS vs RDBMS</b><br>An <b>RDBMS</b> stores data in related <b>tables</b> (rows = records/tuples, columns = attributes) and uses SQL. Examples: MySQL, Oracle, PostgreSQL, SQL Server. NoSQL examples: MongoDB, Cassandra.</div>
+    <div class="def"><b class="t">ACID (transactions)</b><br><b>A</b>tomicity: all or nothing. <b>C</b>onsistency: valid state to valid state. <b>I</b>solation: concurrent transactions don't interfere. <b>D</b>urability: committed data survives crashes.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%">Key</th><th>Definition</th></tr></thead><tbody>
+    <tr><td><b>Super key</b></td><td>Any set of columns that uniquely identifies a row</td></tr>
+    <tr><td><b>Candidate key</b></td><td>A minimal super key (no extra columns)</td></tr>
+    <tr><td><b>Primary key</b></td><td>The chosen candidate key: <b>unique + NOT NULL</b>, one per table</td></tr>
+    <tr><td><b>Alternate key</b></td><td>Candidate keys not chosen as primary</td></tr>
+    <tr><td><b>Foreign key</b></td><td>A column referencing another table's primary key (referential integrity)</td></tr>
+    <tr><td><b>Composite key</b></td><td>A key made of 2 or more columns</td></tr>
+    <tr><td><b>Unique key</b></td><td>Values must be unique but can be NULL (one NULL in most databases)</td></tr>
+  </tbody></table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Normal form</th><th>Rule</th></tr></thead><tbody>
+      <tr><td>1NF</td><td>Atomic (single) values, no repeating groups</td></tr>
+      <tr><td>2NF</td><td>1NF + no <b>partial</b> dependency on part of a composite key</td></tr>
+      <tr><td>3NF</td><td>2NF + no <b>transitive</b> dependency (non-key → non-key)</td></tr>
+      <tr><td>BCNF</td><td>Every determinant is a candidate key</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>SQL family</th><th>Commands</th></tr></thead><tbody>
+      <tr><td>DDL (structure)</td><td>CREATE, ALTER, DROP, TRUNCATE, RENAME</td></tr>
+      <tr><td>DML (data)</td><td>INSERT, UPDATE, DELETE</td></tr>
+      <tr><td>DQL (query)</td><td>SELECT</td></tr>
+      <tr><td>DCL (access)</td><td>GRANT, REVOKE</td></tr>
+      <tr><td>TCL (transactions)</td><td>COMMIT, ROLLBACK, SAVEPOINT</td></tr>
+    </tbody></table>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">DELETE</b><br>DML. Removes rows (can use WHERE). Can be rolled back. Slower.</div>
+    <div class="def"><b class="t">TRUNCATE</b><br>DDL. Removes <b>all</b> rows quickly but keeps the table structure.</div>
+    <div class="def"><b class="t">DROP</b><br>DDL. Removes the whole table: structure and data.</div>
+  </div>
+  <div class="def"><b class="t">Query order and joins.</b> Written order: <code>SELECT … FROM … WHERE … GROUP BY … HAVING … ORDER BY</code>. WHERE filters rows <b>before</b> grouping, and HAVING filters <b>groups</b>. INNER JOIN returns only matching rows. LEFT JOIN returns all left rows (NULL where there's no match), and RIGHT JOIN returns all right rows. An ER diagram shows <b>entities</b> (rectangles), <b>attributes</b> (ovals) and <b>relationships</b> (diamonds) with cardinality 1:1, 1:N or M:N.</div>
+</section>
+
+<section class="page-break part d">
+  <div class="sec-head"><div class="sec-num">D✓</div><div><div class="kicker">Test yourself</div><h2>Part D · Practice MCQs</h2></div></div>
+  <p class="lead">A mix of concept and small-logic questions. Aim for under 45 seconds each.</p>
+  <div class="mcq"><div class="qn">QD1</div><div class="qb"><div class="qt">Size of an <code>int</code> in Java:</div><ol class="opts"><li><b>A</b> 2 bytes</li><li><b>B</b> 4 bytes</li><li><b>C</b> Depends on the OS</li><li><b>D</b> 8 bytes</li></ol></div></div><div class="mcq"><div class="qn">QD2</div><div class="qb"><div class="qt">Which data structure works on LIFO (Last In, First Out)?</div><ol class="opts"><li><b>A</b> Stack</li><li><b>B</b> Array</li><li><b>C</b> Queue</li><li><b>D</b> Linked list</li></ol></div></div><div class="mcq"><div class="qn">QD3</div><div class="qb"><div class="qt">Starting with an empty stack: push 1, push 2, pop, push 3, pop, pop. In what order are values popped?</div><ol class="opts"><li><b>A</b> 1, 2, 3</li><li><b>B</b> 3, 2, 1</li><li><b>C</b> 2, 3, 1</li><li><b>D</b> 2, 1, 3</li></ol></div></div><div class="mcq"><div class="qn">QD4</div><div class="qb"><div class="qt">Evaluate the postfix expression <code>2 3 4 * +</code>:</div><ol class="opts"><li><b>A</b> 9</li><li><b>B</b> 24</li><li><b>C</b> 14</li><li><b>D</b> 20</li></ol></div></div><div class="mcq"><div class="qn">QD5</div><div class="qb"><div class="qt">Binary search requires that the array is:</div><ol class="opts"><li><b>A</b> Of even length</li><li><b>B</b> Stored as a linked list</li><li><b>C</b> Unsorted</li><li><b>D</b> Sorted</li></ol></div></div><div class="mcq"><div class="qn">QD6</div><div class="qb"><div class="qt">Time complexity of this code?<pre>for (i = 1; i < n; i = i * 2)
+    print(i)</pre></div><ol class="opts"><li><b>A</b> O(log n)</li><li><b>B</b> O(n)</li><li><b>C</b> O(n log n)</li><li><b>D</b> O(1)</li></ol></div></div><div class="mcq"><div class="qn">QD7</div><div class="qb"><div class="qt">Time complexity of two nested loops that each run n times:</div><ol class="opts"><li><b>A</b> O(n²)</li><li><b>B</b> O(log n)</li><li><b>C</b> O(2n)</li><li><b>D</b> O(n)</li></ol></div></div><div class="mcq"><div class="qn">QD8</div><div class="qb"><div class="qt">Which sorting algorithm has a worst case of O(n log n)?</div><ol class="opts"><li><b>A</b> Insertion sort</li><li><b>B</b> Merge sort</li><li><b>C</b> Quick sort</li><li><b>D</b> Bubble sort</li></ol></div></div><div class="mcq"><div class="qn">QD9</div><div class="qb"><div class="qt">Which sorting algorithm is NOT stable (in its standard form)?</div><ol class="opts"><li><b>A</b> Insertion sort</li><li><b>B</b> Selection sort</li><li><b>C</b> Merge sort</li><li><b>D</b> Bubble sort</li></ol></div></div><div class="mcq"><div class="qn">QD10</div><div class="qb"><div class="qt">Inserting a new node at the HEAD of a singly linked list takes:</div><ol class="opts"><li><b>A</b> O(1)</li><li><b>B</b> O(n)</li><li><b>C</b> O(log n)</li><li><b>D</b> O(n²)</li></ol></div></div><div class="mcq"><div class="qn">QD11</div><div class="qb"><div class="qt">A PRIMARY KEY column must be:</div><ol class="opts"><li><b>A</b> A foreign key</li><li><b>B</b> Unique and NOT NULL</li><li><b>C</b> Repeated in every row</li><li><b>D</b> Unique but may be NULL</li></ol></div></div><div class="mcq"><div class="qn">QD12</div><div class="qb"><div class="qt">Which command is DDL (Data Definition Language)?</div><ol class="opts"><li><b>A</b> CREATE</li><li><b>B</b> SELECT</li><li><b>C</b> UPDATE</li><li><b>D</b> INSERT</li></ol></div></div><div class="mcq"><div class="qn">QD13</div><div class="qb"><div class="qt">Which statement about DELETE and TRUNCATE is correct?</div><ol class="opts"><li><b>A</b> TRUNCATE can use WHERE</li><li><b>B</b> DELETE removes the table structure</li><li><b>C</b> DELETE can use WHERE; TRUNCATE removes all rows</li><li><b>D</b> They are both DDL</li></ol></div></div><div class="mcq"><div class="qn">QD14</div><div class="qb"><div class="qt">A table in 2NF that still has a transitive dependency (non-key → non-key) violates:</div><ol class="opts"><li><b>A</b> 2NF</li><li><b>B</b> 3NF</li><li><b>C</b> 1NF</li><li><b>D</b> No normal form</li></ol></div></div><div class="mcq"><div class="qn">QD15</div><div class="qb"><div class="qt">'A transaction happens completely or not at all' describes which ACID property?</div><ol class="opts"><li><b>A</b> Durability</li><li><b>B</b> Consistency</li><li><b>C</b> Atomicity</li><li><b>D</b> Isolation</li></ol></div></div><div class="mcq"><div class="qn">QD16</div><div class="qb"><div class="qt">Which data structure is used for Breadth-First Search (BFS)?</div><ol class="opts"><li><b>A</b> Hash table</li><li><b>B</b> Stack</li><li><b>C</b> Heap</li><li><b>D</b> Queue</li></ol></div></div>
+  <div class="avoid-head"><h3>Part D · Answer key</h3></div>
+  <table class='keyt'><thead><tr><th>Q</th><th>Ans</th><th>Correct option</th><th>Why</th></tr></thead><tbody><tr><td><b>D1</b></td><td class='ans'>B</td><td>4 bytes</td><td>Java's sizes are fixed: byte 1, short 2, int 4, long 8, float 4, double 8, char 2.</td></tr><tr><td><b>D2</b></td><td class='ans'>A</td><td>Stack</td><td>Stacks are used for undo, function calls and balancing brackets. Queues are FIFO.</td></tr><tr><td><b>D3</b></td><td class='ans'>C</td><td>2, 3, 1</td><td>pop → 2, then 3 is pushed and popped → 3, then the last pop → 1.</td></tr><tr><td><b>D4</b></td><td class='ans'>C</td><td>14</td><td>Push 2, 3, 4. Then * gives 3 × 4 = 12, and + gives 2 + 12 = 14.</td></tr><tr><td><b>D5</b></td><td class='ans'>D</td><td>Sorted</td><td>Binary search halves a sorted range each step, so it runs in O(log n).</td></tr><tr><td><b>D6</b></td><td class='ans'>A</td><td>O(log n)</td><td>i doubles each time, so the loop runs about log₂ n times.</td></tr><tr><td><b>D7</b></td><td class='ans'>A</td><td>O(n²)</td><td>n × n iterations.</td></tr><tr><td><b>D8</b></td><td class='ans'>B</td><td>Merge sort</td><td>Quick sort's worst case is O(n²). Merge sort is always O(n log n).</td></tr><tr><td><b>D9</b></td><td class='ans'>B</td><td>Selection sort</td><td>A stable sort keeps equal elements in their original order. Selection sort's long-distance swaps can break that order.</td></tr><tr><td><b>D10</b></td><td class='ans'>A</td><td>O(1)</td><td>Just point the new node at the old head. No traversal is needed.</td></tr><tr><td><b>D11</b></td><td class='ans'>B</td><td>Unique and NOT NULL</td><td>A table has one primary key, which identifies each row. A foreign key links to another table's primary key.</td></tr><tr><td><b>D12</b></td><td class='ans'>A</td><td>CREATE</td><td>DDL: CREATE, ALTER, DROP, TRUNCATE. DML: INSERT, UPDATE, DELETE. DQL: SELECT.</td></tr><tr><td><b>D13</b></td><td class='ans'>C</td><td>DELETE can use WHERE; TRUNCATE removes all rows</td><td>DELETE is DML and row-by-row, and it can be rolled back. TRUNCATE is DDL and removes all rows quickly. DROP removes the table itself.</td></tr><tr><td><b>D14</b></td><td class='ans'>B</td><td>3NF</td><td>1NF: atomic values. 2NF: no partial dependency. 3NF: no transitive dependency.</td></tr><tr><td><b>D15</b></td><td class='ans'>C</td><td>Atomicity</td><td>ACID: Atomicity, Consistency, Isolation, Durability.</td></tr><tr><td><b>D16</b></td><td class='ans'>D</td><td>Queue</td><td>BFS explores level by level using a queue. DFS uses a stack, or recursion.</td></tr></tbody></table>
+</section>
+
+<!-- ======================= FINAL ======================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num" style="background:linear-gradient(135deg,#0e7490,#4338ca)">Z</div><div><div class="kicker" style="color:#0e7490">Get test-ready</div><h2>14-Day Plan &amp; Final Cheat Sheet</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:12%">Days</th><th style="width:26%">Focus</th><th>What to do (60–90 minutes a day)</th></tr></thead>
+    <tbody>
+      <tr><td><b>1–2</b></td><td><span style="color:var(--pa);font-weight:700">Part A</span> · Office</td><td>Practise every Excel function in A1 on a real sheet. Learn the error table and 20 shortcuts. Do the Part A MCQs.</td></tr>
+      <tr><td><b>3–4</b></td><td><span style="color:var(--pb);font-weight:700">Part B</span> · Operators &amp; bits</td><td>Learn the precedence table. Convert 30 numbers to binary. Drill &amp; | ^ ~ &lt;&lt; &gt;&gt; until each takes under 10 seconds.</td></tr>
+      <tr><td><b>5–6</b></td><td><span style="color:var(--pb);font-weight:700">Part B</span> · Loops &amp; recursion</td><td>Trace 15 snippets <b>without paper</b>. Use the loop-count formulas. Solve B1–B18 under time.</td></tr>
+      <tr><td><b>7</b></td><td><span style="color:var(--pb);font-weight:700">Part B</span> · OOPs</td><td>Explain the 4 pillars aloud with examples. Learn overloading vs overriding. Do B19–B26.</td></tr>
+      <tr><td><b>8–9</b></td><td><span style="color:var(--pc);font-weight:700">Part C</span> · Networking</td><td>Memorise the OSI table, ports, IP classes and private ranges. Practise subnet host counts.</td></tr>
+      <tr><td><b>10</b></td><td><span style="color:var(--pc);font-weight:700">Part C</span> · Security &amp; Cloud</td><td>Learn the encryption, malware and attack tables, IaaS/PaaS/SaaS, Git and Docker. Do the Part C MCQs.</td></tr>
+      <tr><td><b>11–12</b></td><td><span style="color:var(--pd);font-weight:700">Part D</span> · CS Fundamentals</td><td>Learn the data structure and sorting tables, Big-O patterns, keys, normal forms and SQL families. Do the Part D MCQs.</td></tr>
+      <tr><td><b>13</b></td><td>Full mock</td><td>Take 45 mixed questions in 45 minutes. Note every wrong answer and why you got it wrong.</td></tr>
+      <tr><td><b>14</b></td><td>Revise</td><td>Read this cheat sheet and the trap boxes only. Sleep well.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>One-page cheat sheet</h3>
+  <div class="cards c2">
+    <div class="card" style="border-top:4px solid var(--pa)"><h4 style="margin-top:0;color:var(--pa)">A · Office</h4><ul style="font-size:8.8pt;margin:0">
+      <li><code>$A$1</code> fixed · <code>$A1</code> column fixed · <code>A$1</code> row fixed · <span class="k">F4</span> toggles</li>
+      <li>VLOOKUP: first column, look right, FALSE = exact, not found = #N/A</li>
+      <li>COUNT = numbers · COUNTA = non-empty · COUNTIF(range, criteria) · SUMIF(range, criteria, sum_range)</li>
+      <li>#DIV/0! · #N/A · #VALUE! · #REF! · #NAME? · #### (narrow column)</li>
+      <li>Slide Master = all slides · Animation = objects · Transition = between slides</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid var(--pb)"><h4 style="margin-top:0;color:var(--pb)">B · Pseudocode + OOPs</h4><ul style="font-size:8.8pt;margin:0">
+      <li><code>x&lt;&lt;n = x·2ⁿ</code> · <code>x&gt;&gt;n = x/2ⁿ</code> · <code>~x = −(x+1)</code> · <code>x^x = 0</code></li>
+      <li><code>+</code> before <code>&lt;&lt;</code> · <code>==</code> before <code>&amp;</code> · integer <code>/</code> truncates</li>
+      <li>Nested loops <code>j = i to n</code> run n(n+1)/2 times · <code>i *= 2</code> runs log n times</li>
+      <li>Recursion: expand down, add up on the way back. Printing after the call gives reverse order.</li>
+      <li>Overloading = same class, different parameters · Overriding = child redefines, decided at run time</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid var(--pc)"><h4 style="margin-top:0;color:var(--pc)">C · Networking · Security · Cloud</h4><ul style="font-size:8.8pt;margin:0">
+      <li>L3 router/IP · L2 switch/MAC · L1 hub · L4 TCP/UDP</li>
+      <li>22 SSH · 25 SMTP · 53 DNS · 67/68 DHCP · 80 HTTP · 443 HTTPS</li>
+      <li>Private: 10/8 · 172.16–31 · 192.168/16 · hosts = 2ʰ − 2</li>
+      <li>AES symmetric · RSA asymmetric · SHA hashing (one-way)</li>
+      <li>IaaS = EC2 · PaaS = App Engine · SaaS = Gmail · Hybrid = private + public</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid var(--pd)"><h4 style="margin-top:0;color:var(--pd)">D · CS Fundamentals</h4><ul style="font-size:8.8pt;margin:0">
+      <li>Stack LIFO (DFS, undo) · Queue FIFO (BFS, scheduling)</li>
+      <li>Binary search needs sorted data, O(log n) · Merge sort is always O(n log n) · Quick sort worst O(n²)</li>
+      <li>Stable sorts: bubble, insertion, merge · Not stable: selection, quick, heap</li>
+      <li>PK = unique + not null · FK → another table's PK · 2NF partial · 3NF transitive</li>
+      <li>DDL: CREATE/ALTER/DROP/TRUNCATE · DML: INSERT/UPDATE/DELETE · ACID</li>
+    </ul></div>
+  </div>
+  <div class="note tip" style="margin-top:12px"><span class="t">Final word</span>Parts A, C and D reward <b>revision</b>, and Part B rewards <b>practice</b>. Lock in the easy recall marks first, then win the pseudocode section by tracing calmly: write nothing down, track only what changes, and spot the pattern.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only. It is not affiliated with, endorsed by, or an official document of Accenture. The section pattern is based on publicly shared preparation material and may change. All questions are original practice questions, not real test questions. Always check the latest details on the official Accenture careers portal.</p>
+</section>
+
+</body>
+</html>

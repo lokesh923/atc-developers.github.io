@@ -1,0 +1,200 @@
+
+<!-- ======================= PART C ======================= -->
+<section class="page-break part c">
+  <div class="banner"><div class="big">C</div><div class="pl">PART C · ≈ 14 QUESTIONS</div><h2>Networking, Security &amp; Cloud</h2>
+    <p>Mostly recall: layers, ports, protocols, attack types, cloud models and DevOps tools. With the tables in this part memorised, this becomes the highest-scoring section.</p>
+    <div class="chips"><span class="chip">OSI &amp; TCP/IP</span><span class="chip">IP &amp; subnetting</span><span class="chip">HTTP · DNS · DHCP</span><span class="chip">Security</span><span class="chip">IaaS · PaaS · SaaS</span><span class="chip">CI/CD · Git · Docker</span></div></div>
+
+  <div class="sec-head"><div class="sec-num">C1</div><div><div class="kicker">The reference models</div><h2>OSI &amp; TCP/IP Models, Devices, Ports</h2></div></div>
+  <table class="tight">
+    <thead><tr><th>#</th><th>OSI layer</th><th style="width:30%">Job</th><th>Protocols / examples</th><th>Device</th><th>Data unit</th></tr></thead>
+    <tbody>
+      <tr><td>7</td><td><b>Application</b></td><td>Network services for the user</td><td>HTTP, HTTPS, FTP, SMTP, DNS, DHCP</td><td>—</td><td>Data</td></tr>
+      <tr><td>6</td><td><b>Presentation</b></td><td>Format, encrypt, compress</td><td>SSL/TLS, JPEG, ASCII</td><td>—</td><td>Data</td></tr>
+      <tr><td>5</td><td><b>Session</b></td><td>Open, manage and close sessions</td><td>NetBIOS, RPC</td><td>—</td><td>Data</td></tr>
+      <tr><td>4</td><td><b>Transport</b></td><td>End-to-end delivery, ports, reliability</td><td>TCP, UDP</td><td>—</td><td>Segment / datagram</td></tr>
+      <tr><td>3</td><td><b>Network</b></td><td>Logical addressing and <b>routing</b></td><td>IP, ICMP (ping)</td><td>Router</td><td>Packet</td></tr>
+      <tr><td>2</td><td><b>Data Link</b></td><td>MAC addressing, framing, error detection</td><td>Ethernet, PPP, ARP*</td><td>Switch, bridge</td><td>Frame</td></tr>
+      <tr><td>1</td><td><b>Physical</b></td><td>Bits over the medium</td><td>Cables, Wi-Fi radio</td><td>Hub, repeater</td><td>Bits</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:-4px">*ARP maps IP → MAC and sits between Layers 2 and 3. Memory trick, top to bottom: "<b>A</b>ll <b>P</b>eople <b>S</b>eem <b>T</b>o <b>N</b>eed <b>D</b>ata <b>P</b>rocessing".</p>
+  <div class="two">
+    <table class="tight"><thead><tr><th>TCP/IP layer</th><th>= OSI layers</th></tr></thead><tbody>
+      <tr><td>Application</td><td>7, 6, 5</td></tr><tr><td>Transport</td><td>4</td></tr>
+      <tr><td>Internet</td><td>3</td></tr><tr><td>Network Access (Link)</td><td>2, 1</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Port</th><th>Protocol</th><th>Port</th><th>Protocol</th></tr></thead><tbody>
+      <tr><td>20/21</td><td>FTP</td><td>80</td><td>HTTP</td></tr>
+      <tr><td>22</td><td>SSH (secure remote login)</td><td>110</td><td>POP3</td></tr>
+      <tr><td>23</td><td>Telnet (insecure)</td><td>143</td><td>IMAP</td></tr>
+      <tr><td>25</td><td>SMTP (send email)</td><td>443</td><td>HTTPS</td></tr>
+      <tr><td>53</td><td>DNS</td><td>3306</td><td>MySQL</td></tr>
+      <tr><td>67/68</td><td>DHCP</td><td>3389</td><td>RDP</td></tr>
+    </tbody></table>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">Hub vs Switch vs Router</b><br>A hub sends to <b>all</b> ports (L1). A switch sends to the <b>right device</b> using the MAC address (L2). A router connects <b>different networks</b> using IP (L3).</div>
+    <div class="def"><b class="t">MAC vs IP</b><br>A MAC address is a 48-bit <b>physical</b> address burnt into the NIC. An IP address is a <b>logical</b> address that can change. ARP finds the MAC for an IP.</div>
+    <div class="def"><b class="t">LAN / MAN / WAN</b><br>Building → city → country or world. The Internet is the largest WAN. Topologies: bus, star (most common), ring, mesh, tree.</div>
+  </div>
+</section>
+
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">C2</div><div><div class="kicker">Addresses</div><h2>IP Addressing &amp; Subnetting</h2></div></div>
+  <div class="def"><b class="t">IPv4</b> = 32 bits, written as 4 octets (<code>192.168.1.10</code>), each 0–255. &nbsp; <b class="t">IPv6</b> = 128 bits, written in hexadecimal (<code>2001:db8::1</code>), created because IPv4 addresses ran out.</div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Class</th><th>First octet</th><th>Default mask</th></tr></thead><tbody>
+      <tr><td>A</td><td>1 – 126</td><td>255.0.0.0 (/8)</td></tr>
+      <tr><td>B</td><td>128 – 191</td><td>255.255.0.0 (/16)</td></tr>
+      <tr><td>C</td><td>192 – 223</td><td>255.255.255.0 (/24)</td></tr>
+      <tr><td>D</td><td>224 – 239</td><td>Multicast</td></tr>
+      <tr><td>E</td><td>240 – 255</td><td>Experimental</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Special range</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td>10.0.0.0/8</td><td>Private</td></tr>
+      <tr><td>172.16.0.0 – 172.31.255.255</td><td>Private</td></tr>
+      <tr><td>192.168.0.0/16</td><td>Private (home routers)</td></tr>
+      <tr><td>127.0.0.1</td><td>Loopback (localhost)</td></tr>
+      <tr><td>169.254.x.x</td><td>APIPA (DHCP failed)</td></tr>
+    </tbody></table>
+  </div>
+  <h3>Subnetting in 3 formulas</h3>
+  <div class="three">
+    <div class="def"><b class="t">Host bits</b><br>h = 32 − prefix<br>/26 → h = 6</div>
+    <div class="def"><b class="t">Usable hosts</b><br>2ʰ − 2<br>/26 → 64 − 2 = <b>62</b></div>
+    <div class="def"><b class="t">Block size</b><br>256 − last mask octet<br>/26 = .192 → blocks of <b>64</b></div>
+  </div>
+  <table class="tight"><thead><tr><th>Prefix</th><th>Mask</th><th>Addresses</th><th>Usable hosts</th></tr></thead><tbody>
+    <tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td></tr>
+    <tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td></tr>
+    <tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td></tr>
+    <tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td></tr>
+    <tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td></tr>
+    <tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2 (point-to-point links)</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt">Two addresses in every subnet are reserved: the <b>network address</b> (all host bits 0) and the <b>broadcast address</b> (all host bits 1). Example: in 192.168.1.64/26, the network is .64, the usable hosts are .65–.126 and the broadcast is .127.</p>
+
+  <div class="sec-head" style="margin-top:12px"><div class="sec-num">C3</div><div><div class="kicker">How the web works</div><h2>HTTP, DNS, DHCP &amp; TCP vs UDP</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:20%"></th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+    <tr><td>Connection</td><td>Connection-oriented (3-way handshake: <b>SYN → SYN-ACK → ACK</b>)</td><td>Connectionless</td></tr>
+    <tr><td>Reliability</td><td>Guaranteed, ordered, retransmits lost data</td><td>No guarantee, no ordering</td></tr>
+    <tr><td>Speed</td><td>Slower (more overhead)</td><td>Faster (less overhead)</td></tr>
+    <tr><td>Used for</td><td>Web (HTTP/S), email, file transfer, SSH</td><td>Streaming, gaming, VoIP, DNS queries</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">HTTP</h3>
+      <ul style="font-size:9pt">
+        <li><b>HTTP</b> sends plain text on port 80. <b>HTTPS</b> = HTTP + TLS encryption on port 443 (the padlock icon).</li>
+        <li><b>Methods:</b> GET (read), POST (create), PUT (replace), PATCH (modify), DELETE.</li>
+        <li><b>Status codes:</b> 1xx info · <b>2xx success</b> (200 OK, 201 Created) · <b>3xx redirect</b> (301 moved permanently) · <b>4xx client error</b> (400 bad request, 401 unauthorised, 403 forbidden, 404 not found) · <b>5xx server error</b> (500 internal error, 503 unavailable).</li>
+        <li>HTTP is <b>stateless</b>. Cookies and sessions remember users between requests.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">DNS &amp; DHCP</h3>
+      <ul style="font-size:9pt">
+        <li><b>DNS</b> translates names to IP addresses (www.example.com → 93.184.x.x). It checks the browser cache, then the OS, then a recursive resolver, then the root, TLD and authoritative servers.</li>
+        <li><b>DNS records:</b> A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail server), NS (name server), TXT.</li>
+        <li><b>DHCP</b> automatically gives a device its IP address, subnet mask, gateway and DNS using <b>DORA</b>: Discover → Offer → Request → Acknowledge.</li>
+        <li><b>ICMP</b> is used by <code>ping</code> and <code>traceroute</code>. <b>NAT</b> maps private IPs to one public IP.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">C4</div><div><div class="kicker">Protect the system</div><h2>Security: Encryption, Malware, Attacks</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">CIA triad</b><br><b>C</b>onfidentiality: only authorised people can see the data.<br><b>I</b>ntegrity: the data isn't altered.<br><b>A</b>vailability: the system is accessible when needed.</div>
+    <div class="def"><b class="t">AuthN vs AuthZ</b><br><b>Authentication</b> answers "who are you?" (password, OTP, biometrics). <b>Authorization</b> answers "what are you allowed to do?" (permissions). <b>MFA</b> combines 2 or more factors.</div>
+    <div class="def"><b class="t">Firewall &amp; VPN</b><br>A <b>firewall</b> filters traffic by rules (packet-filtering, stateful, application/WAF). A <b>VPN</b> creates an encrypted tunnel over the internet. A <b>proxy</b> forwards requests on your behalf.</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%">Technique</th><th>How it works</th><th style="width:28%">Examples</th></tr></thead><tbody>
+    <tr><td><b>Symmetric</b> encryption</td><td>The <b>same key</b> encrypts and decrypts. It's fast, but the key must be shared securely.</td><td>AES, DES, 3DES</td></tr>
+    <tr><td><b>Asymmetric</b> encryption</td><td>A <b>public key</b> encrypts and the <b>private key</b> decrypts. It solves key sharing but is slower.</td><td>RSA, ECC, Diffie–Hellman (key exchange)</td></tr>
+    <tr><td><b>Hashing</b></td><td>A <b>one-way</b> fixed-length fingerprint that can't be reversed. Used to store passwords and check integrity.</td><td>SHA-256, (MD5: weak)</td></tr>
+    <tr><td><b>Digital signature</b></td><td>The sender hashes the data and signs it with their <b>private</b> key. Anyone can verify it with the public key. It proves authenticity and integrity.</td><td>TLS certificates</td></tr>
+  </tbody></table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Malware</th><th>Key trait</th></tr></thead><tbody>
+      <tr><td>Virus</td><td>Attaches to a host file and spreads when it runs</td></tr>
+      <tr><td>Worm</td><td>Self-replicates over networks, <b>no host needed</b></td></tr>
+      <tr><td>Trojan</td><td>Disguised as legitimate software</td></tr>
+      <tr><td>Ransomware</td><td>Encrypts files and demands payment</td></tr>
+      <tr><td>Spyware / Keylogger</td><td>Secretly records activity or keystrokes</td></tr>
+      <tr><td>Adware</td><td>Unwanted ads</td></tr>
+      <tr><td>Rootkit</td><td>Hides deep in the OS to keep admin control</td></tr>
+      <tr><td>Botnet</td><td>A network of infected devices controlled remotely</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Attack</th><th>What happens</th></tr></thead><tbody>
+      <tr><td>Phishing</td><td>Fake email or site tricks you into giving data</td></tr>
+      <tr><td>DoS / DDoS</td><td>Floods a service so real users can't reach it</td></tr>
+      <tr><td>Man-in-the-Middle</td><td>Intercepts communication between two parties</td></tr>
+      <tr><td>SQL Injection</td><td>Malicious SQL in an input field (<code>' OR 1=1</code>)</td></tr>
+      <tr><td>XSS</td><td>Injects scripts into web pages viewed by others</td></tr>
+      <tr><td>Brute force</td><td>Tries many passwords until one works</td></tr>
+      <tr><td>Social engineering</td><td>Manipulates people, not systems</td></tr>
+      <tr><td>Zero-day</td><td>Exploits a flaw before a fix exists</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<section class="part c">
+  <div class="sec-head"><div class="sec-num">C5</div><div><div class="kicker">Modern infrastructure</div><h2>Cloud &amp; DevOps</h2></div></div>
+  <div class="def"><b class="t">Cloud computing</b> means on-demand IT resources over the internet with pay-as-you-go pricing. NIST's <b>5 characteristics</b>: on-demand self-service, broad network access, resource pooling, rapid elasticity and measured service.</div>
+  <table class="tight"><thead><tr><th>Model</th><th>You manage</th><th>Provider manages</th><th>Examples</th></tr></thead><tbody>
+    <tr><td><b>IaaS</b></td><td>OS, runtime, apps, data</td><td>Hardware, network, virtualisation</td><td>AWS EC2, Azure VMs, Google Compute Engine</td></tr>
+    <tr><td><b>PaaS</b></td><td>Apps and data only</td><td>Everything up to the runtime</td><td>Google App Engine, Heroku, Azure App Service</td></tr>
+    <tr><td><b>SaaS</b></td><td>Nothing (you just use it)</td><td>Everything</td><td>Gmail, Microsoft 365, Salesforce, Zoom</td></tr>
+    <tr><td><b>FaaS</b> (serverless)</td><td>Function code</td><td>Servers, scaling</td><td>AWS Lambda, Azure Functions</td></tr>
+  </tbody></table>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Deployment model</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>Public</td><td>Shared provider infrastructure (AWS, Azure, GCP)</td></tr>
+      <tr><td>Private</td><td>Dedicated to one organisation</td></tr>
+      <tr><td>Hybrid</td><td>Private + public combined</td></tr>
+      <tr><td>Community</td><td>Shared by organisations with common needs</td></tr>
+      <tr><td>Multi-cloud</td><td>Using several public providers</td></tr>
+    </tbody></table>
+    <div>
+      <div class="def"><b class="t">Virtualisation</b><br>A <b>hypervisor</b> runs several VMs on one physical server.</div>
+      <div class="def"><b class="t">VM vs Container</b><br>A VM includes a full guest OS (heavy). A container shares the host <b>kernel</b> (light and fast to start).</div>
+      <div class="def"><b class="t">Scaling</b><br><b>Vertical</b> = a bigger machine. <b>Horizontal</b> = more machines. <b>Elasticity</b> = scaling automatically with demand.</div>
+    </div>
+  </div>
+  <h3>DevOps, CI/CD, Git &amp; Docker</h3>
+  <div class="def"><b class="t">DevOps</b> brings development and operations together to deliver faster and more reliably. Pipeline: <b>Plan → Code → Build → Test → Release → Deploy → Operate → Monitor</b>. <b>CI</b> (Continuous Integration) means merging code often and automatically building and testing each change. <b>CD</b> means Continuous Delivery (always ready to release) or Continuous Deployment (released automatically). Tools: Jenkins, GitHub Actions, GitLab CI.</div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Git command</th><th>Does</th></tr></thead><tbody>
+      <tr><td><code>git init</code></td><td>Create a new local repo</td></tr>
+      <tr><td><code>git clone &lt;url&gt;</code></td><td>Copy a remote repo locally</td></tr>
+      <tr><td><code>git status</code></td><td>Show changed and staged files</td></tr>
+      <tr><td><code>git add</code></td><td>Stage changes</td></tr>
+      <tr><td><code>git commit -m</code></td><td>Save a snapshot locally</td></tr>
+      <tr><td><code>git push</code> / <code>git pull</code></td><td>Upload / download + merge</td></tr>
+      <tr><td><code>git fetch</code></td><td>Download without merging</td></tr>
+      <tr><td><code>git branch</code> / <code>git checkout</code></td><td>Create / switch branches</td></tr>
+      <tr><td><code>git merge</code> / <code>git stash</code></td><td>Combine branches / shelve changes</td></tr>
+    </tbody></table>
+    <table class="tight"><thead><tr><th>Docker term</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>Dockerfile</td><td>Recipe of steps to build an image</td></tr>
+      <tr><td>Image</td><td>Read-only template (app + dependencies)</td></tr>
+      <tr><td>Container</td><td>A <b>running instance</b> of an image</td></tr>
+      <tr><td>Registry</td><td>Stores images (Docker Hub)</td></tr>
+      <tr><td><code>docker build / run</code></td><td>Build an image / start a container</td></tr>
+      <tr><td><code>docker ps</code></td><td>List running containers</td></tr>
+      <tr><td><b>Kubernetes</b></td><td>Orchestrates many containers (scaling, healing)</td></tr>
+    </tbody></table>
+  </div>
+  <div class="def"><b class="t">SDLC &amp; Agile.</b> <b>Waterfall</b> runs in sequential phases. <b>Agile</b> works in short iterations. <b>Scrum</b> uses sprints of 1–4 weeks, a Product Owner, a Scrum Master, daily stand-ups and a backlog.</div>
+</section>
+
+<section class="page-break part c">
+  <div class="sec-head"><div class="sec-num">C✓</div><div><div class="kicker">Test yourself</div><h2>Part C · Practice MCQs</h2></div></div>
+  <p class="lead">These are pure recall questions. Aim for under 30 seconds each, and revise the tables above for any you miss.</p>
+  <!--MCQ_C-->
+  <div class="avoid-head"><h3>Part C · Answer key</h3></div>
+  <!--KEY_C-->
+</section>

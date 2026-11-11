@@ -1,0 +1,56 @@
+
+<!-- ======================= FINAL ======================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num" style="background:linear-gradient(135deg,#0e7490,#4338ca)">Z</div><div><div class="kicker" style="color:#0e7490">Get test-ready</div><h2>14-Day Plan &amp; Final Cheat Sheet</h2></div></div>
+  <table class="tight">
+    <thead><tr><th style="width:12%">Days</th><th style="width:26%">Focus</th><th>What to do (60–90 minutes a day)</th></tr></thead>
+    <tbody>
+      <tr><td><b>1–2</b></td><td><span style="color:var(--pa);font-weight:700">Part A</span> · Office</td><td>Practise every Excel function in A1 on a real sheet. Learn the error table and 20 shortcuts. Do the Part A MCQs.</td></tr>
+      <tr><td><b>3–4</b></td><td><span style="color:var(--pb);font-weight:700">Part B</span> · Operators &amp; bits</td><td>Learn the precedence table. Convert 30 numbers to binary. Drill &amp; | ^ ~ &lt;&lt; &gt;&gt; until each takes under 10 seconds.</td></tr>
+      <tr><td><b>5–6</b></td><td><span style="color:var(--pb);font-weight:700">Part B</span> · Loops &amp; recursion</td><td>Trace 15 snippets <b>without paper</b>. Use the loop-count formulas. Solve B1–B18 under time.</td></tr>
+      <tr><td><b>7</b></td><td><span style="color:var(--pb);font-weight:700">Part B</span> · OOPs</td><td>Explain the 4 pillars aloud with examples. Learn overloading vs overriding. Do B19–B26.</td></tr>
+      <tr><td><b>8–9</b></td><td><span style="color:var(--pc);font-weight:700">Part C</span> · Networking</td><td>Memorise the OSI table, ports, IP classes and private ranges. Practise subnet host counts.</td></tr>
+      <tr><td><b>10</b></td><td><span style="color:var(--pc);font-weight:700">Part C</span> · Security &amp; Cloud</td><td>Learn the encryption, malware and attack tables, IaaS/PaaS/SaaS, Git and Docker. Do the Part C MCQs.</td></tr>
+      <tr><td><b>11–12</b></td><td><span style="color:var(--pd);font-weight:700">Part D</span> · CS Fundamentals</td><td>Learn the data structure and sorting tables, Big-O patterns, keys, normal forms and SQL families. Do the Part D MCQs.</td></tr>
+      <tr><td><b>13</b></td><td>Full mock</td><td>Take 45 mixed questions in 45 minutes. Note every wrong answer and why you got it wrong.</td></tr>
+      <tr><td><b>14</b></td><td>Revise</td><td>Read this cheat sheet and the trap boxes only. Sleep well.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>One-page cheat sheet</h3>
+  <div class="cards c2">
+    <div class="card" style="border-top:4px solid var(--pa)"><h4 style="margin-top:0;color:var(--pa)">A · Office</h4><ul style="font-size:8.8pt;margin:0">
+      <li><code>$A$1</code> fixed · <code>$A1</code> column fixed · <code>A$1</code> row fixed · <span class="k">F4</span> toggles</li>
+      <li>VLOOKUP: first column, look right, FALSE = exact, not found = #N/A</li>
+      <li>COUNT = numbers · COUNTA = non-empty · COUNTIF(range, criteria) · SUMIF(range, criteria, sum_range)</li>
+      <li>#DIV/0! · #N/A · #VALUE! · #REF! · #NAME? · #### (narrow column)</li>
+      <li>Slide Master = all slides · Animation = objects · Transition = between slides</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid var(--pb)"><h4 style="margin-top:0;color:var(--pb)">B · Pseudocode + OOPs</h4><ul style="font-size:8.8pt;margin:0">
+      <li><code>x&lt;&lt;n = x·2ⁿ</code> · <code>x&gt;&gt;n = x/2ⁿ</code> · <code>~x = −(x+1)</code> · <code>x^x = 0</code></li>
+      <li><code>+</code> before <code>&lt;&lt;</code> · <code>==</code> before <code>&amp;</code> · integer <code>/</code> truncates</li>
+      <li>Nested loops <code>j = i to n</code> run n(n+1)/2 times · <code>i *= 2</code> runs log n times</li>
+      <li>Recursion: expand down, add up on the way back. Printing after the call gives reverse order.</li>
+      <li>Overloading = same class, different parameters · Overriding = child redefines, decided at run time</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid var(--pc)"><h4 style="margin-top:0;color:var(--pc)">C · Networking · Security · Cloud</h4><ul style="font-size:8.8pt;margin:0">
+      <li>L3 router/IP · L2 switch/MAC · L1 hub · L4 TCP/UDP</li>
+      <li>22 SSH · 25 SMTP · 53 DNS · 67/68 DHCP · 80 HTTP · 443 HTTPS</li>
+      <li>Private: 10/8 · 172.16–31 · 192.168/16 · hosts = 2ʰ − 2</li>
+      <li>AES symmetric · RSA asymmetric · SHA hashing (one-way)</li>
+      <li>IaaS = EC2 · PaaS = App Engine · SaaS = Gmail · Hybrid = private + public</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid var(--pd)"><h4 style="margin-top:0;color:var(--pd)">D · CS Fundamentals</h4><ul style="font-size:8.8pt;margin:0">
+      <li>Stack LIFO (DFS, undo) · Queue FIFO (BFS, scheduling)</li>
+      <li>Binary search needs sorted data, O(log n) · Merge sort is always O(n log n) · Quick sort worst O(n²)</li>
+      <li>Stable sorts: bubble, insertion, merge · Not stable: selection, quick, heap</li>
+      <li>PK = unique + not null · FK → another table's PK · 2NF partial · 3NF transitive</li>
+      <li>DDL: CREATE/ALTER/DROP/TRUNCATE · DML: INSERT/UPDATE/DELETE · ACID</li>
+    </ul></div>
+  </div>
+  <div class="note tip" style="margin-top:12px"><span class="t">Final word</span>Parts A, C and D reward <b>revision</b>, and Part B rewards <b>practice</b>. Lock in the easy recall marks first, then win the pseudocode section by tracing calmly: write nothing down, track only what changes, and spot the pattern.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only. It is not affiliated with, endorsed by, or an official document of Accenture. The section pattern is based on publicly shared preparation material and may change. All questions are original practice questions, not real test questions. Always check the latest details on the official Accenture careers portal.</p>
+</section>
+
+</body>
+</html>

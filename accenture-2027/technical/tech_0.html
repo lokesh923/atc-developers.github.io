@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Technical Assessment – Zero to Hero Guide</title>
+<!--BASE_STYLE-->
+<style>
+  :root{ --pa:#16a34a; --pb:#7c3aed; --pc:#2563eb; --pd:#ea580c; --cy:#06b6d4; }
+  .cover{ background:
+      linear-gradient(rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(100% 70% at 100% 0%, #0e7490 0%, transparent 55%),
+      radial-gradient(90% 60% at 0% 100%, #4338ca 0%, transparent 55%),
+      linear-gradient(160deg,#06101f 0%,#0a1a33 55%,#040a14 100%); }
+  .cover .grid{ display:none; }
+  .cover h1 span{ color:#67e8f9; }
+  .cover .mono-tag{ font-family:"DejaVu Sans Mono",monospace; font-size:9pt; color:#67e8f9; margin-top:6mm; opacity:.9; }
+  .sec-head{ break-inside:avoid; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; background:#eef2f7; padding:0 4px; border-radius:4px; font-size:8.4pt; }
+  pre code{ background:none; padding:0; white-space:pre; }
+  h3{ break-after:avoid; }
+
+  /* part theming */
+  .part{ --pc1:#16a34a; --pc2:#22c55e; --pcs:#e8f8ee; }
+  .part.b{ --pc1:#7c3aed; --pc2:#a78bfa; --pcs:#f1ebff; }
+  .part.c{ --pc1:#2563eb; --pc2:#38bdf8; --pcs:#e7f0ff; }
+  .part.d{ --pc1:#ea580c; --pc2:#fb923c; --pcs:#fff1e6; }
+  .part .sec-num{ background:linear-gradient(135deg,var(--pc1),var(--pc2)); }
+  .part .sec-head .kicker{ color:var(--pc1); }
+  .part li::marker{ color:var(--pc1); }
+  .banner{ border-radius:16px; padding:18px 22px; color:#fff; margin:0 0 14px; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,var(--pc1),#0a1a33); break-inside:avoid; }
+  .banner .pl{ font:700 8.5pt "DejaVu Sans Mono",monospace; letter-spacing:.12em; opacity:.85; }
+  .banner h2{ font-size:22pt; font-weight:800; margin:4px 0 4px; color:#fff; }
+  .banner p{ margin:0; opacity:.9; font-size:9.6pt; max-width:150mm; }
+  .banner .chips{ margin:10px 0 0; }
+  .banner .chip{ background:rgba(255,255,255,.14); color:#fff; }
+  .banner .big{ position:absolute; right:18px; top:10px; font:800 54pt Inter,sans-serif; opacity:.14; }
+  .def{ border:1px solid var(--line); border-left:4px solid var(--pc1,#2563eb); border-radius:10px; padding:7px 11px; margin:6px 0; font-size:9.2pt; background:#fff; break-inside:avoid; }
+  .def b.t{ color:var(--pc1,#2563eb); }
+  .trap{ border:1px dashed #e11d48; background:#fff5f7; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .trap b{ color:#e11d48; }
+  table.tight td, table.tight th{ padding:4.5px 8px; font-size:8.6pt; }
+  table.tight{ margin:6px 0 10px; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  pre .k{ background:none; border:0; padding:0; font-size:inherit; white-space:inherit; }
+  .k{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* MCQs */
+  .mcq{ display:grid; grid-template-columns:34px 1fr; gap:8px; border:1px solid var(--line); border-radius:12px; padding:9px 12px; margin:7px 0; break-inside:avoid; background:#fff; }
+  .mcq .qn{ font:800 9pt Inter,sans-serif; color:#fff; background:var(--pc1,#2563eb); border-radius:7px; height:22px; display:grid; place-items:center; }
+  .mcq .qt{ font-size:9.4pt; font-weight:600; }
+  .mcq .tg{ display:inline-block; font-size:7.6pt; font-weight:700; color:var(--pc1); background:var(--pcs); border-radius:99px; padding:1px 8px; margin-right:6px; }
+  .mcq pre{ margin:6px 0; font-size:8.2pt; }
+  .opts{ list-style:none; padding:0; margin:5px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:3px 14px; font-size:9pt; }
+  .opts li{ margin:0; } .opts li b{ color:var(--pc1); margin-right:4px; }
+  .mcqs2{ columns:2; column-gap:10px; } .mcqs2 .mcq{ display:inline-grid; width:100%; }
+  .keyt td{ font-size:8.3pt; padding:6px 9px; } .keyt td.ans{ font-weight:800; color:var(--pc1); text-align:center; }
+  .keyt td:first-child{ width:7%; } .keyt td:nth-child(2){ width:6%; } .keyt td:nth-child(3){ width:24%; }
+  .sheet td,.sheet th{ text-align:center; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; padding:5px 8px; }
+  .sheet th{ background:#217346; } .sheet td:first-child{ background:#f0f2f5; font-weight:700; color:#6b6889; width:6%; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:9.4pt; }
+  .toc li b{ width:30px; font-family:"DejaVu Sans Mono",monospace; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Assessment 2</span></div>
+  <h1>Technical Assessment<br><span>Zero to Hero Guide</span></h1>
+  <div class="mono-tag">&gt; 45 questions · 45 minutes · 4 sections · most elimination-heavy round_</div>
+  <p class="sub">Every topic in the syllabus explained from scratch: MS Office, Pseudocode and OOPs, Networking, Security and Cloud, and CS Fundamentals. Includes examples, tables, exam traps and <!--TOTAL_MCQ--> practice MCQs with explained answers.</p>
+  <div class="roles">
+    <div>A · MS Office</div><div>B · Pseudocode + OOPs</div><div>C · Networking · Security · Cloud</div><div>D · CS Fundamentals</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>45</b><span>Questions</span></div>
+    <div class="stat"><b>45</b><span>Minutes</span></div>
+    <div class="stat"><b><!--TOTAL_MCQ--></b><span>Practice MCQs in this guide</span></div>
+    <div class="stat"><b>100%</b><span>Code answers verified by running them</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + PATTERN ================= -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num" style="background:linear-gradient(135deg,#0e7490,#4338ca)">≡</div><div><div class="kicker" style="color:#0e7490">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#0e7490">00</b>Exam pattern and strategy</li>
+    <li><b style="color:var(--pa)">A1</b>Excel: references, formulas, functions</li>
+    <li><b style="color:var(--pa)">A2</b>Excel: errors, features and outputs</li>
+    <li><b style="color:var(--pa)">A3</b>Word, PowerPoint and shortcuts</li>
+    <li><b style="color:var(--pa)">A✓</b>Part A practice MCQs and answers</li>
+    <li><b style="color:var(--pb)">B1</b>Reading pseudocode and operators</li>
+    <li><b style="color:var(--pb)">B2</b>Binary and bitwise operations</li>
+    <li><b style="color:var(--pb)">B3</b>Loops, recursion, arrays and strings</li>
+    <li><b style="color:var(--pb)">B4</b>OOPs: the four pillars and beyond</li>
+    <li><b style="color:var(--pb)">B✓</b>Part B practice MCQs and answers</li>
+    <li><b style="color:var(--pc)">C1</b>OSI and TCP/IP models, devices, ports</li>
+    <li><b style="color:var(--pc)">C2</b>IP addressing and subnetting</li>
+    <li><b style="color:var(--pc)">C3</b>HTTP, DNS, DHCP and TCP vs UDP</li>
+    <li><b style="color:var(--pc)">C4</b>Security: encryption, malware, attacks</li>
+    <li><b style="color:var(--pc)">C5</b>Cloud and DevOps (CI/CD, Git, Docker)</li>
+    <li><b style="color:var(--pc)">C✓</b>Part C practice MCQs and answers</li>
+    <li><b style="color:var(--pd)">D1</b>Data types, operators, control flow</li>
+    <li><b style="color:var(--pd)">D2</b>Data structures</li>
+    <li><b style="color:var(--pd)">D3</b>Searching, sorting and Big-O</li>
+    <li><b style="color:var(--pd)">D4</b>DBMS basics</li>
+    <li><b style="color:var(--pd)">D✓</b>Part D practice MCQs and answers</li>
+    <li><b style="color:#0e7490">Z</b>14-day plan and final cheat sheet</li>
+  </ul>
+
+</section>
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num" style="background:linear-gradient(135deg,#0e7490,#4338ca)">00</div><div><div class="kicker" style="color:#0e7490">Know the battlefield</div><h2>Exam Pattern &amp; Strategy</h2></div></div>
+  <table>
+    <thead><tr><th style="width:25%">Sub-section</th><th class="c" style="width:11%">≈ Qs</th><th>Topics</th><th style="width:16%">Difficulty</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--pa)">A · MS Office &amp; Common Apps</b></td><td class="c">7</td><td>Excel functions and formulas (VLOOKUP, IF, COUNTIF), Word formatting, PowerPoint features, output-based questions, shortcut keys</td><td><span class="badge b-no">Easy marks</span></td></tr>
+      <tr><td><b style="color:var(--pb)">B · Pseudocode + OOPs</b></td><td class="c">10</td><td>Bitwise operations, loops and nested loops, recursion tracing, string and array manipulation, OOPs concepts, 10–12 line code tracing with no pen and paper</td><td><span class="badge b-yes">Hardest</span></td></tr>
+      <tr><td><b style="color:var(--pc)">C · Networking, Security &amp; Cloud</b></td><td class="c">14</td><td>OSI and TCP/IP, IP addressing, HTTP/HTTPS/DNS/DHCP, firewalls and VPN, encryption, malware, IaaS/PaaS/SaaS, deployment models, CI/CD, Git, Docker</td><td><span class="badge b-mid">Concept recall</span></td></tr>
+      <tr><td><b style="color:var(--pd)">D · CS Fundamentals</b></td><td class="c">14</td><td>Data types and operators, control structures, functions, arrays and strings, stack, queue and linked list, searching and sorting, time complexity, DBMS basics</td><td><span class="badge b-mid">Concept + logic</span></td></tr>
+    </tbody>
+  </table>
+  <div class="cards c3">
+    <div class="card alt"><h4 style="margin-top:0">⏱ 1 minute per question</h4><p style="margin:0;font-size:9pt">45 questions in 45 minutes. Recall-based questions (Parts A, C and D) should take about 30–40 seconds, which saves time for pseudocode.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">🧠 No pen and paper</h4><p style="margin:0;font-size:9pt">Practise tracing code in your head. Track only the variables that change, and work out the first 2–3 loop passes to spot the pattern.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">🚫 Most eliminations</h4><p style="margin:0;font-size:9pt">Candidates report this as the toughest filter. Parts C and D are pure memory, so revise them well: they're the easiest marks to secure.</p></div>
+  </div>
+  <h3>Your target score</h3>
+  <table class="tight"><thead><tr><th>Section</th><th class="c">Questions</th><th class="c">Safe target</th><th class="c">Strong target</th><th>Time budget</th></tr></thead><tbody>
+    <tr><td><b style="color:var(--pa)">A · MS Office</b></td><td class="c">7</td><td class="c">5</td><td class="c">7</td><td>~4 min (about 35 s each)</td></tr>
+    <tr><td><b style="color:var(--pb)">B · Pseudocode + OOPs</b></td><td class="c">10</td><td class="c">6</td><td class="c">8+</td><td>~15 min (about 90 s each)</td></tr>
+    <tr><td><b style="color:var(--pc)">C · Networking, Security, Cloud</b></td><td class="c">14</td><td class="c">10</td><td class="c">12+</td><td>~10 min (about 40 s each)</td></tr>
+    <tr><td><b style="color:var(--pd)">D · CS Fundamentals</b></td><td class="c">14</td><td class="c">10</td><td class="c">12+</td><td>~12 min (about 50 s each)</td></tr>
+    <tr><td><b>Total</b></td><td class="c">45</td><td class="c">31 (≈ 70%)</td><td class="c">39+ (≈ 87%)</td><td>~41 min, plus 4 min buffer</td></tr>
+  </tbody></table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:-4px">The official cut-off isn't published. These are self-set preparation targets, not official numbers.</p>
+  <div class="note warn"><span class="t">Answering strategy</span>Read all 4 options before you answer. Eliminate the obviously wrong ones, because two options are often close. Don't get stuck: if a pseudocode question takes more than 2 minutes, make your best guess and move on. Negative marking hasn't been reported, but always confirm the rules shown on the test screen.</div>
+</section>
