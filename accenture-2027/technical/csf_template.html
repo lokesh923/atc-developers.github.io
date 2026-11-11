@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CS Fundamentals – Complete Guide</title>
+<!--BASE_STYLE-->
+<style>
+  .cover{ background:
+      linear-gradient(rgba(251,146,60,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(251,146,60,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(90% 60% at 100% 0%, #ea580c 0%, transparent 55%),
+      radial-gradient(60% 45% at 0% 100%, #4f46e5 0%, transparent 60%),
+      linear-gradient(160deg,#1a0c04 0%,#2a1408 55%,#0d0602 100%); }
+  .cover h1 span{ color:#fdba74; }
+  .part.db{ --pc1:#4f46e5; --pc2:#818cf8; --pcs:#eef0ff; }
+  .banner.db{ background:linear-gradient(135deg,#4f46e5,#0f0c33); }
+  .banner.d2{ background:linear-gradient(135deg,#ea580c,#2a1206); }
+  .two{ align-items:start; }
+  .three>div,.two>div{ min-width:0; }
+  .def code{ white-space:normal; word-break:break-word; }
+  .steps{ counter-reset:s; padding:0; list-style:none; margin:6px 0; }
+  .steps li{ counter-increment:s; position:relative; padding-left:28px; margin:5px 0; font-size:9pt; }
+  .steps li::before{ content:counter(s); position:absolute; left:0; top:0; width:19px; height:19px; border-radius:50%; background:var(--pc1); color:#fff; font-weight:800; font-size:8pt; display:grid; place-items:center; }
+  .callout{ border-radius:12px; background:var(--pcs); padding:9px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .callout b.t{ color:var(--pc1); display:block; }
+  .keyt td{ padding:3px 7px !important; font-size:7.9pt !important; line-height:1.3; }
+  .mcq .qt pre{ margin:6px 0 2px; }
+  .mem{ display:grid; grid-template-columns:1fr; gap:3px; font-size:8.4pt; }
+  .mem div{ border-radius:6px; padding:5px 10px; color:#fff; display:flex; justify-content:space-between; }
+  .boxes{ display:flex; gap:4px; flex-wrap:wrap; margin:6px 0; }
+  .boxes span{ border:1.5px solid var(--pc1); border-radius:6px; padding:3px 9px; font:700 8.6pt "DejaVu Sans Mono",monospace; background:#fff; }
+  .boxes span.h{ background:var(--pc1); color:#fff; }
+  .boxes i{ font-style:normal; color:var(--pc1); font-weight:800; align-self:center; }
+  svg.tree text{ font:700 11px Inter,sans-serif; fill:#fff; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Technical Assessment · Section D</span></div>
+  <h1>Computer Science<br>Fundamentals<br><span>Complete Guide</span></h1>
+  <div class="mono-tag">&gt; ≈ 14 of 45 questions · concepts + small logic · programming · DSA · DBMS_</div>
+  <p class="sub">Everything for Section D, from zero: how programs run, data types and memory, functions and pointers, arrays and strings, every core data structure, searching and sorting with step-by-step passes, Big-O, and DBMS with SQL. Includes <!--TOTAL_MCQ--> practice MCQs, every answer produced by running code, computing the data structure, or querying a real database.</p>
+  <div class="roles"><div>Programming basics</div><div>Memory &amp; pointers</div><div>Data structures</div><div>Search &amp; sort</div><div>Big-O</div><div>DBMS &amp; SQL</div></div>
+  <div class="stats">
+    <div class="stat"><b>≈ 14</b><span>Questions in the test</span></div>
+    <div class="stat"><b>6</b><span>Sorting algorithms traced</span></div>
+    <div class="stat"><b><!--TOTAL_MCQ--></b><span>Practice MCQs</span></div>
+    <div class="stat"><b>gcc · JDK · SQLite</b><span>Answers verified by execution</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS ================= -->
+<section class="page-break part d">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#ea580c">00</b>What's tested and how to prepare</li>
+    <li><b style="color:#ea580c">F1</b>How programs run: compilers and interpreters</li>
+    <li><b style="color:#ea580c">F2</b>Data types, ranges and casting</li>
+    <li><b style="color:#ea580c">F3</b>Variables, scope and control flow</li>
+    <li><b style="color:#ea580c">F4</b>Functions, memory and pointers</li>
+    <li><b style="color:#ea580c">F5</b>Arrays and strings</li>
+    <li><b style="color:#ea580c">F6</b>Linear data structures</li>
+    <li><b style="color:#ea580c">F7</b>Trees, heaps, graphs and hashing</li>
+    <li><b style="color:#ea580c">F8</b>Searching and sorting</li>
+    <li><b style="color:#ea580c">F9</b>Time and space complexity</li>
+    <li><b style="color:#4f46e5">DB1</b>DBMS concepts and keys</li>
+    <li><b style="color:#4f46e5">DB2</b>ER model and normalisation</li>
+    <li><b style="color:#4f46e5">DB3</b>SQL: commands, clauses and joins</li>
+    <li><b style="color:#4f46e5">DB4</b>Transactions, ACID and concurrency</li>
+    <li><b style="color:#ea580c">✓</b>Practice sets, answer keys and cheat sheet</li>
+  </ul>
+  <div class="sec-head" style="margin-top:16px"><div class="sec-num">00</div><div><div class="kicker">Know the section</div><h2>What's Tested &amp; How to Prepare</h2></div></div>
+  <p class="lead">About <b>14 of the 45</b> questions. They mix <b>definitions</b> (which structure is LIFO? what is 3NF?), <b>small logic</b> (stack sequences, a sorting pass, a traversal, a loop's complexity) and <b>short code or SQL outputs</b>.</p>
+  <table class="tight"><thead><tr><th style="width:26%">Area</th><th>Typical questions</th><th style="width:14%">Sections</th></tr></thead><tbody>
+    <tr><td><b>Programming basics</b></td><td>Compiler vs interpreter · data type sizes and ranges · casting · scope · call by value vs reference · pointers</td><td>F1–F5</td></tr>
+    <tr><td><b>Data structures</b></td><td>LIFO/FIFO · push/pop sequences · postfix · linked-list complexity · tree traversals · heaps · hashing</td><td>F6–F7</td></tr>
+    <tr><td><b>Algorithms</b></td><td>Binary search conditions · array after one sorting pass · best/worst cases · stability · Big-O of loops</td><td>F8–F9</td></tr>
+    <tr><td><b>DBMS</b></td><td>Keys · normal forms · DDL/DML · DELETE vs TRUNCATE · joins · GROUP BY/HAVING · ACID</td><td>DB1–DB4</td></tr>
+  </tbody></table>
+  <div class="note tip"><span class="t">How to prepare</span>Learn the <b>comparison tables</b> (sorting, data structures, keys and normal forms) and practise the <b>hands-on skills</b>: tracing a stack, doing one pass of each sort, traversing a small tree, and running a GROUP BY by hand on the sample tables.</div>
+</section>
+
+<!-- ================= F1–F3 ================= -->
+<section class="page-break part d">
+  <div class="banner d2"><div class="big">F</div><div class="pl">PART 1 · PROGRAMMING FOUNDATIONS</div><h2>Programming Fundamentals</h2>
+    <p>How code becomes a running program, how data is stored, and how functions, memory, arrays and strings work. These are the basics behind every other topic.</p></div>
+  <div class="sec-head"><div class="sec-num">F1</div><div><div class="kicker">From source to execution</div><h2>How Programs Run</h2></div></div>
+  <div class="boxes"><span>Source code (.c)</span><i>→ preprocessor →</i><span>Compiler</span><i>→</i><span>Object code (.o)</span><i>→ linker →</i><span>Executable</span><i>→ loader →</i><span class="h">Running in memory</span></div>
+  <table class="tight"><thead><tr><th style="width:18%">Tool</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><b>Compiler</b></td><td>Translates the <b>whole program</b> into machine code before running it. Errors are reported together, and the program runs fast (C, C++, Go)</td></tr>
+    <tr><td><b>Interpreter</b></td><td>Translates and runs <b>line by line</b>. It stops at the first error and runs more slowly (Python, JavaScript, Ruby)</td></tr>
+    <tr><td><b>Hybrid (Java, C#)</b></td><td>Compiled to <b>bytecode</b>, which runs on a virtual machine (the <b>JVM</b>/CLR). A <b>JIT</b> compiler turns hot code into native code. "Write once, run anywhere"</td></tr>
+    <tr><td><b>Assembler</b></td><td>Assembly language → machine code</td></tr>
+    <tr><td><b>Linker / Loader</b></td><td>The linker combines object files and libraries into an executable. The loader places the executable in memory to run</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Language levels</b><br><b>Machine language</b> (binary) → <b>assembly</b> (mnemonics like MOV, ADD) → <b>high-level</b> (C, Java, Python). C is often called "middle level".</div>
+    <div class="def"><b class="t">Paradigms</b><br><b>Procedural</b> (C) · <b>Object-oriented</b> (Java, C++) · <b>Functional</b> (Haskell, plus lambdas in many languages) · <b>Scripting</b> (Python, JS).</div>
+    <div class="def"><b class="t">Error types</b><br><b>Syntax</b> (compile time: a missing ;) · <b>Runtime</b> (divide by zero, null pointer) · <b>Logical</b> (runs, but gives the wrong answer).</div>
+  </div>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">F2</div><div><div class="kicker">How data is stored</div><h2>Data Types, Ranges &amp; Casting</h2></div></div>
+  <div class="two">
+    <table class="tight"><thead><tr><th>Type</th><th>C (typical, 64-bit)</th><th>Java (fixed)</th></tr></thead><tbody>
+      <tr><td>char</td><td>1 byte (ASCII)</td><td>2 bytes (Unicode)</td></tr>
+      <tr><td>short</td><td>2 bytes</td><td>2 bytes</td></tr>
+      <tr><td>int</td><td>4 bytes*</td><td>4 bytes</td></tr>
+      <tr><td>long</td><td>8 bytes (4 on Windows)</td><td>8 bytes</td></tr>
+      <tr><td>float / double</td><td>4 / 8 bytes</td><td>4 / 8 bytes</td></tr>
+      <tr><td>byte · boolean</td><td>— · <code>_Bool</code> (1 byte)</td><td>1 byte · true/false</td></tr>
+    </tbody></table>
+    <div>
+      <div class="def"><b class="t">Integer ranges</b><br>n bits, <b>signed</b>: −2ⁿ⁻¹ to 2ⁿ⁻¹ − 1 · <b>unsigned</b>: 0 to 2ⁿ − 1.<br>8-bit: −128…127 / 0…255 · 16-bit: −32,768…32,767 · 32-bit: about ±2.147 billion.</div>
+      <div class="def"><b class="t">Overflow wraps around</b><br>unsigned char 255 + 1 = <b>0</b> · Java's <code>Integer.MAX_VALUE + 1</code> = <code>Integer.MIN_VALUE</code>.</div>
+    </div>
+  </div>
+  <p style="font-size:8.4pt;color:var(--muted);margin-top:-4px">*C only guarantees minimum sizes (int ≥ 16 bits). Java's sizes are fixed on every platform.</p>
+  <div class="two">
+    <div class="def"><b class="t">Implicit (widening) conversion</b>: done automatically when no data is lost. byte → short → int → long → float → double. In mixed expressions, the smaller type is promoted: <code>5 / 2.0</code> = 2.5, but <code>5 / 2</code> = 2.</div>
+    <div class="def"><b class="t">Explicit (narrowing) casting</b>: you have to ask for it, and data may be lost. <code>(int) 7.9</code> = 7 (truncates toward 0) · <code>(int) -7.9</code> = −7 · <code>(char) 66</code> = 'B' · <code>(byte) 130</code> = −126.</div>
+  </div>
+  <div class="def"><b class="t">Floating point</b>: stored in binary (IEEE 754), so many decimals are approximations. <code>0.1 + 0.2 == 0.3</code> is <b>false</b>. float has about 7 significant digits and double about 15–16. Never compare floats with ==; check whether they're close enough instead.</div>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">F3</div><div><div class="kicker">Where variables live</div><h2>Variables, Scope &amp; Control Flow</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:18%">Kind</th><th>Scope (where it's visible)</th><th>Lifetime (how long it exists)</th></tr></thead><tbody>
+    <tr><td><b>Local</b></td><td>Inside its block or function</td><td>Until the block ends</td></tr>
+    <tr><td><b>Global</b></td><td>The whole file or program</td><td>The whole program run</td></tr>
+    <tr><td><b>static local</b> (C)</td><td>Its function only</td><td>The whole program: initialised <b>once</b> and keeps its value between calls</td></tr>
+    <tr><td><b>Instance field</b></td><td>Through the object</td><td>As long as the object exists</td></tr>
+    <tr><td><b>static field</b></td><td>Through the class</td><td>As long as the class is loaded, with one shared copy</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt">An inner variable with the same name <b>shadows</b> the outer one inside its block. <b>Constants</b>: <code>const</code> (C) and <code>final</code> (Java). Control flow: <b>sequence</b> → <b>selection</b> (if, switch) → <b>iteration</b> (for, while, do-while). <b>Recursion vs iteration</b>: recursion is cleaner for trees and divide-and-conquer, but uses stack memory. Iteration is usually faster and uses O(1) space.</p>
+</section>
+
+<!-- ================= F4–F5 ================= -->
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">F4</div><div><div class="kicker">Functions &amp; memory</div><h2>Functions, Memory &amp; Pointers</h2></div></div>
+  <div class="two">
+    <div>
+      <div class="def"><b class="t">Parameters vs arguments</b><br>Parameters are the variables in the function definition. Arguments are the values passed in the call. A <b>declaration</b> (prototype) gives the signature, and a <b>definition</b> provides the body.</div>
+      <div class="def"><b class="t">Call by value vs reference</b><br><b>By value</b>: a copy is passed, so the caller is unchanged (C's default, and Java's primitives). <b>By reference / pointer</b>: the function works on the original (C pointers, C++ <code>&amp;</code>). Java passes object <b>references by value</b>, so it can change an object's fields but can't reassign the caller's variable.</div>
+    </div>
+    <div>
+      <p style="font-size:8.6pt;margin:0 0 4px"><b>Memory layout of a running C program</b></p>
+      <div class="mem">
+        <div style="background:#7c2d12"><b>Stack</b><span>locals, parameters, return addresses · grows ↓</span></div>
+        <div style="background:#9a3412;opacity:.55"><b>↓ free ↑</b><span></span></div>
+        <div style="background:#c2410c"><b>Heap</b><span>malloc / new · grows ↑</span></div>
+        <div style="background:#ea580c"><b>Data / BSS</b><span>globals and statics</span></div>
+        <div style="background:#fb923c"><b>Text / Code</b><span>machine instructions</span></div>
+      </div>
+      <p style="font-size:8.4pt;color:var(--muted);margin:4px 0 0">Each function call pushes a <b>stack frame</b>. Recursion that's too deep causes a <b>stack overflow</b>.</p>
+    </div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:22%">Pointer concept (C)</th><th>Meaning</th><th style="width:32%">Example</th></tr></thead><tbody>
+    <tr><td><b>Pointer</b></td><td>A variable that stores an <b>address</b></td><td><code>int *p = &amp;x;</code></td></tr>
+    <tr><td><b>&amp; (address-of)</b></td><td>Gives a variable's address</td><td><code>&amp;x</code></td></tr>
+    <tr><td><b>* (dereference)</b></td><td>The value at that address</td><td><code>*p = 10;</code> changes x</td></tr>
+    <tr><td><b>Pointer arithmetic</b></td><td><code>p + 1</code> moves by <b>one element</b> (sizeof(type) bytes)</td><td><code>*(a + 2)</code> == <code>a[2]</code></td></tr>
+    <tr><td><b>NULL pointer</b></td><td>Points to nothing. Dereferencing it crashes the program</td><td><code>int *p = NULL;</code></td></tr>
+    <tr><td><b>Dangling pointer</b></td><td>Points to memory that has been freed</td><td>use after <code>free(p)</code></td></tr>
+    <tr><td><b>Memory leak</b></td><td>Heap memory that's never freed</td><td><code>malloc</code> without <code>free</code></td></tr>
+    <tr><td><b>Dynamic allocation</b></td><td>Memory requested at run time, on the heap</td><td><code>malloc / calloc / realloc / free</code> · C++ <code>new / delete</code></td></tr>
+  </tbody></table>
+  <div class="def"><b class="t">Java has no explicit pointers</b>. It uses references, and the <b>garbage collector</b> frees unreachable objects automatically. <b>Inline functions</b> (C/C++) ask the compiler to paste the body in place of the call. <b>Function overloading</b> means the same name with different parameters (C++ and Java, but not C).</div>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">F5</div><div><div class="kicker">Collections of data</div><h2>Arrays &amp; Strings</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Array</b>: a fixed-size, <b>contiguous</b> block of same-type elements, 0-indexed, with O(1) random access.<br><b>1D address</b> = base + i × size.<br><b>2D row-major</b> (C, Java): base + (i × columns + j) × size.<br><b>Column-major</b> (Fortran, MATLAB): base + (j × rows + i) × size.</div>
+    <div class="def"><b class="t">Strings</b><br><b>C</b>: a char array ending in <code>'\0'</code>. <code>strlen</code> doesn't count it, but <code>sizeof</code> does. Functions: strlen, strcpy, strcat, strcmp (returns 0 when equal), strrev.<br><b>Java</b>: <code>String</code> is <b>immutable</b>, so methods return new strings. Use <code>StringBuilder</code> (fast, mutable) or <code>StringBuffer</code> (thread-safe) for repeated changes.</div>
+  </div>
+  <table class="tight"><thead><tr><th>Java String method</th><th>Example → result</th><th>Java String method</th><th>Example → result</th></tr></thead><tbody>
+    <tr><td><code>length()</code></td><td>"code".length() → 4</td><td><code>indexOf(s)</code></td><td>"banana".indexOf("an") → 1</td></tr>
+    <tr><td><code>charAt(i)</code></td><td>"code".charAt(1) → 'o'</td><td><code>equals / equalsIgnoreCase</code></td><td>content comparison</td></tr>
+    <tr><td><code>substring(a, b)</code></td><td>"program".substring(2, 5) → "ogr"</td><td><code>compareTo</code></td><td>"a".compareTo("c") → −2</td></tr>
+    <tr><td><code>toUpperCase()</code></td><td>"ab".toUpperCase() → "AB"</td><td><code>split(",")</code></td><td>"a,b".split(",") → [a, b]</td></tr>
+    <tr><td><code>trim()</code></td><td>" hi ".trim() → "hi"</td><td><code>replace(a, b)</code></td><td>"aab".replace('a', 'x') → "xxb"</td></tr>
+  </tbody></table>
+  <p style="font-size:8.6pt;color:var(--muted)">substring(a, b) includes index a and <b>excludes</b> index b. Concatenation is evaluated left to right: <code>1 + 2 + "x"</code> → "3x", but <code>"x" + 1 + 2</code> → "x12".</p>
+</section>
+
+<!-- ================= F6 LINEAR DS ================= -->
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">F6</div><div><div class="kicker">Organising data</div><h2>Linear Data Structures</h2></div></div>
+  <div class="def"><b class="t">Classification</b>: <b>linear</b> (elements in a sequence: array, linked list, stack, queue) vs <b>non-linear</b> (hierarchical or networked: tree, graph) · <b>static</b> (fixed size: array) vs <b>dynamic</b> (grows: linked list) · a <b>primitive</b> type (int, char) vs an <b>abstract data type</b> (ADT: stack, queue, defined by its operations).</div>
+  <table class="tight"><thead><tr><th style="width:24%"></th><th>Array</th><th>Singly linked list</th></tr></thead><tbody>
+    <tr><td>Memory</td><td>Contiguous, fixed size</td><td>Scattered nodes (data + next pointer), dynamic</td></tr>
+    <tr><td>Access the i-th element</td><td><b>O(1)</b></td><td>O(n): you must traverse</td></tr>
+    <tr><td>Insert or delete at the front</td><td>O(n): shift everything</td><td><b>O(1)</b></td></tr>
+    <tr><td>Insert at the end</td><td>O(1) if there's space</td><td>O(n), or O(1) with a tail pointer</td></tr>
+    <tr><td>Extra memory</td><td>None</td><td>A pointer per node</td></tr>
+    <tr><td>Cache friendliness</td><td>High</td><td>Low</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Linked-list types</b>: <b>singly</b> (next) · <b>doubly</b> (prev + next, so it can go backwards, and deleting a known node is O(1)) · <b>circular</b> (the last node points to the head). To <b>reverse</b> a singly list, use three pointers: prev, curr and next.</p>
+  <div class="two">
+    <div class="callout"><b class="t">Stack: LIFO (Last In, First Out)</b>
+      Operations: <code>push</code>, <code>pop</code>, <code>peek/top</code>, <code>isEmpty</code>, all O(1). <b>Overflow</b> = pushing onto a full stack. <b>Underflow</b> = popping an empty one.<br>
+      <b>Uses</b>: the function call stack and recursion, undo/redo, the browser back button, balanced brackets, expression conversion and evaluation, DFS, backtracking.
+      <div class="boxes"><span>push 10</span><span>push 20</span><span class="h">pop → 20</span><span>push 30</span><span>push 40</span><span class="h">pop → 40</span><span class="h">pop → 30</span></div></div>
+    <div class="callout"><b class="t">Queue: FIFO (First In, First Out)</b>
+      <code>enqueue</code> at the <b>rear</b>, <code>dequeue</code> from the <b>front</b>, both O(1).<br>
+      <b>Circular queue</b>: rear = (rear + 1) mod n, which reuses the space freed at the front. <b>Deque</b>: insert and delete at both ends. <b>Priority queue</b>: highest priority out first (usually a heap).<br>
+      <b>Uses</b>: CPU and printer scheduling, BFS, buffers, call centres.</div>
+  </div>
+  <div class="two">
+    <div class="def"><b class="t">Infix → postfix (shunting-yard)</b>
+      <ol class="steps"><li>Operand → write it to the output.</li><li><code>(</code> → push it. <code>)</code> → pop to the output until you reach <code>(</code>.</li>
+      <li>Operator → pop operators of <b>higher or equal</b> precedence to the output, then push it.</li><li>At the end, pop everything left.</li></ol>
+      <code>A + B * C - D</code> → <b>A B C * + D -</b> · <code>(A + B) * C</code> → <b>A B + C *</b></div>
+    <div class="def"><b class="t">Evaluating postfix with a stack</b>
+      Scan left to right. Push numbers. When you meet an operator, pop the <b>top two</b> (second-popped OP first-popped) and push the result.<br>
+      <code>5 1 2 + 4 * + 3 -</code>: 1 + 2 = 3 → 3 × 4 = 12 → 5 + 12 = 17 → 17 − 3 = <b>14</b>.<br>
+      <b>Prefix</b> (Polish notation) works the same way, scanning right to left.</div>
+  </div>
+</section>
+
+<!-- ================= F7 NON-LINEAR ================= -->
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">F7</div><div><div class="kicker">Hierarchies &amp; networks</div><h2>Trees, Heaps, Graphs &amp; Hashing</h2></div></div>
+  <div class="two">
+    <div>
+      <svg class="tree" viewBox="0 0 300 150" width="300" height="150" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#fb923c" stroke-width="2"><line x1="150" y1="22" x2="80" y2="72"/><line x1="150" y1="22" x2="220" y2="72"/><line x1="80" y1="72" x2="45" y2="122"/><line x1="80" y1="72" x2="115" y2="122"/><line x1="220" y1="72" x2="185" y2="122"/><line x1="220" y1="72" x2="255" y2="122"/></g>
+        <g fill="#ea580c"><circle cx="150" cy="22" r="16"/><circle cx="80" cy="72" r="16"/><circle cx="220" cy="72" r="16"/><circle cx="45" cy="122" r="16"/><circle cx="115" cy="122" r="16"/><circle cx="185" cy="122" r="16"/><circle cx="255" cy="122" r="16"/></g>
+        <g text-anchor="middle"><text x="150" y="26">50</text><text x="80" y="76">30</text><text x="220" y="76">70</text><text x="45" y="126">20</text><text x="115" y="126">40</text><text x="185" y="126">60</text><text x="255" y="126">80</text></g>
+      </svg>
+      <table class="tight"><thead><tr><th>Traversal</th><th>Order</th><th>Result for this BST</th></tr></thead><tbody>
+        <tr><td><b>In-order</b></td><td>L, Root, R</td><td>20 30 40 50 60 70 80 (<b>sorted</b>)</td></tr>
+        <tr><td><b>Pre-order</b></td><td>Root, L, R</td><td>50 30 20 40 70 60 80</td></tr>
+        <tr><td><b>Post-order</b></td><td>L, R, Root</td><td>20 40 30 60 80 70 50</td></tr>
+        <tr><td><b>Level-order</b></td><td>BFS (queue)</td><td>50 30 70 20 40 60 80</td></tr>
+      </tbody></table>
+    </div>
+    <div>
+      <div class="def"><b class="t">Tree terms</b>: root · parent/child · siblings · <b>leaf</b> (no children) · internal node · <b>depth</b> (edges from the root) · <b>height</b> (longest path down to a leaf) · <b>degree</b> (number of children) · subtree.</div>
+      <div class="def"><b class="t">Binary tree facts</b> (root at level 0)<br>Max nodes at level i = <b>2ⁱ</b> · max nodes at height h = <b>2ʰ⁺¹ − 1</b> · min height for n nodes ≈ ⌊log₂n⌋ · a tree with n nodes has <b>n − 1 edges</b> · leaves = nodes with 2 children + 1 (in a full binary tree).</div>
+      <div class="def"><b class="t">Types</b>: <b>full</b> (0 or 2 children each) · <b>complete</b> (every level full except possibly the last, filled left to right: heaps) · <b>perfect</b> · <b>skewed</b> (a chain).</div>
+    </div>
+  </div>
+  <div class="three">
+    <div class="def"><b class="t">BST</b><br>left &lt; node &lt; right. Search, insert and delete are <b>O(log n)</b> on average but <b>O(n)</b> if skewed (sorted input). <b>AVL</b> and <b>Red-Black</b> trees self-balance to guarantee O(log n).</div>
+    <div class="def"><b class="t">Heap</b> (complete binary tree in an array)<br><b>Min-heap</b>: parent ≤ children (min at the root). <b>Max-heap</b>: parent ≥ children. For index i, the children are <b>2i + 1, 2i + 2</b> and the parent is <b>(i − 1)/2</b>. Insert and delete are O(log n), peek is O(1), and building a heap is O(n).</div>
+    <div class="def"><b class="t">Graphs</b><br>Vertices + edges · directed or undirected · weighted · cyclic or acyclic (a DAG). Stored as an <b>adjacency matrix</b> (V² space, O(1) edge check) or an <b>adjacency list</b> (V + E space, better for sparse graphs). <b>BFS</b> uses a queue (shortest path in unweighted graphs). <b>DFS</b> uses a stack or recursion.</div>
+  </div>
+  <div class="two">
+    <div class="def"><b class="t">Hashing</b>: a hash function maps a key to an index, giving O(1) average search, insert and delete. A <b>collision</b> happens when two keys map to the same index. <b>Load factor</b> α = n / table size, and you rehash when it gets high.</div>
+    <div class="def"><b class="t">Collision resolution</b>: <b>chaining</b> (a linked list at each index) · <b>open addressing</b>: <b>linear probing</b> (i + 1, i + 2…, which causes clustering), quadratic probing (i + 1², i + 2²…), double hashing.</div>
+  </div>
+  <p style="font-size:8.6pt;color:var(--muted)">Also good to recognise: a <b>trie</b> (prefix tree, for autocomplete) · <b>B / B+ trees</b> (database indexes) · <b>graph algorithms</b>: Dijkstra (shortest path), Prim and Kruskal (minimum spanning tree), topological sort (DAGs).</p>
+</section>
+
+<!-- ================= F8 SEARCH & SORT ================= -->
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">F8</div><div><div class="kicker">Find and order</div><h2>Searching &amp; Sorting</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Linear search</b>: check each element. O(n), and works on <b>any</b> array. Best case O(1) (the first element).</div>
+    <div class="def"><b class="t">Binary search</b>: needs <b>sorted</b> data with random access. Compare with the <code>mid = (lo + hi) / 2</code> element and discard half each step. O(log n), so at most ⌊log₂n⌋ + 1 comparisons (1,000 elements → 10). It doesn't work efficiently on linked lists.</div>
+  </div>
+  <h3>One pass of each sort on <code>[5, 1, 4, 2, 8]</code></h3>
+  <table class="tight"><thead><tr><th style="width:16%">Algorithm</th><th style="width:44%">What one pass does</th><th>After pass 1</th></tr></thead><tbody>
+    <tr><td><b>Bubble</b></td><td>Swap adjacent pairs that are out of order. The <b>largest</b> value bubbles to the end</td><td>[1, 4, 2, 5, <b>8</b>]</td></tr>
+    <tr><td><b>Selection</b></td><td>Find the <b>minimum</b> of the unsorted part and swap it to the front</td><td>[<b>1</b>, 5, 4, 2, 8]</td></tr>
+    <tr><td><b>Insertion</b></td><td>Take the next element and insert it into the sorted left part</td><td>[<b>1, 5</b>, 4, 2, 8]</td></tr>
+    <tr><td><b>Merge</b></td><td>Split into halves recursively, then <b>merge</b> the sorted halves</td><td>[1, 5] [4, 2, 8] → … → sorted</td></tr>
+    <tr><td><b>Quick</b></td><td>Pick a <b>pivot</b>, then partition: smaller values left, larger values right. Recurse on each side</td><td>pivot 8 → [5, 1, 4, 2] <b>8</b></td></tr>
+    <tr><td><b>Heap</b></td><td>Build a max-heap, then repeatedly swap the root to the end and re-heapify</td><td>max (8) moves to the end</td></tr>
+  </tbody></table>
+  <table class="tight"><thead><tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable</th><th>In-place</th></tr></thead><tbody>
+    <tr><td><b>Bubble</b></td><td>O(n)*</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✓</td><td>✓</td></tr>
+    <tr><td><b>Selection</b></td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✗</td><td>✓</td></tr>
+    <tr><td><b>Insertion</b></td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>✓</td><td>✓</td></tr>
+    <tr><td><b>Merge</b></td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>✓</td><td>✗</td></tr>
+    <tr><td><b>Quick</b></td><td>O(n log n)</td><td>O(n log n)</td><td><b>O(n²)</b></td><td>O(log n)</td><td>✗</td><td>✓</td></tr>
+    <tr><td><b>Heap</b></td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>✗</td><td>✓</td></tr>
+    <tr><td><b>Counting / Radix</b></td><td>O(n + k)</td><td>O(n + k)</td><td>O(n + k)</td><td>O(n + k)</td><td>✓</td><td>✗</td></tr>
+  </tbody></table>
+  <p style="font-size:8.6pt;color:var(--muted);margin-top:-4px">*Bubble sort's best case assumes the "stop if no swaps" check. A <b>stable</b> sort keeps equal elements in their original order. <b>In-place</b> means it needs only O(1) extra space (quick sort uses O(log n) for recursion). Comparison sorts can't beat O(n log n) in the worst case.</p>
+  <div class="def"><b class="t">Which sort when?</b> Nearly sorted or small data → <b>insertion</b> · guaranteed n log n or linked lists → <b>merge</b> · fastest in practice for in-memory arrays → <b>quick</b> · O(1) space with guaranteed n log n → <b>heap</b> · fewest swaps → <b>selection</b> (n − 1 swaps) · small-range integers → <b>counting</b>.</div>
+</section>
+
+<!-- ================= F9 COMPLEXITY ================= -->
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">F9</div><div><div class="kicker">How fast, how big</div><h2>Time &amp; Space Complexity</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Big-O (O)</b><br>An <b>upper bound</b>, used for the worst case. "Grows no faster than…"</div>
+    <div class="def"><b class="t">Big-Omega (Ω)</b><br>A <b>lower bound</b>, linked to the best case. "Grows at least as fast as…"</div>
+    <div class="def"><b class="t">Big-Theta (Θ)</b><br>A <b>tight bound</b>: both O and Ω. "Grows exactly like…"</div>
+  </div>
+  <p style="font-size:9pt"><b>Rules</b>: drop constants (O(3n) = O(n)) · keep the dominant term (O(n² + n log n) = O(n²)) · sequential steps <b>add</b> and nested steps <b>multiply</b> · different inputs keep separate variables (O(a + b) or O(a·b)). <b>Growth order</b>: O(1) &lt; O(log n) &lt; O(√n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!).</p>
+  <table class="tight"><thead><tr><th style="width:56%">Code pattern</th><th>Complexity</th></tr></thead><tbody>
+    <tr><td>Fixed steps, or an array access by index</td><td>O(1)</td></tr>
+    <tr><td><code>for (i = 1; i &lt; n; i *= 2)</code> or <code>i /= 2</code> · binary search</td><td>O(log n)</td></tr>
+    <tr><td><code>for (i = 1; i * i &lt;= n; i++)</code> · checking if a number is prime</td><td>O(√n)</td></tr>
+    <tr><td><code>for (i = 0; i &lt; n; i++)</code> · linear search</td><td>O(n)</td></tr>
+    <tr><td>Two separate (non-nested) loops to n</td><td>O(n)</td></tr>
+    <tr><td><code>for i to n</code> containing <code>for (j = 1; j &lt; n; j *= 2)</code> · merge sort · heap sort</td><td>O(n log n)</td></tr>
+    <tr><td>Nested loops to n, including <code>j = i to n</code> (n(n+1)/2 steps)</td><td>O(n²)</td></tr>
+    <tr><td>Three nested loops</td><td>O(n³)</td></tr>
+    <tr><td>Naive recursive Fibonacci · generating all subsets</td><td>O(2ⁿ)</td></tr>
+    <tr><td>Generating all permutations</td><td>O(n!)</td></tr>
+  </tbody></table>
+  <table class="tight"><thead><tr><th>Recurrence</th><th>Solves to</th><th>Example</th></tr></thead><tbody>
+    <tr><td>T(n) = T(n − 1) + O(1)</td><td>O(n)</td><td>Factorial, linear recursion</td></tr>
+    <tr><td>T(n) = T(n/2) + O(1)</td><td>O(log n)</td><td>Binary search</td></tr>
+    <tr><td>T(n) = 2T(n/2) + O(n)</td><td>O(n log n)</td><td>Merge sort, average quick sort</td></tr>
+    <tr><td>T(n) = T(n − 1) + O(n)</td><td>O(n²)</td><td>Worst-case quick sort, selection sort</td></tr>
+    <tr><td>T(n) = 2T(n − 1) + O(1)</td><td>O(2ⁿ)</td><td>Tower of Hanoi (2ⁿ − 1 moves), naive Fibonacci</td></tr>
+  </tbody></table>
+  <div class="def"><b class="t">Space complexity</b> is the extra memory used: iterative sum O(1) · copying an array O(n) · recursion depth d uses O(d) stack space (recursive factorial O(n), binary search recursion O(log n)) · merge sort O(n).</div>
+</section>
+
+<!-- ================= DBMS ================= -->
+<section class="part db">
+  <div class="banner db"><div class="big">DB</div><div class="pl">PART 2 · DATABASE MANAGEMENT SYSTEMS</div><h2>DBMS &amp; SQL</h2>
+    <p>How data is modelled, organised and queried. Expect definitions (keys, normal forms, ACID), command families, and simple query outputs on small tables.</p></div>
+  <div class="sec-head"><div class="sec-num">DB1</div><div><div class="kicker">Foundations</div><h2>DBMS Concepts &amp; Keys</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Why a DBMS instead of files?</b><br>It reduces <b>redundancy and inconsistency</b>, and provides concurrent access, security, integrity constraints, backup and recovery, and a query language (SQL). An <b>RDBMS</b> stores data in related <b>tables</b>: MySQL, Oracle, PostgreSQL, SQL Server. <b>NoSQL</b> databases (MongoDB, Cassandra, Redis) use documents, columns or key-value pairs.</div>
+    <table class="tight"><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td>Relation</td><td>A table</td></tr><tr><td>Tuple</td><td>A row (record)</td></tr><tr><td>Attribute</td><td>A column (field)</td></tr>
+      <tr><td>Degree</td><td>Number of <b>columns</b></td></tr><tr><td>Cardinality</td><td>Number of <b>rows</b></td></tr>
+      <tr><td>Domain</td><td>The allowed values of an attribute</td></tr><tr><td>Schema / Instance</td><td>The structure / the data at a given moment</td></tr>
+    </tbody></table>
+  </div>
+  <table class="tight"><thead><tr><th style="width:20%">Key</th><th>Definition</th><th style="width:28%">Example (Student table)</th></tr></thead><tbody>
+    <tr><td><b>Super key</b></td><td>Any set of columns that uniquely identifies a row</td><td>{roll}, {roll, name}, {email}</td></tr>
+    <tr><td><b>Candidate key</b></td><td>A <b>minimal</b> super key (no unnecessary columns)</td><td>{roll}, {email}</td></tr>
+    <tr><td><b>Primary key</b></td><td>The chosen candidate key: <b>unique + NOT NULL</b>, one per table</td><td>roll</td></tr>
+    <tr><td><b>Alternate key</b></td><td>The candidate keys not chosen as primary</td><td>email</td></tr>
+    <tr><td><b>Foreign key</b></td><td>A column referencing another table's primary key (<b>referential integrity</b>)</td><td>dept_id → Department</td></tr>
+    <tr><td><b>Composite key</b></td><td>A key made of 2 or more columns</td><td>{student_id, course_id}</td></tr>
+    <tr><td><b>Unique key</b></td><td>Values must be unique, but NULL is allowed</td><td>phone</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Constraints</b>: NOT NULL · UNIQUE · PRIMARY KEY · FOREIGN KEY (ON DELETE CASCADE / SET NULL) · CHECK (<code>salary &gt; 0</code>) · DEFAULT. <b>Integrity types</b>: entity (the primary key isn't null), referential (a foreign key matches an existing primary key), domain (valid values).</p>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">DB2</div><div><div class="kicker">Design</div><h2>ER Model &amp; Normalisation</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">ER diagram symbols</b><br><b>Entity</b> = rectangle (a weak entity has a double rectangle) · <b>attribute</b> = oval (key = underlined, multi-valued = double oval, derived = dashed) · <b>relationship</b> = diamond · cardinality <b>1:1, 1:N, M:N</b> · participation total (double line) or partial. An M:N relationship becomes a <b>separate table</b>.</div>
+    <div class="def"><b class="t">Why normalise?</b> To remove redundancy and the <b>anomalies</b> it causes: <b>insertion</b> (you can't add data without unrelated data) · <b>update</b> (the same fact stored in many rows gets out of sync) · <b>deletion</b> (deleting one fact loses another).</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:12%">Form</th><th style="width:44%">Rule</th><th>Fix</th></tr></thead><tbody>
+    <tr><td><b>1NF</b></td><td>Atomic values: no lists or repeating groups in a cell</td><td>"Java, SQL" in one cell → one row per skill</td></tr>
+    <tr><td><b>2NF</b></td><td>1NF + <b>no partial dependency</b> (a non-key column depending on <i>part</i> of a composite key)</td><td>(student, course) → student_name? Move student_name to a Student table</td></tr>
+    <tr><td><b>3NF</b></td><td>2NF + <b>no transitive dependency</b> (non-key → non-key)</td><td>emp → dept_id → dept_name? Move dept_name to a Department table</td></tr>
+    <tr><td><b>BCNF</b></td><td>For every dependency X → Y, X is a super key (a stricter 3NF)</td><td>Decompose further</td></tr>
+  </tbody></table>
+  <p style="font-size:8.6pt;color:var(--muted)">Higher forms (4NF for multi-valued dependencies, 5NF for join dependencies) are rarely asked. <b>Denormalisation</b> deliberately adds redundancy for read speed, for example in data warehouses.</p>
+</section>
+
+<section class="part db">
+  <div class="sec-head"><div class="sec-num">DB3</div><div><div class="kicker">The query language</div><h2>SQL: Commands, Clauses &amp; Joins</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:24%">Family</th><th>Commands</th><th style="width:30%">Note</th></tr></thead><tbody>
+    <tr><td><b>DDL</b> (Definition)</td><td>CREATE, ALTER, DROP, TRUNCATE, RENAME</td><td>Changes the structure. Auto-commits</td></tr>
+    <tr><td><b>DML</b> (Manipulation)</td><td>INSERT, UPDATE, DELETE (MERGE)</td><td>Changes the data. Can be rolled back</td></tr>
+    <tr><td><b>DQL</b> (Query)</td><td>SELECT</td><td>Reads data</td></tr>
+    <tr><td><b>DCL</b> (Control)</td><td>GRANT, REVOKE</td><td>Permissions</td></tr>
+    <tr><td><b>TCL</b> (Transaction)</td><td>COMMIT, ROLLBACK, SAVEPOINT</td><td>Transactions</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">DELETE</b><br>DML. Removes rows (supports WHERE). Can be rolled back, and triggers fire. Slower.</div>
+    <div class="def"><b class="t">TRUNCATE</b><br>DDL. Removes <b>all</b> rows quickly, keeps the structure, and resets identity counters. No WHERE.</div>
+    <div class="def"><b class="t">DROP</b><br>DDL. Removes the <b>whole table</b>: its structure, data and indexes.</div>
+  </div>
+  <div class="two">
+    <div class="def"><b class="t">Clause order: written vs executed</b><br>Written: SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY → LIMIT<br><b>Executed</b>: <b>FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT</b><br>That's why WHERE can't use aggregates or SELECT aliases, but ORDER BY can.</div>
+    <div class="def"><b class="t">Aggregates &amp; NULL</b><br>COUNT, SUM, AVG, MIN and MAX <b>ignore NULLs</b>, except <code>COUNT(*)</code>, which counts rows. <code>NULL = NULL</code> isn't true, so use <code>IS NULL</code>. Any arithmetic with NULL gives NULL. <b>GROUP BY puts all NULLs into one group.</b> Use <code>COALESCE(x, 0)</code> to replace NULLs.</div>
+  </div>
+  <h3>Sample tables (used in the SQL practice questions)</h3>
+  <div class="two">
+    <table class="tight"><thead><tr><th colspan="5">Employee</th></tr><tr><th>id</th><th>name</th><th>dept_id</th><th>salary</th><th>manager_id</th></tr></thead><tbody>
+      <tr><td>1</td><td>Asha</td><td>10</td><td>40000</td><td>NULL</td></tr><tr><td>2</td><td>Ravi</td><td>20</td><td>55000</td><td>1</td></tr>
+      <tr><td>3</td><td>Meena</td><td>20</td><td>62000</td><td>1</td></tr><tr><td>4</td><td>John</td><td>30</td><td>38000</td><td>2</td></tr>
+      <tr><td>5</td><td>Priya</td><td>10</td><td>45000</td><td>2</td></tr><tr><td>6</td><td>Arjun</td><td>NULL</td><td>51000</td><td>3</td></tr>
+    </tbody></table>
+    <div>
+      <table class="tight"><thead><tr><th colspan="2">Department</th></tr><tr><th>dept_id</th><th>dname</th></tr></thead><tbody>
+        <tr><td>10</td><td>HR</td></tr><tr><td>20</td><td>IT</td></tr><tr><td>30</td><td>Sales</td></tr><tr><td>40</td><td>Finance</td></tr>
+      </tbody></table>
+      <p style="font-size:8.4pt;color:var(--muted);margin:0">Arjun has no department, and Finance has no employees. Both are deliberate, so you can see how joins treat unmatched rows.</p>
+    </div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:17%">Join</th><th>Returns</th><th style="width:23%">On the sample tables</th></tr></thead><tbody>
+    <tr><td><b>INNER JOIN</b></td><td>Only rows that match in <b>both</b> tables</td><td>5 rows (no Arjun, no Finance)</td></tr>
+    <tr><td><b>LEFT JOIN</b></td><td>All rows of the left table, with NULLs where there's no match</td><td>Employee LEFT JOIN Dept: 6 rows</td></tr>
+    <tr><td><b>RIGHT JOIN</b></td><td>All rows of the right table</td><td>Employee RIGHT JOIN Dept: 6 rows (with Finance)</td></tr>
+    <tr><td><b>FULL OUTER</b></td><td>All rows of both tables</td><td>7 rows (Arjun and Finance)</td></tr>
+    <tr><td><b>CROSS JOIN</b></td><td>The Cartesian product: every pair</td><td>6 × 4 = 24 rows</td></tr>
+    <tr><td><b>SELF JOIN</b></td><td>A table joined with itself</td><td>Employee ↔ their manager</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Subqueries</b><br>A query inside another. Second-highest salary: <code>SELECT MAX(salary) FROM Employee WHERE salary &lt; (SELECT MAX(salary) FROM Employee)</code>. Operators: IN, EXISTS, ANY, ALL.</div>
+    <div class="def"><b class="t">UNION vs UNION ALL</b><br>UNION removes duplicates. UNION ALL keeps them (and is faster). The columns must match in number and type. INTERSECT and EXCEPT/MINUS also exist.</div>
+    <div class="def"><b class="t">View · Index</b><br>A <b>view</b> is a saved query, used like a virtual table. An <b>index</b> speeds up reads (usually a B+ tree) but slows writes. Clustered = sorts the table itself (one per table).</div>
+  </div>
+  <p style="font-size:9pt"><b>Handy operators</b>: <code>BETWEEN 10 AND 20</code> (inclusive) · <code>IN (…)</code> · <code>LIKE 'A%'</code> (% = any characters, _ = exactly one) · <code>DISTINCT</code> · <code>ORDER BY salary DESC</code> · <code>LIMIT n</code> / <code>TOP n</code>. A <b>stored procedure</b> is saved SQL code. A <b>trigger</b> runs automatically on INSERT, UPDATE or DELETE.</p>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">DB4</div><div><div class="kicker">Reliability</div><h2>Transactions, ACID &amp; Concurrency</h2></div></div>
+  <div class="cards c4">
+    <div class="card alt"><h4 style="margin-top:0">Atomicity</h4><p style="margin:0;font-size:8.8pt">All or nothing. A transfer debits <b>and</b> credits, or neither happens.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Consistency</h4><p style="margin:0;font-size:8.8pt">Moves from one valid state to another, and constraints hold.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Isolation</h4><p style="margin:0;font-size:8.8pt">Concurrent transactions don't see each other's partial work.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Durability</h4><p style="margin:0;font-size:8.8pt">Committed data survives crashes, using logs and disk writes.</p></div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:22%">Problem</th><th>What happens</th><th style="width:26%">Prevented from</th></tr></thead><tbody>
+    <tr><td><b>Dirty read</b></td><td>Reads data that another transaction hasn't committed yet (and may roll back)</td><td>Read Committed</td></tr>
+    <tr><td><b>Non-repeatable read</b></td><td>The same row read twice gives different values</td><td>Repeatable Read</td></tr>
+    <tr><td><b>Phantom read</b></td><td>The same query returns new or missing rows</td><td>Serializable</td></tr>
+    <tr><td><b>Lost update</b></td><td>Two writes overlap and one is overwritten</td><td>Locking</td></tr>
+    <tr><td><b>Deadlock</b></td><td>Two transactions each wait for the other's lock</td><td>Detection or timeouts, lock ordering</td></tr>
+  </tbody></table>
+  <p style="font-size:9pt"><b>Isolation levels</b>, from weakest to strongest: Read Uncommitted → Read Committed → Repeatable Read → <b>Serializable</b>. Transaction states: Active → Partially Committed → Committed / Failed → Aborted. <b>Locks</b>: shared (read) and exclusive (write).</p>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<section class="page-break part d">
+  <div class="sec-head"><div class="sec-num">✓1</div><div><div class="kicker">Code output</div><h2>Practice Set 1 · Programming</h2></div></div>
+  <p class="lead">P1–P10 are C programs, <b>compiled and run with gcc</b>. P11–P14 are Java programs, <b>run with the JDK</b>. The answer key is the real program output.</p>
+  <!--MCQ_CODE-->
+  <div class="avoid-head"><h3>Set 1 · Answer key</h3></div>
+  <!--KEY_CODE-->
+</section>
+
+<section class="part d">
+  <div class="sec-head"><div class="sec-num">✓2</div><div><div class="kicker">Hands-on DSA</div><h2>Practice Set 2 · Data Structures &amp; Algorithms</h2></div></div>
+  <p class="lead">Each answer was <b>computed by actually running</b> the stack, queue, BST, heap, sorting pass, binary search or hash table in code.</p>
+  <!--MCQ_DS-->
+  <div class="avoid-head"><h3>Set 2 · Answer key</h3></div>
+  <!--KEY_DS-->
+</section>
+
+<section class="part db">
+  <div class="sec-head"><div class="sec-num">✓3</div><div><div class="kicker">DBMS &amp; concepts</div><h2>Practice Set 3 · SQL &amp; Theory</h2></div></div>
+  <p class="lead">Q1–Q11 run on the <b>sample Employee and Department tables</b>. Every answer comes from executing the query on a real SQLite database. T1–T15 test concepts across the whole section.</p>
+  <!--MCQ_SQL-->
+  <div class="part d"><!--MCQ_T--></div>
+  <div class="avoid-head"><h3>Set 3 · Answer key</h3></div>
+  <!--KEY_SQLT-->
+</section>
+
+<!-- ================= PLAN ================= -->
+<section class="page-break part d">
+  <div class="sec-head"><div class="sec-num">Z</div><div><div class="kicker">Get exam-ready</div><h2>6-Day Plan &amp; Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:12%">Day</th><th>Plan (60–90 minutes)</th></tr></thead><tbody>
+    <tr><td><b>Day 1</b></td><td>F1–F3: compiler vs interpreter, type sizes and ranges, casting, scope. Do P1–P10.</td></tr>
+    <tr><td><b>Day 2</b></td><td>F4–F5: call by value vs reference, the memory layout, pointers, array address formulas, string methods. Do P11–P14.</td></tr>
+    <tr><td><b>Day 3</b></td><td>F6–F7: stack and queue traces, infix/postfix, linked-list complexity, tree traversals (draw 3 trees), heaps, hashing.</td></tr>
+    <tr><td><b>Day 4</b></td><td>F8–F9: do one pass of every sort by hand, learn the sorting table and the Big-O patterns and recurrences. Do Set 2.</td></tr>
+    <tr><td><b>Day 5</b></td><td>DB1–DB4: keys, normal forms with examples, SQL families, execution order, joins on the sample tables, ACID. Do Set 3.</td></tr>
+    <tr><td><b>Day 6</b></td><td>Redo the questions you got wrong and read the cheat sheet.</td></tr>
+  </tbody></table>
+  <div class="cards c3">
+    <div class="card" style="border-top:4px solid #ea580c"><h4 style="margin-top:0;color:#ea580c">Programming</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Compiler = whole program first · interpreter = line by line · Java → bytecode → JVM</li>
+      <li>Java: int 4 bytes, char 2, long 8, double 8</li>
+      <li>Signed n-bit: −2ⁿ⁻¹ to 2ⁿ⁻¹ − 1 · overflow wraps</li>
+      <li>Widening is automatic · narrowing needs a cast (truncates)</li>
+      <li>static local: initialised once and keeps its value</li>
+      <li>Stack = locals and calls · heap = malloc/new</li>
+      <li>p + 1 moves one element · *(a + i) == a[i]</li>
+      <li>Leak = never freed · dangling = points to freed memory</li>
+      <li>Address = base + i × size · row-major (i·cols + j)</li>
+      <li>strlen excludes \0 · sizeof includes it</li>
+      <li>Java Strings are immutable · use StringBuilder</li>
+      <li>1 + 2 + "x" = "3x" · "x" + 1 + 2 = "x12"</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #c2410c"><h4 style="margin-top:0;color:#c2410c">DSA</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Stack LIFO (calls, undo, DFS) · queue FIFO (BFS)</li>
+      <li>Circular rear = (rear + 1) mod n</li>
+      <li>Linked list: head insert O(1), access O(n)</li>
+      <li>In-order of a BST = sorted · pre = Root L R · post = L R Root</li>
+      <li>Max nodes 2ʰ⁺¹ − 1 · n nodes → n − 1 edges</li>
+      <li>Heap children 2i + 1, 2i + 2 · parent (i − 1)/2</li>
+      <li>Hash collisions: chaining / linear probing</li>
+      <li>Binary search needs sorted data · O(log n)</li>
+      <li>Merge always n log n · quick worst n² · insertion best n</li>
+      <li>Stable: bubble, insertion, merge, counting</li>
+      <li>Halving → log n · nested → n² · 2 branches → 2ⁿ</li>
+      <li>2T(n/2) + n = n log n · T(n/2) + 1 = log n</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #4f46e5"><h4 style="margin-top:0;color:#4f46e5">DBMS</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Degree = columns · cardinality = rows</li>
+      <li>PK = unique + not null · FK → another table's PK</li>
+      <li>Candidate = minimal super key</li>
+      <li>1NF atomic · 2NF no partial · 3NF no transitive</li>
+      <li>DDL: CREATE, ALTER, DROP, TRUNCATE</li>
+      <li>DML: INSERT, UPDATE, DELETE · TCL: COMMIT, ROLLBACK</li>
+      <li>DELETE (WHERE, rollback) · TRUNCATE (all rows) · DROP (table)</li>
+      <li>Executed: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</li>
+      <li>COUNT(*) counts rows · COUNT(col) skips NULLs</li>
+      <li>INNER = matches · LEFT = all left rows · CROSS = m × n</li>
+      <li>UNION removes duplicates · UNION ALL keeps them</li>
+      <li>ACID · dirty / non-repeatable / phantom reads</li>
+    </ul></div>
+  </div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Accenture. C type sizes depend on the platform (64-bit Linux shown). All questions are original. Code answers were produced with gcc and OpenJDK 21, and SQL answers with SQLite. Standard SQL behaviour is assumed, and other database engines may differ in minor details such as NULL sort order.</p>
+</section>
+
+</body>
+</html>
