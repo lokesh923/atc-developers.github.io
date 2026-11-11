@@ -1,0 +1,4 @@
+[{"file":"q02.jpg","lines":["Integer a, b, c","Set a = 13, b = 6","c = (a ^ b) + (a >> 1)","if ((c & 1) EQUALS 1)","        c = c << 1","End if","Print c"]},
+ {"file":"q04.jpg","lines":["Integer i, j, count","Set count = 0","for (each i from 1 to 4)","        for (each j from i to 4)","                if ((i + j) mod 2 EQUALS 0)","                        count = count + 1","                End if","        End for","End for","Print count"]},
+ {"file":"q06.jpg","lines":["Integer funn(Integer x, Integer y)","        if (y EQUALS 0)","                return x","        End if","        return funn(y, x mod y)","End function funn()","","Print funn(84, 36) + funn(17, 5)"]},
+ {"file":"q08.jpg","lines":["Integer n, rev, d","Set n = 1230, rev = 0","while (n > 0)","        d = n mod 10","        rev = rev * 10 + d","        n = n / 10","End while","Print rev + 1"]}]

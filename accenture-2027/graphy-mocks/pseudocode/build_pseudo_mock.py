@@ -3,6 +3,7 @@
 Each question shows the original pseudocode as an image (img/m<N>/qNN.jpg, cropped from
 real exam photos). The question line, notes, options, answer and explanation are text.
 Output-type answers were checked by running the same logic in C or Python.
+New questions (not from photos) are drawn by render_code.js from new_m<N>.json.
 No question appears in more than one mock.
 
 Usage: python3 build_pseudo_mock.py template8.docx <mock no> <out.docx>
@@ -116,7 +117,63 @@ QUESTIONS_2 = [
      "and checking connectivity would compare the two roots.", "Medium"),
 ]
 
-MOCKS = {1: QUESTIONS_1, 2: QUESTIONS_2}
+N_BIT = ("[Note - ^: bitwise XOR sets a result bit to 1 only when the two bits are different. >>: right shift moves "
+         "the bits right (x >> 1 is integer division by 2). <<: left shift moves the bits left (x << 1 multiplies "
+         "by 2). &: bitwise AND.]")
+N_MOD = "[Note - mod finds the remainder after division. For example, 17 mod 5 = 2.]"
+N_DIV = "[Note - / between two integers gives integer division, which drops the remainder: 123 / 10 = 12.]"
+
+QUESTIONS_3 = [
+    ("Consider the following pseudocode snippet. What will be the output of the code?", "", 5.5,
+     ["TRUE", "FALSE", "TRUE and FALSE", "ERROR"], 1,
+     "a OR b is true when at least one of them is true. a is TRUE, so the IF condition holds and result is "
+     "set to TRUE. PRINT result prints TRUE.", "Easy"),
+    (OUT_Q, N_BIT, 4.5, ["17", "46", "34", "23"], 3,
+     "13 = 1101, 6 = 0110, so 13 ^ 6 = 1011 = 11. 13 >> 1 = 6. c = 11 + 6 = 17. 17 is odd, so c & 1 = 1 and "
+     "the if runs: c = 17 << 1 = 34.", "Hard"),
+    ("Consider the below pseudocode. Which output is produced when calling the getRateOfInterest() method?",
+     "", 5.5, ["1", "9", "5", "None of the above"], 3,
+     "B1 inherits Bank and overrides getRateOfInterest(). The object is created as B1, so at run time the "
+     "B1 version runs (method overriding / runtime polymorphism) and outputs 5. The Bank version is not called.",
+     "Easy"),
+    (OUT_Q, N_MOD, 4.5, ["4", "8", "10", "6"], 4,
+     "count increases when i + j is even. i=1: j=1, 3 (2 pairs). i=2: j=2, 4 (2). i=3: j=3 (1). i=4: j=4 (1). "
+     "Total = 2 + 2 + 1 + 1 = 6.", "Medium"),
+    ("Consider the following pseudocode snippet. What is the data type of the result variable?", "", 5.5,
+     ["Integer", "Float", "String", "Boolean"], 2,
+     "parseInt turns \"42\" into the integer 42. 3.14 is a decimal. An integer multiplied by a decimal is "
+     "promoted to a decimal, so result = 131.88, which is a Float.", "Easy"),
+    (OUT_Q, N_MOD, 4.5, ["12", "17", "6", "13"], 4,
+     "funn is Euclid's GCD algorithm. funn(84,36) -> funn(36,12) -> funn(12,0) = 12. funn(17,5) -> funn(5,2) "
+     "-> funn(2,1) -> funn(1,0) = 1. Print 12 + 1 = 13.", "Medium"),
+    ("In the provided pseudocode, what does the \"Vowels\" function do?", "", 5.5,
+     ["Reverses the input text", "Counts the number of vowels in the input text",
+      "Concatenates vowels from the input text", "Checks if the input text is a palindrome"], 2,
+     "Vowel1 starts at 0 and goes up by 1 for every character that is in the list [a, e, i, o, u]. The "
+     "function returns this number, so it counts the vowels in the text.", "Easy"),
+    (OUT_Q, N_DIV, 4.5, ["3211", "0322", "322", "1231"], 3,
+     "Each pass takes the last digit and appends it to rev. n=1230: d=0, rev=0, n=123. d=3, rev=3, n=12. "
+     "d=2, rev=32, n=1. d=1, rev=321, n=0. The leading 0 disappears, so rev = 321 and it prints 321 + 1 = 322.",
+     "Medium"),
+    ("What does the pseudocode do?", "", 4.0,
+     ["It prints only P, N or Z depending on the sign of N",
+      "It prints the numbers from 1 to N and then prints P, N or Z depending on whether N is positive, "
+      "negative or zero",
+      "It prints the numbers from 1 to N only when N is negative",
+      "It prints the numbers from N down to 1 and then the sign of N"], 2,
+     "The IF block stores \"P\" (N > 0), \"N\" (N < 0) or \"Z\" (N = 0) in M. The FOR loop then prints 1 "
+     "to N (nothing when N is 0 or negative), and finally PRINT M prints the letter.", "Medium"),
+    ("Analyse the given algorithm. Which of the following statements is correct?", "", 5.0,
+     ["The worst case time complexity of this algorithm is O(n log n)",
+      "The worst case space complexity of this algorithm is O(n)",
+      "The algorithm extends bubble sort by operating in two directions",
+      "It is a divide-and-conquer algorithm like merge sort"], 3,
+     "Each pass bubbles the largest item forward (left to right), then the smallest item backward (right to "
+     "left), and stops when no swap happens. That is cocktail shaker sort, a two-way bubble sort. It is still "
+     "O(n^2) in the worst case and sorts in place with O(1) extra space.", "Hard"),
+]
+
+MOCKS = {1: QUESTIONS_1, 2: QUESTIONS_2, 3: QUESTIONS_3}
 
 
 def build(template, mock_no, out):
