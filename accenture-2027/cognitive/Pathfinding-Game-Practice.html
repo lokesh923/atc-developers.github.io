@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pathfinding Game – Live Practice</title>
+<style>
+:root{
+  --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889; --line:#e3e5ee; --bg:#f4f5fa; --alt:#f8f9fc;
+  --in:#4f46e5; --in2:#6366f1; --or:#f97316; --ins:#eef0ff;
+  --green:#16a34a; --gs:#dcfce7; --amber:#c77700; --amber-soft:#fff4dd; --rose:#e11d48; --rose-soft:#ffe4e6;
+  --track:#5b6170; --tile:#eceef3; --grid:#d3d7e0;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:15px;min-height:100vh;-webkit-tap-highlight-color:transparent}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 48px}
+.hero{background:radial-gradient(110% 80% at 100% 0%,#6366f1 0%,transparent 55%),radial-gradient(90% 70% at 0% 100%,#f97316 0%,transparent 50%),linear-gradient(160deg,#0b1026 0%,#151b45 55%,#080b1c 100%);color:#fff;border-radius:22px;padding:32px 30px}
+.hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
+.hero h1{font-size:34px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em}
+.hero h1 span{color:#fdba74}
+.hero p{opacity:.85;margin:0;max-width:660px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-size:24px}.stat span{font-size:12px;opacity:.8}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:16px}
+h2{font-size:20px;margin:0 0 10px} h3{font-size:16px;margin:18px 0 8px}
+ul{padding-left:20px;margin:6px 0} li{margin:4px 0} li::marker{color:var(--in)}
+.grid2{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:start}
+.note{border-left:4px solid var(--in);background:var(--ins);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:14px}
+.note b.t{display:block;margin-bottom:2px;color:var(--in)}
+.btn{border:0;border-radius:12px;padding:13px 22px;font-weight:700;background:linear-gradient(135deg,var(--in),var(--or));color:#fff;box-shadow:0 6px 18px rgba(79,70,229,.25)}
+.btn.ghost{background:#fff;color:var(--in);border:1px solid #c7cbf5;box-shadow:none}
+.btn.big{font-size:17px;padding:15px 30px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=text]{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);font:inherit;background:#fff}
+input[type=text]:focus{outline:2px solid var(--in2);border-color:transparent}
+.opt{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px}
+.opt input{margin-top:4px;width:18px;height:18px;accent-color:var(--in)}
+.seg{display:inline-flex;background:var(--alt);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:9px;padding:8px 14px;font-weight:650;font-size:13.5px;color:var(--ink-2)}
+.seg button.on{background:#fff;color:var(--in);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.hint{font-size:12.5px;color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:28px}
+.kbd{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;padding:1px 7px;border-radius:6px;background:#fff;border:1px solid var(--line);border-bottom-width:2px}
+
+/* ===== game ===== */
+.qhead{background:#111;color:#fff;font-weight:700;font-size:15px;padding:10px 16px;border-radius:10px 10px 0 0;display:flex;align-items:center;gap:10px}
+.qhead .snd{margin-left:auto;background:#2b2f3a;border:0;color:#fff;border-radius:8px;padding:4px 9px;font-size:15px}
+.board{background:#fff;border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;padding:14px 14px 16px}
+.svgwrap{display:flex;justify-content:center}
+#gsvg{width:100%;max-width:640px;height:auto;touch-action:manipulation;user-select:none}
+#gsvg .cell{cursor:pointer}
+#gsvg .cell:hover rect.bg{fill:#e2e5ee}
+.tools{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px;flex-wrap:wrap}
+.ring{position:relative;width:56px;height:56px}
+.ring svg{width:56px;height:56px;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
+.ring.warn b{color:var(--amber)} .ring.crit b{color:var(--rose)}
+.tb{width:54px;height:50px;border-radius:8px;border:0;background:#2b2f3a;color:#fff;font-size:22px;display:grid;place-items:center;transition:transform .1s,background .15s}
+.tb:hover{background:#3a3f4d} .tb:active{transform:scale(.94)}
+.tb.on{background:var(--or)}
+.tb small{display:none}
+.tblab{display:flex;gap:14px;justify-content:center;font-size:11px;color:var(--muted);margin-top:4px}
+.tblab span{width:54px;text-align:center}
+.tblab span:first-child{width:56px}
+.status{text-align:center;font-size:13.5px;color:var(--ink-2);margin-top:8px;min-height:22px}
+.status b{color:var(--in)}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.dots i{width:9px;height:9px;border-radius:50%;border:1.5px solid #9aa0b0}
+.dots i.c{background:#14122b;border-color:#14122b} .dots i.ok{background:var(--green);border-color:var(--green)} .dots i.bad{background:var(--rose);border-color:var(--rose)}
+.sec{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
+.meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.modal{position:fixed;inset:0;background:rgba(20,18,43,.45);display:grid;place-items:center;z-index:30;padding:16px}
+.modal .box{background:#fff;border-radius:10px;padding:22px 26px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal p{margin:0 0 14px;font-size:15px}
+.modal .cbtn{background:#111;color:#fff;border:0;border-radius:4px;padding:9px 18px;font-weight:800;letter-spacing:.06em;font-size:12.5px}
+.overlay{position:fixed;inset:0;background:rgba(11,16,38,.78);display:grid;place-items:center;z-index:40;color:#fff;text-align:center}
+.overlay b{font-size:96px;line-height:1}.overlay p{margin:8px 0 0;font-size:18px;opacity:.85}
+
+/* ===== results ===== */
+.scorehead{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.sc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.sc .l{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sc .v{font-size:30px;font-weight:800;margin-top:2px}
+.sc .s{font-size:12.5px;color:var(--muted)}
+.verdict{font-size:22px;font-weight:800}
+.flag{display:flex;gap:12px;padding:12px 14px;border-radius:12px;margin:8px 0;font-size:14px;border:1px solid var(--line)}
+.flag .ic{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:800}
+.flag.good .ic{background:var(--green)}.flag.warn .ic{background:var(--amber)}.flag.bad .ic{background:var(--rose)}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th{background:var(--ink);color:#fff;text-align:left;padding:10px 12px;font-size:12.5px;font-weight:650}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:var(--alt)}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap}
+.p-ok{background:var(--gs);color:#166534}.p-bad{background:var(--rose-soft);color:var(--rose)}.p-to{background:var(--amber-soft);color:var(--amber)}
+.rev{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+.rev .card{margin:0;text-align:center}
+.rev svg{width:100%;max-width:340px;height:auto}
+.demo svg{width:100%;max-width:330px;height:auto}
+
+@media (max-width:720px){
+  .hero{padding:24px 20px}.hero h1{font-size:27px}
+  .stats,.scorehead{grid-template-columns:repeat(2,1fr)}
+  .grid2,.rev{grid-template-columns:1fr}
+  .board{padding:8px}
+  .tools{gap:10px}
+  .tblab{gap:10px}
+}
+@media print{.no-print{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<!-- ================= START ================= -->
+<div id="start" class="wrap">
+  <div class="hero">
+    <span class="tag">Accenture 2026–2027 Hiring · Cognitive Assessment · Game 2</span>
+    <h1>Pathfinding Game<br><span>Live Practice</span></h1>
+    <p>A real exam simulation: 3 puzzles with a 4:00 timer each. Rotate and swap the track tiles so the rocket's route reaches the planet, then press Check. You get a full report with your score, accuracy, moves and the solution for every puzzle.</p>
+    <div class="stats">
+      <div class="stat"><b>3</b><span>Puzzles</span></div>
+      <div class="stat"><b>4:00</b><span>Timer per puzzle</span></div>
+      <div class="stat"><b>⟳ ⇄ ✓</b><span>Rotate · Swap · Check</span></div>
+      <div class="stat"><b>New set</b><span>Every attempt</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How to play</h2>
+    <div class="grid2">
+      <div>
+        <ul>
+          <li>The <b>rocket</b> (left) must reach the <b>planet</b> (right) along the track. Every tile's arrows show its direction of travel.</li>
+          <li><b>Tap a tile</b> to select it (yellow box).</li>
+          <li><b>⟳ Rotate</b> turns the selected tile 90° clockwise. Tiles have a <b>direction</b>, so a straight tile pointing ← must be rotated twice to point →.</li>
+          <li><b>⇄ Swap</b>: select a tile, press Swap, then tap the tile to swap it with. Use this when a tile has the <b>wrong shape</b>.</li>
+          <li><b>✓ Check</b> tests your route. If it's valid, the rocket flies to the planet and you move to the next puzzle.</li>
+          <li>When the 4:00 timer ends, the puzzle counts as not solved and the next one starts.</li>
+        </ul>
+        <p class="hint" style="margin:6px 0 0">Keyboard: <span class="kbd">R</span> rotate · <span class="kbd">S</span> swap · <span class="kbd">Enter</span> check · <span class="kbd">Esc</span> cancel swap</p>
+      </div>
+      <div class="demo" id="demo"></div>
+    </div>
+
+    <h3>Choose your practice</h3>
+    <div class="seg" id="modeSeg">
+      <button data-m="exam" class="on">Exam simulation</button>
+      <button data-m="learn">Learning (no timer)</button>
+      <button data-m="hard">Hard (bigger grids)</button>
+    </div>
+    <p class="hint" id="modeHint" style="margin:8px 0 0"></p>
+    <label class="opt"><input type="checkbox" id="sndToggle" checked> Play sounds (tile clicks, rotate and swap, last-10-second ticks, rocket launch).</label>
+    <label class="opt"><input type="checkbox" id="helpToggle"> Show route helper: highlights the rocket's current route in green and the first broken tile in red. It's automatically on in Learning mode. Leave it off for a real exam feel.</label>
+
+    <h3>Your name (optional, shown on your report)</h3>
+    <input type="text" id="cname" maxlength="60" placeholder="e.g. Ananya Rao">
+    <div class="note"><b class="t">Winning method</b>Study first → trace from the rocket until the route breaks → fix the <b>earliest</b> broken tile (wrong direction = rotate, wrong shape = swap with an unused tile) → re-trace the whole route → Check.</div>
+    <div class="row" style="margin-top:18px">
+      <button class="btn big" id="startBtn">Start Game →</button>
+      <span class="hint" id="attemptInfo"></span>
+    </div>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Puzzles are generated randomly for practice.</p>
+</div>
+
+<!-- ================= GAME ================= -->
+<div id="game" class="wrap hidden" style="max-width:760px;padding-top:14px">
+  <div class="qhead"><span id="qlab">Question 1 of 3</span><button class="snd" id="sndBtn" title="Sound on/off">🔊</button></div>
+  <div class="board">
+    <div class="svgwrap"><svg id="gsvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="tools">
+      <div class="ring" id="ring"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="#fff" stroke="#e3e5ee" stroke-width="4"/><circle id="ringArc" cx="28" cy="28" r="24" fill="none" stroke="#14122b" stroke-width="4" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="0"/></svg><b id="tval">4:00</b></div>
+      <button class="tb" id="rotBtn" title="Rotate (R)">⟳</button>
+      <button class="tb" id="swapBtn" title="Swap (S)">⇄</button>
+      <button class="tb" id="checkBtn" title="Check (Enter)">✓</button>
+      <button class="tb" id="resetBtn" title="Reset puzzle" style="background:#fff;color:#2b2f3a;border:1.5px solid #c9ced8;font-size:18px">↺</button>
+    </div>
+    <div class="tblab"><span>Timer</span><span>Rotate</span><span>Swap</span><span>Check</span><span>Reset</span></div>
+    <div class="status" id="status">Tap a tile to select it.</div>
+    <div class="meta"><span id="movesLab">Moves: 0</span><span id="checksLab">Checks: 0</span></div>
+    <div class="dots" id="dots"></div>
+    <div class="sec" id="secLab">Cognitive Assessment · Game 2</div>
+  </div>
+</div>
+<div class="modal hidden" id="modal"><div class="box"><p id="mText">Valid route – well done!</p><button class="cbtn" id="mBtn">CONTINUE</button></div></div>
+<div class="overlay hidden" id="count"><div><b id="cnum">3</b><p>Get ready…</p></div></div>
+
+<!-- ================= RESULTS ================= -->
+<div id="result" class="wrap hidden">
+  <div class="hero">
+    <span class="tag" id="rTag">Practice Report</span>
+    <h1 id="rTitle">Your Pathfinding Result</h1>
+    <p id="rSub"></p>
+  </div>
+  <div class="scorehead">
+    <div class="sc"><div class="l">Score</div><div class="v" id="sScore">–</div><div class="s">puzzles solved</div></div>
+    <div class="sc"><div class="l">Accuracy</div><div class="v" id="sAcc">–</div><div class="s">valid checks ÷ all checks</div></div>
+    <div class="sc"><div class="l">Avg. solve time</div><div class="v" id="sTime">–</div><div class="s">per solved puzzle</div></div>
+    <div class="sc"><div class="l">Efficiency</div><div class="v" id="sEff">–</div><div class="s">minimum moves ÷ your moves</div></div>
+  </div>
+  <div class="card">
+    <div class="sc" style="border:0;padding:0"><div class="l">Overall readiness</div></div>
+    <div class="verdict" id="verdict">–</div>
+    <div id="verdictTxt" style="color:var(--ink-2);font-size:14.5px;margin-top:4px"></div>
+  </div>
+  <div class="card">
+    <h2>Puzzle Summary</h2>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>Puzzle</th><th>Grid</th><th>Result</th><th>Time</th><th>Your moves</th><th>Minimum moves</th><th>Wrong checks</th></tr></thead>
+      <tbody id="sumT"></tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h2>Coach's Feedback</h2>
+    <div id="flags"></div>
+  </div>
+  <div class="card">
+    <h2>Solutions</h2>
+    <p class="hint" style="margin-top:-4px">Left: your board when the puzzle ended. Right: one correct solution, with the route in green.</p>
+    <div id="revs"></div>
+  </div>
+  <div class="row no-print" style="margin-top:18px">
+    <button class="btn big" id="againBtn">Play Again ↻</button>
+    <button class="btn ghost" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Scores are for practice guidance only.</p>
+</div>
+
+<script>
+/* ================= SCORM 1.2 (works standalone too) ================= */
+var SCORM=(function(){
+  var api=null,on=false;
+  function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  try{api=find(window)||(window.opener?find(window.opener):null);}catch(e){api=null;}
+  function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}
+  function get(k){if(on){try{return api.LMSGetValue(k);}catch(e){}}return"";}
+  function commit(){if(on){try{api.LMSCommit("");}catch(e){}}}
+  return{
+    init:function(){if(!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){on=false;}
+      if(!on)return;var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");commit();},
+    name:function(){var n=get("cmi.core.student_name");if(!n)return"";var p=n.split(",");return p.length>1?(p[1].trim()+" "+p[0].trim()):n;},
+    report:function(score,secs){if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));
+      set("cmi.core.lesson_status","completed");commit();},
+    finish:function(){if(on){commit();try{api.LMSFinish("");}catch(e){}on=false;}}
+  };
+})();
+
+/* ================= SOUND (Web Audio, no files) ================= */
+var SND=(function(){
+  var ctx=null,on=true;try{on=localStorage.getItem("pf_sound")!=="off";}catch(e){}
+  function ac(){if(!ctx){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;try{ctx=new C();}catch(e){return null;}}
+    if(ctx.state==="suspended"){try{ctx.resume();}catch(e){}}return ctx;}
+  function tone(f,d,type,vol,delay,to){if(!on)return;var c=ac();if(!c)return;var t=c.currentTime+(delay||0),o=c.createOscillator(),g=c.createGain();
+    o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(to)o.frequency.exponentialRampToValueAtTime(to,t+d);
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.2,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+0.02);}
+  return{unlock:function(){ac();},get on(){return on;},set:function(v){on=!!v;try{localStorage.setItem("pf_sound",on?"on":"off");}catch(e){}},
+    sel:function(){tone(900,0.04,"square",0.04);},
+    rot:function(){tone(520,0.09,"triangle",0.16,0,780);},
+    swap:function(){tone(700,0.08,"sine",0.16,0,420);tone(420,0.08,"sine",0.14,0.08,700);},
+    tick:function(){tone(1250,0.04,"square",0.05);},
+    beep:function(){tone(660,0.12,"sine",0.2);},go:function(){tone(880,0.18,"sine",0.25);tone(1320,0.18,"sine",0.12,0.05);},
+    launch:function(){tone(180,0.9,"sawtooth",0.07,0,900);tone(360,0.9,"sine",0.08,0,1400);},
+    ok:function(){[523,659,784,1047].forEach(function(f,i){tone(f,0.2,"sine",0.18,i*0.1);});},
+    bad:function(){tone(196,0.3,"sawtooth",0.12,0,140);},
+    timeup:function(){tone(440,0.18,"triangle",0.18);tone(330,0.3,"triangle",0.18,0.16);},
+    fanfare:function(){[523,659,784,1047,1319].forEach(function(f,i){tone(f,0.22,"sine",0.16,i*0.11);});}};
+})();
+
+/* ================= MODEL =================
+   A tile is {i: entry side, o: exit side} (sides U R D L) or null (empty cell).
+   The rocket enters cell (startRow, 0) from the Left. At each tile it must enter
+   through the tile's entry side and leaves through its exit side. The route is valid
+   when it leaves cell (goalRow, N-1) through its Right side, next to the planet. */
+var SIDES=["U","R","D","L"],VEC={U:[-1,0],R:[0,1],D:[1,0],L:[0,-1]},OPP={U:"D",D:"U",L:"R",R:"L"},CW={U:"R",R:"D",D:"L",L:"U"};
+function ri(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rot(t,n){if(!t)return t;var a=t.i,b=t.o;for(var k=0;k<(n||1);k++){a=CW[a];b=CW[b];}return{i:a,o:b};}
+function straight(t){return t&&OPP[t.i]===t.o;}
+function key(r,c){return r+","+c;}
+function clone(T){var o={};for(var k in T)o[k]=T[k]?{i:T[k].i,o:T[k].o}:null;return o;}
+
+function trace(P,T){
+  var r=P.sr,c=0,enter="L",cells=[],guard=0;
+  while(guard++<200){
+    var t=T[key(r,c)];
+    if(!t||t.i!==enter)return{ok:false,cells:cells,breakAt:[r,c]};
+    cells.push([r,c]);
+    var v=VEC[t.o],nr=r+v[0],nc=c+v[1];
+    if(nr<0||nr>=P.N||nc<0||nc>=P.N){
+      var ok=(r===P.gr&&c===P.N-1&&t.o==="R");
+      return{ok:ok,cells:cells,breakAt:ok?null:[r,c],out:true};
+    }
+    r=nr;c=nc;enter=OPP[t.o];
+  }
+  return{ok:false,cells:cells,breakAt:[r,c]};
+}
+
+function selfAvoid(N,s,g,minLen,maxLen){
+  for(var t=0;t<4000;t++){
+    var path=[s],cur=s,seen={};seen[key(s[0],s[1])]=1;
+    while(!(cur[0]===g[0]&&cur[1]===g[1])&&path.length<=maxLen){
+      var nb=SIDES.map(function(d){return[cur[0]+VEC[d][0],cur[1]+VEC[d][1]];}).filter(function(p){return p[0]>=0&&p[0]<N&&p[1]>=0&&p[1]<N&&!seen[key(p[0],p[1])];});
+      if(!nb.length)break;
+      nb.sort(function(a,b){return(Math.abs(a[0]-g[0])+Math.abs(a[1]-g[1])+Math.random()*2.6)-(Math.abs(b[0]-g[0])+Math.abs(b[1]-g[1])+Math.random()*2.6);});
+      cur=Math.random()<0.55?nb[0]:pick(nb);path.push(cur);seen[key(cur[0],cur[1])]=1;
+    }
+    if(cur[0]===g[0]&&cur[1]===g[1]&&path.length>=minLen&&path.length<=maxLen)return path;
+  }
+  return null;
+}
+function dirBetween(a,b){for(var i=0;i<4;i++){var d=SIDES[i];if(a[0]+VEC[d][0]===b[0]&&a[1]+VEC[d][1]===b[1])return d;}}
+
+function genPuzzle(N,k){
+  for(var tries=0;tries<500;tries++){
+    var sr=ri(0,N-1),gr=ri(0,N-1);
+    var path=selfAvoid(N,[sr,0],[gr,N-1],N+1,Math.floor(N*N*0.62));
+    if(!path)continue;
+    var T={},onPath={};
+    path.forEach(function(p,idx){
+      var i=idx===0?"L":OPP[dirBetween(path[idx-1],p)],o=idx===path.length-1?"R":dirBetween(p,path[idx+1]);
+      T[key(p[0],p[1])]={i:i,o:o};onPath[key(p[0],p[1])]=1;
+    });
+    for(var r=0;r<N;r++)for(var c=0;c<N;c++){var kk=key(r,c);if(onPath[kk])continue;
+      if(Math.random()<0.1){T[kk]=null;continue;}
+      var i=pick(SIDES),o=Math.random()<0.5?OPP[i]:pick([CW[i],CW[CW[CW[i]]]]);T[kk]={i:i,o:o};}
+    var sol=clone(T),start=clone(T),minMoves=0,ops=[];
+    var pathKeys=path.map(function(p){return key(p[0],p[1]);});
+    var chosen=pathKeys.slice().sort(function(){return Math.random()-0.5;}).slice(0,k);
+    var swaps=0;
+    chosen.forEach(function(kk){
+      var t=start[kk];
+      var others=Object.keys(start).filter(function(x){return!onPath[x]&&start[x]&&straight(start[x])!==straight(t)&&ops.indexOf(x)<0;});
+      if(swaps<Math.ceil(k/3)&&others.length&&Math.random()<0.45){
+        var o=pick(others),tmp=start[kk];start[kk]=start[o];start[o]=tmp;ops.push(o);swaps++;minMoves+=1;
+      }else{
+        var n=ri(1,3);start[kk]=rot(t,n);minMoves+=(4-n)%4;
+      }
+    });
+    if(trace({N:N,sr:sr,gr:gr},start).ok)continue;
+    return{N:N,sr:sr,gr:gr,start:start,sol:sol,path:path,minMoves:minMoves,changes:k};
+  }
+  return genPuzzle(N,k);
+}
+
+/* ================= DRAWING ================= */
+var S=60,ML=58,MR=58,MT=12,MB=12;
+function chev(x,y,dx,dy,col,k){k=k||1;var nx=-dy,ny=dx;
+  return'<polyline points="'+(x-dx*4*k+nx*4.6*k)+','+(y-dy*4*k+ny*4.6*k)+' '+(x+dx*3*k)+','+(y+dy*3*k)+' '+(x-dx*4*k-nx*4.6*k)+','+(y-dy*4*k-ny*4.6*k)+'" fill="none" stroke="'+(col||"#fff")+'" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>';}
+function sidePt(cx,cy,s){var h=S/2;return{U:[cx,cy-h],D:[cx,cy+h],L:[cx-h,cy],R:[cx+h,cy]}[s];}
+function tileSVG(t,cx,cy,col){
+  if(!t)return"";var o="",w=S*0.3;
+  [t.i,t.o].forEach(function(sd){var p=sidePt(cx,cy,sd);o+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="'+col+'" stroke-width="'+w+'"/>';});
+  o+='<rect x="'+(cx-w/2)+'" y="'+(cy-w/2)+'" width="'+w+'" height="'+w+'" fill="'+col+'"/>';
+  var a=sidePt(cx,cy,t.i),b=sidePt(cx,cy,t.o);
+  // entry half: arrow points into centre; exit half: arrow points out
+  o+=chev((a[0]+cx)/2,(a[1]+cy)/2,(cx-a[0])/(S/2),(cy-a[1])/(S/2));
+  o+=chev((b[0]+cx)/2,(b[1]+cy)/2,(b[0]-cx)/(S/2),(b[1]-cy)/(S/2));
+  return o;
+}
+function rocketSVG(x,y,ang){return'<g id="rocket" transform="translate('+x+','+y+') rotate('+(ang||0)+')"><path d="M-16,-7 L7,-7 Q18,0 7,7 L-16,7 Z" fill="#1f2430"/><path d="M-16,-7 L-23,-14 L-11,-7 Z M-16,7 L-23,14 L-11,7 Z" fill="#3b4252"/><circle cx="2" cy="0" r="3" fill="#93c5fd"/><path id="flame" d="M-16,-3.5 L-25,0 L-16,3.5 Z" fill="#f97316"/></g>';}
+function planetSVG(x,y){return'<g transform="translate('+x+','+y+')"><circle r="12" fill="#1f2430"/><path d="M-7,-6 q5,2 2,7 q-3,4 1,7" fill="none" stroke="#fff" stroke-width="2.4"/><path d="M3,-10 q-1,6 6,7" fill="none" stroke="#fff" stroke-width="2"/></g>';}
+function boardSVG(P,T,opt){
+  opt=opt||{};var N=P.N,W=ML+N*S+MR,H=MT+N*S+MB,o="";
+  o+='<rect x="'+(ML-3)+'" y="'+(MT-3)+'" width="'+(N*S+6)+'" height="'+(N*S+6)+'" rx="4" fill="'+'#c9ced8'+'"/>';
+  var onRoute={},brk=opt.brk?key(opt.brk[0],opt.brk[1]):null;
+  (opt.route||[]).forEach(function(p){onRoute[key(p[0],p[1])]=1;});
+  for(var r=0;r<N;r++)for(var c=0;c<N;c++){
+    var x=ML+c*S,y=MT+r*S,kk=key(r,c),fill=kk===brk?"#ffe4e6":(onRoute[kk]&&opt.solved?"#dcfce7":"#eceef3");
+    o+='<g class="cell" data-k="'+kk+'"><rect class="bg" x="'+(x+1)+'" y="'+(y+1)+'" width="'+(S-2)+'" height="'+(S-2)+'" fill="'+fill+'"/>';
+    var col=kk===brk?"#e11d48":(onRoute[kk]?"#16a34a":"#5b6170");
+    o+=tileSVG(T[kk],x+S/2,y+S/2,col)+'</g>';
+  }
+  if(opt.sel){var sp=opt.sel.split(","),sx=ML+(+sp[1])*S,sy=MT+(+sp[0])*S;o+='<rect x="'+(sx+2)+'" y="'+(sy+2)+'" width="'+(S-4)+'" height="'+(S-4)+'" fill="none" stroke="#d4c400" stroke-width="4" pointer-events="none"/>';}
+  if(opt.swapSel){var q=opt.swapSel.split(","),qx=ML+(+q[1])*S,qy=MT+(+q[0])*S;o+='<rect x="'+(qx+2)+'" y="'+(qy+2)+'" width="'+(S-4)+'" height="'+(S-4)+'" fill="none" stroke="#f97316" stroke-width="4" stroke-dasharray="6 4" pointer-events="none"/>';}
+  o+=planetSVG(ML+N*S+30,MT+P.gr*S+S/2);
+  if(!opt.noRocket)o+=rocketSVG(ML-30,MT+P.sr*S+S/2,0);
+  return{svg:o,W:W,H:H};
+}
+function svgString(P,T,opt){var b=boardSVG(P,T,opt);return'<svg viewBox="0 0 '+b.W+' '+b.H+'" xmlns="http://www.w3.org/2000/svg">'+b.svg+'</svg>';}
+
+/* ================= CONFIG / STATE ================= */
+var MODES={
+  exam:{label:"Exam simulation",hint:"3 puzzles with a 4:00 timer each, like the real test. Grids get bigger and need more fixes: 5×5 (2 fixes), 5×5 (3 fixes), 6×6 (4 fixes).",
+        plan:[[5,2],[5,3],[6,4]],time:240,help:false},
+  learn:{label:"Learning",hint:"No timer, and the route helper is on: green shows how far the rocket gets, red shows the first broken tile. Good for learning the method.",
+        plan:[[5,2],[5,3],[6,3]],time:0,help:true},
+  hard:{label:"Hard",hint:"Bigger grids with more broken tiles and the same 4:00 timer: 6×6 (4 fixes), 6×6 (5 fixes), 7×7 (6 fixes). Harder than the expected exam level.",
+        plan:[[6,4],[6,5],[7,6]],time:240,help:false}
+};
+var mode="exam",PZ=[],cur=0,T=null,sel=null,swapMode=false,moves=0,checks=0,wrong=0,qStart=0,tick=null,results=[],help=false,busy=false,lastTick=-1,cname="",attempts=0,startedAt=0;
+var $=function(id){return document.getElementById(id);};
+try{attempts=parseInt(localStorage.getItem("pf_attempts")||"0",10)||0;}catch(e){}
+SCORM.init();(function(){var n=SCORM.name();if(n)$("cname").value=n;})();
+if(attempts)$("attemptInfo").textContent="Games played on this device: "+attempts+". Every game has new puzzles.";
+function setMode(m){mode=m;Array.prototype.forEach.call($("modeSeg").children,function(b){b.classList.toggle("on",b.dataset.m===m);});$("modeHint").textContent=MODES[m].hint;}
+Array.prototype.forEach.call($("modeSeg").children,function(b){b.onclick=function(){setMode(b.dataset.m);};});setMode("exam");
+function syncSnd(){$("sndBtn").textContent=SND.on?"🔊":"🔇";$("sndToggle").checked=SND.on;}
+$("sndToggle").onchange=function(){SND.set(this.checked);syncSnd();if(SND.on){SND.unlock();SND.sel();}};
+$("sndBtn").onclick=function(){SND.set(!SND.on);syncSnd();SND.unlock();};syncSnd();
+
+/* demo board on start screen */
+(function(){var P=genPuzzle(4,2);$("demo").innerHTML=svgString(P,P.sol,{route:trace(P,P.sol).cells,solved:true})+'<p class="hint" style="margin:4px 0 0;text-align:center">Example of a solved route (green): rocket → planet</p>';})();
+
+$("startBtn").onclick=begin;
+$("againBtn").onclick=function(){$("result").classList.add("hidden");$("start").classList.remove("hidden");window.scrollTo(0,0);};
+
+function begin(){
+  cname=$("cname").value.trim();help=MODES[mode].help||$("helpToggle").checked;
+  PZ=MODES[mode].plan.map(function(p){return genPuzzle(p[0],p[1]);});
+  results=[];cur=0;
+  $("dots").innerHTML=PZ.map(function(){return"<i></i>";}).join("");
+  $("start").classList.add("hidden");$("game").classList.remove("hidden");window.scrollTo(0,0);
+  SND.unlock();var c=3;$("cnum").textContent=c;$("count").classList.remove("hidden");SND.beep();
+  var iv=setInterval(function(){c--;if(c>0){$("cnum").textContent=c;SND.beep();}else{clearInterval(iv);$("count").classList.add("hidden");SND.go();startedAt=Date.now();loadPuzzle();}},700);
+}
+function loadPuzzle(){
+  var P=PZ[cur];T=clone(P.start);sel=null;swapMode=false;$("swapBtn").classList.remove("on");moves=0;checks=0;wrong=0;busy=false;lastTick=-1;
+  $("qlab").textContent="Question "+(cur+1)+" of "+PZ.length;
+  Array.prototype.forEach.call($("dots").children,function(d,i){if(i===cur)d.className="c";});
+  status("Tap a tile to select it.");updMeta();draw();
+  qStart=Date.now();clearInterval(tick);updTimer();if(MODES[mode].time)tick=setInterval(updTimer,200);
+}
+function draw(){
+  var P=PZ[cur],opt={sel:sel,swapSel:swapMode?sel:null};
+  if(help){var tr=trace(P,T);opt.route=tr.cells;opt.brk=tr.ok?null:tr.breakAt;opt.solved=tr.ok;}
+  if(swapMode)opt.sel=null;
+  var b=boardSVG(P,T,opt),g=$("gsvg");g.setAttribute("viewBox","0 0 "+b.W+" "+b.H);g.innerHTML=b.svg;
+}
+function status(h){$("status").innerHTML=h;}
+function updMeta(){$("movesLab").textContent="Moves: "+moves;$("checksLab").textContent="Checks: "+checks+(wrong?" ("+wrong+" wrong)":"");}
+function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+(s%60<10?"0":"")+s%60;}
+function updTimer(){
+  var lim=MODES[mode].time;
+  if(!lim){$("tval").textContent="∞";$("ringArc").style.strokeDashoffset=0;return;}
+  var left=lim-(Date.now()-qStart)/1000;
+  $("tval").textContent=fmt(left);$("ringArc").style.strokeDashoffset=(150.8*(1-Math.max(0,left)/lim)).toFixed(1);
+  var r=$("ring");r.className="ring"+(left<=10?" crit":left<=30?" warn":"");$("ringArc").setAttribute("stroke",left<=10?"#e11d48":left<=30?"#c77700":"#14122b");
+  var s=Math.ceil(left);if(!busy&&s<=10&&s>0&&s!==lastTick){lastTick=s;SND.tick();}
+  if(left<=0&&!busy)endPuzzle(false,true);
+}
+
+/* ---------- interaction ---------- */
+$("gsvg").addEventListener("pointerdown",function(e){
+  var g=e.target.closest?e.target.closest(".cell"):null;if(!g||busy)return;e.preventDefault();
+  var k=g.getAttribute("data-k");
+  if(swapMode){
+    if(k===sel){swapMode=false;$("swapBtn").classList.remove("on");status("Swap cancelled.");draw();return;}
+    var tmp=T[sel];T[sel]=T[k];T[k]=tmp;moves++;SND.swap();swapMode=false;$("swapBtn").classList.remove("on");sel=k;
+    status("Tiles swapped. Re-trace the route from the rocket.");updMeta();draw();return;
+  }
+  sel=k;SND.sel();status(T[k]?"Tile selected: <b>⟳</b> rotate or <b>⇄</b> swap.":"Empty cell selected. You can <b>⇄</b> swap a tile into it.");draw();
+});
+function doRotate(){if(busy)return;if(!sel){status("Select a tile first.");return;}if(swapMode){swapMode=false;}
+  if(!T[sel]){status("This cell is empty, so there's nothing to rotate. Use ⇄ Swap to bring a tile here.");return;}
+  T[sel]=rot(T[sel],1);moves++;SND.rot();updMeta();draw();}
+function doSwap(){if(busy)return;if(!sel){status("Select the first tile, then press ⇄ Swap.");return;}
+  swapMode=!swapMode;$("swapBtn").classList.toggle("on",swapMode);
+  status(swapMode?"Swap mode: now tap the tile to swap with (tap the same tile to cancel).":"Swap cancelled.");draw();}
+function doReset(){if(busy)return;T=clone(PZ[cur].start);sel=null;swapMode=false;$("swapBtn").classList.remove("on");status("Puzzle reset to its starting position.");SND.rot();draw();}
+function doCheck(){
+  if(busy)return;swapMode=false;$("swapBtn").classList.remove("on");
+  checks++;var P=PZ[cur],tr=trace(P,T);
+  if(tr.ok){updMeta();busy=true;clearInterval(tick);fly(tr.cells,function(){SND.ok();showModal("Valid route – well done!",function(){endPuzzle(true,false);});});}
+  else{wrong++;updMeta();SND.bad();
+    if(help&&tr.breakAt)status("Not a valid route yet. The route breaks at the <b style='color:#e11d48'>red</b> tile.");
+    else status("<b style='color:#e11d48'>Invalid route</b>. Keep fixing and trace again from the rocket.");
+    var g=$("gsvg");g.animate&&g.animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}],{duration:260});}
+}
+$("rotBtn").onclick=doRotate;$("swapBtn").onclick=doSwap;$("checkBtn").onclick=doCheck;$("resetBtn").onclick=doReset;
+document.addEventListener("keydown",function(e){
+  if($("game").classList.contains("hidden"))return;
+  if(!$("modal").classList.contains("hidden")){if(e.key==="Enter"){e.preventDefault();$("mBtn").click();}return;}
+  var k=e.key.toLowerCase();
+  if(k==="r")doRotate();else if(k==="s")doSwap();else if(e.key==="Enter"){e.preventDefault();doCheck();}
+  else if(e.key==="Escape"&&swapMode){swapMode=false;$("swapBtn").classList.remove("on");status("Swap cancelled.");draw();}
+});
+
+/* rocket flight along the route */
+function fly(cells,done){
+  var P=PZ[cur];SND.launch();
+  var pts=[[ML-30,MT+P.sr*S+S/2],[ML,MT+P.sr*S+S/2]];
+  cells.forEach(function(p){pts.push([ML+p[1]*S+S/2,MT+p[0]*S+S/2]);});
+  pts.push([ML+P.N*S,MT+P.gr*S+S/2]);pts.push([ML+P.N*S+16,MT+P.gr*S+S/2]);
+  var help0=help;help=true;draw();help=help0;
+  var i=0,seg=110,t0=null;
+  function step(ts){
+    if(t0===null)t0=ts;var k=(ts-t0)/seg,a=Math.floor(k);
+    if(a>=pts.length-1){done();return;}
+    var f=k-a,p=pts[a],q=pts[a+1],x=p[0]+(q[0]-p[0])*f,y=p[1]+(q[1]-p[1])*f,ang=Math.atan2(q[1]-p[1],q[0]-p[0])*180/Math.PI;
+    var r=document.getElementById("rocket");if(r)r.setAttribute("transform","translate("+x+","+y+") rotate("+ang+")");
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function showModal(text,cb){$("mText").textContent=text;$("modal").classList.remove("hidden");$("mBtn").onclick=function(){$("modal").classList.add("hidden");cb();};}
+
+function endPuzzle(solved,timeout){
+  if(results.length>cur)return;
+  busy=true;clearInterval(tick);
+  var P=PZ[cur],t=Math.min(MODES[mode].time||1e9,(Date.now()-qStart)/1000);
+  results.push({P:P,solved:solved,timeout:timeout,t:t,moves:moves,checks:checks,wrong:wrong,final:clone(T)});
+  $("dots").children[cur].className=solved?"ok":"bad";
+  var next=function(){cur++;if(cur<PZ.length)loadPuzzle();else finish();};
+  if(timeout){SND.timeup();showModal("Time's up! This puzzle counts as not solved.",next);}
+  else next();
+}
+
+/* ================= RESULTS ================= */
+function colorFor(p){return p>=80?"#16a34a":p>=50?"#c77700":"#e11d48";}
+function finish(){
+  SND.fanfare();
+  $("game").classList.add("hidden");$("result").classList.remove("hidden");window.scrollTo(0,0);
+  attempts++;try{localStorage.setItem("pf_attempts",String(attempts));}catch(e){}
+  var n=results.length,solved=results.filter(function(r){return r.solved;});
+  var totChecks=results.reduce(function(s,r){return s+r.checks;},0),okChecks=solved.length;
+  var acc=totChecks?Math.round(okChecks/totChecks*100):0,score=Math.round(solved.length/n*100);
+  var avg=solved.length?solved.reduce(function(s,r){return s+r.t;},0)/solved.length:0;
+  var minM=solved.reduce(function(s,r){return s+r.P.minMoves;},0),usedM=solved.reduce(function(s,r){return s+r.moves;},0);
+  var eff=usedM?Math.min(100,Math.round(minM/usedM*100)):0;
+  SCORM.report(score,Math.round((Date.now()-startedAt)/1000));
+  var d=new Date();
+  $("rTag").textContent="Practice Report · "+MODES[mode].label+" · Game "+attempts;
+  $("rTitle").textContent=(cname?cname+"'s ":"Your ")+"Pathfinding Result";
+  $("rSub").textContent="Played on "+d.toLocaleDateString()+" at "+d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})+". "+solved.length+" of "+n+" puzzles solved.";
+  $("sScore").textContent=solved.length+" / "+n;$("sScore").style.color=colorFor(score);
+  $("sAcc").textContent=totChecks?acc+"%":"–";$("sAcc").style.color=colorFor(acc);
+  $("sTime").textContent=solved.length?fmt(avg):"–";
+  $("sEff").textContent=solved.length?eff+"%":"–";$("sEff").style.color=colorFor(eff);
+  var v,vt;
+  if(score===100&&acc>=60){v="Excellent: test ready ✓";vt="All puzzles solved with careful checking. Keep this method in the real test.";}
+  else if(score>=66){v="Good: almost there";vt="Solid. Review the solution of any puzzle you missed, then try Hard mode.";}
+  else{v="Needs practice";vt="Play Learning mode with the route helper, and use the Zero to Hero Guide's 6-step method: trace, fix the earliest break, re-trace.";}
+  $("verdict").textContent=v;$("verdict").style.color=colorFor(score);$("verdictTxt").textContent=vt;
+  $("sumT").innerHTML=results.map(function(r,i){
+    var pill=r.solved?'<span class="pill p-ok">Solved</span>':(r.timeout?'<span class="pill p-to">Time up</span>':'<span class="pill p-bad">Not solved</span>');
+    return"<tr><td>"+(i+1)+"</td><td>"+r.P.N+"×"+r.P.N+"</td><td>"+pill+"</td><td>"+fmt(r.t)+"</td><td>"+r.moves+"</td><td>"+r.P.minMoves+"</td><td>"+r.wrong+"</td></tr>";}).join("");
+  var f=[],tw=results.reduce(function(s,r){return s+r.wrong;},0),tos=results.filter(function(r){return r.timeout;}).length;
+  f.push(solved.length===n?["good","✓","All "+n+" puzzles solved."]:["bad","!",(n-solved.length)+" puzzle(s) not solved. Open their solutions below and find the earliest broken tile you missed."]);
+  if(tos)f.push(["warn","!",tos+" puzzle(s) ran out of time. Spend about 1 minute studying, then fix breaks in the order the rocket meets them. Don't jump around the grid."]);
+  f.push(tw===0?["good","✓","No wrong checks. You verified each route before pressing ✓."]:[tw<=2?"warn":"bad","!",tw+" wrong check(s). Re-trace the whole route from the rocket after every change before pressing ✓, because guessing costs time."]);
+  if(solved.length&&eff<60)f.push(["warn","!","You used "+usedM+" moves where "+minM+" were enough. Plan the fix before rotating: right shape but wrong direction means rotate the exact number of times, and wrong shape means swap."]);
+  else if(solved.length)f.push(["good","✓","Efficient solving: "+usedM+" moves (the minimum was "+minM+")."]);
+  $("flags").innerHTML=f.map(function(x){return'<div class="flag '+x[0]+'"><span class="ic">'+x[1]+'</span><span>'+x[2]+'</span></div>';}).join("");
+  $("revs").innerHTML=results.map(function(r,i){
+    var trF=trace(r.P,r.final),trS=trace(r.P,r.P.sol);
+    return'<h3>Puzzle '+(i+1)+' · '+r.P.N+'×'+r.P.N+' · '+(r.solved?"Solved ✓":"Not solved")+'</h3><div class="rev"><div class="card"><b>Your board</b>'+
+      svgString(r.P,r.final,{route:trF.cells,brk:trF.ok?null:trF.breakAt,solved:trF.ok})+'</div><div class="card"><b>A correct solution</b>'+
+      svgString(r.P,r.P.sol,{route:trS.cells,solved:true})+'</div></div>';}).join("");
+}
+window.addEventListener("beforeunload",function(e){if(!$("game").classList.contains("hidden")){e.preventDefault();e.returnValue="";}});
+window.addEventListener("unload",function(){SCORM.finish();});
+</script>
+</body>
+</html>
