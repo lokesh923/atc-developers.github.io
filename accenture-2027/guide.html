@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accenture Campus Hiring 2027 – Complete Preparation Guide</title>
+<style>
+  :root{
+    --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889;
+    --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff; --brand-line:#d9ccff;
+    --teal:#0e9f8a; --teal-soft:#e2f7f3;
+    --amber:#c77700; --amber-soft:#fff4dd;
+    --rose:#d63a5a; --rose-soft:#ffe8ee;
+    --sky:#2563eb; --sky-soft:#e6efff;
+    --line:#e6e4f0; --bg-alt:#f8f7fc;
+  }
+  @page{ size:A4; margin:16mm 15mm 18mm 15mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); font-size:10pt; line-height:1.55; }
+  h1,h2,h3,h4{ margin:0; line-height:1.2; letter-spacing:-.01em; }
+  p{ margin:0 0 8px; }
+  ul{ margin:4px 0 8px; padding-left:18px; }
+  li{ margin:2px 0; }
+  li::marker{ color:var(--brand); }
+  b,strong{ font-weight:650; }
+  code,.mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.6pt; }
+  .page-break{ break-before:page; }
+  .avoid{ break-inside:avoid; }
+  h2,h3,h4,.sec-head{ break-after:avoid; page-break-after:avoid; }
+
+  /* ---------- COVER ---------- */
+  .cover{ height:297mm; width:210mm; position:relative; overflow:hidden; color:#fff;
+    background:radial-gradient(120% 80% at 100% 0%, #7c4dff 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #1fb6a0 0%, transparent 50%),
+               linear-gradient(160deg,#1a1240 0%,#2a1a6e 55%,#140f33 100%);
+    padding:24mm 20mm 18mm; display:flex; flex-direction:column; }
+  .cover .grid{ position:absolute; inset:0; opacity:.08;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:14mm 14mm; }
+  .cover > *{ position:relative; }
+  .tag{ display:inline-block; font-size:8.5pt; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.08); }
+  .cover h1{ font-size:40pt; font-weight:800; margin-top:20mm; line-height:1.05; letter-spacing:-.02em; }
+  .cover h1 span{ color:#b9a6ff; }
+  .cover .sub{ font-size:13pt; opacity:.85; margin-top:6mm; max-width:150mm; }
+  .cover .roles{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10mm; }
+  .cover .roles div{ padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); font-weight:600; font-size:10pt; }
+  .cover .stats{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .cover .stat{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px; }
+  .cover .stat b{ display:block; font-size:22pt; font-weight:800; }
+  .cover .stat span{ font-size:8.5pt; opacity:.8; }
+  .cover .foot{ margin-top:10mm; font-size:8pt; opacity:.65; display:flex; justify-content:space-between; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .sec-num{ flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff; font-weight:800; font-size:15pt; }
+  .sec-head h2{ font-size:19pt; font-weight:800; }
+  .sec-head .kicker{ font-size:8pt; text-transform:uppercase; letter-spacing:.14em; color:var(--brand); font-weight:700; margin-bottom:2px; }
+  h3{ font-size:12.5pt; font-weight:750; margin:16px 0 8px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  h3 .pill{ font-size:8pt; font-weight:600; padding:3px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand); }
+  h4{ font-size:10.5pt; font-weight:700; margin:10px 0 4px; }
+  .lead{ color:var(--ink-2); font-size:10.5pt; }
+
+  /* ---------- CARDS ---------- */
+  .cards{ display:grid; gap:10px; margin:10px 0; }
+  .c2{ grid-template-columns:1fr 1fr; } .c3{ grid-template-columns:repeat(3,1fr); } .c4{ grid-template-columns:repeat(4,1fr); }
+  .card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid; }
+  .card.alt{ background:var(--bg-alt); }
+  .card .lbl{ font-size:7.8pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .card .val{ font-size:15pt; font-weight:800; margin-top:2px; }
+  .card .val small{ font-size:9pt; font-weight:600; color:var(--muted); }
+  .role-card{ border-top:4px solid var(--brand); }
+  .role-card.t{ border-top-color:var(--teal);} .role-card.a{ border-top-color:var(--amber);} .role-card.s{ border-top-color:var(--sky);}
+  .role-card h4{ margin:0 0 2px; font-size:11pt; }
+  .role-card .code{ font-size:8pt; color:var(--muted); font-weight:600; }
+  .role-card .ctc{ font-size:16pt; font-weight:800; margin:8px 0 2px; }
+
+  /* ---------- CALLOUTS ---------- */
+  .note{ border-radius:12px; padding:11px 14px 11px 14px; margin:10px 0; break-inside:avoid; border-left:4px solid; }
+  .note .t{ font-weight:750; font-size:9.5pt; margin-bottom:3px; display:block; }
+  .note p:last-child,.note ul:last-child{ margin-bottom:0; }
+  .note.info{ background:var(--sky-soft); border-color:var(--sky);} .note.info .t{ color:var(--sky);}
+  .note.tip{ background:var(--teal-soft); border-color:var(--teal);} .note.tip .t{ color:var(--teal);}
+  .note.warn{ background:var(--amber-soft); border-color:var(--amber);} .note.warn .t{ color:var(--amber);}
+  .note.alert{ background:var(--rose-soft); border-color:var(--rose);} .note.alert .t{ color:var(--rose);}
+  .note.brand{ background:var(--brand-soft); border-color:var(--brand);} .note.brand .t{ color:var(--brand);}
+
+  /* ---------- TABLES ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0 12px; font-size:9.2pt; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  thead th{ background:var(--ink); color:#fff; text-align:left; font-weight:650; padding:9px 11px; font-size:8.6pt; letter-spacing:.02em; }
+  tbody td{ padding:8px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--bg-alt); }
+  tr{ break-inside:avoid; }
+  td.c{ text-align:center; white-space:nowrap; } th.c{ text-align:center; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:8pt; font-weight:700; white-space:nowrap; }
+  .b-yes{ background:var(--rose-soft); color:var(--rose);} .b-no{ background:var(--teal-soft); color:var(--teal);}
+  .b-mid{ background:var(--amber-soft); color:var(--amber);} .b-fin{ background:var(--brand-soft); color:var(--brand);}
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:12px 0 16px; }
+  .step{ position:relative; text-align:center; padding:12px 6px 10px; border-radius:12px; background:var(--bg-alt); border:1px solid var(--line); }
+  .step .n{ width:26px; height:26px; margin:0 auto 6px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:9pt; color:#fff; background:var(--brand); }
+  .step:nth-child(even) .n{ background:var(--teal); }
+  .step:last-child .n{ background:var(--amber); }
+  .step b{ display:block; font-size:8.4pt; line-height:1.25; }
+  .step span{ display:block; font-size:7.4pt; color:var(--muted); margin-top:3px; }
+  .step:not(:last-child)::after{ content:"›"; position:absolute; right:-7px; top:16px; font-size:14pt; color:var(--brand); font-weight:800; }
+
+  /* ---------- CODE ---------- */
+  pre{ background:#16132e; color:#e8e6ff; border-radius:12px; padding:12px 14px; margin:8px 0 10px; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; line-height:1.55; white-space:pre-wrap; break-inside:avoid; }
+  pre .k{ color:#c4b5fd; } pre .c{ color:#8b88b0; } pre .s{ color:#5eead4; } pre .n{ color:#fcd34d; }
+  .kbd{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* ---------- MISC ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+  .chip{ font-size:8.4pt; padding:4px 10px; border-radius:999px; background:var(--brand-soft); color:#3b1fa8; font-weight:600; }
+  .chip.t{ background:var(--teal-soft); color:#0b6e60; } .chip.r{ background:var(--rose-soft); color:#a3213f; }
+  .game{ display:flex; gap:12px; }
+  .game .ic{ flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#fff; font-size:13pt; }
+  .week{ border-left:4px solid var(--brand); }
+  .week:nth-child(2){ border-left-color:var(--teal);} .week:nth-child(3){ border-left-color:var(--amber);} .week:nth-child(4){ border-left-color:var(--rose);}
+  .check li{ list-style:none; position:relative; padding-left:4px; }
+  .check{ padding-left:20px; }
+  .check li::before{ content:"✓"; position:absolute; left:-18px; top:0; color:var(--teal); font-weight:800; }
+  .disclaimer{ font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; margin-top:16px; }
+</style>
+</head>
+<body>
+
+<!-- =============== COVER =============== -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Campus Hiring · Batch 2027</span></div>
+  <h1>Accenture<br><span>Complete Preparation Guide</span></h1>
+  <p class="sub">Eligibility, roles and CTC, the full hiring process, a section-by-section syllabus, real candidate insights, worked examples and a 4-week study plan, all in one place.</p>
+  <div class="roles">
+    <div>Associate Software Engineer</div>
+    <div>Advanced Associate Software Engineer</div>
+    <div>Advanced Application Engineering</div>
+    <div>System &amp; Application Services Associate</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>4</b><span>Online assessments</span></div>
+    <div class="stat"><b>45</b><span>Technical MCQs in 45 min</span></div>
+    <div class="stat"><b>3</b><span>Coding problems in 60 min</span></div>
+    <div class="stat"><b>7+1</b><span>Communication sections + email</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2027</span></div>
+</section>
+
+<!-- =============== CONTENTS + ROLES =============== -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">01</div><div><div class="kicker">Overview</div><h2>Roles &amp; Salary Package</h2></div></div>
+  <p class="lead">Accenture hires freshers into different roles through the same assessment process. Your role and package depend on how well you perform. Strong scores in coding and technical rounds can move you into a higher-paying role.</p>
+
+  <div class="cards c2">
+    <div class="card role-card">
+      <div class="code">ASE</div>
+      <h4>Associate Software Engineer</h4>
+      <div class="ctc">₹4.19 – 4.64 LPA</div>
+      <p style="margin:0;color:var(--muted);font-size:9pt">Standard entry-level software role.</p>
+    </div>
+    <div class="card role-card t">
+      <div class="code">AASE</div>
+      <h4>Advanced Associate Software Engineer</h4>
+      <div class="ctc">₹5.90 – 6.51 LPA</div>
+      <p style="margin:0;color:var(--muted);font-size:9pt">Higher package for strong coding performance.</p>
+    </div>
+    <div class="card role-card a">
+      <div class="code">AAE · High-Value</div>
+      <h4>Advanced Application Engineering</h4>
+      <div class="ctc">₹11.18 LPA</div>
+      <p style="margin:0;color:var(--muted);font-size:9pt">Top-tier role for the best performers.</p>
+    </div>
+    <div class="card role-card s">
+      <div class="code">SASA</div>
+      <h4>System &amp; Application Services Associate</h4>
+      <div class="ctc" style="font-size:12pt">Package announced with notification</div>
+      <p style="margin:0;color:var(--muted);font-size:9pt">Role open to 3-year degree graduates.</p>
+    </div>
+  </div>
+
+  <div class="note info"><span class="t">Bond</span>No service bond has been mentioned for these roles. Location is <b>PAN India</b>.</div>
+
+  <div class="sec-head" style="margin-top:22px"><div class="sec-num">02</div><div><div class="kicker">Who can apply</div><h2>Eligibility Criteria</h2></div></div>
+
+  <table>
+    <thead><tr><th style="width:38%">Role</th><th>Eligible Qualifications</th></tr></thead>
+    <tbody>
+      <tr><td><b>ASE / Advanced ASE</b><br><span style="color:var(--muted);font-size:8.6pt">including Advanced Application Engineering</span></td>
+          <td><div class="chips" style="margin:0"><span class="chip">B.E.</span><span class="chip">B.Tech</span><span class="chip">M.E.</span><span class="chip">M.Tech</span><span class="chip">MCA</span><span class="chip">M.Sc</span></div></td></tr>
+      <tr><td><b>SASA</b><br><span style="color:var(--muted);font-size:8.6pt">System &amp; Application Services Associate</span></td>
+          <td><div class="chips" style="margin:0"><span class="chip t">3-year degree courses</span></div>
+          <span style="font-size:8.6pt;color:var(--muted)">Graduates of 3-year undergraduate programmes are eligible for this role.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note warn"><span class="t">Eligible batch: to be confirmed</span>The exact eligible batch (pass-out year), branch list and academic criteria will be confirmed when hiring officially opens. Always check the official notification on the Accenture careers portal before applying.</div>
+</section>
+
+<!-- =============== PROCESS =============== -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">03</div><div><div class="kicker">Step by step</div><h2>Hiring Process</h2></div></div>
+  <p class="lead">The process has seven steps. Each step must be cleared before you move to the next one.</p>
+
+  <div class="flow">
+    <div class="step"><div class="n">1</div><b>Registration</b><span>Apply online</span></div>
+    <div class="step"><div class="n">2</div><b>Mock Test</b><span>20 min · system check</span></div>
+    <div class="step"><div class="n">3</div><b>Behavioural &amp; Cognitive</b><span>40 min</span></div>
+    <div class="step"><div class="n">4</div><b>Technical</b><span>45 Qs · 45 min</span></div>
+    <div class="step"><div class="n">5</div><b>Coding</b><span>3 Qs · 60 min</span></div>
+    <div class="step"><div class="n">6</div><b>Communication</b><span>~30 min</span></div>
+    <div class="step"><div class="n">7</div><b>Interview</b><span>Final round</span></div>
+  </div>
+
+  <h3>Exam Pattern at a Glance</h3>
+  <table>
+    <thead><tr><th>Stage</th><th class="c">Questions</th><th class="c">Time</th><th>Elimination</th></tr></thead>
+    <tbody>
+      <tr><td><b>Mock Assessment</b> (system check)</td><td class="c">—</td><td class="c">20 min</td><td><span class="badge b-mid">No · but mandatory</span></td></tr>
+      <tr><td><b>Behavioural Assessment</b> (psychometric)</td><td class="c">54</td><td class="c">20 min</td><td><span class="badge b-no">No</span></td></tr>
+      <tr><td><b>Cognitive Assessment</b> (gamified)</td><td class="c">3 games</td><td class="c">20 min</td><td><span class="badge b-yes">Yes</span></td></tr>
+      <tr><td><b>Technical Assessment</b></td><td class="c">45</td><td class="c">45 min</td><td><span class="badge b-yes">Yes · most elimination-heavy</span></td></tr>
+      <tr><td><b>Coding</b> (Backend + SQL + Frontend)</td><td class="c">3</td><td class="c">60 min</td><td><span class="badge b-yes">Yes</span></td></tr>
+      <tr><td><b>Communication Assessment</b> (7 sections A–G + email)</td><td class="c">7 sections + email</td><td class="c">~30 min</td><td><span class="badge b-yes">Yes</span></td></tr>
+      <tr><td><b>Final Interview</b></td><td class="c">—</td><td class="c">—</td><td><span class="badge b-fin">Final selection</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note brand"><span class="t">How selection works</span>Each round has its own evaluation criteria. Selection is <b>individual-based, not relative</b>: your result does not depend on how other candidates score. Results are evaluated as you go.</div>
+
+  <h3>What Each Step Means</h3>
+  <div class="cards c4" style="font-size:8.8pt">
+    <div class="card alt">
+      <h4 style="margin-top:0">Mock Assessment · 20 min</h4>
+      <ul>
+        <li><b>Mandatory</b>, but not scored for elimination.</li>
+        <li>Checks that your hardware, software, webcam, microphone and internet work.</li>
+        <li>Gets you familiar with the real test interface.</li>
+      </ul>
+    </div>
+    <div class="card alt">
+      <h4 style="margin-top:0">Assessment 1 · 40 min total</h4>
+      <ul>
+        <li><b>Behavioural:</b> personality, 54 questions in 20 min.</li>
+        <li><b>Cognitive:</b> gamified puzzles and number equations, 3 games in 20 min.</li>
+      </ul>
+    </div>
+    <div class="card alt">
+      <h4 style="margin-top:0">Assessment 2 · Technical · 45 min</h4>
+      <ul>
+        <li>Common applications and MS Office</li>
+        <li>Pseudocode</li>
+        <li>Networking, Security and Cloud fundamentals</li>
+        <li>Computer science basics (programming concepts)</li>
+      </ul>
+    </div>
+    <div class="card alt">
+      <h4 style="margin-top:0">Assessments 3 &amp; 4 · Interview</h4>
+      <ul>
+        <li><b>Coding:</b> 3 questions (Backend, SQL, Frontend) in 60 min.</li>
+        <li><b>Communication:</b> separate email with login details and timeline. Tests verbal and written English.</li>
+        <li><b>Interview:</b> for candidates who clear every assessment.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SECTION A =============== -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">A</div><div><div class="kicker">Syllabus · Assessment 1</div><h2>Behavioural + Cognitive (Gamified)</h2></div></div>
+
+  <h3>A1. Psychometric / Behavioural <span class="pill">54 Questions · 20 min</span> <span class="pill" style="background:var(--teal-soft);color:var(--teal)">No elimination</span></h3>
+  <ul>
+    <li>Personality-based situational statements, answered on an <b>agree / disagree scale</b>.</li>
+    <li>Scenarios about workplace behaviour, teamwork, integrity and adaptability.</li>
+    <li><b>Consistency checks:</b> the same trait is asked in different ways at different points in the test.</li>
+  </ul>
+  <div class="note tip"><span class="t">How to approach it</span>
+    <ul>
+      <li>Answer honestly and stay <b>consistent</b>. Contradicting answers to similar statements are easy to detect.</li>
+      <li>Avoid extreme answers on every statement. Think about how a reliable, team-oriented professional would act.</li>
+      <li>You have about 22 seconds per statement, so don't overthink.</li>
+    </ul>
+  </div>
+
+  <h3>A2. Gamified Cognitive <span class="pill">3 Games · 20 min</span> <span class="pill" style="background:var(--rose-soft);color:var(--rose)">Elimination round</span></h3>
+  <p>These games test <b>mental math speed, spatial reasoning and planning under time pressure</b>. According to a previous candidate, 3–4 people at their test centre were eliminated here.</p>
+
+  <div class="cards" style="grid-template-columns:1fr">
+    <div class="card game"><div class="ic" style="background:var(--brand)">1</div><div>
+      <h4 style="margin:0 0 3px">Speed Arithmetic</h4>
+      <p style="margin:0">Bubbles show expressions using addition, subtraction, multiplication and division. Work out each result and <b>select the bubbles in ascending order</b> of their values.</p>
+      <div class="chips" style="margin:6px 0 0"><span class="chip">15 sec per question</span><span class="chip">~25 questions</span></div>
+    </div></div>
+    <div class="card game"><div class="ic" style="background:var(--teal)">2</div><div>
+      <h4 style="margin:0 0 3px">Pathfinding Puzzle</h4>
+      <p style="margin:0">Change path directions and rotate or move tiles so the path reaches a target point.</p>
+      <div class="chips" style="margin:6px 0 0"><span class="chip t">~5 min per puzzle</span></div>
+    </div></div>
+    <div class="card game"><div class="ic" style="background:var(--amber)">3</div><div>
+      <h4 style="margin:0 0 3px">Grid Key Collection</h4>
+      <p style="margin:0">On a grid of about 10×10, collect every key and then reach the door. Plan the shortest route before you move.</p>
+      <div class="chips" style="margin:6px 0 0"><span class="chip r">~5 min</span><span class="chip r">~10×10 grid</span></div>
+    </div></div>
+  </div>
+
+  <div class="cards c2">
+  <div class="note tip" style="margin:0"><span class="t">Worked example · Speed Arithmetic</span>
+    Bubbles: <code>18 ÷ 3</code>, <code>4 × 2</code>, <code>15 − 11</code>, <code>2 + 3</code><br>
+    Values: 6, 8, 4, 5 → click in order: <b>15 − 11 (4) → 2 + 3 (5) → 18 ÷ 3 (6) → 4 × 2 (8)</b>
+  </div>
+  <div class="note warn" style="margin:0"><span class="t">Tips for the games</span>
+    <ul>
+      <li>Practise mental math daily: tables up to 20, squares up to 25, quick division.</li>
+      <li>In the puzzles, look at the whole board for a few seconds <b>before</b> making your first move.</li>
+      <li>Time pressure is real. If you're stuck, make a reasonable move and keep going.</li>
+    </ul>
+  </div>
+  </div>
+</section>
+
+<!-- =============== SECTION B =============== -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">B</div><div><div class="kicker">Syllabus · Assessment 2</div><h2>Technical Assessment</h2></div></div>
+  <div class="cards c3">
+    <div class="card alt"><div class="lbl">Questions</div><div class="val">45</div></div>
+    <div class="card alt"><div class="lbl">Duration</div><div class="val">45 <small>min</small></div></div>
+    <div class="card alt"><div class="lbl">Elimination</div><div class="val" style="color:var(--rose)">Highest</div></div>
+  </div>
+  <p class="lead">This is the <b>most elimination-heavy round</b>. You get about one minute per question. All questions are multiple-choice, and <b>no pen and paper is allowed</b>.</p>
+
+  <table>
+    <thead><tr><th style="width:24%">Sub-section</th><th class="c" style="width:10%">Approx. Qs</th><th>Topics Covered</th></tr></thead>
+    <tbody>
+      <tr><td><b>MS Office &amp; Common Applications</b></td><td class="c">7</td><td>Excel functions and formulas (VLOOKUP, IF, COUNTIF), Word formatting, PowerPoint features, output-based questions, shortcut keys</td></tr>
+      <tr><td><b>Pseudocode + OOPs</b></td><td class="c">10</td><td>Bitwise operations (AND, OR, XOR, shifts), loops and nested loops, recursion tracing, string and array manipulation, OOPs concepts (inheritance, polymorphism, encapsulation, abstraction), 10–12 line logic-heavy code tracing</td></tr>
+      <tr><td><b>Networking, Security &amp; Cloud</b></td><td class="c">14</td><td>OSI and TCP/IP models, IP addressing basics, HTTP/HTTPS/DNS/DHCP, firewalls and VPN, encryption basics, malware types, cloud service models (IaaS/PaaS/SaaS), deployment models, DevOps basics (CI/CD, Git, Docker)</td></tr>
+      <tr><td><b>CS Fundamentals</b> (Programming)</td><td class="c">14</td><td>Data types and operators, control structures, functions, arrays and strings, basic data structures (stack, queue, linked list), searching and sorting basics, time complexity, DBMS basics</td></tr>
+    </tbody>
+  </table>
+
+  <h3>B1. MS Office Quick Reference</h3>
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">Must-know Excel formulas</h4>
+      <ul style="font-size:9pt">
+        <li><code>=VLOOKUP(value, table, col_no, FALSE)</code> finds an exact match and returns the value from column <i>col_no</i>.</li>
+        <li><code>=IF(A1&gt;=40, "Pass", "Fail")</code> returns one value if the condition is true, the other if it's false.</li>
+        <li><code>=COUNTIF(A1:A10, "&gt;50")</code> counts the cells that meet a condition.</li>
+        <li><code>=SUMIF</code>, <code>=AVERAGE</code>, <code>=MAX</code>, <code>=MIN</code>, <code>=CONCATENATE</code>, <code>=LEN</code></li>
+        <li>Cell references: <code>A1</code> relative, <code>$A$1</code> absolute, <code>$A1</code> mixed.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Common shortcut keys</h4>
+      <table style="margin:0;font-size:8.6pt">
+        <tbody>
+          <tr><td><span class="kbd">Ctrl + Z / Y</span></td><td>Undo / Redo</td></tr>
+          <tr><td><span class="kbd">F2</span></td><td>Edit active cell (Excel)</td></tr>
+          <tr><td><span class="kbd">Alt + =</span></td><td>AutoSum (Excel)</td></tr>
+          <tr><td><span class="kbd">Ctrl + ;</span></td><td>Insert today's date (Excel)</td></tr>
+          <tr><td><span class="kbd">Ctrl + Shift + L</span></td><td>Toggle filter (Excel)</td></tr>
+          <tr><td><span class="kbd">F5 / Shift + F5</span></td><td>Slideshow from start / current slide</td></tr>
+          <tr><td><span class="kbd">Ctrl + E / L / R</span></td><td>Center / left / right align (Word)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>B2. Pseudocode &amp; Bitwise: Worked Examples</h3>
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">Bitwise operators with x = 5, y = 3</h4>
+      <table style="margin:4px 0 0;font-size:8.6pt">
+        <thead><tr><th>Operation</th><th>Binary</th><th class="c">Result</th></tr></thead>
+        <tbody>
+          <tr><td><code>x &amp; y</code> AND</td><td><code>0101 &amp; 0011 = 0001</code></td><td class="c"><b>1</b></td></tr>
+          <tr><td><code>x | y</code> OR</td><td><code>0101 | 0011 = 0111</code></td><td class="c"><b>7</b></td></tr>
+          <tr><td><code>x ^ y</code> XOR</td><td><code>0101 ^ 0011 = 0110</code></td><td class="c"><b>6</b></td></tr>
+          <tr><td><code>x &lt;&lt; 1</code> left shift</td><td><code>0101 → 1010</code></td><td class="c"><b>10</b></td></tr>
+          <tr><td><code>x &gt;&gt; 1</code> right shift</td><td><code>0101 → 0010</code></td><td class="c"><b>2</b></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:8.6pt;margin:6px 0 0;color:var(--muted)">Shortcut: <code>x &lt;&lt; n</code> = x × 2ⁿ, and <code>x &gt;&gt; n</code> = x ÷ 2ⁿ (integer division).</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Trace this: what is printed?</h4>
+<pre><span class="k">Integer</span> a = <span class="n">12</span>, b = <span class="n">10</span>
+a = a ^ b    <span class="c">// a = 0110 = 6</span>
+b = a ^ b    <span class="c">// b = 1100 = 12</span>
+a = a ^ b    <span class="c">// a = 1010 = 10</span>
+<span class="k">Print</span> a, b</pre>
+      <p style="margin:0"><b>Output: 10 12</b>. This is the XOR swap trick, and it comes up often in exams.</p>
+    </div>
+  </div>
+
+  <div class="note tip"><span class="t">How to crack pseudocode without pen and paper</span>
+    <ul>
+      <li>Track only the variables that change. Update them line by line in your head.</li>
+      <li>For loops, work out the <b>first two or three iterations</b>, spot the pattern, then jump to the end.</li>
+      <li>Watch for <code>mod</code> (%), integer division, and whether a loop condition is <code>&lt;</code> or <code>&lt;=</code>.</li>
+    </ul>
+  </div>
+
+  <h3>B3. OOPs: The Four Pillars</h3>
+  <div class="cards c4">
+    <div class="card alt"><h4 style="margin-top:0">Encapsulation</h4><p style="font-size:8.8pt;margin:0">Bundling data and the methods that use it inside a class, and hiding internal details (private fields, getters and setters).</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Abstraction</h4><p style="font-size:8.8pt;margin:0">Showing only what's essential and hiding how it works, using abstract classes and interfaces.</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Inheritance</h4><p style="font-size:8.8pt;margin:0">A child class reuses the properties and methods of a parent class (an "is-a" relationship).</p></div>
+    <div class="card alt"><h4 style="margin-top:0">Polymorphism</h4><p style="font-size:8.8pt;margin:0">One name, many forms. Overloading happens at compile time; overriding happens at runtime.</p></div>
+  </div>
+
+  <h3>B4. Networking, Security &amp; Cloud Cheat Sheet</h3>
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">OSI model, layer 7 down to 1</h4>
+      <p style="font-size:8.8pt;margin:0 0 4px"><b>Application → Presentation → Session → Transport → Network → Data Link → Physical</b></p>
+      <p style="font-size:8.6pt;color:var(--muted);margin:0 0 6px">Memory trick: "<b>A</b>ll <b>P</b>eople <b>S</b>eem <b>T</b>o <b>N</b>eed <b>D</b>ata <b>P</b>rocessing"</p>
+      <p style="font-size:8.8pt;margin:0">TCP/IP has 4 layers: Application, Transport, Internet and Network Access.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Common protocols and ports</h4>
+      <div class="chips" style="margin:2px 0 0">
+        <span class="chip">HTTP · 80</span><span class="chip">HTTPS · 443</span><span class="chip">DNS · 53</span><span class="chip">DHCP · 67/68</span>
+        <span class="chip">FTP · 21</span><span class="chip">SSH · 22</span><span class="chip">SMTP · 25</span><span class="chip">Telnet · 23</span>
+      </div>
+      <p style="font-size:8.6pt;margin:6px 0 0;color:var(--muted)">DNS turns domain names into IP addresses. DHCP gives devices an IP address automatically.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Security basics</h4>
+      <ul style="font-size:8.8pt;margin:0">
+        <li><b>Firewall</b> filters network traffic using rules. A <b>VPN</b> creates an encrypted tunnel.</li>
+        <li><b>Symmetric</b> encryption uses one shared key (AES). <b>Asymmetric</b> encryption uses a public and private key pair (RSA).</li>
+        <li><b>Malware types:</b> virus, worm, trojan, ransomware, spyware, adware.</li>
+        <li><b>Phishing</b> means fake messages that trick people into revealing data.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Cloud &amp; DevOps</h4>
+      <ul style="font-size:8.8pt;margin:0">
+        <li><b>IaaS</b> rents infrastructure (AWS EC2). <b>PaaS</b> provides a platform to deploy on (Heroku, Google App Engine). <b>SaaS</b> is ready-to-use software (Gmail).</li>
+        <li><b>Deployment models:</b> public, private, hybrid, community.</li>
+        <li><b>CI/CD</b> automatically builds, tests and deploys code. <b>Git</b> handles version control. <b>Docker</b> runs apps in containers.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>B5. CS Fundamentals: Time Complexity</h3>
+  <table>
+    <thead><tr><th>Algorithm / Operation</th><th>Best</th><th>Average</th><th>Worst</th></tr></thead>
+    <tbody>
+      <tr><td>Linear Search</td><td>O(1)</td><td>O(n)</td><td>O(n)</td></tr>
+      <tr><td>Binary Search (sorted array)</td><td>O(1)</td><td>O(log n)</td><td>O(log n)</td></tr>
+      <tr><td>Bubble / Insertion / Selection Sort</td><td>O(n)* / O(n) / O(n²)</td><td>O(n²)</td><td>O(n²)</td></tr>
+      <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td></tr>
+      <tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:8.4pt;color:var(--muted);margin-top:-6px">*Bubble sort is O(n) in the best case only with the "no swaps → stop early" optimisation. <b>Stack</b> is LIFO (last in, first out). <b>Queue</b> is FIFO (first in, first out).</p>
+</section>
+
+<!-- =============== SECTION C =============== -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">C</div><div><div class="kicker">Syllabus · Assessment 3</div><h2>Coding + SQL + Frontend</h2></div></div>
+  <div class="cards c3">
+    <div class="card alt"><div class="lbl">Questions</div><div class="val">3 <small>(1 each)</small></div></div>
+    <div class="card alt"><div class="lbl">Duration</div><div class="val">60 <small>min</small></div></div>
+    <div class="card alt"><div class="lbl">Suggested split</div><div class="val" style="font-size:12pt">25 · 15 · 20 <small>min</small></div></div>
+  </div>
+  <p class="lead">You get one question each from Backend (DSA), Database (SQL) and Frontend. Spend about 25 minutes on DSA, 15 on SQL and 20 on Frontend, but start with whichever you're strongest at.</p>
+
+  <h3>C1. Backend: DSA Coding <span class="pill">1 Question</span></h3>
+  <div class="chips"><span class="chip">Java</span><span class="chip">Python</span><span class="chip">C#</span><span class="chip">C++</span><span class="chip">.NET</span></div>
+  <ul>
+    <li><b>Level:</b> LeetCode Easy to Medium.</li>
+    <li><b>Topics:</b> arrays, strings, hashing, two pointers, basic recursion, sorting-based problems, number logic.</li>
+  </ul>
+  <div class="note alert"><span class="t">Important for Java users</span>The code template may contain a line like <code>throw new Exception(...)</code>. <b>Comment it out before running</b>, or your code won't run even if your logic is correct.</div>
+  <div class="note info"><span class="t">Language availability</span>The official list includes Java, .NET, Python, C++ and C#. One previous candidate saw only Java, Python and C# in their test, so be comfortable in at least one of those three.</div>
+
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">Practice problems by topic</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li><b>Arrays:</b> second largest element, move zeros to the end, rotate an array, max subarray sum</li>
+        <li><b>Strings:</b> palindrome check, reverse words, count vowels, anagram check</li>
+        <li><b>Hashing:</b> frequency count, first non-repeating character, two-sum</li>
+        <li><b>Two pointers:</b> pair with a target sum, remove duplicates from a sorted array</li>
+        <li><b>Number logic:</b> prime check, digit sum, Armstrong number, GCD/LCM</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Example: Two-Sum with hashing (Python)</h4>
+<pre><span class="k">def</span> two_sum(nums, target):
+    seen = {}                  <span class="c"># value → index</span>
+    <span class="k">for</span> i, x <span class="k">in</span> enumerate(nums):
+        <span class="k">if</span> target - x <span class="k">in</span> seen:
+            <span class="k">return</span> [seen[target - x], i]
+        seen[x] = i
+    <span class="k">return</span> []</pre>
+      <p style="font-size:8.6pt;margin:0;color:var(--muted)">Runs in O(n) time instead of the brute-force O(n²).</p>
+    </div>
+  </div>
+
+  <h3>C2. Database: SQL <span class="pill">1 Question</span></h3>
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">What's asked</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li><code>SELECT</code> with <code>WHERE</code>, <code>ORDER BY</code>, <code>GROUP BY</code>, <code>HAVING</code></li>
+        <li><b>Joins (main focus):</b> INNER, LEFT, RIGHT, self-join</li>
+        <li>Aggregates: <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code></li>
+        <li><code>DISTINCT</code>, <code>LIMIT</code>, basic subqueries</li>
+      </ul>
+      <div class="chips" style="margin:8px 0 0"><span class="chip r">Not asked: triggers</span><span class="chip r">window functions</span><span class="chip r">advanced SQL</span></div>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Example: departments with more than 2 employees</h4>
+<pre><span class="k">SELECT</span> d.dept_name, <span class="k">COUNT</span>(e.emp_id) <span class="k">AS</span> total
+<span class="k">FROM</span> departments d
+<span class="k">LEFT JOIN</span> employees e
+       <span class="k">ON</span> e.dept_id = d.dept_id
+<span class="k">GROUP BY</span> d.dept_name
+<span class="k">HAVING</span> <span class="k">COUNT</span>(e.emp_id) &gt; <span class="n">2</span>
+<span class="k">ORDER BY</span> total <span class="k">DESC</span>;</pre>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Join</th><th>Returns</th></tr></thead>
+    <tbody>
+      <tr><td><b>INNER JOIN</b></td><td>Only the rows that match in both tables</td></tr>
+      <tr><td><b>LEFT JOIN</b></td><td>All rows from the left table, plus matches from the right (NULL where there's no match)</td></tr>
+      <tr><td><b>RIGHT JOIN</b></td><td>All rows from the right table, plus matches from the left</td></tr>
+      <tr><td><b>SELF JOIN</b></td><td>A table joined with itself, for example to find each employee's manager in the same table</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip"><span class="t">Remember</span><code>WHERE</code> filters rows <b>before</b> grouping. <code>HAVING</code> filters groups <b>after</b> <code>GROUP BY</code>. You can't use an aggregate like <code>COUNT()</code> inside <code>WHERE</code>.</div>
+
+  <h3>C3. Frontend: HTML, CSS, JavaScript <span class="pill">1 Question</span></h3>
+  <ul>
+    <li>Fix or complete the functionality in a given template, similar to the <b>HackerRank React certification</b> style.</li>
+    <li>DOM manipulation, event handling, basic form validation.</li>
+    <li>CSS selectors, flexbox basics, toggling classes. React.js and Vue.js fundamentals.</li>
+  </ul>
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">Example: toggle a class on click (JavaScript)</h4>
+<pre><span class="k">const</span> btn = document.querySelector(<span class="s">"#menuBtn"</span>);
+<span class="k">const</span> nav = document.querySelector(<span class="s">".nav"</span>);
+btn.addEventListener(<span class="s">"click"</span>, () =&gt; {
+  nav.classList.toggle(<span class="s">"open"</span>);
+});</pre>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Example: counter with React state</h4>
+<pre><span class="k">function</span> Counter() {
+  <span class="k">const</span> [count, setCount] = useState(<span class="n">0</span>);
+  <span class="k">return</span> &lt;button onClick={() =&gt;
+    setCount(count + <span class="n">1</span>)}&gt;{count}&lt;/button&gt;;
+}</pre>
+    </div>
+  </div>
+  <div class="note warn"><span class="t">Don't take this lightly</span>The Frontend question usually needs only <b>small edits</b> to fix the functionality, but you must read the whole template and every instruction carefully. Check element IDs, class names and expected output before you submit.</div>
+</section>
+
+<!-- =============== SECTION D =============== -->
+<section style="margin-top:22px">
+  <div class="sec-head"><div class="sec-num">D</div><div><div class="kicker">Syllabus · Assessment 4</div><h2>Communication Assessment</h2></div></div>
+  <div class="cards c3">
+    <div class="card alt"><div class="lbl">Duration</div><div class="val">~30 <small>min</small></div></div>
+    <div class="card alt"><div class="lbl">Format</div><div class="val" style="font-size:12pt">7 sections (A–G) + Email</div></div>
+    <div class="card alt"><div class="lbl">Tests</div><div class="val" style="font-size:12pt">Verbal + Written English</div></div>
+  </div>
+  <p class="lead">You'll receive a separate email with the timeline and login details for this round. It tests spoken and written English in a structured 7-section format, followed by a compulsory email-writing task.</p>
+  <div class="note info"><span class="t">Note on question count</span>The official notification summary lists this round as "20 Questions · 30 Minutes". Based on candidate reports, those questions are spread across the 7 sections plus the email task below.</div>
+
+  <table>
+    <thead><tr><th style="width:22%">Section</th><th style="width:36%">Format</th><th>What Is Tested</th></tr></thead>
+    <tbody>
+      <tr><td><b>A · Listening Comprehension</b></td><td>Listen to an audio clip, then answer in one complete sentence</td><td>Active listening, sentence construction, factual recall</td></tr>
+      <tr><td><b>B · Conversation Response</b></td><td>Listen to a short dialogue, then give a polite, professional reply</td><td>Spoken fluency, workplace etiquette, response structure</td></tr>
+      <tr><td><b>C · Reading Aloud</b></td><td>Read 8 sentences aloud at a natural pace</td><td>Pronunciation, articulation, correct pausing at punctuation</td></tr>
+      <tr><td><b>D · Listen &amp; Repeat</b></td><td>Repeat a sentence exactly as you heard it</td><td>Intonation matching, stress patterns, auditory memory</td></tr>
+      <tr><td><b>E · Fill in the Missing Word</b></td><td>Hear a sentence with a blank, then fill it in and speak the full sentence</td><td>Grammar (subject-verb agreement, tenses, articles)</td></tr>
+      <tr><td><b>F · Error Correction</b></td><td>Hear an incorrect sentence, then identify the error and speak the corrected version</td><td>Grammar accuracy, self-correction, language awareness</td></tr>
+      <tr><td><b>G · Speaking on a Topic</b></td><td>30 seconds to prepare, then 45 seconds to speak</td><td>Fluency, vocabulary range, structured thinking, confidence</td></tr>
+      <tr><td><b>Written Email Task</b> <span class="badge b-yes">Compulsory</span></td><td>Write a professional email (minimum 50 words)</td><td>Email etiquette, content structure, grammar, professional tone</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cards c2">
+    <div class="card"><h4 style="margin-top:0">Verbal parameters</h4>
+      <div class="chips" style="margin:0"><span class="chip">Pronunciation</span><span class="chip">Fluency</span><span class="chip">Active Listening</span><span class="chip">Spoken English Understanding</span><span class="chip">Vocabulary</span><span class="chip">Articulation</span><span class="chip">Grammar</span></div></div>
+    <div class="card"><h4 style="margin-top:0">Written parameters</h4>
+      <div class="chips" style="margin:0"><span class="chip t">Email Etiquette</span><span class="chip t">Content Structure</span><span class="chip t">Grammar Accuracy</span></div></div>
+  </div>
+
+  <h3>Section-wise Tips &amp; Examples</h3>
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">A · Always answer in a full sentence</h4>
+      <p style="font-size:9pt;margin:0 0 4px">Never give one-word answers. Mirror the question's structure in your answer.</p>
+      <p style="font-size:9pt;margin:0"><b>Q:</b> Where is the meeting being held?<br>
+      ✗ "Room 4."<br>✓ "<b>The meeting is being held in Room 4.</b>"</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">B · Reply politely and professionally</h4>
+      <p style="font-size:9pt;margin:0"><b>Prompt:</b> "Can you send me the report by today?"<br>
+      ✓ "<b>Sure, I'll share the report with you by the end of the day.</b>"</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">E &amp; F · Grammar focus areas</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li>Subject-verb agreement, including <i>as well as</i>, <i>each of</i>, <i>neither…nor</i></li>
+        <li>Tense usage: simple past vs present perfect</li>
+        <li>Conditional sentences and reported speech</li>
+      </ul>
+      <p style="font-size:9pt;margin:6px 0 0">✗ "Each of the students <u>have</u> a laptop."<br>✓ "Each of the students <b>has</b> a laptop."</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">G · A simple structure for 45 seconds</h4>
+      <ol style="font-size:9pt;margin:0;padding-left:16px">
+        <li><b>Opening:</b> state your view in one line.</li>
+        <li><b>Two points:</b> each with a short reason or example.</li>
+        <li><b>Closing:</b> sum up in one line.</li>
+      </ol>
+      <p style="font-size:8.6pt;margin:6px 0 0;color:var(--muted)">Use the 30 seconds of prep time to note your two points. Speak steadily rather than fast.</p>
+    </div>
+  </div>
+
+  <h3>Email Task: Template &amp; Sample</h3>
+  <p>The email must have a <b>proper greeting</b>, a <b>body explaining the situation</b>, a <b>corrective or assurance statement</b>, and a <b>polite sign-off</b>. Write at least 50 words.</p>
+  <div class="card" style="border-left:4px solid var(--teal)">
+    <p style="font-size:9pt;margin:0 0 6px;color:var(--muted)"><b>Sample task:</b> You missed a team meeting yesterday. Write an email to your manager.</p>
+    <p style="font-size:9.4pt;margin:0"><b>Subject:</b> Apology for Missing Yesterday's Team Meeting</p>
+    <p style="font-size:9.4pt;margin:8px 0 0">Dear Mr. Sharma,</p>
+    <p style="font-size:9.4pt;margin:6px 0 0">I am writing to apologise for missing yesterday's team meeting. Due to an unexpected network outage at my location, I was unable to join the call on time.</p>
+    <p style="font-size:9.4pt;margin:6px 0 0">I have gone through the meeting notes shared by the team and will complete my assigned tasks by Friday. To avoid this in future, I have arranged a backup internet connection.</p>
+    <p style="font-size:9.4pt;margin:6px 0 0">Thank you for your understanding.</p>
+    <p style="font-size:9.4pt;margin:8px 0 0">Best regards,<br>Rahul Verma</p>
+  </div>
+</section>
+
+<!-- =============== INSIGHTS =============== -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">04</div><div><div class="kicker">First-hand experience</div><h2>Real Candidate Insights</h2></div></div>
+  <p class="lead">This section is based on an exam experience shared by a previous candidate. Use it alongside the official pattern above.</p>
+
+  <div class="cards c2">
+    <div class="card">
+      <h4 style="margin-top:0">Round 1: Psychometric + Gamified</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li><b>Psychometric:</b> standard personality questions, with <b>no eliminations</b> as far as known.</li>
+        <li><b>Game 1 (Arithmetic):</b> select bubbles in ascending order of their result. 15 sec per question, 25 questions in total.</li>
+        <li><b>Game 2 (Pathfinding):</b> change directions and tiles to reach a point. About 5 min per question.</li>
+        <li><b>Game 3 (Key Collection):</b> collect all keys and reach the door on a 10×10 grid. About 5 min.</li>
+      </ul>
+      <div class="note alert" style="margin:8px 0 0;padding:8px 12px"><span class="t">Elimination</span>About 3–4 people at that test centre were eliminated here. The gamified part decides elimination.</div>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Round 2: Technical</h4>
+      <table style="margin:0;font-size:8.6pt">
+        <thead><tr><th>Section</th><th class="c">Qs</th><th>Focus</th></tr></thead>
+        <tbody>
+          <tr><td>MS Office</td><td class="c">7</td><td>Functions, formulas, output-based questions</td></tr>
+          <tr><td>Pseudocode + OOPs</td><td class="c">10</td><td>Bitwise, 10–12 line logic, no pen and paper</td></tr>
+          <tr><td>DevOps, Networking &amp; Security</td><td class="c">14</td><td>Basic concepts and tools</td></tr>
+          <tr><td>Additional Technical</td><td class="c">14</td><td>Concept-based MCQs</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:8.6pt;margin:6px 0 0;color:var(--rose)"><b>The most elimination-heavy round.</b></p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:10px">
+    <h4 style="margin-top:0">Round 3: Coding + SQL + Frontend</h4>
+    <div class="cards c3" style="margin:6px 0 0">
+      <div><b style="color:var(--brand)">Backend (DSA)</b><p style="font-size:9pt;margin:2px 0 0">Basic LeetCode Easy/Medium. Languages seen: Java, Python, C#. Comment out the <code>throw new Exception(...)</code> line in the Java template.</p></div>
+      <div><b style="color:var(--teal)">Frontend</b><p style="font-size:9pt;margin:2px 0 0">Similar to HackerRank's React certification. Mostly needs minor edits to fix the functionality.</p></div>
+      <div><b style="color:var(--amber)">SQL</b><p style="font-size:9pt;margin:2px 0 0">Joins and basic queries. No triggers, window functions or advanced topics in any set.</p></div>
+    </div>
+  </div>
+
+  <div class="note tip" style="margin-top:12px"><span class="t">The candidate's final thoughts</span>
+    The assessment was well-structured but tricky, especially the <b>pseudocode</b> and <b>gamified</b> sections. Focus on:
+    <ul>
+      <li>Bitwise operations, MS Office basics, and core networking and DevOps concepts</li>
+      <li>Staying calm in the gamified part, where the time pressure is real</li>
+      <li>Reading every instruction carefully, especially in the coding section</li>
+    </ul>
+  </div>
+
+  <div class="sec-head page-break"><div class="sec-num">05</div><div><div class="kicker">Final round</div><h2>Interview Preparation</h2></div></div>
+  <p>Candidates who clear every assessment move to the final interview. Prepare for both technical and HR questions.</p>
+  <div class="cards c2">
+    <div class="card alt">
+      <h4 style="margin-top:0">Technical questions</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li>Explain your projects: your role, the tech stack, challenges you faced</li>
+        <li>OOPs concepts with real-life examples</li>
+        <li>Basic DBMS (keys, normalisation, joins) and SQL queries</li>
+        <li>Writing simple code: reverse a string, check for a prime, find duplicates</li>
+        <li>Basics of cloud, networking and SDLC/Agile</li>
+      </ul>
+    </div>
+    <div class="card alt">
+      <h4 style="margin-top:0">HR questions</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li>Tell me about yourself.</li>
+        <li>Why Accenture?</li>
+        <li>Are you willing to relocate anywhere in India?</li>
+        <li>What are your strengths and weaknesses?</li>
+        <li>Describe a time you worked in a team or solved a problem.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note brand"><span class="t">Interview tip</span>Know everything you've written on your resume. Use the <b>STAR</b> method (Situation, Task, Action, Result) for behavioural questions, and answer the relocation question with a clear yes, because the job location is PAN India.</div>
+</section>
+
+<!-- =============== PLAN =============== -->
+<section class="page-break">
+  <div class="sec-head"><div class="sec-num">06</div><div><div class="kicker">Study plan</div><h2>4-Week Preparation Roadmap</h2></div></div>
+  <p class="lead">A balanced plan of about 2–3 hours a day. Adjust it to your strengths, and spend more time on the elimination-heavy Technical round.</p>
+
+  <div class="cards c2">
+    <div class="card week">
+      <div class="lbl">Week 1</div><h4 style="margin:2px 0 6px">Foundations</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li>MS Office: Excel formulas, Word and PowerPoint features, shortcuts</li>
+        <li>CS fundamentals: data types, operators, control structures</li>
+        <li>Daily: 15 min of mental math</li>
+        <li>Coding: 2 easy array and string problems a day</li>
+      </ul>
+    </div>
+    <div class="card week">
+      <div class="lbl">Week 2</div><h4 style="margin:2px 0 6px">Pseudocode &amp; Networking</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li>Bitwise operators, loop and recursion tracing in your head</li>
+        <li>OOPs pillars with examples</li>
+        <li>OSI/TCP-IP, protocols and ports, security basics</li>
+        <li>SQL: SELECT, WHERE, GROUP BY, HAVING</li>
+      </ul>
+    </div>
+    <div class="card week">
+      <div class="lbl">Week 3</div><h4 style="margin:2px 0 6px">Coding Depth</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li>Hashing, two pointers, sorting-based problems (Easy/Medium)</li>
+        <li>SQL joins: INNER, LEFT, RIGHT, self-join with subqueries</li>
+        <li>Frontend: DOM, events, React <code>useState</code>, small fixes</li>
+        <li>Cloud models and DevOps basics (CI/CD, Git, Docker)</li>
+      </ul>
+    </div>
+    <div class="card week">
+      <div class="lbl">Week 4</div><h4 style="margin:2px 0 6px">Mocks &amp; Communication</h4>
+      <ul style="font-size:9pt;margin:0">
+        <li>Full timed mock tests (45 questions in 45 min)</li>
+        <li>Practise each communication section A–G out loud</li>
+        <li>Write 3–4 professional emails of 50+ words</li>
+        <li>Prepare HR answers and revise your projects</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="page-break">Exam-Day Checklist</h3>
+  <div class="cards c2">
+    <div class="card">
+      <ul class="check" style="font-size:9.2pt;margin:0">
+        <li>Mock assessment completed and your system checked</li>
+        <li>Stable internet connection with a backup ready</li>
+        <li>Webcam, microphone and headphones tested</li>
+        <li>A quiet, well-lit room with no interruptions</li>
+      </ul>
+    </div>
+    <div class="card">
+      <ul class="check" style="font-size:9.2pt;margin:0">
+        <li>Read every instruction before you start each section</li>
+        <li>Java users: comment out <code>throw new Exception(...)</code></li>
+        <li>Answer communication Section A in full sentences</li>
+        <li>Stay calm in the gamified round and keep moving</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Topic Weightage: Where to Focus</h3>
+  <table>
+    <thead><tr><th>Area</th><th>Priority</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><b>Pseudocode + Bitwise</b></td><td><span class="badge b-yes">Very high</span></td><td>Tricky, no pen and paper, part of the most elimination-heavy round</td></tr>
+      <tr><td><b>Networking, Security, Cloud, DevOps</b></td><td><span class="badge b-yes">Very high</span></td><td>About 14 questions, and concept-based questions are easy marks if prepared</td></tr>
+      <tr><td><b>Gamified cognitive</b></td><td><span class="badge b-mid">High</span></td><td>An elimination round with real time pressure</td></tr>
+      <tr><td><b>DSA + SQL Joins + Frontend</b></td><td><span class="badge b-mid">High</span></td><td>Decides elimination and the higher-package roles</td></tr>
+      <tr><td><b>MS Office</b></td><td><span class="badge b-fin">Medium</span></td><td>Only 7 questions but quick to prepare</td></tr>
+      <tr><td><b>Communication</b></td><td><span class="badge b-fin">Medium</span></td><td>Elimination round, and practice makes a big difference</td></tr>
+    </tbody>
+  </table>
+
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide prepared for informational purposes only. It is not affiliated with, endorsed by, or an official document of Accenture. Salary figures, eligibility and the exam pattern are taken from publicly shared notification summaries and candidate experiences, and they may change. Always verify the latest details on the official Accenture careers portal before applying.</p>
+</section>
+
+</body>
+</html>
