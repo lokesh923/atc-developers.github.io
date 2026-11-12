@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Communication Assessment – Live Practice</title>
+<style>
+:root{
+  --navy:#0c1a33; --ink:#14172b; --ink2:#3b4160; --muted:#6b7090; --line:#e2e5ee; --bg:#f3f5f9;
+  --sky:#0284c7; --sky2:#38bdf8; --skys:#e6f4fd; --vio:#9333ea; --vios:#f4ebff; --teal:#0d9488;
+  --green:#15803d; --gsoft:#dcfce7; --rose:#dc2626; --rsoft:#fee2e2; --amber:#b45309; --asoft:#fef3c7;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;min-height:100vh}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+.wrap{max-width:1040px;margin:0 auto;padding:22px 16px 48px}
+.hero{background:radial-gradient(90% 80% at 100% 0%,#0284c7 0%,transparent 55%),radial-gradient(80% 70% at 0% 100%,#9333ea 0%,transparent 55%),linear-gradient(160deg,#06101e,#101833 60%,#05060d);color:#fff;border-radius:22px;padding:30px 30px 26px}
+.hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
+.hero h1{font-size:32px;line-height:1.12;margin:14px 0 8px;letter-spacing:-.02em}
+.hero h1 span{color:#7dd3fc}
+.hero p{opacity:.86;margin:0;max-width:720px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:11px 14px}
+.stat b{display:block;font-size:22px}.stat span{font-size:12px;opacity:.8}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:16px}
+.card h2{font-size:19px;margin:0 0 8px}
+.two{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:start}
+.btn{border:0;border-radius:10px;padding:11px 20px;font-weight:700;background:var(--sky);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:#fff;color:var(--ink2);border:1px solid #cfd3e0}
+.btn.vio{background:var(--vio)}
+.btn.big{font-size:16px;padding:14px 28px}
+.btn.sm{padding:7px 14px;font-size:13.5px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chk{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.dev{border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px}
+.dev b{display:block;font-size:14px}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;margin-top:4px}
+.badge.ok{background:var(--gsoft);color:var(--green)}.badge.no{background:var(--rsoft);color:var(--rose)}.badge.wait{background:#eef0f6;color:var(--ink2)}
+.meter{height:10px;background:#eef0f6;border-radius:999px;overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22c55e,#eab308,#ef4444);transition:width .06s}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.sc{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;text-align:left;display:flex;flex-direction:column;gap:4px;transition:border-color .15s,box-shadow .15s}
+.sc:hover{border-color:#7dd3fc;box-shadow:0 6px 18px rgba(2,132,199,.1)}
+.sc .l{font-size:22px;font-weight:800;color:var(--sky)}
+.sc .t{font-weight:700;font-size:14px;line-height:1.3}
+.sc .n{font-size:12.5px;color:var(--muted)}
+.chip{font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--skys);color:var(--sky);align-self:flex-start}
+select,input[type=text],textarea{font:inherit;border:1px solid #cfd3e0;border-radius:10px;padding:8px 10px;background:#fff}
+textarea{width:100%;resize:vertical}
+.toggle{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:10px}
+.note{border-left:4px solid var(--sky);background:var(--skys);border-radius:10px;padding:10px 13px;margin-top:12px;font-size:13.5px}
+.note.warn{border-color:#f59e0b;background:#fff7e6}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:22px}
+
+/* runner */
+#run{min-height:100vh;display:flex;flex-direction:column}
+.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:0 18px;height:58px}
+.top .brand{font-weight:800;font-size:17px;padding-right:16px;border-right:1px solid rgba(255,255,255,.25);white-space:nowrap}
+.top .crumb{opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .sp{flex:1}
+.top .qc{font-size:14px;opacity:.85;white-space:nowrap}
+.top .quit{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6);border-radius:8px;padding:7px 14px}
+.stage{flex:1;display:flex;justify-content:center;padding:26px 16px}
+.panel{width:100%;max-width:820px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 28px;align-self:flex-start}
+.phase{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:5px 12px;background:#eef0f6;color:var(--ink2)}
+.phase.listen{background:var(--skys);color:var(--sky)}.phase.prep{background:var(--asoft);color:var(--amber)}.phase.speak{background:var(--rsoft);color:var(--rose)}.phase.type{background:var(--vios);color:var(--vio)}
+.phase .dot{width:9px;height:9px;border-radius:50%;background:currentColor}
+.phase.speak .dot{animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.secname{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:14px}
+.big-text{font-size:24px;line-height:1.5;font-weight:600;margin:12px 0 6px}
+.topic{font-size:26px;font-weight:800;margin:10px 0}
+.wave{display:flex;gap:5px;align-items:flex-end;height:46px;margin:16px 0}
+.wave i{width:7px;border-radius:4px;background:var(--sky);animation:wv 1s infinite ease-in-out}
+.wave i:nth-child(2){animation-delay:.1s}.wave i:nth-child(3){animation-delay:.2s}.wave i:nth-child(4){animation-delay:.3s}.wave i:nth-child(5){animation-delay:.4s}.wave i:nth-child(6){animation-delay:.5s}.wave i:nth-child(7){animation-delay:.6s}
+@keyframes wv{0%,100%{height:10px}50%{height:44px}}
+.wave.off i{animation:none;height:8px;background:#cbd5e1}
+.cd{display:flex;align-items:center;gap:12px;margin-top:16px}
+.cdbar{flex:1;height:10px;border-radius:999px;background:#eef0f6;overflow:hidden}
+.cdbar i{display:block;height:100%;background:var(--sky);width:100%}
+.cd b{font-variant-numeric:tabular-nums;font-size:20px;min-width:52px;text-align:right}
+.inst{font-size:16px;color:var(--ink2)}
+.ex{background:#f6f7fb;border-radius:12px;padding:10px 14px;margin-top:12px;font-size:14px}
+.wc{font-size:13px;color:var(--muted)}
+
+/* report */
+.score{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.ring{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:26px;flex:none}
+.secs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;flex:1;min-width:280px}
+.secs div{background:#f6f8fc;border-radius:12px;padding:9px 12px}
+.secs b{display:block;font-size:20px}.secs span{font-size:12px;color:var(--muted)}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px}
+.item .h{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.item .h b{flex:1}
+.pill{font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px}
+.pill.g{background:var(--gsoft);color:var(--green)}.pill.a{background:var(--asoft);color:var(--amber)}.pill.r{background:var(--rsoft);color:var(--rose)}.pill.n{background:#eef0f6;color:var(--ink2)}
+.kv{font-size:14px;margin:6px 0}
+.kv .k2{display:inline-block;min-width:118px;color:var(--muted);font-weight:600}
+.tk-ok{color:var(--green);font-weight:600}.tk-miss{color:var(--rose);text-decoration:underline wavy;text-underline-offset:3px}
+.fl{font-size:12.5px;color:var(--ink2);background:#f6f7fb;border-radius:8px;padding:5px 10px;margin-top:6px}
+audio{height:34px;margin-top:6px;max-width:100%}
+.mailbox{white-space:pre-wrap;background:#fbfdff;border:1px dashed #b7c3d0;border-radius:10px;padding:10px 12px;font-size:14px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;font-size:14px;margin:8px 0}
+.checks .y::before{content:"✓ ";color:var(--green);font-weight:800}.checks .x::before{content:"✗ ";color:var(--rose);font-weight:800}
+
+@media (max-width:820px){.stats,.sgrid{grid-template-columns:repeat(2,1fr)}.two,.chk,.checks{grid-template-columns:1fr}.secs{grid-template-columns:repeat(2,1fr)}
+  .top{height:auto;flex-wrap:wrap;padding:10px 12px;gap:8px}.top .brand{border:0;padding:0}.panel{padding:18px}.big-text{font-size:20px}.topic{font-size:21px}.hero h1{font-size:25px}}
+</style>
+</head>
+<body>
+
+<!-- ================= HOME ================= -->
+<div id="home" class="wrap">
+  <div class="hero">
+    <span class="tag">Accenture 2026–2027 Hiring · Communication Assessment</span>
+    <h1>Communication <span>Live Practice</span></h1>
+    <p>Practise the spoken and written English round in the exam pattern. You hear the audio, speak after the beep and get a timed response, then write an email. Your answers are recorded and scored automatically, and the report shows what to fix.</p>
+    <div class="stats">
+      <div class="stat"><b>7 + 1</b><span>Sections A–G + email</span></div>
+      <div class="stat"><b>20 + 1</b><span>Questions in the full mock</span></div>
+      <div class="stat"><b id="stItems">0</b><span>Practice items in total</span></div>
+      <div class="stat"><b>Auto</b><span>Scoring + recordings</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>1 · Device check</h2>
+    <p style="margin:0;color:var(--ink2)">Use <b>Chrome or Edge</b> with a <b>headset microphone</b> in a quiet room. Speech-to-text needs an internet connection.</p>
+    <div class="chk">
+      <div class="dev"><b>Microphone</b><span id="micState" class="badge wait">Not tested</span><div class="meter"><i id="micLvl"></i></div>
+        <div class="row" style="margin-top:8px"><button class="btn sm" id="micBtn" onclick="APP.micTest()">Test mic (3 s)</button><span id="micPlay"></span></div></div>
+      <div class="dev"><b>Audio voice</b><span id="ttsState" class="badge wait">Checking…</span>
+        <div class="row" style="margin-top:8px"><button class="btn sm ghost" onclick="APP.ttsTest()">Play sample</button></div></div>
+      <div class="dev"><b>Speech-to-text</b><span id="srState" class="badge wait">Checking…</span>
+        <div class="row" style="margin-top:8px"><label style="font-size:13px">Accent&nbsp;<select id="lang"><option value="en-IN">English (India)</option><option value="en-US">English (US)</option><option value="en-GB">English (UK)</option></select></label></div></div>
+    </div>
+    <label class="toggle"><input type="checkbox" id="kbMode" onchange="APP.setKb(this.checked)"> <span><b>Keyboard mode</b>: type your answers instead of speaking (no microphone needed). Spoken skills such as pace and pauses are not measured in this mode.</span></label>
+    <div class="note warn hidden" id="srNote"></div>
+    <div class="note warn hidden" id="frameNote"><b>The microphone is blocked inside this course window.</b> Your learning platform shows this practice inside a frame that does not allow microphone access, so the browser blocks it. Open the practice in its own tab: the microphone and speech-to-text work there, and your score is still sent back to this course.
+      <div class="row" style="margin-top:10px"><button class="btn" onclick="APP.openTab()">Open in a new tab</button><span id="tabMsg" style="font-size:13.5px"></span></div>
+      <div style="font-size:13px;margin-top:6px;color:var(--ink2)">Keep this course page open while you practise. If you prefer not to use the microphone, switch on <b>Keyboard mode</b> above.</div></div>
+    <div class="note hidden" id="linkNote"><b>Connected to your course.</b> This tab was opened from your course page; your score will be saved there. Keep the course tab open until you finish.</div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h2>2 · Full mock test</h2>
+      <p style="margin:0 0 10px;color:var(--ink2)">The exam flow: A×3, B×3, C×4, D×3, E×3, F×3, G×1, then the email. About 20–25 minutes, with no pauses between items.</p>
+      <button class="btn big" onclick="APP.mock()">Start full mock</button>
+    </div>
+    <div class="card">
+      <h2>How you are scored</h2>
+      <p style="margin:0;font-size:14px;color:var(--ink2)"><b>A</b>: full sentence + key facts · <b>B</b>: polite, complete, relevant · <b>C, D</b>: word accuracy against the text · <b>E, F</b>: the correct full sentence · <b>G</b>: length, structure, linkers, few fillers · <b>Email</b>: subject, greeting, 50+ words, paragraphs, sign-off, tone. You also see speaking time and pauses for every recording.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h2 style="margin:0">3 · Practise one section</h2><button class="btn ghost sm" onclick="APP.resetBest()">Reset best scores</button></div>
+    <div class="sgrid" id="sgrid"></div>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Automatic scores are an estimate to guide practice, not the official scoring.</p>
+</div>
+
+<!-- ================= RUNNER ================= -->
+<div id="run" class="hidden">
+  <div class="top"><div class="brand">Communication Practice</div><div class="crumb" id="crumb"></div><div class="sp"></div><div class="qc" id="qcount"></div><button class="quit" onclick="APP.quit()">Exit</button></div>
+  <div class="stage"><div class="panel" id="panel"></div></div>
+</div>
+
+<!-- ================= REPORT ================= -->
+<div id="report" class="wrap hidden"></div>
+
+<script>var BANK={"listen": [{"clip": "The team meeting has been moved from Monday to Wednesday at 3 p.m. because the client presentation on Monday will run the whole afternoon. Please update your calendars.", "q": "Why has the team meeting been moved?", "model": "The team meeting has been moved because the client presentation on Monday will run the whole afternoon."}, {"clip": "Hi, this is Neha from HR. Your laptop is ready for collection at the IT desk on the second floor. Please bring your employee ID card when you come.", "q": "What should the employee bring to collect the laptop?", "model": "The employee should bring their employee ID card to collect the laptop."}, {"clip": "Our office cafeteria will remain closed this Friday for maintenance work. Lunch coupons for a nearby restaurant will be given to all employees at the reception.", "q": "Where will employees get the lunch coupons?", "model": "Employees will get the lunch coupons at the reception."}, {"clip": "The training on cloud security starts next Tuesday. It will run for three days, from 10 a.m. to 1 p.m., and everyone who joined this quarter must attend.", "q": "How long will the cloud security training last?", "model": "The cloud security training will last for three days, from 10 a.m. to 1 p.m. each day."}, {"clip": "Rahul could not finish the sales report yesterday because the database was down for most of the day. He has promised to send it to the manager by noon today.", "q": "When will Rahul send the sales report?", "model": "Rahul will send the sales report to the manager by noon today."}, {"clip": "Please note that from next month, travel claims must be submitted within fifteen days of the trip. Claims submitted after that will need approval from the finance head.", "q": "Within how many days must travel claims be submitted?", "model": "Travel claims must be submitted within fifteen days of the trip."}, {"clip": "The client has asked for two changes to the website: a larger search bar on the home page and a dark mode option. The design team will share the new screens on Thursday.", "q": "What changes has the client asked for?", "model": "The client has asked for a larger search bar on the home page and a dark mode option."}, {"clip": "Good morning everyone. Due to heavy rain, the shuttle buses will leave the office at 5 p.m. today instead of 6 p.m. Employees who need to stay late should inform the transport desk.", "q": "What should employees who need to stay late do?", "model": "Employees who need to stay late should inform the transport desk."}], "converse": [{"prompt": "Manager: Can you send me the project report by today?", "model": "Sure, I will share the project report with you by the end of the day."}, {"prompt": "Colleague: I am stuck with this Excel formula. Do you have a minute?", "model": "Of course. Please share your screen, and we can look at the formula together."}, {"prompt": "Client: The application is loading very slowly since yesterday.", "model": "I am sorry for the inconvenience. I will check the issue right away and update you within an hour."}, {"prompt": "Manager: Can you lead the client call tomorrow at 9 a.m.?", "model": "Yes, I would be happy to lead the call. Could you share the agenda with me today so that I can prepare?"}, {"prompt": "Colleague: Could you cover my tasks on Friday? I have a family function.", "model": "I am sorry, but I have a deadline on Friday. However, I can help you with your tasks on Thursday evening."}, {"prompt": "Team lead: Why was the deployment delayed last night?", "model": "The deployment was delayed because two test cases failed at the last minute. We have fixed them, and it is scheduled again for tonight."}, {"prompt": "HR: Would you be comfortable relocating to Bengaluru?", "model": "Yes, I am comfortable relocating to Bengaluru. I see it as a good opportunity to learn and grow."}, {"prompt": "Client: Can we move tomorrow's meeting to the afternoon?", "model": "Certainly. Would 3 p.m. work for you? I will send an updated invitation."}, {"prompt": "Colleague: Great job on the presentation today!", "model": "Thank you so much. Your feedback during the practice session really helped me."}, {"prompt": "Manager: I noticed a few errors in your last report.", "model": "Thank you for pointing them out. I will correct them today and double-check my future reports before sending them."}], "read": [{"text": "Our company has offices in more than forty countries, and it helps clients use technology to grow."}, {"text": "Before the meeting starts, please make sure that your microphone is muted."}, {"text": "The new software will be installed on all laptops by the end of this week."}, {"text": "If you have any questions about the project, feel free to contact your team lead."}, {"text": "Customer satisfaction is the most important measure of our success."}, {"text": "The training programme covers cloud computing, data security, and artificial intelligence."}, {"text": "Although the deadline was tight, the team delivered the product on time."}, {"text": "Please remember to submit your timesheet every Friday before six p.m."}, {"text": "Our new office building uses solar panels to reduce its energy costs."}, {"text": "The quarterly results show a steady increase in revenue from digital services."}, {"text": "Every employee must complete the information security course by the end of March."}, {"text": "The project manager shared a detailed plan with clear milestones and deadlines."}, {"text": "Good communication helps teams avoid mistakes and build trust with clients."}, {"text": "The help desk is open from nine in the morning to seven in the evening."}, {"text": "We are looking for volunteers to organise the annual sports day in December."}, {"text": "Artificial intelligence can automate routine tasks and help people make better decisions."}], "repeat": [{"text": "Please close the door.", "level": "Short"}, {"text": "The report is ready.", "level": "Short"}, {"text": "I will call you later.", "level": "Short"}, {"text": "Lunch is served at one.", "level": "Short"}, {"text": "The manager approved my leave request.", "level": "Medium"}, {"text": "Our team works on a banking project.", "level": "Medium"}, {"text": "Could you send me the meeting link?", "level": "Medium"}, {"text": "The client visit has been postponed.", "level": "Medium"}, {"text": "The training session will start after the coffee break.", "level": "Long"}, {"text": "Most employees prefer working from the office on Mondays.", "level": "Long"}, {"text": "Please update the document before you share it with the client.", "level": "Long"}, {"text": "Our new office in Pune has a large cafeteria and a gym.", "level": "Long"}], "fill": [{"text": "Each of the employees ___ a laptop.", "answer": "has", "full": "Each of the employees has a laptop.", "rule": "Each of + plural noun takes a singular verb."}, {"text": "She ___ working here since 2022.", "answer": "has been", "full": "She has been working here since 2022.", "rule": "since + a point in time → present perfect continuous."}, {"text": "I ___ my assignment yesterday.", "answer": "submitted", "full": "I submitted my assignment yesterday.", "rule": "yesterday → simple past."}, {"text": "He is ___ honest person.", "answer": "an", "full": "He is an honest person.", "rule": "an before a vowel sound (h is silent in honest)."}, {"text": "She is ___ university student.", "answer": "a", "full": "She is a university student.", "rule": "university starts with a 'yoo' sound, so a."}, {"text": "If I ___ the time, I would join the course.", "answer": "had", "full": "If I had the time, I would join the course.", "rule": "Second conditional: if + past simple, would + verb."}, {"text": "The meeting will start ___ 10 a.m.", "answer": "at", "full": "The meeting will start at 10 a.m.", "rule": "at for exact clock times."}, {"text": "We have a holiday ___ Monday.", "answer": "on", "full": "We have a holiday on Monday.", "rule": "on for days and dates."}, {"text": "I have lived in Delhi ___ five years.", "answer": "for", "full": "I have lived in Delhi for five years.", "rule": "for + a length of time; since + a starting point."}, {"text": "Neither the manager nor the employees ___ aware of the change.", "answer": "were", "full": "Neither the manager nor the employees were aware of the change.", "rule": "neither…nor: the verb agrees with the nearer subject (employees → were)."}, {"text": "The manager, as well as his team, ___ attending the event.", "answer": "is", "full": "The manager, as well as his team, is attending the event.", "rule": "as well as does not change the subject; the manager → is."}, {"text": "She is the ___ performer in our team.", "answer": "best", "full": "She is the best performer in our team.", "rule": "Superlative of good = best (with the)."}, {"text": "This laptop is ___ than the old one.", "answer": "lighter", "full": "This laptop is lighter than the old one.", "rule": "Comparison of two things → comparative -er + than."}, {"text": "He said that he ___ tired.", "answer": "was", "full": "He said that he was tired.", "rule": "Reported speech moves the tense back: is → was."}, {"text": "By the time we reached the station, the train ___ left.", "answer": "had", "full": "By the time we reached the station, the train had left.", "rule": "Earlier of two past actions → past perfect."}, {"text": "Neither of the answers ___ correct.", "answer": "is", "full": "Neither of the answers is correct.", "rule": "Neither of + plural noun takes a singular verb."}, {"text": "The news ___ good today.", "answer": "is", "full": "The news is good today.", "rule": "news is uncountable and singular."}, {"text": "I am looking forward to ___ you.", "answer": "meeting", "full": "I am looking forward to meeting you.", "rule": "look forward to + -ing."}, {"text": "She is good ___ public speaking.", "answer": "at", "full": "She is good at public speaking.", "rule": "good at (a skill)."}, {"text": "The report was written ___ Priya.", "answer": "by", "full": "The report was written by Priya.", "rule": "Passive voice: the doer is introduced with by."}], "errors": [{"wrong": "Each of the students have a laptop.", "correct": "Each of the students has a laptop.", "rule": "Each of → singular verb."}, {"wrong": "We will discuss about the project tomorrow.", "correct": "We will discuss the project tomorrow.", "rule": "discuss takes no preposition."}, {"wrong": "Please revert back to me by Friday.", "correct": "Please reply to me by Friday.", "rule": "revert already means go back; for replies, say reply."}, {"wrong": "I am working here since 2023.", "correct": "I have been working here since 2023.", "rule": "since + start point → present perfect continuous."}, {"wrong": "One of my friend works at Infosys.", "correct": "One of my friends works at Infosys.", "rule": "one of + plural noun, singular verb."}, {"wrong": "She don't like coffee.", "correct": "She doesn't like coffee.", "rule": "she / he / it → does not."}, {"wrong": "He is more taller than me.", "correct": "He is taller than me.", "rule": "Do not use more with -er (double comparative)."}, {"wrong": "I have completed my graduation in 2024.", "correct": "I completed my graduation in 2024.", "rule": "A finished past time (in 2024) → simple past, not present perfect."}, {"wrong": "Let's return back to the main topic.", "correct": "Let's return to the main topic.", "rule": "return already means come back."}, {"wrong": "I am having two years of experience.", "correct": "I have two years of experience.", "rule": "have (possess) is a state verb; do not use the -ing form."}, {"wrong": "The informations are on the portal.", "correct": "The information is on the portal.", "rule": "information is uncountable: no plural, singular verb."}, {"wrong": "He gave me many advices.", "correct": "He gave me a lot of advice.", "rule": "advice is uncountable."}, {"wrong": "Myself Rahul, from the testing team.", "correct": "I am Rahul, from the testing team.", "rule": "Introduce yourself with I am; myself is reflexive."}, {"wrong": "I passed out from college in 2025.", "correct": "I graduated from college in 2025.", "rule": "pass out means to faint; use graduated."}, {"wrong": "There is many reasons for the delay.", "correct": "There are many reasons for the delay.", "rule": "there is + singular, there are + plural (many reasons)."}, {"wrong": "She is senior than me.", "correct": "She is senior to me.", "rule": "senior / junior / superior take to, not than."}, {"wrong": "The team are working on it since morning.", "correct": "The team has been working on it since morning.", "rule": "since morning → present perfect continuous; a team acting as one unit takes a singular verb in Indian and American English."}, {"wrong": "I didn't went to office yesterday.", "correct": "I didn't go to the office yesterday.", "rule": "did / didn't + base verb (go), and the office."}, {"wrong": "We need to cope up with the changes.", "correct": "We need to cope with the changes.", "rule": "The verb is cope with."}, {"wrong": "He said me that he was busy.", "correct": "He told me that he was busy.", "rule": "say something; tell someone."}, {"wrong": "Can you explain me the process?", "correct": "Can you explain the process to me?", "rule": "explain something to someone."}, {"wrong": "Neither Ravi nor Anil have submitted the form.", "correct": "Neither Ravi nor Anil has submitted the form.", "rule": "neither…nor with two singular subjects → singular verb."}, {"wrong": "Ten kilometres are a long distance to walk.", "correct": "Ten kilometres is a long distance to walk.", "rule": "An amount of distance, money or time taken as one unit → singular verb."}, {"wrong": "She is good in coding.", "correct": "She is good at coding.", "rule": "good at a skill."}, {"wrong": "If I will get time, I will finish it.", "correct": "If I get time, I will finish it.", "rule": "First conditional: if + present simple, will + verb."}], "talks": [{"topic": "Work from home or work from office: which is better?", "notes": ["View: a hybrid model works best", "Home: saves travel time, fewer distractions", "Office: teamwork, faster learning for freshers"], "model": "In my opinion, a hybrid model is the best option. Working from home saves a lot of travel time and helps people focus on tasks that need deep concentration. However, the office has its own advantages. When we sit together, we solve problems faster, and freshers learn much more by watching experienced colleagues. Informal conversations also build trust in a team. So, I believe two or three days in the office and the rest at home gives us the best of both worlds. It keeps productivity high and the team connected."}, {"topic": "The role of technology in education", "notes": ["View: technology has made learning open to everyone", "Online courses and videos for any topic", "Needs balance: screen time and discipline"], "model": "Technology has completely changed the way we learn. Today, a student in a small town can watch lectures from the best teachers in the world, often for free. Online courses, videos and practice platforms let us learn at our own pace and revise whenever we want. During my own preparation, I used coding websites to practise every day. However, technology also brings distractions, so self-discipline is very important. In conclusion, technology is a powerful tool for education, as long as we use it with a clear goal."}, {"topic": "Your biggest strength", "notes": ["Strength: I learn new things quickly", "Example: learned React in two weeks for a college project", "Why it matters in IT"], "model": "My biggest strength is that I learn new things quickly. For example, in my final year, our team needed a web interface for our project, but none of us knew React. I took the responsibility, followed online tutorials and built the first version within two weeks. Later, I also helped my teammates understand the code. In the IT industry, technologies change very fast, so the ability to learn quickly is extremely valuable. I believe this strength will help me adapt to any project and contribute from the first day."}, {"topic": "Why is teamwork important?", "notes": ["View: big goals need many skills", "Example: college hackathon", "Teams share load and ideas"], "model": "Teamwork is important because most real projects are too big for one person. A software product needs developers, testers, designers and business analysts working together. When people with different skills share ideas, the final result is much better. I experienced this during a college hackathon, where our team of four built a working app in twenty-four hours. We divided the work according to our strengths and supported each other when someone was stuck. Good teamwork also reduces stress, because the workload is shared. That is why companies value team players so much."}, {"topic": "Social media: a boon or a bane?", "notes": ["View: both, depends on how we use it", "Boon: connection, learning, opportunities", "Bane: addiction, fake news"], "model": "I think social media is both a boon and a bane, and it depends on how we use it. On the positive side, it connects people across the world, helps small businesses reach customers and gives us access to useful information. Platforms like LinkedIn also help students find internships and jobs. On the negative side, too much social media can become addictive, waste our time and spread fake news very quickly. So, the key is balance. If we use it with purpose and check facts before sharing, social media can be a great tool."}, {"topic": "How do you handle pressure?", "notes": ["Stay calm and plan", "Example: two deadlines in one week", "Break work into small tasks, communicate early"], "model": "I handle pressure by staying calm and making a clear plan. When I have too much work, I first list all the tasks and decide which ones are most urgent. Then I break big tasks into smaller steps, so that I can see progress. For example, last semester I had two project submissions and an exam in the same week. I made a day-by-day schedule, finished the coding part first and asked my professor early about one doubt. I completed everything on time. I also believe in communicating early if I need help, instead of waiting until the last moment."}, {"topic": "A skill you want to learn", "notes": ["Skill: cloud computing", "Why: most companies are moving to the cloud", "Plan: certification + projects"], "model": "One skill I really want to learn is cloud computing. Today, most companies are moving their applications and data to cloud platforms like AWS, Azure and Google Cloud, so cloud skills are in very high demand. I have already studied the basics, such as virtual machines and storage, and now I plan to complete a beginner certification. I also want to deploy one of my college projects on the cloud, because practical experience is more valuable than theory. I believe this skill will make me a stronger engineer and open many career opportunities."}, {"topic": "The importance of time management", "notes": ["View: time is the one resource we cannot get back", "Plan the day, prioritise", "Example: placement preparation"], "model": "Time management is important because time is the one resource we can never get back. People who manage their time well finish their work on time, feel less stressed and still have time for family and health. A simple method is to plan the day in the morning and do the most important task first. During my placement preparation, I divided my day into fixed slots for aptitude, coding and communication practice. This routine helped me stay consistent. In short, good time management is the foundation of success in both studies and work."}, {"topic": "Describe your hometown"}, {"topic": "Your favourite subject in college"}, {"topic": "Online learning versus classroom learning"}, {"topic": "Why English is important at the workplace"}, {"topic": "A person who inspires you"}, {"topic": "Your final-year project"}, {"topic": "How artificial intelligence is changing jobs"}, {"topic": "The importance of health for working professionals"}, {"topic": "Qualities of a good team leader"}, {"topic": "How to handle failure"}], "emails": [{"task": "You missed yesterday's team meeting. Write an email to your manager, Mr. Sharma, apologising and explaining.", "subject": "Apology for Missing Yesterday's Team Meeting", "model": "Dear Mr. Sharma,\n\nI am writing to apologise for missing yesterday's team meeting. Due to an unexpected network outage at my location, I was unable to join the call.\n\nI have gone through the minutes of the meeting and noted the action items assigned to me. I will complete them by Thursday. I have also arranged a backup internet connection so that this does not happen again.\n\nThank you for your understanding.\n\nBest regards,\nAnkit Verma"}, {"task": "Write an email to your team lead, Ms. Priya, requesting two days of leave next week for a family function.", "subject": "Leave Request for 14 and 15 November", "model": "Dear Ms. Priya,\n\nI would like to request leave for two days, on 14 and 15 November, as I need to attend a family wedding in my hometown.\n\nI will complete my current tasks before I leave, and Rohit has agreed to handle any urgent issues during my absence. I will also be reachable on my phone if needed.\n\nKindly let me know if this is possible.\n\nThank you,\nSneha Iyer"}, {"task": "The client asked for an update on a delayed module. Write an email explaining the delay and the new date.", "subject": "Update on the Payment Module Delivery", "model": "Dear Mr. Kapoor,\n\nThank you for your patience. I would like to update you on the payment module. During testing, we found an issue with refunds that needed to be fixed before release.\n\nThe issue has now been resolved, and the module is in its final round of testing. We will deliver it by Monday, 18 November. I will share the test report along with it.\n\nPlease let me know if you have any questions.\n\nKind regards,\nRahul Mehta"}, {"task": "Write an email to the IT helpdesk reporting that your laptop restarts again and again.", "subject": "Laptop Restarting Repeatedly – Request for Support", "model": "Dear IT Support Team,\n\nI am facing a problem with my laptop (asset ID LT-20457). Since this morning, it restarts every ten to fifteen minutes, even when only the browser is open. I have already installed the latest updates, but the problem continues.\n\nThis is affecting my work, so I would be grateful if someone could check it today. I am available at my desk on the third floor.\n\nThank you,\nKavya Nair"}, {"task": "Write an email to a colleague thanking them for helping you complete a project.", "subject": "Thank You for Your Help on the Dashboard Project", "model": "Hi Arjun,\n\nI wanted to thank you for your help with the dashboard project last week. Your suggestion to use a shared data model saved us a lot of time, and the client was very happy with the final demo.\n\nI really appreciate that you made time for this despite your own deadlines. Please let me know if I can help you with anything in the future.\n\nBest wishes,\nDiya"}, {"task": "Write an email to your manager asking to reschedule a meeting because you have a client call at the same time.", "subject": "Request to Reschedule Tomorrow's 11 a.m. Meeting", "model": "Dear Ms. Rao,\n\nI have a client call tomorrow from 10:30 a.m. to 12 p.m., which clashes with our 11 a.m. review meeting.\n\nCould we please move our meeting to 2 p.m. or 4 p.m. on the same day? I will make sure the review document is shared with you before the meeting.\n\nI apologise for the inconvenience, and thank you for your flexibility.\n\nRegards,\nVikram Singh"}]};</script>
+<script>
+/* ================= SCORM 1.2 (works standalone too) ================= */
+var SCORM=(function(){
+  var api=null,on=false,del=null;
+  function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  /* Opened in a new tab from the course window: report through that window's SCORM session */
+  try{if(window.opener&&window.opener!==window&&window.opener.SCORM&&window.opener.SCORM.isOn())del=window.opener.SCORM;}catch(e){del=null;}
+  try{api=del?null:find(window);}catch(e){api=null;}
+  function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}
+  function get(k){if(on){try{return api.LMSGetValue(k);}catch(e){}}return"";}
+  function commit(){if(on){try{api.LMSCommit("");}catch(e){}}}
+  return{isOn:function(){return on;},linked:function(){return!!del;},
+    init:function(){if(del||!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){on=false;}
+      if(!on)return;var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");commit();},
+    report:function(score,secs){if(del){try{del.report(score,secs);}catch(e){}return;}if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));
+      set("cmi.core.lesson_status","completed");commit();},
+    finish:function(){if(on){commit();try{api.LMSFinish("");}catch(e){}on=false;}}};
+})();
+var STORE={get:function(k,d){try{var v=localStorage.getItem("comm_"+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
+           set:function(k,v){try{localStorage.setItem("comm_"+k,JSON.stringify(v));}catch(e){}}};
+
+/* ================= timing (?speed=N only speeds up automated testing) ================= */
+var SPEED=(function(){var m=location.search.match(/speed=(\d+)/);return m?Math.max(1,+m[1]):1;})();
+function wait(ms){return new Promise(function(r){setTimeout(r,ms/SPEED);});}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function shuffle(a,seed){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+(s%60<10?"0":"")+s%60;}
+
+/* ================= sections ================= */
+var SEC={
+  A:{name:"Listening Comprehension",key:"listen",time:15,mock:3,inst:"You will hear a short audio clip, followed by a question. After the beep, answer the question in ONE complete sentence.",ex:"Q: Where is the meeting? → \"The meeting is in Room 4.\" (not just \"Room 4\")"},
+  B:{name:"Conversation Response",key:"converse",time:15,mock:3,inst:"You will hear a line from a manager, colleague or client. After the beep, give a polite, professional reply in one or two complete sentences.",ex:"\"Can you send me the report today?\" → \"Sure, I will share the report with you by the end of the day.\""},
+  C:{name:"Reading Aloud",key:"read",time:15,mock:4,prep:4,inst:"A sentence appears on the screen. Read it silently first. When you hear the beep, read it aloud clearly at a natural pace.",ex:"Pause at commas, stress the important words and pronounce the endings (-s, -ed)."},
+  D:{name:"Listen & Repeat",key:"repeat",time:10,mock:3,inst:"You will hear a sentence once. After the beep, repeat it exactly as you heard it.",ex:"Remember the meaning, then rebuild the sentence in 2–3 chunks."},
+  E:{name:"Fill in the Missing Word",key:"fill",time:12,mock:3,inst:"You will hear a sentence with a missing word; you hear the word \"blank\" in its place. After the beep, say the COMPLETE sentence with the correct word.",ex:"\"Each of the employees … blank … a laptop.\" → \"Each of the employees has a laptop.\""},
+  F:{name:"Error Correction",key:"errors",time:15,mock:3,inst:"You will hear a sentence that has one grammatical error. After the beep, say the corrected sentence.",ex:"\"We will discuss about the project.\" → \"We will discuss the project.\""},
+  G:{name:"Speaking on a Topic",key:"talks",time:45,mock:1,prep:30,inst:"You will see a topic. You have 30 seconds to prepare, then 45 seconds to speak about it.",ex:"Opening (your view) → point 1 with an example → point 2 → closing line."},
+  M:{name:"Email Writing",key:"emails",time:480,mock:1,inst:"Write a professional email of at least 50 words for the situation shown. Include a subject line, a greeting, a clear body and a sign-off.",ex:"Subject → Dear … → purpose → details → action → polite close → Regards, Name"}
+};
+var ORDER=["A","B","C","D","E","F","G","M"];
+
+/* ================= audio: voice, beep, microphone, speech recognition ================= */
+var TTS={ok:("speechSynthesis" in window),voice:null,
+  pick:function(){if(!TTS.ok)return;var vs=speechSynthesis.getVoices();var pref=["en-IN","en-GB","en-US"];
+    for(var i=0;i<pref.length;i++){var v=vs.find(function(x){return x.lang&&x.lang.replace("_","-")===pref[i];});if(v){TTS.voice=v;break;}}
+    if(!TTS.voice)TTS.voice=vs.find(function(x){return/^en/i.test(x.lang);})||null;},
+  est:function(t){return String(t).split(/\s+/).length*420+900;},
+  say:function(text){return new Promise(function(res){
+    if(!TTS.ok||SPEED>1||(speechSynthesis.getVoices().length===0)){setTimeout(res,TTS.est(text)/SPEED);return;}
+    var u=new SpeechSynthesisUtterance(text);u.rate=0.95;if(TTS.voice){u.voice=TTS.voice;u.lang=TTS.voice.lang;}else u.lang="en-US";
+    var done=false,t=setTimeout(fin,TTS.est(text)*2+3000);function fin(){if(!done){done=true;clearTimeout(t);res();}}
+    u.onend=fin;u.onerror=fin;speechSynthesis.cancel();speechSynthesis.speak(u);});}};
+if(TTS.ok){TTS.pick();try{speechSynthesis.onvoiceschanged=TTS.pick;}catch(e){}}
+var ACtx=null;function ac(){if(!ACtx){var C=window.AudioContext||window.webkitAudioContext;if(C)ACtx=new C();}if(ACtx&&ACtx.state==="suspended")ACtx.resume();return ACtx;}
+function beep(){var c=ac();if(!c)return wait(250);var o=c.createOscillator(),g=c.createGain();o.frequency.value=880;o.connect(g);g.connect(c.destination);
+  g.gain.setValueAtTime(0.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(0.25,c.currentTime+0.02);g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+0.22);o.start();o.stop(c.currentTime+0.25);return wait(320);}
+
+var MIC={stream:null,an:null,buf:null,noise:0.01,
+  init:async function(){if(this.stream)return true;try{this.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});
+    var c=ac();var src=c.createMediaStreamSource(this.stream);this.an=c.createAnalyser();this.an.fftSize=1024;src.connect(this.an);this.buf=new Float32Array(this.an.fftSize);return true;}catch(e){return false;}},
+  rms:function(){if(!this.an)return 0;this.an.getFloatTimeDomainData(this.buf);var s=0;for(var i=0;i<this.buf.length;i++)s+=this.buf[i]*this.buf[i];return Math.sqrt(s/this.buf.length);}};
+
+var SRC=window.SpeechRecognition||window.webkitSpeechRecognition,SR_BROKEN=null;
+var IN_FRAME=(function(){try{return window.top!==window.self;}catch(e){return true;}})();
+var MIC_POLICY=(function(){try{var p=document.permissionsPolicy||document.featurePolicy;return p&&p.allowsFeature?p.allowsFeature("microphone"):null;}catch(e){return null;}})();
+function startRecognition(lang){
+  if(!SRC||SR_BROKEN)return null;
+  var finalText="",interim="",active=true,r,endRes,ended=new Promise(function(res){endRes=res;});
+  function make(){r=new SRC();r.lang=lang;r.continuous=true;r.interimResults=true;r.maxAlternatives=1;
+    r.onresult=function(e){interim="";for(var i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)finalText+=e.results[i][0].transcript+" ";else interim+=e.results[i][0].transcript+" ";}};
+    r.onerror=function(e){if(["not-allowed","service-not-allowed","network","audio-capture","language-not-supported"].indexOf(e.error)>=0){SR_BROKEN=e.error;active=false;}};
+    r.onend=function(){if(active){try{make();r.start();}catch(x){endRes();}}else endRes();};
+    try{r.start();}catch(x){SR_BROKEN="start-failed";active=false;endRes();}}
+  make();
+  return{stop:function(){active=false;try{r.stop();}catch(x){}return Promise.race([ended,new Promise(function(res){setTimeout(res,2500);})]).then(function(){return(finalText+" "+interim).replace(/\s+/g," ").trim();});}};
+}
+
+/* ================= text scoring ================= */
+var NUM={zero:"0",one:"1",two:"2",three:"3",four:"4",five:"5",six:"6",seven:"7",eight:"8",nine:"9",ten:"10",eleven:"11",twelve:"12",thirteen:"13",fourteen:"14",fifteen:"15",sixteen:"16",seventeen:"17",eighteen:"18",nineteen:"19",twenty:"20",thirty:"30",forty:"40",fifty:"50",hundred:"100"};
+var STOP={"the":1,"a":1,"an":1,"is":1,"are":1,"to":1,"of":1,"and":1,"in":1,"on":1,"at":1,"for":1,"be":1,"will":1,"has":1,"have":1,"been":1,"by":1,"with":1,"from":1,"it":1,"this":1,"that":1,"their":1,"they":1,"should":1,"must":1,"each":1,"day":0};
+function toks(s){s=String(s||"").toLowerCase().replace(/[’`]/g,"'").replace(/\ba\.m\./g,"am").replace(/\bp\.m\./g,"pm").replace(/[^a-z0-9' ]+/g," ");
+  return s.split(/\s+/).filter(Boolean).map(function(w){return NUM[w]||w;});}
+function editDist(a,b){var d=[];for(var i=0;i<=a.length;i++){d[i]=[i];}for(var j=1;j<=b.length;j++)d[0][j]=j;
+  for(i=1;i<=a.length;i++)for(j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length];}
+function similarity(target,said){var t=toks(target),s=toks(said);if(!t.length)return 0;return Math.max(0,1-editDist(t,s)/t.length);}
+function lcsMarks(target,said){var t=toks(target),s=toks(said),n=t.length,m=s.length,L=[];for(var i=0;i<=n;i++){L[i]=new Array(m+1).fill(0);}
+  for(i=n-1;i>=0;i--)for(var j=m-1;j>=0;j--)L[i][j]=t[i]===s[j]?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]);
+  var marks=new Array(n).fill(false);i=0;j=0;while(i<n&&j<m){if(t[i]===s[j]){marks[i]=true;i++;j++;}else if(L[i+1][j]>=L[i][j+1])i++;else j++;}return{tokens:t,marks:marks};}
+function hasAny(said,list){var s=" "+toks(said).join(" ")+" ";return list.filter(function(p){return s.indexOf(" "+p+" ")>=0;});}
+var POLITE=["yes","we will","we have","let me","i would","sure","certainly","of course","thank you","thanks","sorry","please","happy to","would","could","apologise","apologize","i will","i'll","glad","appreciate","right away","no problem"];
+var FILLERS=["um","umm","uh","uhh","er","hmm","basically","you know"];
+var LINKERS=["firstly","first","secondly","moreover","however","for example","for instance","in my opinion","i believe","i think","on the other hand","in conclusion","to sum up","that is why","also","because","finally","so"];
+
+function scoreItem(sec,it,ans){
+  var said=ans.text||"",w=toks(said),fb=[];
+  if(!w.length)return{score:0,fb:["No answer was captured."]};
+  if(sec==="A"){var key=toks(it.model).filter(function(x){return!STOP[x];});key=key.filter(function(x,i){return key.indexOf(x)===i;});
+    var hit=key.filter(function(x){return w.indexOf(x)>=0;}).length,cov=key.length?hit/key.length:0,full=w.length>=5;
+    if(!full)fb.push("Answer in a complete sentence (at least 5–6 words).");if(cov<0.6)fb.push("Some key facts are missing; compare with the model answer.");
+    return{score:Math.round(100*Math.min(1,cov*1.15)*(full?1:0.55)),fb:fb};}
+  if(sec==="B"){var pol=hasAny(said,POLITE),pk=toks(it.prompt).filter(function(x){return!STOP[x]&&x.length>3;});var rel=pk.some(function(x){return w.indexOf(x)>=0;})||similarity(it.model,said)>0.3;
+    var sc=(w.length>=6?40:w.length>=3?20:5)+(pol.length?30:0)+(rel?30:10);if(w.length<6)fb.push("Give a fuller reply: acknowledge + action.");if(!pol.length)fb.push("Add a polite opener such as \"Sure\", \"Certainly\" or \"I'm sorry\".");if(!rel)fb.push("Respond to the exact request you heard.");
+    return{score:Math.min(100,sc),fb:fb};}
+  if(sec==="C"||sec==="D"){var sim=similarity(it.text,said);if(sim<0.9)fb.push("Words were missed or changed; see the highlighted words.");return{score:Math.round(sim*100),fb:fb};}
+  if(sec==="E"){var sim2=similarity(it.full,said),aw=toks(it.answer),okw=aw.every(function(x){return w.indexOf(x)>=0;});var s2=Math.round(sim2*100);
+    if(!okw){s2=Math.min(s2,40);fb.push("The missing word should be \""+it.answer+"\". "+it.rule);}if(w.length<=2)fb.push("Say the complete sentence, not just one word.");return{score:s2,fb:fb};}
+  if(sec==="F"){var sc3=similarity(it.correct,said),sw=similarity(it.wrong,said),s3=Math.round(sc3*100);
+    if(sw>sc3){s3=Math.min(s3,30);fb.push("You repeated the incorrect sentence. "+it.rule);}else if(sc3<0.9)fb.push("Correct version: \""+it.correct+"\". "+it.rule);return{score:s3,fb:fb};}
+  if(sec==="G"){var n=w.length,fill=0;FILLERS.forEach(function(f){var re=new RegExp("\\b"+f+"\\b","g");fill+=(" "+w.join(" ")+" ").match(re)?(" "+w.join(" ")+" ").match(re).length:0;});
+    var link=hasAny(said,LINKERS),op=hasAny(said,["in my opinion","i think","i believe","i feel"]).length>0;
+    var sc4=Math.round(60*Math.min(1,n/80))+(op?10:0)+Math.min(15,5*link.length)+Math.max(0,15-5*fill);
+    if(n<70)fb.push("Speak for the full 45 seconds: aim for about 90 words.");if(!op)fb.push("Open with your view: \"In my opinion…\".");if(link.length<2)fb.push("Use linkers: firstly, for example, however, in conclusion.");if(fill)fb.push(fill+" filler word(s) detected; use a short silent pause instead.");
+    return{score:Math.min(100,sc4),fb:fb,words:n};}
+  return{score:0,fb:[]};
+}
+function signOff(lines){var L=lines.map(function(x){return x.trim();}).filter(Boolean);if(L.length<2)return false;
+  var last=L[L.length-1],phrase=/^(best |kind |warm )?(regards|thank you|thanks|sincerely|best wishes|yours( sincerely| faithfully| truly)?)[,.!]?$/i;
+  var tail=L.slice(-3);var hasPhrase=tail.some(function(x){return phrase.test(x)||/(regards|sincerely|thank you|thanks|best wishes),?$/i.test(x);});
+  return hasPhrase&&!phrase.test(last)&&/[A-Za-z]/.test(last)&&last.split(/\s+/).length<=4;}
+function scoreEmail(it,subject,body){
+  var words=(body.match(/[A-Za-z0-9'’-]+/g)||[]).length,lines=body.trim().split(/\n/),first=(lines[0]||"").trim(),txt=body.trim(),low=txt.toLowerCase();
+  var paras=txt.split(/\n\s*\n/).filter(function(p){return p.trim();}).length;
+  var c=[
+    ["Subject line (3+ words)",(subject.trim().split(/\s+/).filter(Boolean).length>=3),10],
+    ["Greeting (Dear… / Hi…)",/^(dear|hi|hello|good (morning|afternoon|evening))\b/i.test(first),15],
+    ["At least 50 words ("+words+")",words>=50,20],
+    ["Paragraphs (2 or more)",paras>=2,10],
+    ["Polite language",/\b(please|thank|grateful|appreciate|kindly|sorry|apologi[sz]e)\b/i.test(txt),10],
+    ["Sign-off with your name (Regards, Name)",signOff(lines),15],
+    ["No SMS words (u, pls, thx…)",!/\b(u|ur|pls|plz|thx|tnx|gonna|wanna|r)\b/i.test(txt),10],
+    ["No shouting in CAPITALS",!/\b[A-Z]{5,}\b/.test(txt),5],
+    ["Sentences start with a capital letter",!/(^|[.!?]\s+)[a-z]/.test(txt.replace(/\b(a\.m|p\.m|e\.g|i\.e|etc|mr|ms|mrs|dr|vs|no)\./gi,"X")),5]];
+  var score=c.reduce(function(s,x){return s+(x[1]?x[2]:0);},0);if(words<50&&words>=40)score+=10;
+  return{score:Math.min(100,score),checks:c,words:words};
+}
+
+/* ================= APP ================= */
+var APP=(function(){
+  var KB=false,LANG="en-IN",runId=0,results=[],mode="mock",startedAt=0,best=STORE.get("best",{});
+  function $(id){return document.getElementById(id);}
+  function show(id){["home","run","report"].forEach(function(x){$(x).classList.toggle("hidden",x!==id);});window.scrollTo(0,0);}
+  function countItems(){return Object.keys(SEC).reduce(function(s,k){return s+BANK[SEC[k].key].length;},0);}
+  function home(){
+    $("stItems").textContent=countItems();
+    $("sgrid").innerHTML=ORDER.map(function(k){var s=SEC[k],b=best[k];return'<button class="sc" onclick="APP.practice(\''+k+'\')"><span class="l">'+(k==="M"?"✉":k)+'</span><span class="t">'+s.name+'</span><span class="n">'+BANK[s.key].length+" items · "+(k==="G"?"30 s + 45 s":k==="M"?"8 min":s.time+" s each")+'</span>'+(b!==undefined?'<span class="chip">Best '+b+"%</span>":"")+"</button>";}).join("");
+    $("ttsState").className="badge "+(TTS.ok?"ok":"no");$("ttsState").textContent=TTS.ok?"Available":"Not supported: transcripts are shown";
+    var srOk=!!SRC;$("srState").className="badge "+(srOk?"ok":"no");$("srState").textContent=srOk?"Available (needs internet)":"Not supported in this browser";
+    if(IN_FRAME&&MIC_POLICY===false){showFrameNote();}
+    if(SCORM.linked())$("linkNote").classList.remove("hidden");
+    if(!srOk){$("srNote").classList.remove("hidden");$("srNote").innerHTML="<b>Speech-to-text is not available here.</b> Your answers will still be recorded so you can listen to them, and you can type what you said in the report to get a score. For automatic scoring, use Chrome or Edge, or switch on <b>Keyboard mode</b>.";}
+    show("home");
+  }
+  async function micTest(){
+    var ok=await MIC.init();$("micState").className="badge "+(ok?"ok":"no");$("micState").textContent=ok?"Recording 3 s… speak now":(IN_FRAME?"Blocked by the course window: open in a new tab":"Microphone blocked or missing");
+    if(!ok){if(IN_FRAME)showFrameNote();return;}var rec=new MediaRecorder(MIC.stream),ch=[],peak=0,t=setInterval(function(){var r=MIC.rms();peak=Math.max(peak,r);$("micLvl").style.width=Math.min(100,r*600)+"%";},60);
+    var noise=[];var nt=setInterval(function(){noise.push(MIC.rms());},50);setTimeout(function(){clearInterval(nt);},400);
+    rec.ondataavailable=function(e){ch.push(e.data);};rec.onstop=function(){clearInterval(t);$("micLvl").style.width="0";
+      if(noise.length){var n=noise.slice().sort()[Math.floor(noise.length/2)];MIC.noise=Math.max(0.004,n);}
+      $("micState").textContent=peak>0.02?"Working: play it back to check":"Very quiet: move the mic closer";
+      $("micState").className="badge "+(peak>0.02?"ok":"no");$("micPlay").innerHTML='<audio controls src="'+URL.createObjectURL(new Blob(ch))+'"></audio>';};
+    rec.start();setTimeout(function(){rec.stop();},3000);
+  }
+  function showFrameNote(){$("frameNote").classList.remove("hidden");$("srState").className="badge no";$("srState").textContent="Blocked in this window: open in a new tab";
+    $("micState").className="badge no";$("micState").textContent="Blocked by the course window";}
+  function openTab(){var w=null;try{w=window.open(location.href,"_blank");}catch(e){w=null;}
+    var m=$("tabMsg");if(w){m.innerHTML="<b>Opened.</b> Continue in the new tab, then come back here.";}
+    else{m.innerHTML="<b>The new tab was blocked.</b> Allow pop-ups for this site (icon at the right of the address bar) and click again, or use Keyboard mode.";}
+    $("frameNote").classList.remove("hidden");return w;}
+  function ttsTest(){TTS.say("Hello. This is how the audio questions will sound in the test.");}
+  function setKb(v){KB=v;}
+
+  /* ---------- runner UI ---------- */
+  function panel(html){$("panel").innerHTML=html;}
+  function phaseHTML(kind,label){return'<span class="phase '+kind+'"><span class="dot"></span>'+label+"</span>";}
+  function countdown(secs,onTick){return new Promise(function(res){var t0=Date.now(),total=secs*1000/SPEED;var iv=setInterval(function(){var el=Date.now()-t0,left=Math.max(0,total-el);
+    var bar=$("cdbar"),num=$("cdnum");if(bar)bar.style.width=(left/total*100)+"%";if(num)num.textContent=fmt(left*SPEED/1000);if(onTick)onTick();if(left<=0){clearInterval(iv);res("time");}},100);
+    APP._stopCd=function(){clearInterval(iv);res("done");};});}
+  function cdHTML(secs){return'<div class="cd"><div class="cdbar"><i id="cdbar"></i></div><b id="cdnum">'+fmt(secs)+"</b></div>";}
+
+  async function respond(secs,head,id){
+    if(KB){panel(head+phaseHTML("type","Type your answer")+'<textarea id="kbAns" rows="3" placeholder="Type your answer exactly as you would say it"></textarea>'+cdHTML(secs)+'<div class="row" style="margin-top:12px"><button class="btn" onclick="APP._stopCd()">Submit answer</button></div>');
+      setTimeout(function(){var t=$("kbAns");if(t)t.focus();},30);await countdown(secs);if(id!==runId)return null;return{text:($("kbAns")||{}).value||"",typed:true};}
+    await beep();if(id!==runId)return null;
+    panel(head+phaseHTML("speak","Speak now")+'<div class="meter" style="height:14px;margin-top:14px"><i id="lvl"></i></div>'+cdHTML(secs)+'<div class="row" style="margin-top:12px"><button class="btn ghost" onclick="APP._stopCd()">I have finished</button></div>');
+    var rec=null,chunks=[],sr=startRecognition(LANG),stats={speech:0,longest:0,pauses:0,first:null,last:null},silence=0,thr=Math.max(0.015,MIC.noise*3);
+    if(MIC.stream){try{rec=new MediaRecorder(MIC.stream);rec.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data);};rec.start();}catch(e){rec=null;}}
+    var step=100,elapsed=0;
+    await countdown(secs,function(){elapsed+=step;var r=MIC.rms(),l=$("lvl");if(l)l.style.width=Math.min(100,r*600)+"%";
+      if(r>thr){if(stats.first===null)stats.first=elapsed;if(stats.last!==null&&silence>stats.longest)stats.longest=silence;if(silence>=1200&&stats.last!==null)stats.pauses++;silence=0;stats.speech+=step;stats.last=elapsed;}else if(stats.first!==null)silence+=step;});
+    var text="";if(sr)text=await sr.stop();
+    var url=null;if(rec){await new Promise(function(res){rec.onstop=res;try{rec.stop();}catch(e){res();}});if(chunks.length)url=URL.createObjectURL(new Blob(chunks,{type:chunks[0].type||"audio/webm"}));}
+    if(id!==runId)return null;
+    return{text:text,typed:false,audio:url,stats:{speechSec:Math.round(stats.speech/100)/10,longestPause:Math.round(stats.longest/100)/10,pauses:stats.pauses,micOk:!!MIC.stream},srUsed:!!sr};
+  }
+  function itemHead(sec,i,n){$("qcount").textContent=(mode==="mock"?"Question ":"Item ")+(i+1)+" of "+n;$("crumb").textContent="Section "+(sec==="M"?"Email":sec)+" · "+SEC[sec].name;return'<div class="secname">'+SEC[sec].name+"</div>";}
+  function spokenPrompt(sec,it){if(sec==="A")return it.clip;if(sec==="B")return it.prompt.replace(/^([A-Za-z ]+):\s*/,"$1 says: ");if(sec==="D")return it.text;if(sec==="E")return it.text.replace("___","… blank …");if(sec==="F")return it.wrong;return"";}
+
+  async function runItem(sec,it,i,n,id,qNo){
+    var head=itemHead(sec,qNo,n),s=SEC[sec];
+    if(sec==="M")return runEmail(it,head,id);
+    if(sec==="C"){panel(head+phaseHTML("prep","Read silently")+'<div class="big-text">'+esc(it.text)+"</div>"+cdHTML(s.prep));await countdown(s.prep);if(id!==runId)return null;
+      return respond(s.time,head+'<div class="big-text">'+esc(it.text)+"</div>",id);}
+    if(sec==="G"){panel(head+phaseHTML("prep","Prepare · 30 seconds")+'<div class="topic">'+esc(it.topic)+'</div><textarea id="notes" rows="3" placeholder="Notes: your view · point 1 · point 2 (not shown to anyone)"></textarea>'+cdHTML(s.prep)+'<div class="row" style="margin-top:10px"><button class="btn ghost" onclick="APP._stopCd()">Start speaking now</button></div>');
+      await countdown(s.prep);if(id!==runId)return null;var notes=($("notes")||{}).value||"";
+      return respond(s.time,head+'<div class="topic">'+esc(it.topic)+"</div>"+(notes?'<div class="ex">'+esc(notes)+"</div>":""),id);}
+    panel(head+phaseHTML("listen","Listen")+'<div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="inst">'+(TTS.ok?"Listen carefully. The audio plays once.":"Audio is not supported in this browser. Read the text below once, then answer.")+"</p>"+
+      (TTS.ok?"":'<div class="ex">'+esc(spokenPrompt(sec,it))+(sec==="A"?"<br><b>Question:</b> "+esc(it.q):"")+"</div>"));
+    await TTS.say(spokenPrompt(sec,it));if(id!==runId)return null;
+    if(sec==="A"){await wait(500);await TTS.say("Question. "+it.q);if(id!==runId)return null;}
+    return respond(s.time,head+(sec==="A"?'<p class="inst"><b>Question:</b> '+(TTS.ok?"(answer the question you heard)":esc(it.q))+"</p>":'<p class="inst">'+esc(s.inst.split(". ").pop())+"</p>"),id);
+  }
+  async function runEmail(it,head,id){
+    panel(head+phaseHTML("type","Write the email")+'<p class="inst" style="margin-top:12px"><b>Task:</b> '+esc(it.task)+'</p><input type="text" id="mSubj" placeholder="Subject" style="width:100%;margin:6px 0"><textarea id="mBody" rows="11" placeholder="Dear …,&#10;&#10;…&#10;&#10;Regards,&#10;Your Name"></textarea><div class="row" style="justify-content:space-between"><span class="wc" id="mWc">0 words (minimum 50)</span></div>'+cdHTML(SEC.M.time)+'<div class="row" style="margin-top:12px"><button class="btn" onclick="APP._stopCd()">Submit email</button></div>');
+    var b=$("mBody");b.addEventListener("input",function(){var n=(b.value.match(/[A-Za-z0-9'’-]+/g)||[]).length;$("mWc").textContent=n+" words (minimum 50)";});
+    await countdown(SEC.M.time);if(id!==runId)return null;return{subject:$("mSubj").value,body:b.value};
+  }
+  async function intro(sec,id){
+    $("crumb").textContent="Section "+(sec==="M"?"Email":sec)+" · "+SEC[sec].name;$("qcount").textContent="";
+    panel('<div class="secname">Section '+(sec==="M"?"Email":sec)+'</div><h2 style="margin:6px 0 8px;font-size:26px">'+SEC[sec].name+'</h2><p class="inst">'+esc(SEC[sec].inst)+'</p><div class="ex"><b>Example:</b> '+esc(SEC[sec].ex)+'</div>'+(KB&&sec!=="M"?'<div class="note">Keyboard mode: type your answer when the box appears.</div>':"")+'<div class="row" style="margin-top:16px"><button class="btn big" onclick="APP._stopCd()">Start section</button></div>'+cdHTML(20));
+    await countdown(20);return id===runId;
+  }
+  async function runPlan(plan,m){
+    var id=++runId;mode=m;results=[];startedAt=Date.now();show("run");
+    if(!KB){var ok=await MIC.init();if(!ok){
+      if(IN_FRAME&&confirm("The microphone is blocked inside this course window.\n\nOK = open the practice in a new tab, where the microphone works (recommended).\nCancel = continue here in Keyboard mode (type your answers).")){runId++;openTab();home();return;}
+      KB=true;$("kbMode").checked=true;if(!IN_FRAME)alert("No microphone access, so the test continues in Keyboard mode (type your answers).");}}
+    var total=plan.reduce(function(s,p){return s+(p.sec==="M"?0:p.items.length);},0),q=0;
+    for(var p=0;p<plan.length;p++){var sec=plan[p].sec;if(!(await intro(sec,id)))return;
+      for(var i=0;i<plan[p].items.length;i++){var it=plan[p].items[i];var n=sec==="M"?1:(m==="mock"?total:plan[p].items.length);var qNo=sec==="M"?0:(m==="mock"?q:i);
+        var ans=await runItem(sec,it,i,n,id,qNo);if(id!==runId||ans===null)return;if(sec!=="M")q++;
+        results.push({sec:sec,it:it,ans:ans,res:sec==="M"?scoreEmail(it,ans.subject,ans.body):(ans.text?scoreItem(sec,it,ans):null)});
+        if(sec!=="M"){panel('<div class="secname">'+SEC[sec].name+'</div><p class="inst" style="margin-top:12px">Saved. Next item…</p>');await wait(900);}}}
+    report();
+  }
+  function mock(){var plan=["A","B","C","D","E","F","G","M"].map(function(k){return{sec:k,items:shuffle(BANK[SEC[k].key]).slice(0,SEC[k].mock)};});runPlan(plan,"mock");}
+  function practice(k){var items=k==="M"||k==="G"?shuffle(BANK[SEC[k].key]).slice(0,k==="M"?1:3):shuffle(BANK[SEC[k].key]);runPlan([{sec:k,items:items}],"practice");}
+  function quit(){if(!confirm("Exit this test? Your answers so far will be shown in the report."))return;runId++;try{speechSynthesis.cancel();}catch(e){}if(results.length)report();else home();}
+
+  /* ---------- report ---------- */
+  function band(s){return s===null?"n":s>=75?"g":s>=50?"a":"r";}
+  function diffHTML(target,said){var m=lcsMarks(target,said);return m.tokens.map(function(t,i){return'<span class="'+(m.marks[i]?"tk-ok":"tk-miss")+'">'+esc(t)+"</span>";}).join(" ");}
+  function targetOf(r){var it=r.it;return r.sec==="C"||r.sec==="D"?it.text:r.sec==="E"?it.full:r.sec==="F"?it.correct:null;}
+  function itemHTML(r,k){
+    var it=r.it,a=r.ans,sc=r.res?r.res.score:null,sec=r.sec;
+    if(sec==="M"){var ch=r.res.checks.map(function(c){return'<div class="'+(c[1]?"y":"x")+'">'+esc(c[0])+"</div>";}).join("");
+      return'<div class="item"><div class="h"><span class="pill n">Email</span><b>'+esc(it.task)+'</b><span class="pill '+band(sc)+'">'+sc+'%</span></div><div class="checks">'+ch+'</div><div class="two"><div><div class="kv"><span class="k2">Your email</span></div><div class="mailbox"><b>Subject:</b> '+esc(a.subject)+"\n\n"+esc(a.body)+'</div></div><div><div class="kv"><span class="k2">Model email</span></div><div class="mailbox"><b>Subject:</b> '+esc(it.subject)+"\n\n"+esc(it.model)+"</div></div></div></div>";}
+    var prompt=sec==="A"?it.clip+" Question: "+it.q:sec==="B"?it.prompt:sec==="C"?it.text:sec==="D"?it.text:sec==="E"?it.text:sec==="F"?it.wrong:it.topic;
+    var said=a.text||"",tgt=targetOf(r),model=sec==="A"||sec==="B"?it.model:sec==="G"?(it.model||""):tgt;
+    var h='<div class="item" id="it'+k+'"><div class="h"><span class="pill n">'+sec+'</span><b>'+esc(SEC[sec].name)+'</b><span class="pill '+band(sc)+'">'+(sc===null?"Not scored":sc+"%")+"</span></div>";
+    h+='<div class="kv"><span class="k2">'+(sec==="C"?"Text":sec==="G"?"Topic":"You heard")+"</span>"+esc(prompt)+"</div>";
+    h+='<div class="kv"><span class="k2">'+(a.typed?"You typed":"We heard")+"</span>"+(said?esc(said):'<i style="color:var(--muted)">'+(a.srUsed===false&&!a.typed?"(no speech-to-text in this browser)":"(nothing captured)")+"</i>")+"</div>";
+    if(tgt&&said)h+='<div class="kv"><span class="k2">Target</span>'+diffHTML(tgt,said)+"</div>";
+    if(model&&model!==tgt)h+='<div class="kv"><span class="k2">Model answer</span>'+esc(model)+"</div>";else if(tgt&&!said)h+='<div class="kv"><span class="k2">Target</span>'+esc(tgt)+"</div>";
+    if(r.res&&r.res.fb&&r.res.fb.length)h+='<div class="kv"><span class="k2">Tips</span>'+r.res.fb.map(esc).join(" ")+"</div>";
+    if(a.audio)h+='<audio controls src="'+a.audio+'"></audio>';
+    if(a.stats&&a.stats.micOk)h+='<div class="fl">Speaking time '+a.stats.speechSec+" s · longest pause "+a.stats.longestPause+" s · pauses over 1.2 s: "+a.stats.pauses+(a.stats.speechSec<1?" · <b>very little speech detected; check your microphone</b>":"")+"</div>";
+    if(sc===null)h+='<div class="row" style="margin-top:8px"><input type="text" id="fix'+k+'" placeholder="Type what you said to score this item" style="flex:1;min-width:220px"><button class="btn sm" onclick="APP.rescore('+k+')">Score it</button></div>';
+    return h+"</div>";
+  }
+  function summary(){var by={};results.forEach(function(r){if(r.res&&r.res.score!==null&&r.res.score!==undefined){(by[r.sec]=by[r.sec]||[]).push(r.res.score);}});
+    var secScores={};Object.keys(by).forEach(function(k){secScores[k]=Math.round(by[k].reduce(function(a,b){return a+b;},0)/by[k].length);});
+    var ks=Object.keys(secScores),overall=ks.length?Math.round(ks.reduce(function(s,k){return s+secScores[k];},0)/ks.length):null;
+    var scored=results.filter(function(r){return r.res&&r.res.score!==null&&r.res.score!==undefined;}).length;return{sec:secScores,overall:overall,scored:scored};}
+  function report(){
+    var S=summary(),secs=Math.round((Date.now()-startedAt)/1000);
+    Object.keys(S.sec).forEach(function(k){if(best[k]===undefined||S.sec[k]>best[k])best[k]=S.sec[k];});STORE.set("best",best);
+    if(S.overall!==null)SCORM.report(S.overall,secs);
+    var ov=S.overall===null?0:S.overall,col=ov>=75?"#16a34a":ov>=50?"#d97706":"#dc2626",unscored=results.filter(function(r){return!r.res;}).length;
+    $("report").innerHTML='<div class="hero"><span class="tag">'+(mode==="mock"?"Full mock · report":"Section practice · report")+'</span><h1>Your communication score: <span>'+(S.overall===null?"–":S.overall+"%")+'</span></h1><p>'+results.length+" answers · "+fmt(secs)+" minutes · score based on "+S.scored+" of "+results.length+" answers. "+(unscored?unscored+" spoken answer(s) could not be transcribed: type what you said below each one to score it.":"Scores are automatic estimates. Listen to your recordings and compare them with the targets.")+"</p></div>"+
+      '<div class="card"><div class="score"><div class="ring" style="background:conic-gradient('+col+" "+ov*3.6+'deg,#e8eaf2 0)"><div style="width:94px;height:94px;border-radius:50%;background:#fff;display:grid;place-items:center">'+(S.overall===null?"–":S.overall+"%")+'</div></div><div class="secs">'+
+      ORDER.filter(function(k){return results.some(function(r){return r.sec===k;});}).map(function(k){return"<div><b>"+(S.sec[k]===undefined?"–":S.sec[k]+"%")+"</b><span>"+(k==="M"?"Email":k)+" · "+SEC[k].name+"</span></div>";}).join("")+
+      '</div></div><div class="row" style="margin-top:14px"><button class="btn" onclick="APP.home()">Back to home</button><button class="btn ghost" onclick="APP.mock()">New full mock</button><button class="btn ghost" onclick="window.print()">Print / Save as PDF</button></div></div>'+
+      '<div class="card"><h2>Answer by answer</h2>'+results.map(itemHTML).join("")+"</div>";
+    show("report");
+  }
+  function rescore(k){var v=document.getElementById("fix"+k).value.trim();if(!v)return;var r=results[k];r.ans.text=v;r.ans.typed=true;r.res=scoreItem(r.sec,r.it,r.ans);var y=window.scrollY;report();window.scrollTo(0,y);}
+  function resetBest(){if(!confirm("Clear your best section scores?"))return;best={};STORE.set("best",{});home();}
+
+  document.addEventListener("DOMContentLoaded",function(){SCORM.init();$("lang").addEventListener("change",function(){LANG=this.value;});home();});
+  window.addEventListener("beforeunload",function(){SCORM.finish();});
+  return{openTab:openTab,home:home,micTest:micTest,ttsTest:ttsTest,setKb:setKb,mock:mock,practice:practice,quit:quit,rescore:rescore,resetBest:resetBest,_stopCd:function(){},
+         _results:function(){return results;},_score:scoreItem,_email:scoreEmail};
+})();
+</script>
+</body>
+</html>

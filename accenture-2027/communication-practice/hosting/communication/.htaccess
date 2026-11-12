@@ -1,0 +1,8 @@
+# Communication practice (static page, served directly; WordPress is not involved)
+# Lets Graphy show this page in an iframe and lets the page use the microphone.
+<IfModule mod_headers.c>
+    Header always unset X-Frame-Options
+    Header always set Content-Security-Policy "frame-ancestors *"
+    Header always set Permissions-Policy "microphone=*, autoplay=*"
+</IfModule>
+DirectoryIndex index.html
