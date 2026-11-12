@@ -140,6 +140,10 @@ audio{height:34px;margin-top:6px;max-width:100%}
     </div>
     <label class="toggle"><input type="checkbox" id="kbMode" onchange="APP.setKb(this.checked)"> <span><b>Keyboard mode</b>: type your answers instead of speaking (no microphone needed). Spoken skills such as pace and pauses are not measured in this mode.</span></label>
     <div class="note warn hidden" id="srNote"></div>
+    <div class="note warn hidden" id="frameNote"><b>The microphone is blocked inside this course window.</b> Your learning platform shows this practice inside a frame that does not allow microphone access, so the browser blocks it. Open the practice in its own tab: the microphone and speech-to-text work there, and your score is still sent back to this course.
+      <div class="row" style="margin-top:10px"><button class="btn" onclick="APP.openTab()">Open in a new tab</button><span id="tabMsg" style="font-size:13.5px"></span></div>
+      <div style="font-size:13px;margin-top:6px;color:var(--ink2)">Keep this course page open while you practise. If you prefer not to use the microphone, switch on <b>Keyboard mode</b> above.</div></div>
+    <div class="note hidden" id="linkNote"><b>Connected to your course.</b> This tab was opened from your course page; your score will be saved there. Keep the course tab open until you finish.</div>
   </div>
 
   <div class="two">
@@ -174,15 +178,18 @@ audio{height:34px;margin-top:6px;max-width:100%}
 <script>
 /* ================= SCORM 1.2 (works standalone too) ================= */
 var SCORM=(function(){
-  var api=null,on=false;
+  var api=null,on=false,del=null;
   function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
-  try{api=find(window)||(window.opener?find(window.opener):null);}catch(e){api=null;}
+  /* Opened in a new tab from the course window: report through that window's SCORM session */
+  try{if(window.opener&&window.opener!==window&&window.opener.SCORM&&window.opener.SCORM.isOn())del=window.opener.SCORM;}catch(e){del=null;}
+  try{api=del?null:find(window);}catch(e){api=null;}
   function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}
   function get(k){if(on){try{return api.LMSGetValue(k);}catch(e){}}return"";}
   function commit(){if(on){try{api.LMSCommit("");}catch(e){}}}
-  return{init:function(){if(!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){on=false;}
+  return{isOn:function(){return on;},linked:function(){return!!del;},
+    init:function(){if(del||!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){on=false;}
       if(!on)return;var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");commit();},
-    report:function(score,secs){if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+    report:function(score,secs){if(del){try{del.report(score,secs);}catch(e){}return;}if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
       function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));
       set("cmi.core.lesson_status","completed");commit();},
     finish:function(){if(on){commit();try{api.LMSFinish("");}catch(e){}on=false;}}};
@@ -232,6 +239,8 @@ var MIC={stream:null,an:null,buf:null,noise:0.01,
   rms:function(){if(!this.an)return 0;this.an.getFloatTimeDomainData(this.buf);var s=0;for(var i=0;i<this.buf.length;i++)s+=this.buf[i]*this.buf[i];return Math.sqrt(s/this.buf.length);}};
 
 var SRC=window.SpeechRecognition||window.webkitSpeechRecognition,SR_BROKEN=null;
+var IN_FRAME=(function(){try{return window.top!==window.self;}catch(e){return true;}})();
+var MIC_POLICY=(function(){try{var p=document.permissionsPolicy||document.featurePolicy;return p&&p.allowsFeature?p.allowsFeature("microphone"):null;}catch(e){return null;}})();
 function startRecognition(lang){
   if(!SRC||SR_BROKEN)return null;
   var finalText="",interim="",active=true,r,endRes,ended=new Promise(function(res){endRes=res;});
@@ -314,12 +323,14 @@ var APP=(function(){
     $("sgrid").innerHTML=ORDER.map(function(k){var s=SEC[k],b=best[k];return'<button class="sc" onclick="APP.practice(\''+k+'\')"><span class="l">'+(k==="M"?"✉":k)+'</span><span class="t">'+s.name+'</span><span class="n">'+BANK[s.key].length+" items · "+(k==="G"?"30 s + 45 s":k==="M"?"8 min":s.time+" s each")+'</span>'+(b!==undefined?'<span class="chip">Best '+b+"%</span>":"")+"</button>";}).join("");
     $("ttsState").className="badge "+(TTS.ok?"ok":"no");$("ttsState").textContent=TTS.ok?"Available":"Not supported: transcripts are shown";
     var srOk=!!SRC;$("srState").className="badge "+(srOk?"ok":"no");$("srState").textContent=srOk?"Available (needs internet)":"Not supported in this browser";
+    if(IN_FRAME&&MIC_POLICY===false){showFrameNote();}
+    if(SCORM.linked())$("linkNote").classList.remove("hidden");
     if(!srOk){$("srNote").classList.remove("hidden");$("srNote").innerHTML="<b>Speech-to-text is not available here.</b> Your answers will still be recorded so you can listen to them, and you can type what you said in the report to get a score. For automatic scoring, use Chrome or Edge, or switch on <b>Keyboard mode</b>.";}
     show("home");
   }
   async function micTest(){
-    var ok=await MIC.init();$("micState").className="badge "+(ok?"ok":"no");$("micState").textContent=ok?"Recording 3 s… speak now":"Microphone blocked or missing";
-    if(!ok)return;var rec=new MediaRecorder(MIC.stream),ch=[],peak=0,t=setInterval(function(){var r=MIC.rms();peak=Math.max(peak,r);$("micLvl").style.width=Math.min(100,r*600)+"%";},60);
+    var ok=await MIC.init();$("micState").className="badge "+(ok?"ok":"no");$("micState").textContent=ok?"Recording 3 s… speak now":(IN_FRAME?"Blocked by the course window: open in a new tab":"Microphone blocked or missing");
+    if(!ok){if(IN_FRAME)showFrameNote();return;}var rec=new MediaRecorder(MIC.stream),ch=[],peak=0,t=setInterval(function(){var r=MIC.rms();peak=Math.max(peak,r);$("micLvl").style.width=Math.min(100,r*600)+"%";},60);
     var noise=[];var nt=setInterval(function(){noise.push(MIC.rms());},50);setTimeout(function(){clearInterval(nt);},400);
     rec.ondataavailable=function(e){ch.push(e.data);};rec.onstop=function(){clearInterval(t);$("micLvl").style.width="0";
       if(noise.length){var n=noise.slice().sort()[Math.floor(noise.length/2)];MIC.noise=Math.max(0.004,n);}
@@ -327,6 +338,12 @@ var APP=(function(){
       $("micState").className="badge "+(peak>0.02?"ok":"no");$("micPlay").innerHTML='<audio controls src="'+URL.createObjectURL(new Blob(ch))+'"></audio>';};
     rec.start();setTimeout(function(){rec.stop();},3000);
   }
+  function showFrameNote(){$("frameNote").classList.remove("hidden");$("srState").className="badge no";$("srState").textContent="Blocked in this window: open in a new tab";
+    $("micState").className="badge no";$("micState").textContent="Blocked by the course window";}
+  function openTab(){var w=null;try{w=window.open(location.href,"_blank");}catch(e){w=null;}
+    var m=$("tabMsg");if(w){m.innerHTML="<b>Opened.</b> Continue in the new tab, then come back here.";}
+    else{m.innerHTML="<b>The new tab was blocked.</b> Allow pop-ups for this site (icon at the right of the address bar) and click again, or use Keyboard mode.";}
+    $("frameNote").classList.remove("hidden");return w;}
   function ttsTest(){TTS.say("Hello. This is how the audio questions will sound in the test.");}
   function setKb(v){KB=v;}
 
@@ -382,7 +399,9 @@ var APP=(function(){
   }
   async function runPlan(plan,m){
     var id=++runId;mode=m;results=[];startedAt=Date.now();show("run");
-    if(!KB){var ok=await MIC.init();if(!ok){KB=true;$("kbMode").checked=true;alert("No microphone access, so the test continues in Keyboard mode (type your answers).");}}
+    if(!KB){var ok=await MIC.init();if(!ok){
+      if(IN_FRAME&&confirm("The microphone is blocked inside this course window.\n\nOK = open the practice in a new tab, where the microphone works (recommended).\nCancel = continue here in Keyboard mode (type your answers).")){runId++;openTab();home();return;}
+      KB=true;$("kbMode").checked=true;if(!IN_FRAME)alert("No microphone access, so the test continues in Keyboard mode (type your answers).");}}
     var total=plan.reduce(function(s,p){return s+(p.sec==="M"?0:p.items.length);},0),q=0;
     for(var p=0;p<plan.length;p++){var sec=plan[p].sec;if(!(await intro(sec,id)))return;
       for(var i=0;i<plan[p].items.length;i++){var it=plan[p].items[i];var n=sec==="M"?1:(m==="mock"?total:plan[p].items.length);var qNo=sec==="M"?0:(m==="mock"?q:i);
@@ -437,7 +456,7 @@ var APP=(function(){
 
   document.addEventListener("DOMContentLoaded",function(){SCORM.init();$("lang").addEventListener("change",function(){LANG=this.value;});home();});
   window.addEventListener("beforeunload",function(){SCORM.finish();});
-  return{home:home,micTest:micTest,ttsTest:ttsTest,setKb:setKb,mock:mock,practice:practice,quit:quit,rescore:rescore,resetBest:resetBest,_stopCd:function(){},
+  return{openTab:openTab,home:home,micTest:micTest,ttsTest:ttsTest,setKb:setKb,mock:mock,practice:practice,quit:quit,rescore:rescore,resetBest:resetBest,_stopCd:function(){},
          _results:function(){return results;},_score:scoreItem,_email:scoreEmail};
 })();
 </script>
