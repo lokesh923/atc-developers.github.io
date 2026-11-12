@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Coding Assessment – Zero to Hero Guide</title>
+<!--BASE_STYLE-->
+<style>
+  .cover{ background:
+      linear-gradient(rgba(52,211,153,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(52,211,153,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(85% 60% at 100% 0%, #059669 0%, transparent 55%),
+      radial-gradient(70% 50% at 0% 100%, #db2777 0%, transparent 60%),
+      linear-gradient(160deg,#04140e 0%,#0b1f2a 55%,#05070d 100%); }
+  .cover h1 span{ color:#6ee7b7; }
+  .part.dsa{ --pc1:#059669; --pc2:#34d399; --pcs:#e6f8f1; }
+  .part.sqlx{ --pc1:#4f46e5; --pc2:#818cf8; --pcs:#eef0ff; }
+  .part.fe{ --pc1:#db2777; --pc2:#f472b6; --pcs:#fdeaf3; }
+  .part.plan{ --pc1:#d97706; --pc2:#fbbf24; --pcs:#fff6e0; }
+  .banner.dsa{ background:linear-gradient(135deg,#059669,#062a1f); }
+  .banner.sqlx{ background:linear-gradient(135deg,#4f46e5,#0f0c33); }
+  .banner.fe{ background:linear-gradient(135deg,#db2777,#2b0716); }
+  .banner.plan{ background:linear-gradient(135deg,#d97706,#2a1a03); }
+  .two{ align-items:start; }
+  .two>div,.three>div{ min-width:0; }
+  .small{ font-size:8.4pt; color:var(--muted); margin:3px 0 6px; }
+  code{ white-space:normal; }
+
+  /* problem blocks */
+  .prob{ border:1px solid var(--line); border-radius:14px; padding:10px 12px 8px; margin:10px 0 12px; background:#fff; }
+  .phead{ display:flex; align-items:center; gap:8px; margin-bottom:6px; break-after:avoid; }
+  .phead h3{ margin:0; font-size:12pt; flex:1; }
+  .pno{ background:var(--pc1); color:#fff; font-weight:800; font-size:8.6pt; border-radius:7px; padding:2px 8px; }
+  .chip{ font-size:7.6pt; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; }
+  .chip.easy{ background:#dcfce7; color:#15803d; } .chip.medium{ background:#fef3c7; color:#b45309; } .chip.hard{ background:#fee2e2; color:#b91c1c; }
+  .chip.t{ background:var(--pcs); color:var(--pc1); }
+  .pgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; break-inside:avoid; }
+  .pgrid>div{ min-width:0; }
+  .pst{ font-size:9.2pt; margin:0 0 4px; }
+  .pfmt{ font-size:8.6pt; margin:0 0 5px; color:var(--ink-2,#3d3a5c); }
+  table.iot{ width:100%; border-collapse:collapse; font-size:8pt; }
+  table.iot th{ background:var(--pcs); color:var(--pc1); text-align:left; padding:3px 7px; font-size:7.8pt; }
+  table.iot td{ border-top:1px solid var(--line); padding:2px 6px; vertical-align:top; }
+  pre.io{ background:#f6f7fb; color:#1f2340; padding:4px 7px; margin:2px 0; border-radius:6px; font-size:7.6pt; line-height:1.4; }
+  .apr{ background:var(--pcs); border-radius:10px; padding:6px 10px; font-size:8.6pt; }
+  .apr b.t{ color:var(--pc1); }
+  .apr ol{ margin:3px 0 0; padding-left:17px; } .apr li{ margin:2px 0; }
+  .cx{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; font-size:8pt; }
+  .cx span{ border:1px solid var(--line); border-radius:999px; padding:1px 9px; }
+  .cx .vf{ background:#dcfce7; color:#15803d; border-color:#bbf7d0; font-weight:700; }
+  .trap2{ font-size:8.5pt; background:#fff4e5; border-left:3px solid #f59e0b; border-radius:6px; padding:4px 9px; margin:6px 0; }
+  .code2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .code2>div{ min-width:0; }
+  .code2 pre{ font-size:7.15pt; line-height:1.45; padding:8px 10px; margin:2px 0 4px; break-inside:auto; }
+  .code2 pre code, .sqlgrid pre code{ white-space:pre-wrap; word-break:break-word; }
+  .code2 .lang{ break-after:avoid; }
+  .code2.tables{ align-items:start; }
+  .lang{ font-size:7.8pt; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--pc1); margin-top:2px; }
+  table.g{ width:100%; border-collapse:collapse; font-size:8pt; }
+  table.g th{ background:var(--pcs); color:var(--pc1); text-align:left; padding:3px 7px; }
+  table.g td{ border-top:1px solid var(--line); padding:2px 7px; }
+  table.g td.nul{ color:#9ca3af; font-style:italic; }
+  .sqlp{ border:1px solid var(--line); border-radius:12px; padding:8px 11px; margin:8px 0; break-inside:avoid; }
+  .sqlgrid{ display:grid; grid-template-columns:1.25fr 1fr; gap:10px; align-items:start; }
+  .sqlgrid>div{ min-width:0; }
+  .sqlgrid pre{ font-size:7.6pt; margin:0; }
+  .flow{ display:flex; gap:5px; align-items:center; flex-wrap:wrap; margin:8px 0; }
+  .flow span{ border:1.5px solid var(--pc1); border-radius:8px; padding:3px 9px; font-weight:700; font-size:8.6pt; background:#fff; }
+  .flow span.h{ background:var(--pc1); color:#fff; }
+  .flow i{ font-style:normal; color:var(--pc1); font-weight:800; }
+  .venn{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .venn div{ border:1px solid var(--line); border-radius:10px; padding:6px; text-align:center; font-size:8.2pt; }
+  .venn svg{ display:block; margin:0 auto 3px; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Assessment 3 · Coding Round</span></div>
+  <h1>Coding Assessment<br>DSA + SQL + Frontend<br><span>Zero to Hero</span></h1>
+  <div class="mono-tag">&gt; 3 questions · 60 minutes · 1 DSA + 1 SQL + 1 Frontend_</div>
+  <p class="sub">Everything you need for the coding round, from the first line of input handling to medium-level problems. It covers how the platform works, a timing plan, the 8 DSA patterns that come up most, <!--TOTAL_PROBLEMS--> fully solved problems in Java and Python, the SQL joins and GROUP BY patterns that are asked, and front-end tasks in HTML, CSS, JavaScript, React and Vue. Every program in this guide was compiled and run against its test cases.</p>
+  <div class="roles"><div>Java · Python · C++ · C#</div><div>Arrays &amp; strings</div><div>Hashing &amp; two pointers</div><div>Recursion &amp; numbers</div><div>SQL joins</div><div>DOM · React · Vue</div></div>
+  <div class="stats">
+    <div class="stat"><b>3</b><span>Questions (1 each)</span></div>
+    <div class="stat"><b>60 min</b><span>Suggested 25 · 15 · 20</span></div>
+    <div class="stat"><b><!--TOTAL_PROBLEMS--></b><span>Solved DSA problems</span></div>
+    <div class="stat"><b>10</b><span>SQL patterns with real output</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + OVERVIEW ================= -->
+<section class="page-break part dsa">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#059669">00</b>The coding round: format, platform and scoring</li>
+    <li><b style="color:#059669">01</b>The 60-minute game plan</li>
+    <li><b style="color:#059669">A1</b>Input/output templates (Java, Python, C++, C#)</li>
+    <li><b style="color:#059669">A2</b>Complexity: will my solution pass?</li>
+    <li><b style="color:#059669">A3</b>Arrays (P1–P3)</li>
+    <li><b style="color:#059669">A4</b>Strings (P4–P7)</li>
+    <li><b style="color:#059669">A5</b>Hashing (P8–P10)</li>
+    <li><b style="color:#059669">A6</b>Two pointers &amp; sliding window (P11–P13)</li>
+    <li><b style="color:#059669">A7</b>Sorting-based problems (P14–P15)</li>
+    <li><b style="color:#059669">A8</b>Recursion &amp; backtracking (P16–P17)</li>
+    <li><b style="color:#059669">A9</b>Number logic (P18–P21)</li>
+    <li><b style="color:#059669">A10</b>Language cheat sheet</li>
+    <li><b style="color:#4f46e5">B</b>SQL: joins, grouping, subqueries, 10 patterns</li>
+    <li><b style="color:#db2777">C</b>Frontend: DOM, CSS, React, Vue</li>
+    <li><b style="color:#d97706">D</b>Practice list, 10-day plan, final checklist</li>
+  </ul>
+
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">00</div><div><div class="kicker">Know the round</div><h2>The Coding Round</h2></div></div>
+  <p class="lead">Three questions in <b>60 minutes</b>: one <b>DSA coding</b> problem, one <b>SQL query</b> and one <b>front-end task</b>. You choose the order. Each answer is graded by <b>hidden test cases</b>, so partially correct code earns partial marks.</p>
+  <table class="tight"><thead><tr><th style="width:17%">Question</th><th style="width:12%">Time plan</th><th>What it looks like</th></tr></thead><tbody>
+    <tr><td><b>C1 · DSA</b></td><td>~25 min</td><td>LeetCode <b>Easy to Medium</b>: arrays, strings, hashing, two pointers, basic recursion, sorting-based problems, number logic. Languages: <b>Java, Python, C++, C#, .NET</b> (some candidates only saw Java, Python and C#).</td></tr>
+    <tr><td><b>C2 · SQL</b></td><td>~15 min</td><td>One query on 1–3 tables: SELECT/WHERE/ORDER BY/GROUP BY/HAVING, <b>joins (main focus)</b>, aggregates, DISTINCT, LIMIT, basic subqueries. Exact column aliases are required.</td></tr>
+    <tr><td><b>C3 · Frontend</b></td><td>~20 min</td><td>Complete or fix a given HTML/CSS/JS template (HackerRank React-certification style): DOM manipulation, events, form validation, CSS selectors and flexbox, toggling classes, React and Vue basics.</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">How the coding editor works</b><br>Pick a language → a <b>template</b> appears (often a function to complete, sometimes a full program). <b>Run</b> / <b>Compile &amp; Run</b> uses the sample input; <b>Submit</b> runs all test cases, including hidden ones. You can usually submit more than once; the last submission counts.</div>
+    <div class="note alert"><span class="t">Important for Java users</span>The template may contain a line like <code>throw new Exception(...)</code> or <code>throw new UnsupportedOperationException()</code>. <b>Comment it out or delete it</b> before running, or your code will fail even if the logic is correct. Also keep the class name the template uses (often <code>Main</code> or <code>Solution</code>).</div>
+  </div>
+  <div class="note tip"><span class="t">Scoring mindset</span>Hidden tests check <b>edge cases</b>: empty input, one element, all equal values, negative numbers, very large values. A simple solution that handles every edge case beats a clever one that crashes on N = 1.</div>
+</section>
+
+<!-- ================= GAME PLAN ================= -->
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">01</div><div><div class="kicker">Use every minute well</div><h2>The 60-Minute Game Plan</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:16%">Minutes</th><th>What to do</th></tr></thead><tbody>
+    <tr><td><b>0 – 3</b></td><td>Open all three questions and read them. <b>Start with the one you are strongest at</b> to bank marks early (many candidates do SQL first; it is the shortest).</td></tr>
+    <tr><td><b>3 – 18</b></td><td>SQL (~15 min): write the query, Run, check column names and order against the expected output, Submit.</td></tr>
+    <tr><td><b>18 – 38</b></td><td>Frontend (~20 min): do the objectives one by one, keep ids/classes/text exact, check the Result pane after each change.</td></tr>
+    <tr><td><b>38 – 58</b></td><td>DSA (~20–25 min): brute force first if needed, then optimise. Test the samples and your own edge cases, then Submit.</td></tr>
+    <tr><td><b>58 – 60</b></td><td>Make sure every question has a submitted answer. Partial credit is better than nothing.</td></tr>
+  </tbody></table>
+  <h3>Solving a DSA problem in 6 steps</h3>
+  <div class="flow"><span>1 Read twice</span><i>→</i><span>2 Note input limits</span><i>→</i><span>3 Work 1 example by hand</span><i>→</i><span>4 Pick a pattern</span><i>→</i><span>5 Code + run samples</span><i>→</i><span class="h">6 Test edge cases, submit</span></div>
+  <div class="three">
+    <div class="def"><b class="t">Pattern hints in the wording</b><br>"pair / two numbers add up to" → hashing or two pointers · "longest / shortest substring" → sliding window · "sorted array" → two pointers or binary search · "count / frequency / duplicate / first unique" → HashMap · "all combinations / subsets" → recursion · "overlapping intervals" → sort first.</div>
+    <div class="def"><b class="t">Edge-case checklist</b><br>N = 0 or 1 · all elements equal · negative numbers and zero · duplicates · already sorted / reverse sorted · maximum N (time) · values near 10<sup>9</sup> (use <b>long</b>) · empty string or spaces only · upper/lower case.</div>
+    <div class="def"><b class="t">When stuck</b><br>Write the brute force (nested loops) and submit it: it passes the small tests. Then optimise with a HashMap, sorting or two pointers. Print intermediate values to debug, and <b>remove the prints</b> before submitting.</div>
+  </div>
+  <div class="note warn"><span class="t">Output format is part of the answer</span>Print exactly what is asked: no extra text like "Answer:", no trailing spaces where a single space is expected, and the exact case (YES vs Yes). When a function is required, <b>return</b> the value instead of printing it.</div>
+</section>
+
+<!-- ================= PART A: DSA ================= -->
+<section class="page-break part dsa">
+  <div class="banner dsa"><div class="big">A</div><div class="pl">PART A · BACKEND DSA CODING (C1)</div><h2>Data Structures &amp; Algorithms</h2>
+    <p>Input handling, complexity, then the eight patterns that cover almost every Easy–Medium question, each with solved, tested programs in Java and Python.</p></div>
+  <div class="sec-head"><div class="sec-num">A1</div><div><div class="kicker">Read input, print output</div><h2>Input / Output Templates</h2></div></div>
+  <p>Some questions give a <b>function to complete</b> (the platform reads input for you). Others expect a <b>full program</b> that reads from standard input (the keyboard) and prints to standard output. Learn one reading template by heart in your language. Each one below reads <code>N</code>, then N numbers, then a word.</p>
+  <!--IO_TEMPLATES-->
+  <div class="two">
+    <div class="def"><b class="t">Function-style template (very common)</b><br>You only write the body, for example <code>public static int secondLargest(int[] arr)</code> or <code>def second_largest(arr):</code>. <b>Return</b> the answer; do not print it and do not read input yourself. Keep the given signature unchanged.</div>
+    <div class="def"><b class="t">Reading tips</b><br>Java: <code>Scanner</code> is simple but slow for 10<sup>5</sup>+ numbers, so use <code>BufferedReader</code>. Mixing <code>nextInt()</code> and <code>nextLine()</code> leaves a newline behind, so call an extra <code>nextLine()</code>. Python: <code>input().split()</code> per line, or <code>sys.stdin.read().split()</code> for everything at once.</div>
+  </div>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">A2</div><div><div class="kicker">Will it be fast enough?</div><h2>Complexity in Practice</h2></div></div>
+  <p>Online judges allow roughly <b>10<sup>8</sup> simple operations per second</b> (Python is about 10× slower than Java/C++). Use the input limit to choose the algorithm before you code:</p>
+  <table class="tight"><thead><tr><th>Max N</th><th>Needed complexity</th><th>Typical approach</th></tr></thead><tbody>
+    <tr><td>N ≤ 10–20</td><td>O(2<sup>N</sup>), O(N!)</td><td>Recursion, generate all subsets/permutations</td></tr>
+    <tr><td>N ≤ 1,000</td><td>O(N²)</td><td>Two nested loops, brute force over pairs</td></tr>
+    <tr><td>N ≤ 10<sup>5</sup> – 10<sup>6</sup></td><td>O(N log N) or O(N)</td><td>Sorting, HashMap, two pointers, sliding window, prefix sums</td></tr>
+    <tr><td>N ≤ 10<sup>7</sup></td><td>O(N)</td><td>One pass, sieve</td></tr>
+    <tr><td>N ≤ 10<sup>18</sup></td><td>O(log N) or O(√N)</td><td>Math, binary representation, digit loops, GCD</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Integer overflow</b><br>Java/C++/C# <code>int</code> holds about ±2.1 × 10<sup>9</sup>. Sums of many values, products and factorials need <code>long</code> / <code>long long</code>. Python integers never overflow.</div>
+    <div class="def"><b class="t">Hidden O(N) costs</b><br>String <code>+=</code> in a loop (use StringBuilder / join), <code>list.remove(x)</code>, <code>x in list</code> (use a set), and <code>s.substring</code> inside a loop all cost O(N) each time.</div>
+    <div class="def"><b class="t">Space</b><br>A HashMap or extra array of N items is fine for N ≤ 10<sup>6</sup>. Deep recursion (N &gt; ~10<sup>4</sup>) can overflow the stack, so prefer loops then.</div>
+  </div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A3</div><div><div class="kicker">The most common topic</div><h2>Arrays</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Core moves</b><br>Traverse once and keep running values (max, min, sum, count) · <b>prefix sums</b> pre[i] = pre[i-1] + a[i], so a range sum is pre[r] − pre[l−1] · reverse a range with two indices · in-place rewrite with a write pointer · <b>Kadane</b> for the best subarray.</div>
+    <div class="def"><b class="t">Questions you will meet</b><br>Second largest / smallest · max subarray sum · rotate by K · move zeros · missing number (n(n+1)/2 − sum) · leaders in an array · equilibrium index (prefix sums) · stock buy/sell once (track the min price so far).</div>
+  </div>
+  <!--P_ARRAYS-->
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A4</div><div><div class="kicker">Characters and words</div><h2>Strings</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Core moves</b><br>Loop over characters · count with <code>int[26]</code> (<code>c - 'a'</code>) or a HashMap · two pointers from both ends (palindromes) · split into words · build output with <b>StringBuilder</b> (Java) or <code>"".join(list)</code> (Python). Java Strings are <b>immutable</b>; compare them with <code>.equals()</code>, never <code>==</code>.</div>
+    <div class="def"><b class="t">Questions you will meet</b><br>Palindrome · anagram · first unique character · reverse words · compress (aaabb → a3b2) · count vowels/consonants · toggle case · remove duplicates · longest common prefix · check rotation (s2 inside s1 + s1).</div>
+  </div>
+  <!--P_STRINGS-->
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A5</div><div><div class="kicker">O(1) lookups</div><h2>Hashing</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">The idea</b><br>A <b>HashMap</b> (dict) maps a key to a value and a <b>HashSet</b> (set) stores unique keys. Insert, lookup and delete take <b>O(1) on average</b>. Turn "have I seen this before?" from an O(N) search into an O(1) check. That usually turns O(N²) into O(N).</div>
+    <div class="def"><b class="t">Typical uses</b><br>Frequency counting · duplicates (set size vs list size) · Two Sum (complement lookup) · first non-repeating · group anagrams (key = sorted word) · longest consecutive sequence · subarray sum = K (map of prefix sums).</div>
+  </div>
+  <!--P_HASHING-->
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A6</div><div><div class="kicker">Two indices instead of two loops</div><h2>Two Pointers &amp; Sliding Window</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Two pointers</b><br>(a) <b>Opposite ends</b> on a <b>sorted</b> array: pair sum, palindrome check, container problems. (b) <b>Same direction</b> (read / write pointer): remove duplicates, move zeros, partition. Each pointer moves at most N times, so the total is O(N).</div>
+    <div class="def"><b class="t">Sliding window</b><br>A window [left, right] over an array or string. Grow right; when the window breaks a rule (repeat character, sum too big), shrink from left. Used for longest/shortest substring or subarray, max sum of K consecutive elements, and at most K distinct characters.</div>
+  </div>
+  <!--P_TWOPTR-->
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A7</div><div><div class="kicker">Order makes it easy</div><h2>Sorting-Based Problems</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Why sort?</b><br>After sorting, equal items are neighbours (duplicates, grouping), overlapping intervals are adjacent, and two pointers work. Built-in sort is O(N log N): Java <code>Arrays.sort</code> / <code>Collections.sort</code>, Python <code>sorted()</code> / <code>list.sort()</code>, C++ <code>sort()</code>, C# <code>Array.Sort</code>.</div>
+    <div class="def"><b class="t">Custom order</b><br>Java: <code>list.sort((a, b) -&gt; ...)</code> returns negative / zero / positive; use <code>Integer.compare(a, b)</code> instead of <code>a - b</code> for large values. Python: <code>sorted(x, key=lambda v: (-count[v], v))</code> sorts by count descending, then value ascending.</div>
+  </div>
+  <!--P_SORTING-->
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A8</div><div><div class="kicker">A function that calls itself</div><h2>Recursion &amp; Backtracking</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Two parts, always</b><br>(1) <b>Base case</b>: the smallest input, answered directly; without it the recursion never stops (StackOverflowError). (2) <b>Recursive case</b>: solve a smaller version and combine.</div>
+    <div class="def"><b class="t">Memoization</b><br>If the same arguments repeat (Fibonacci, stairs, grid paths), store the results in an array or map. The time drops from exponential to O(number of different states).</div>
+    <div class="def"><b class="t">Backtracking</b><br>Choose → recurse → <b>undo the choice</b>. Generates subsets, permutations and combinations: O(2<sup>N</sup>) or O(N!), so only for small N (≤ 10–20).</div>
+  </div>
+  <!--P_RECURSION-->
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A9</div><div><div class="kicker">Math-flavoured problems</div><h2>Number Logic</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Digit tricks</b><br>Last digit: <code>n % 10</code> · remove the last digit: <code>n / 10</code> (Python <code>//</code>) · digit count: loop or <code>len(str(n))</code> · reverse: <code>rev = rev * 10 + n % 10</code> · palindrome number: reversed == original · sum of digits, Armstrong, strong, perfect and Harshad numbers all use the same loop.</div>
+    <div class="def"><b class="t">Number theory essentials</b><br>Prime check: divide only up to √n · many primes: sieve · GCD: Euclid · LCM = a / gcd × b · even/odd: <code>n % 2</code> or <code>n &amp; 1</code> · power of two: <code>n &gt; 0 &amp;&amp; (n &amp; (n − 1)) == 0</code> · fast power by squaring.</div>
+  </div>
+  <!--P_NUMBERS-->
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A10</div><div><div class="kicker">Same idea, four syntaxes</div><h2>Language Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:15%">Task</th><th>Java</th><th>Python</th><th>C++</th><th>C#</th></tr></thead><tbody>
+    <tr><td>Dynamic list</td><td><code>List&lt;Integer&gt; a = new ArrayList&lt;&gt;(); a.add(5);</code></td><td><code>a = []; a.append(5)</code></td><td><code>vector&lt;int&gt; a; a.push_back(5);</code></td><td><code>var a = new List&lt;int&gt;(); a.Add(5);</code></td></tr>
+    <tr><td>Hash map count</td><td><code>m.merge(x, 1, Integer::sum);</code></td><td><code>m[x] = m.get(x, 0) + 1</code> or <code>Counter</code></td><td><code>unordered_map&lt;int,int&gt; m; m[x]++;</code></td><td><code>m[x] = m.GetValueOrDefault(x) + 1;</code></td></tr>
+    <tr><td>Set</td><td><code>Set&lt;Integer&gt; s = new HashSet&lt;&gt;();</code></td><td><code>s = set()</code></td><td><code>unordered_set&lt;int&gt; s;</code></td><td><code>var s = new HashSet&lt;int&gt;();</code></td></tr>
+    <tr><td>Sort</td><td><code>Arrays.sort(arr); list.sort(null);</code></td><td><code>a.sort()</code> / <code>sorted(a)</code></td><td><code>sort(a.begin(), a.end());</code></td><td><code>Array.Sort(arr); list.Sort();</code></td></tr>
+    <tr><td>Sort descending</td><td><code>list.sort(Collections.reverseOrder());</code></td><td><code>a.sort(reverse=True)</code></td><td><code>sort(a.rbegin(), a.rend());</code></td><td><code>list.Sort((x, y) =&gt; y.CompareTo(x));</code></td></tr>
+    <tr><td>String length · char</td><td><code>s.length()</code> · <code>s.charAt(i)</code></td><td><code>len(s)</code> · <code>s[i]</code></td><td><code>s.size()</code> · <code>s[i]</code></td><td><code>s.Length</code> · <code>s[i]</code></td></tr>
+    <tr><td>Substring</td><td><code>s.substring(a, b)</code> (b excluded)</td><td><code>s[a:b]</code></td><td><code>s.substr(a, len)</code></td><td><code>s.Substring(a, len)</code></td></tr>
+    <tr><td>Split words</td><td><code>s.trim().split("\\s+")</code></td><td><code>s.split()</code></td><td><code>stringstream ss(s); ss &gt;&gt; w</code></td><td><code>s.Split(' ', RemoveEmptyEntries)</code></td></tr>
+    <tr><td>Build string</td><td><code>StringBuilder sb; sb.append(x);</code></td><td><code>"".join(parts)</code></td><td><code>string r; r += c;</code></td><td><code>var sb = new StringBuilder();</code></td></tr>
+    <tr><td>Reverse</td><td><code>new StringBuilder(s).reverse()</code></td><td><code>s[::-1]</code></td><td><code>reverse(s.begin(), s.end());</code></td><td><code>new string(s.Reverse().ToArray())</code></td></tr>
+    <tr><td>Char tests</td><td><code>Character.isDigit(c)</code>, <code>isLetter</code></td><td><code>c.isdigit()</code>, <code>c.isalpha()</code></td><td><code>isdigit(c)</code>, <code>isalpha(c)</code></td><td><code>char.IsDigit(c)</code></td></tr>
+    <tr><td>Int ⇄ String</td><td><code>Integer.parseInt(s)</code> · <code>String.valueOf(n)</code></td><td><code>int(s)</code> · <code>str(n)</code></td><td><code>stoi(s)</code> · <code>to_string(n)</code></td><td><code>int.Parse(s)</code> · <code>n.ToString()</code></td></tr>
+    <tr><td>Max / min value</td><td><code>Integer.MAX_VALUE</code>, <code>Long.MIN_VALUE</code></td><td><code>float('inf')</code></td><td><code>INT_MAX</code>, <code>LLONG_MIN</code></td><td><code>int.MaxValue</code></td></tr>
+    <tr><td>64-bit integer</td><td><code>long</code></td><td>(automatic)</td><td><code>long long</code></td><td><code>long</code></td></tr>
+  </tbody></table>
+  <h3>The same solution in C++</h3>
+  <p class="small">For C++ users: Two Sum (P9) and Kadane (P2) are written below with STL containers.</p>
+  <!--CPP_EXTRA-->
+  <div class="note info"><span class="t">Choosing a language</span>Use the one you write fastest without looking things up. Python is shortest (Counter, slicing, sorted with key) but slower for very large inputs. Java and C# are verbose but safe. C++ is fastest. Practise in one language before the test, and know its input reading by heart.</div>
+</section>
+
+<!-- ================= PART B: SQL ================= -->
+<section class="page-break part sqlx">
+  <div class="banner sqlx"><div class="big">B</div><div class="pl">PART B · DATABASE SQL (C2)</div><h2>SQL for the Coding Round</h2>
+    <p>One query, about 15 minutes. Joins are the main focus, together with GROUP BY/HAVING, aggregates, DISTINCT, LIMIT and simple subqueries. Triggers, window functions and other advanced SQL are not asked.</p></div>
+  <div class="sec-head"><div class="sec-num">B1</div><div><div class="kicker">Read it like the database does</div><h2>Query Skeleton &amp; Execution Order</h2></div></div>
+  <div class="two">
+    <div>
+      <pre><code><span class="k">SELECT</span>   columns, aggregates <span class="k">AS</span> alias
+<span class="k">FROM</span>     table1 t1
+<span class="k">JOIN</span>     table2 t2 <span class="k">ON</span> t1.key = t2.key
+<span class="k">WHERE</span>    row conditions
+<span class="k">GROUP</span> <span class="k">BY</span> grouping columns
+<span class="k">HAVING</span>   group conditions
+<span class="k">ORDER</span> <span class="k">BY</span> columns <span class="k">DESC</span>
+<span class="k">LIMIT</span>    n;</code></pre>
+      <div class="flow"><span>FROM / JOIN</span><i>→</i><span>WHERE</span><i>→</i><span>GROUP BY</span><i>→</i><span>HAVING</span><i>→</i><span>SELECT</span><i>→</i><span>ORDER BY</span><i>→</i><span class="h">LIMIT</span></div>
+    </div>
+    <div>
+      <div class="def"><b class="t">Consequences of the order</b><br>WHERE runs before grouping, so <b>COUNT() cannot go in WHERE</b>; filter groups with HAVING. SELECT aliases can be used in ORDER BY but not in WHERE.</div>
+      <div class="def"><b class="t">Aggregates and NULL</b><br>COUNT(*) counts rows; COUNT(col), SUM, AVG, MIN and MAX <b>ignore NULLs</b>. Test with <code>IS NULL</code>, never <code>= NULL</code>.</div>
+      <div class="def"><b class="t">Aliases</b><br><code>COUNT(*) AS total</code>. An alias with a space needs quotes: <code>AS "First Name"</code>, or backticks in MySQL. The grader compares column names, so copy them exactly.</div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:6px"><div class="sec-num">B2</div><div><div class="kicker">The main focus</div><h2>Joins</h2></div></div>
+  <div class="venn">
+    <div><svg width="90" height="50"><circle cx="35" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/><circle cx="55" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/><path d="M45 8 A20 20 0 0 1 45 42 A20 20 0 0 1 45 8" fill="#818cf8"/></svg><b>INNER JOIN</b><br>Only rows that match in both tables</div>
+    <div><svg width="90" height="50"><circle cx="35" cy="25" r="20" fill="#818cf8" stroke="#4f46e5" stroke-width="2"/><circle cx="55" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/></svg><b>LEFT JOIN</b><br>All left rows, plus matches (NULL where there is no match)</div>
+    <div><svg width="90" height="50"><circle cx="35" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/><circle cx="55" cy="25" r="20" fill="#818cf8" stroke="#4f46e5" stroke-width="2"/></svg><b>RIGHT JOIN</b><br>All right rows, plus matches from the left</div>
+    <div><svg width="90" height="50"><circle cx="45" cy="25" r="20" fill="#818cf8" stroke="#4f46e5" stroke-width="2"/><circle cx="45" cy="25" r="11" fill="#fff" stroke="#4f46e5" stroke-width="1.5"/></svg><b>SELF JOIN</b><br>A table joined with itself (employee ↔ manager)</div>
+  </div>
+  <p class="small">Every SQL example below runs on these two tables. Arjun has no department and Finance has no employees, so you can see what each join does with unmatched rows.</p>
+  <!--SQL_SAMPLE-->
+</section>
+
+<section class="part sqlx">
+  <div class="sec-head"><div class="sec-num">B3</div><div><div class="kicker">Learn these and most SQL questions are familiar</div><h2>Ten Patterns with Real Output</h2></div></div>
+  <!--SQL_PATTERNS-->
+  <div class="note warn"><span class="t">Common mistakes that fail hidden tests</span>INNER JOIN where "all customers / all departments" are required (use LEFT JOIN) · COUNT(*) after a LEFT JOIN (counts 1 instead of 0, so use COUNT(child.id)) · forgetting DISTINCT when one row can match many · <code>&gt;=</code> vs <code>&gt;</code> (read "more than" and "at least" carefully) · wrong ORDER BY direction, or no tie-breaker · alias spelled differently from the question · LIKE 'A%' (starts with) vs '%A%' (contains).</div>
+</section>
+
+<!-- ================= PART C: FRONTEND ================= -->
+<section class="page-break part fe">
+  <div class="banner fe"><div class="big">C</div><div class="pl">PART C · FRONTEND (C3)</div><h2>HTML, CSS, JavaScript, React &amp; Vue</h2>
+    <p>You get a template with HTML, CSS and JS tabs (or a React/Vue component) and a list of objectives. Hidden tests open your page, click, type and check the DOM and the computed CSS.</p></div>
+  <div class="sec-head"><div class="sec-num">C1</div><div><div class="kicker">What the grader checks</div><h2>How Front-end Tasks Are Graded</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Exact selectors</b><br>Tests find elements by the <b>id, class and text given in the question</b>. <code>id="p"</code> vs <code>id="para"</code>, or "Account Alert" vs "Account alert", is a fail even if the page looks right.</div>
+    <div class="def"><b class="t">Computed style</b><br>CSS is checked through the browser's computed values: <code>#71E5F4</code> becomes <code>rgb(113, 229, 244)</code>, and a width becomes "120px". Any valid CSS that produces the value passes.</div>
+    <div class="def"><b class="t">Behaviour</b><br>Tests click buttons and type into inputs, then check the result. "Remove" means <code>element.remove()</code>, not <code>display:none</code>. Read every constraint.</div>
+  </div>
+  <div class="sec-head" style="margin-top:6px"><div class="sec-num">C2</div><div><div class="kicker">Select → listen → change</div><h2>JavaScript DOM Essentials</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:24%">Need</th><th>Code</th></tr></thead><tbody>
+    <tr><td>Select</td><td><code>document.getElementById("id")</code> · <code>document.querySelector("#id .cls")</code> (first) · <code>querySelectorAll(".item")</code> (all, use forEach)</td></tr>
+    <tr><td>Read / write text</td><td><code>el.textContent = "Hi"</code> (safe) · <code>el.innerHTML = "&lt;b&gt;Hi&lt;/b&gt;"</code> (parses HTML) · input: <code>input.value</code></td></tr>
+    <tr><td>Classes</td><td><code>el.classList.add / remove / toggle / contains("x")</code> · replace all: <code>el.className = "x"</code></td></tr>
+    <tr><td>Styles &amp; attributes</td><td><code>el.style.display = "none"</code> · <code>el.setAttribute("data-name", "apple")</code> · <code>el.dataset.name</code> · <code>btn.disabled = true</code></td></tr>
+    <tr><td>Create / remove</td><td><code>const li = document.createElement("li"); list.appendChild(li);</code> · <code>el.remove()</code> · <code>parent.innerHTML = ""</code> (clear)</td></tr>
+    <tr><td>Events</td><td><code>el.addEventListener("click" | "input" | "change" | "submit" | "keydown", e =&gt; {...})</code> · <code>e.preventDefault()</code> · <code>e.key === "Enter"</code> · <code>e.target</code></td></tr>
+  </tbody></table>
+  <div class="code2"><div><div class="lang">Toggle a class on click</div><!--FE_DOM--></div><div><div class="lang">Create and remove elements</div><!--FE_CREATE--></div></div>
+  <div class="code2"><div><div class="lang">Form validation</div><!--FE_FORM--></div><div><div class="lang">Search filter with data-* and display</div><!--FE_FILTER--></div></div>
+</section>
+
+<section class="part fe">
+  <div class="sec-head"><div class="sec-num">C3</div><div><div class="kicker">Selectors and layout</div><h2>CSS Essentials</h2></div></div>
+  <div class="two">
+    <div>
+      <table class="tight"><thead><tr><th>Selector</th><th>Matches</th></tr></thead><tbody>
+        <tr><td><code>#id</code> · <code>.cls</code> · <code>p</code></td><td>by id · by class · by tag</td></tr>
+        <tr><td><code>.a.b</code></td><td>an element with both classes</td></tr>
+        <tr><td><code>.a .b</code> · <code>.a &gt; .b</code></td><td>descendant · direct child</td></tr>
+        <tr><td><code>button:hover</code> · <code>li:first-child</code></td><td>state · position</td></tr>
+        <tr><td><code>[data-name="x"]</code></td><td>by attribute</td></tr>
+      </tbody></table>
+      <div class="def"><b class="t">Which rule wins?</b> Inline style &gt; #id &gt; .class / [attr] / :hover &gt; tag. With equal weight, the <b>later</b> rule wins. <code>!important</code> overrides everything (avoid it).</div>
+      <div class="def"><b class="t">Box model</b> content → padding → border → margin. <code>box-sizing: border-box</code> makes width include padding and border. <code>display: none</code> removes the element from the layout; <code>visibility: hidden</code> keeps its space.</div>
+    </div>
+    <div><div class="lang">Flexbox, multi-class, media query</div><!--FE_CSS-->
+      <div class="def"><b class="t">Flexbox in one look</b> <code>display:flex</code> on the parent · <code>flex-direction</code> row/column · <code>justify-content</code> (main axis): flex-start, center, space-between, space-around · <code>align-items</code> (cross axis): stretch, center · <code>gap</code> · <code>flex:1</code> on children shares the space · <code>flex-wrap: wrap</code>.</div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:6px"><div class="sec-num">C4</div><div><div class="kicker">Components and state</div><h2>React Essentials</h2></div></div>
+  <div class="two">
+    <div>
+      <table class="tight"><thead><tr><th style="width:30%">Concept</th><th>Remember</th></tr></thead><tbody>
+        <tr><td>Component</td><td>A function that returns JSX; its name starts with a capital letter. <code>export default App</code>.</td></tr>
+        <tr><td>JSX</td><td><code>className</code> (not class), <code>{expression}</code>, one root element (or <code>&lt;&gt;...&lt;/&gt;</code>), self-close <code>&lt;input /&gt;</code>.</td></tr>
+        <tr><td>State</td><td><code>const [count, setCount] = useState(0)</code>. Never change state directly; call the setter. Use <code>setCount(c =&gt; c + 1)</code> when the new value depends on the old one.</td></tr>
+        <tr><td>Events</td><td><code>onClick={() =&gt; ...}</code>, <code>onChange={e =&gt; setX(e.target.value)}</code>. Pass a function; do not call it (<code>onClick={f}</code>, not <code>onClick={f()}</code>).</td></tr>
+        <tr><td>Controlled input</td><td><code>value={x}</code> + <code>onChange</code> keeps the input and the state in sync.</td></tr>
+        <tr><td>Lists</td><td><code>items.map(i =&gt; &lt;li key={i.id}&gt;{i.name}&lt;/li&gt;)</code>. Every item needs a unique <b>key</b>.</td></tr>
+        <tr><td>Conditional</td><td><code>{ok ? &lt;A/&gt; : &lt;B/&gt;}</code> · <code>{show &amp;&amp; &lt;A/&gt;}</code></td></tr>
+        <tr><td>Props</td><td><code>&lt;Card title="Hi" /&gt;</code> → <code>function Card({ title })</code>. Data flows down; callbacks flow up.</td></tr>
+        <tr><td>useEffect</td><td><code>useEffect(() =&gt; {...}, [dep])</code> runs after render when dep changes; <code>[]</code> means once (fetching data, timers).</td></tr>
+      </tbody></table>
+    </div>
+    <div><div class="lang">Search list: state, derived value, map + key, conditional</div><!--FE_REACT--></div>
+  </div>
+</section>
+
+<section class="part fe">
+  <div class="sec-head"><div class="sec-num">C5</div><div><div class="kicker">Templates and reactivity</div><h2>Vue 3 Essentials</h2></div></div>
+  <div class="two">
+    <div>
+      <table class="tight"><thead><tr><th style="width:28%">Directive / option</th><th>Use</th></tr></thead><tbody>
+        <tr><td><code>{{ value }}</code></td><td>Show data in the template (interpolation)</td></tr>
+        <tr><td><code>v-model</code></td><td>Two-way binding for input, textarea, select and checkbox</td></tr>
+        <tr><td><code>@click</code> / <code>v-on:click</code></td><td>Event handler (a method or a short expression)</td></tr>
+        <tr><td><code>:attr</code> / <code>v-bind</code></td><td>Bind an attribute: <code>:disabled="count &gt;= 5"</code>, <code>:class="{ done: todo.done }"</code></td></tr>
+        <tr><td><code>v-for</code> + <code>:key</code></td><td>Render a list: <code>v-for="t in todos" :key="t.id"</code></td></tr>
+        <tr><td><code>v-if</code> / <code>v-show</code></td><td>v-if adds/removes the element from the DOM; v-show only toggles display</td></tr>
+        <tr><td><code>data()</code></td><td>Returns the reactive state object (this.x in methods)</td></tr>
+        <tr><td><code>computed</code></td><td>Derived values that update automatically (remaining count, filtered list)</td></tr>
+        <tr><td><code>methods</code></td><td>Functions called from the template</td></tr>
+        <tr><td><code>setup()</code> + <code>ref()</code></td><td>Composition API: <code>const n = ref(0)</code>; use <code>n.value</code> in JS, plain <code>n</code> in the template</td></tr>
+      </tbody></table>
+    </div>
+    <div><div class="lang">Template</div><!--FE_VUE_HTML--><div class="lang">App code</div><!--FE_VUE_JS--></div>
+  </div>
+  <div class="note tip"><span class="t">Front-end checklist before you submit</span>Every objective done? · ids, classes and texts copied exactly · colours in the right property (background-color vs color) · event attached to the right element · page loads with no red error in the Console · "remove" really removes · the initial state is correct on page load (filters and counters run once at start).</div>
+</section>
+
+<!-- ================= PART D ================= -->
+<section class="part plan">
+  <div class="banner plan"><div class="big">D</div><div class="pl">PART D · GET EXAM-READY</div><h2>Practice List, Plan &amp; Checklist</h2>
+    <p>What to practise, in what order, and what to check on the day.</p></div>
+  <div class="sec-head"><div class="sec-num">D1</div><div><div class="kicker">After the solved problems</div><h2>30 More Problems to Practise</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:18%">Pattern</th><th>Problems (Easy → Medium)</th></tr></thead><tbody>
+    <tr><td><b>Arrays</b></td><td>Missing number · leaders in an array · best time to buy and sell stock · equilibrium index (prefix sums) · product of array except self · maximum of every window of size K</td></tr>
+    <tr><td><b>Strings</b></td><td>Count vowels and consonants · longest common prefix · check if one string is a rotation of another · remove duplicate characters · largest word in a sentence · Roman to integer</td></tr>
+    <tr><td><b>Hashing</b></td><td>Contains duplicate · intersection of two arrays · group anagrams · longest consecutive sequence · subarray sum equals K · isomorphic strings</td></tr>
+    <tr><td><b>Two pointers / window</b></td><td>Remove duplicates from a sorted array · merge two sorted arrays · container with most water · 3-sum · max sum of K consecutive elements · smallest subarray with sum ≥ S</td></tr>
+    <tr><td><b>Sorting / recursion / numbers</b></td><td>Kth largest element · sort 0s, 1s and 2s · permutations of a string · power of a number (recursive) · palindrome number · sum of digits until one digit</td></tr>
+  </tbody></table>
+
+  <div class="sec-head" style="margin-top:8px"><div class="sec-num">D2</div><div><div class="kicker">One topic a day</div><h2>10-Day Plan</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:11%">Day</th><th>Focus (about 2 hours)</th></tr></thead><tbody>
+    <tr><td><b>1</b></td><td>Choose your language. Learn the input template (A1) and the cheat sheet (A10). Solve P1–P3.</td></tr>
+    <tr><td><b>2</b></td><td>Strings: P4–P7 + 3 problems from D1.</td></tr>
+    <tr><td><b>3</b></td><td>Hashing and two pointers: P8–P13.</td></tr>
+    <tr><td><b>4</b></td><td>Sorting and recursion: P14–P17. Write the recursion trees on paper.</td></tr>
+    <tr><td><b>5</b></td><td>Number logic: P18–P21 + digit problems from D1.</td></tr>
+    <tr><td><b>6</b></td><td>SQL: B1–B3. Retype all 10 patterns from memory, then do the SQL live practice (15 questions).</td></tr>
+    <tr><td><b>7</b></td><td>Frontend: C1–C3. HTML/CSS/JS questions in the front-end live practice platform.</td></tr>
+    <tr><td><b>8</b></td><td>React and Vue: C4–C5, then the React and Vue practice questions.</td></tr>
+    <tr><td><b>9</b></td><td>Full mock: 1 DSA + 1 SQL + 1 Frontend in 60 minutes with a timer. Review your mistakes.</td></tr>
+    <tr><td><b>10</b></td><td>Second full mock, then redo every problem you got wrong. Read the checklist below.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part plan">
+  <div class="sec-head"><div class="sec-num">D3</div><div><div class="kicker">Read this the night before</div><h2>Final Cheat Sheet</h2></div></div>
+  <div class="cards c3">
+    <div class="card" style="border-top:4px solid #059669"><h4 style="margin-top:0;color:#059669">DSA</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Comment out <code>throw new Exception</code> in Java templates</li>
+      <li>Return (function template) vs print (full program)</li>
+      <li>Read the limits: 10<sup>5</sup> needs O(N log N) or better</li>
+      <li>Pair/complement → HashMap · sorted → two pointers</li>
+      <li>Substring/subarray "longest" → sliding window</li>
+      <li>Frequency → int[26] or Counter</li>
+      <li>Intervals → sort by start, then merge</li>
+      <li>Recursion: base case first; memoize repeats</li>
+      <li>Use long for sums and products</li>
+      <li>Test N = 1, all equal, negatives, empty</li>
+      <li>Exact output format, no debug prints</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #4f46e5"><h4 style="margin-top:0;color:#4f46e5">SQL</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT</li>
+      <li>Aggregate filter → HAVING, never WHERE</li>
+      <li>"All X even without Y" → LEFT JOIN + COUNT(y.id)</li>
+      <li>"No matching rows" → LEFT JOIN … WHERE y.id IS NULL</li>
+      <li>Manager/employee → self join with two aliases</li>
+      <li>Second highest → MAX(...) WHERE &lt; (SELECT MAX…)</li>
+      <li>Top per group → correlated subquery with MAX</li>
+      <li>Duplicates → GROUP BY … HAVING COUNT(*) &gt; 1</li>
+      <li>Copy aliases and column order exactly</li>
+      <li>DISTINCT when one row can match many</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #db2777"><h4 style="margin-top:0;color:#db2777">Frontend</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Copy ids, classes and texts exactly</li>
+      <li>querySelector → addEventListener → change the DOM</li>
+      <li>classList.add / remove / toggle; className replaces all</li>
+      <li>textContent for text; value for inputs</li>
+      <li>Forms: e.preventDefault() on submit</li>
+      <li>Remove means el.remove()</li>
+      <li>Run filters/counters once on load too</li>
+      <li>React: useState + setter, className, key in map</li>
+      <li>Vue: v-model, v-for + :key, v-if, computed, :class</li>
+      <li>No red errors in the Console</li>
+    </ul></div>
+  </div>
+  <div class="note brand"><span class="t">Practise on the live platforms</span>This series also has two practice platforms. The <b>SQL Assessment Live Practice</b> has 15 questions with a 15-minute timer and 5 test cases each. The <b>Front-end Technology Live Practice</b> has 15 questions across HTML/CSS/JS, React and Vue, with a 20-minute timer and automatic tests. Use them for days 6–10.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Accenture. The exam pattern is based on publicly reported candidate experiences and may change. All problems are original practice problems. Every Java and Python program was compiled and run (JDK 21, Python 3) against all of its listed test cases. The C++ programs were compiled with g++ and run. The C# template was not executed. SQL outputs come from SQLite; MySQL gives the same results for these queries.</p>
+</section>
+
+</body>
+</html>

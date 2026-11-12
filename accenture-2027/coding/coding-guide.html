@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Coding Assessment – Zero to Hero Guide</title>
+<style>
+  :root{
+    --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889;
+    --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff; --brand-line:#d9ccff;
+    --teal:#0e9f8a; --teal-soft:#e2f7f3;
+    --amber:#c77700; --amber-soft:#fff4dd;
+    --rose:#d63a5a; --rose-soft:#ffe8ee;
+    --sky:#2563eb; --sky-soft:#e6efff;
+    --line:#e6e4f0; --bg-alt:#f8f7fc;
+  }
+  @page{ size:A4; margin:16mm 15mm 18mm 15mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); font-size:10pt; line-height:1.55; }
+  h1,h2,h3,h4{ margin:0; line-height:1.2; letter-spacing:-.01em; }
+  p{ margin:0 0 8px; }
+  ul{ margin:4px 0 8px; padding-left:18px; }
+  li{ margin:2px 0; }
+  li::marker{ color:var(--brand); }
+  b,strong{ font-weight:650; }
+  code,.mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.6pt; }
+  .page-break{ break-before:page; }
+  .avoid{ break-inside:avoid; }
+  h2,h3,h4,.sec-head{ break-after:avoid; page-break-after:avoid; }
+
+  /* ---------- COVER ---------- */
+  .cover{ height:297mm; width:210mm; position:relative; overflow:hidden; color:#fff;
+    background:radial-gradient(120% 80% at 100% 0%, #7c4dff 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #1fb6a0 0%, transparent 50%),
+               linear-gradient(160deg,#1a1240 0%,#2a1a6e 55%,#140f33 100%);
+    padding:24mm 20mm 18mm; display:flex; flex-direction:column; }
+  .cover .grid{ position:absolute; inset:0; opacity:.08;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:14mm 14mm; }
+  .cover > *{ position:relative; }
+  .tag{ display:inline-block; font-size:8.5pt; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.08); }
+  .cover h1{ font-size:40pt; font-weight:800; margin-top:20mm; line-height:1.05; letter-spacing:-.02em; }
+  .cover h1 span{ color:#b9a6ff; }
+  .cover .sub{ font-size:13pt; opacity:.85; margin-top:6mm; max-width:150mm; }
+  .cover .roles{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10mm; }
+  .cover .roles div{ padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); font-weight:600; font-size:10pt; }
+  .cover .stats{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .cover .stat{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px; }
+  .cover .stat b{ display:block; font-size:22pt; font-weight:800; }
+  .cover .stat span{ font-size:8.5pt; opacity:.8; }
+  .cover .foot{ margin-top:10mm; font-size:8pt; opacity:.65; display:flex; justify-content:space-between; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .sec-num{ flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff; font-weight:800; font-size:15pt; }
+  .sec-head h2{ font-size:19pt; font-weight:800; }
+  .sec-head .kicker{ font-size:8pt; text-transform:uppercase; letter-spacing:.14em; color:var(--brand); font-weight:700; margin-bottom:2px; }
+  h3{ font-size:12.5pt; font-weight:750; margin:16px 0 8px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  h3 .pill{ font-size:8pt; font-weight:600; padding:3px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand); }
+  h4{ font-size:10.5pt; font-weight:700; margin:10px 0 4px; }
+  .lead{ color:var(--ink-2); font-size:10.5pt; }
+
+  /* ---------- CARDS ---------- */
+  .cards{ display:grid; gap:10px; margin:10px 0; }
+  .c2{ grid-template-columns:1fr 1fr; } .c3{ grid-template-columns:repeat(3,1fr); } .c4{ grid-template-columns:repeat(4,1fr); }
+  .card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid; }
+  .card.alt{ background:var(--bg-alt); }
+  .card .lbl{ font-size:7.8pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .card .val{ font-size:15pt; font-weight:800; margin-top:2px; }
+  .card .val small{ font-size:9pt; font-weight:600; color:var(--muted); }
+  .role-card{ border-top:4px solid var(--brand); }
+  .role-card.t{ border-top-color:var(--teal);} .role-card.a{ border-top-color:var(--amber);} .role-card.s{ border-top-color:var(--sky);}
+  .role-card h4{ margin:0 0 2px; font-size:11pt; }
+  .role-card .code{ font-size:8pt; color:var(--muted); font-weight:600; }
+  .role-card .ctc{ font-size:16pt; font-weight:800; margin:8px 0 2px; }
+
+  /* ---------- CALLOUTS ---------- */
+  .note{ border-radius:12px; padding:11px 14px 11px 14px; margin:10px 0; break-inside:avoid; border-left:4px solid; }
+  .note .t{ font-weight:750; font-size:9.5pt; margin-bottom:3px; display:block; }
+  .note p:last-child,.note ul:last-child{ margin-bottom:0; }
+  .note.info{ background:var(--sky-soft); border-color:var(--sky);} .note.info .t{ color:var(--sky);}
+  .note.tip{ background:var(--teal-soft); border-color:var(--teal);} .note.tip .t{ color:var(--teal);}
+  .note.warn{ background:var(--amber-soft); border-color:var(--amber);} .note.warn .t{ color:var(--amber);}
+  .note.alert{ background:var(--rose-soft); border-color:var(--rose);} .note.alert .t{ color:var(--rose);}
+  .note.brand{ background:var(--brand-soft); border-color:var(--brand);} .note.brand .t{ color:var(--brand);}
+
+  /* ---------- TABLES ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0 12px; font-size:9.2pt; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  thead th{ background:var(--ink); color:#fff; text-align:left; font-weight:650; padding:9px 11px; font-size:8.6pt; letter-spacing:.02em; }
+  tbody td{ padding:8px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--bg-alt); }
+  tr{ break-inside:avoid; }
+  td.c{ text-align:center; white-space:nowrap; } th.c{ text-align:center; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:8pt; font-weight:700; white-space:nowrap; }
+  .b-yes{ background:var(--rose-soft); color:var(--rose);} .b-no{ background:var(--teal-soft); color:var(--teal);}
+  .b-mid{ background:var(--amber-soft); color:var(--amber);} .b-fin{ background:var(--brand-soft); color:var(--brand);}
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:12px 0 16px; }
+  .step{ position:relative; text-align:center; padding:12px 6px 10px; border-radius:12px; background:var(--bg-alt); border:1px solid var(--line); }
+  .step .n{ width:26px; height:26px; margin:0 auto 6px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:9pt; color:#fff; background:var(--brand); }
+  .step:nth-child(even) .n{ background:var(--teal); }
+  .step:last-child .n{ background:var(--amber); }
+  .step b{ display:block; font-size:8.4pt; line-height:1.25; }
+  .step span{ display:block; font-size:7.4pt; color:var(--muted); margin-top:3px; }
+  .step:not(:last-child)::after{ content:"›"; position:absolute; right:-7px; top:16px; font-size:14pt; color:var(--brand); font-weight:800; }
+
+  /* ---------- CODE ---------- */
+  pre{ background:#16132e; color:#e8e6ff; border-radius:12px; padding:12px 14px; margin:8px 0 10px; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; line-height:1.55; white-space:pre-wrap; break-inside:avoid; }
+  pre .k{ color:#c4b5fd; } pre .c{ color:#8b88b0; } pre .s{ color:#5eead4; } pre .n{ color:#fcd34d; }
+  .kbd{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* ---------- MISC ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+  .chip{ font-size:8.4pt; padding:4px 10px; border-radius:999px; background:var(--brand-soft); color:#3b1fa8; font-weight:600; }
+  .chip.t{ background:var(--teal-soft); color:#0b6e60; } .chip.r{ background:var(--rose-soft); color:#a3213f; }
+  .game{ display:flex; gap:12px; }
+  .game .ic{ flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#fff; font-size:13pt; }
+  .week{ border-left:4px solid var(--brand); }
+  .week:nth-child(2){ border-left-color:var(--teal);} .week:nth-child(3){ border-left-color:var(--amber);} .week:nth-child(4){ border-left-color:var(--rose);}
+  .check li{ list-style:none; position:relative; padding-left:4px; }
+  .check{ padding-left:20px; }
+  .check li::before{ content:"✓"; position:absolute; left:-18px; top:0; color:var(--teal); font-weight:800; }
+  .disclaimer{ font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; margin-top:16px; }
+</style>
+<style>
+  :root{ --pa:#16a34a; --pb:#7c3aed; --pc:#2563eb; --pd:#ea580c; --cy:#06b6d4; }
+  .cover{ background:
+      linear-gradient(rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(100% 70% at 100% 0%, #0e7490 0%, transparent 55%),
+      radial-gradient(90% 60% at 0% 100%, #4338ca 0%, transparent 55%),
+      linear-gradient(160deg,#06101f 0%,#0a1a33 55%,#040a14 100%); }
+  .cover .grid{ display:none; }
+  .cover h1 span{ color:#67e8f9; }
+  .cover .mono-tag{ font-family:"DejaVu Sans Mono",monospace; font-size:9pt; color:#67e8f9; margin-top:6mm; opacity:.9; }
+  .sec-head{ break-inside:avoid; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; background:#eef2f7; padding:0 4px; border-radius:4px; font-size:8.4pt; }
+  pre code{ background:none; padding:0; white-space:pre; }
+  h3{ break-after:avoid; }
+
+  /* part theming */
+  .part{ --pc1:#16a34a; --pc2:#22c55e; --pcs:#e8f8ee; }
+  .part.b{ --pc1:#7c3aed; --pc2:#a78bfa; --pcs:#f1ebff; }
+  .part.c{ --pc1:#2563eb; --pc2:#38bdf8; --pcs:#e7f0ff; }
+  .part.d{ --pc1:#ea580c; --pc2:#fb923c; --pcs:#fff1e6; }
+  .part .sec-num{ background:linear-gradient(135deg,var(--pc1),var(--pc2)); }
+  .part .sec-head .kicker{ color:var(--pc1); }
+  .part li::marker{ color:var(--pc1); }
+  .banner{ border-radius:16px; padding:18px 22px; color:#fff; margin:0 0 14px; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,var(--pc1),#0a1a33); break-inside:avoid; }
+  .banner .pl{ font:700 8.5pt "DejaVu Sans Mono",monospace; letter-spacing:.12em; opacity:.85; }
+  .banner h2{ font-size:22pt; font-weight:800; margin:4px 0 4px; color:#fff; }
+  .banner p{ margin:0; opacity:.9; font-size:9.6pt; max-width:150mm; }
+  .banner .chips{ margin:10px 0 0; }
+  .banner .chip{ background:rgba(255,255,255,.14); color:#fff; }
+  .banner .big{ position:absolute; right:18px; top:10px; font:800 54pt Inter,sans-serif; opacity:.14; }
+  .def{ border:1px solid var(--line); border-left:4px solid var(--pc1,#2563eb); border-radius:10px; padding:7px 11px; margin:6px 0; font-size:9.2pt; background:#fff; break-inside:avoid; }
+  .def b.t{ color:var(--pc1,#2563eb); }
+  .trap{ border:1px dashed #e11d48; background:#fff5f7; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .trap b{ color:#e11d48; }
+  table.tight td, table.tight th{ padding:4.5px 8px; font-size:8.6pt; }
+  table.tight{ margin:6px 0 10px; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  pre .k{ background:none; border:0; padding:0; font-size:inherit; white-space:inherit; }
+  .k{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* MCQs */
+  .mcq{ display:grid; grid-template-columns:34px 1fr; gap:8px; border:1px solid var(--line); border-radius:12px; padding:9px 12px; margin:7px 0; break-inside:avoid; background:#fff; }
+  .mcq .qn{ font:800 9pt Inter,sans-serif; color:#fff; background:var(--pc1,#2563eb); border-radius:7px; height:22px; display:grid; place-items:center; }
+  .mcq .qt{ font-size:9.4pt; font-weight:600; }
+  .mcq .tg{ display:inline-block; font-size:7.6pt; font-weight:700; color:var(--pc1); background:var(--pcs); border-radius:99px; padding:1px 8px; margin-right:6px; }
+  .mcq pre{ margin:6px 0; font-size:8.2pt; }
+  .opts{ list-style:none; padding:0; margin:5px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:3px 14px; font-size:9pt; }
+  .opts li{ margin:0; } .opts li b{ color:var(--pc1); margin-right:4px; }
+  .mcqs2{ columns:2; column-gap:10px; } .mcqs2 .mcq{ display:inline-grid; width:100%; }
+  .keyt td{ font-size:8.3pt; padding:6px 9px; } .keyt td.ans{ font-weight:800; color:var(--pc1); text-align:center; }
+  .keyt td:first-child{ width:7%; } .keyt td:nth-child(2){ width:6%; } .keyt td:nth-child(3){ width:24%; }
+  .sheet td,.sheet th{ text-align:center; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; padding:5px 8px; }
+  .sheet th{ background:#217346; } .sheet td:first-child{ background:#f0f2f5; font-weight:700; color:#6b6889; width:6%; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:9.4pt; }
+  .toc li b{ width:30px; font-family:"DejaVu Sans Mono",monospace; }
+</style>
+<style>
+  .cover{ background:
+      linear-gradient(rgba(52,211,153,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(52,211,153,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(85% 60% at 100% 0%, #059669 0%, transparent 55%),
+      radial-gradient(70% 50% at 0% 100%, #db2777 0%, transparent 60%),
+      linear-gradient(160deg,#04140e 0%,#0b1f2a 55%,#05070d 100%); }
+  .cover h1 span{ color:#6ee7b7; }
+  .part.dsa{ --pc1:#059669; --pc2:#34d399; --pcs:#e6f8f1; }
+  .part.sqlx{ --pc1:#4f46e5; --pc2:#818cf8; --pcs:#eef0ff; }
+  .part.fe{ --pc1:#db2777; --pc2:#f472b6; --pcs:#fdeaf3; }
+  .part.plan{ --pc1:#d97706; --pc2:#fbbf24; --pcs:#fff6e0; }
+  .banner.dsa{ background:linear-gradient(135deg,#059669,#062a1f); }
+  .banner.sqlx{ background:linear-gradient(135deg,#4f46e5,#0f0c33); }
+  .banner.fe{ background:linear-gradient(135deg,#db2777,#2b0716); }
+  .banner.plan{ background:linear-gradient(135deg,#d97706,#2a1a03); }
+  .two{ align-items:start; }
+  .two>div,.three>div{ min-width:0; }
+  .small{ font-size:8.4pt; color:var(--muted); margin:3px 0 6px; }
+  code{ white-space:normal; }
+
+  /* problem blocks */
+  .prob{ border:1px solid var(--line); border-radius:14px; padding:10px 12px 8px; margin:10px 0 12px; background:#fff; }
+  .phead{ display:flex; align-items:center; gap:8px; margin-bottom:6px; break-after:avoid; }
+  .phead h3{ margin:0; font-size:12pt; flex:1; }
+  .pno{ background:var(--pc1); color:#fff; font-weight:800; font-size:8.6pt; border-radius:7px; padding:2px 8px; }
+  .chip{ font-size:7.6pt; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; }
+  .chip.easy{ background:#dcfce7; color:#15803d; } .chip.medium{ background:#fef3c7; color:#b45309; } .chip.hard{ background:#fee2e2; color:#b91c1c; }
+  .chip.t{ background:var(--pcs); color:var(--pc1); }
+  .pgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; break-inside:avoid; }
+  .pgrid>div{ min-width:0; }
+  .pst{ font-size:9.2pt; margin:0 0 4px; }
+  .pfmt{ font-size:8.6pt; margin:0 0 5px; color:var(--ink-2,#3d3a5c); }
+  table.iot{ width:100%; border-collapse:collapse; font-size:8pt; }
+  table.iot th{ background:var(--pcs); color:var(--pc1); text-align:left; padding:3px 7px; font-size:7.8pt; }
+  table.iot td{ border-top:1px solid var(--line); padding:2px 6px; vertical-align:top; }
+  pre.io{ background:#f6f7fb; color:#1f2340; padding:4px 7px; margin:2px 0; border-radius:6px; font-size:7.6pt; line-height:1.4; }
+  .apr{ background:var(--pcs); border-radius:10px; padding:6px 10px; font-size:8.6pt; }
+  .apr b.t{ color:var(--pc1); }
+  .apr ol{ margin:3px 0 0; padding-left:17px; } .apr li{ margin:2px 0; }
+  .cx{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; font-size:8pt; }
+  .cx span{ border:1px solid var(--line); border-radius:999px; padding:1px 9px; }
+  .cx .vf{ background:#dcfce7; color:#15803d; border-color:#bbf7d0; font-weight:700; }
+  .trap2{ font-size:8.5pt; background:#fff4e5; border-left:3px solid #f59e0b; border-radius:6px; padding:4px 9px; margin:6px 0; }
+  .code2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .code2>div{ min-width:0; }
+  .code2 pre{ font-size:7.15pt; line-height:1.45; padding:8px 10px; margin:2px 0 4px; break-inside:auto; }
+  .code2 pre code, .sqlgrid pre code{ white-space:pre-wrap; word-break:break-word; }
+  .code2 .lang{ break-after:avoid; }
+  .code2.tables{ align-items:start; }
+  .lang{ font-size:7.8pt; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--pc1); margin-top:2px; }
+  table.g{ width:100%; border-collapse:collapse; font-size:8pt; }
+  table.g th{ background:var(--pcs); color:var(--pc1); text-align:left; padding:3px 7px; }
+  table.g td{ border-top:1px solid var(--line); padding:2px 7px; }
+  table.g td.nul{ color:#9ca3af; font-style:italic; }
+  .sqlp{ border:1px solid var(--line); border-radius:12px; padding:8px 11px; margin:8px 0; break-inside:avoid; }
+  .sqlgrid{ display:grid; grid-template-columns:1.25fr 1fr; gap:10px; align-items:start; }
+  .sqlgrid>div{ min-width:0; }
+  .sqlgrid pre{ font-size:7.6pt; margin:0; }
+  .flow{ display:flex; gap:5px; align-items:center; flex-wrap:wrap; margin:8px 0; }
+  .flow span{ border:1.5px solid var(--pc1); border-radius:8px; padding:3px 9px; font-weight:700; font-size:8.6pt; background:#fff; }
+  .flow span.h{ background:var(--pc1); color:#fff; }
+  .flow i{ font-style:normal; color:var(--pc1); font-weight:800; }
+  .venn{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .venn div{ border:1px solid var(--line); border-radius:10px; padding:6px; text-align:center; font-size:8.2pt; }
+  .venn svg{ display:block; margin:0 auto 3px; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Assessment 3 · Coding Round</span></div>
+  <h1>Coding Assessment<br>DSA + SQL + Frontend<br><span>Zero to Hero</span></h1>
+  <div class="mono-tag">&gt; 3 questions · 60 minutes · 1 DSA + 1 SQL + 1 Frontend_</div>
+  <p class="sub">Everything you need for the coding round, from the first line of input handling to medium-level problems. It covers how the platform works, a timing plan, the 8 DSA patterns that come up most, 21 fully solved problems in Java and Python, the SQL joins and GROUP BY patterns that are asked, and front-end tasks in HTML, CSS, JavaScript, React and Vue. Every program in this guide was compiled and run against its test cases.</p>
+  <div class="roles"><div>Java · Python · C++ · C#</div><div>Arrays &amp; strings</div><div>Hashing &amp; two pointers</div><div>Recursion &amp; numbers</div><div>SQL joins</div><div>DOM · React · Vue</div></div>
+  <div class="stats">
+    <div class="stat"><b>3</b><span>Questions (1 each)</span></div>
+    <div class="stat"><b>60 min</b><span>Suggested 25 · 15 · 20</span></div>
+    <div class="stat"><b>21</b><span>Solved DSA problems</span></div>
+    <div class="stat"><b>10</b><span>SQL patterns with real output</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + OVERVIEW ================= -->
+<section class="page-break part dsa">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#059669">00</b>The coding round: format, platform and scoring</li>
+    <li><b style="color:#059669">01</b>The 60-minute game plan</li>
+    <li><b style="color:#059669">A1</b>Input/output templates (Java, Python, C++, C#)</li>
+    <li><b style="color:#059669">A2</b>Complexity: will my solution pass?</li>
+    <li><b style="color:#059669">A3</b>Arrays (P1–P3)</li>
+    <li><b style="color:#059669">A4</b>Strings (P4–P7)</li>
+    <li><b style="color:#059669">A5</b>Hashing (P8–P10)</li>
+    <li><b style="color:#059669">A6</b>Two pointers &amp; sliding window (P11–P13)</li>
+    <li><b style="color:#059669">A7</b>Sorting-based problems (P14–P15)</li>
+    <li><b style="color:#059669">A8</b>Recursion &amp; backtracking (P16–P17)</li>
+    <li><b style="color:#059669">A9</b>Number logic (P18–P21)</li>
+    <li><b style="color:#059669">A10</b>Language cheat sheet</li>
+    <li><b style="color:#4f46e5">B</b>SQL: joins, grouping, subqueries, 10 patterns</li>
+    <li><b style="color:#db2777">C</b>Frontend: DOM, CSS, React, Vue</li>
+    <li><b style="color:#d97706">D</b>Practice list, 10-day plan, final checklist</li>
+  </ul>
+
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">00</div><div><div class="kicker">Know the round</div><h2>The Coding Round</h2></div></div>
+  <p class="lead">Three questions in <b>60 minutes</b>: one <b>DSA coding</b> problem, one <b>SQL query</b> and one <b>front-end task</b>. You choose the order. Each answer is graded by <b>hidden test cases</b>, so partially correct code earns partial marks.</p>
+  <table class="tight"><thead><tr><th style="width:17%">Question</th><th style="width:12%">Time plan</th><th>What it looks like</th></tr></thead><tbody>
+    <tr><td><b>C1 · DSA</b></td><td>~25 min</td><td>LeetCode <b>Easy to Medium</b>: arrays, strings, hashing, two pointers, basic recursion, sorting-based problems, number logic. Languages: <b>Java, Python, C++, C#, .NET</b> (some candidates only saw Java, Python and C#).</td></tr>
+    <tr><td><b>C2 · SQL</b></td><td>~15 min</td><td>One query on 1–3 tables: SELECT/WHERE/ORDER BY/GROUP BY/HAVING, <b>joins (main focus)</b>, aggregates, DISTINCT, LIMIT, basic subqueries. Exact column aliases are required.</td></tr>
+    <tr><td><b>C3 · Frontend</b></td><td>~20 min</td><td>Complete or fix a given HTML/CSS/JS template (HackerRank React-certification style): DOM manipulation, events, form validation, CSS selectors and flexbox, toggling classes, React and Vue basics.</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">How the coding editor works</b><br>Pick a language → a <b>template</b> appears (often a function to complete, sometimes a full program). <b>Run</b> / <b>Compile &amp; Run</b> uses the sample input; <b>Submit</b> runs all test cases, including hidden ones. You can usually submit more than once; the last submission counts.</div>
+    <div class="note alert"><span class="t">Important for Java users</span>The template may contain a line like <code>throw new Exception(...)</code> or <code>throw new UnsupportedOperationException()</code>. <b>Comment it out or delete it</b> before running, or your code will fail even if the logic is correct. Also keep the class name the template uses (often <code>Main</code> or <code>Solution</code>).</div>
+  </div>
+  <div class="note tip"><span class="t">Scoring mindset</span>Hidden tests check <b>edge cases</b>: empty input, one element, all equal values, negative numbers, very large values. A simple solution that handles every edge case beats a clever one that crashes on N = 1.</div>
+</section>
+
+<!-- ================= GAME PLAN ================= -->
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">01</div><div><div class="kicker">Use every minute well</div><h2>The 60-Minute Game Plan</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:16%">Minutes</th><th>What to do</th></tr></thead><tbody>
+    <tr><td><b>0 – 3</b></td><td>Open all three questions and read them. <b>Start with the one you are strongest at</b> to bank marks early (many candidates do SQL first; it is the shortest).</td></tr>
+    <tr><td><b>3 – 18</b></td><td>SQL (~15 min): write the query, Run, check column names and order against the expected output, Submit.</td></tr>
+    <tr><td><b>18 – 38</b></td><td>Frontend (~20 min): do the objectives one by one, keep ids/classes/text exact, check the Result pane after each change.</td></tr>
+    <tr><td><b>38 – 58</b></td><td>DSA (~20–25 min): brute force first if needed, then optimise. Test the samples and your own edge cases, then Submit.</td></tr>
+    <tr><td><b>58 – 60</b></td><td>Make sure every question has a submitted answer. Partial credit is better than nothing.</td></tr>
+  </tbody></table>
+  <h3>Solving a DSA problem in 6 steps</h3>
+  <div class="flow"><span>1 Read twice</span><i>→</i><span>2 Note input limits</span><i>→</i><span>3 Work 1 example by hand</span><i>→</i><span>4 Pick a pattern</span><i>→</i><span>5 Code + run samples</span><i>→</i><span class="h">6 Test edge cases, submit</span></div>
+  <div class="three">
+    <div class="def"><b class="t">Pattern hints in the wording</b><br>"pair / two numbers add up to" → hashing or two pointers · "longest / shortest substring" → sliding window · "sorted array" → two pointers or binary search · "count / frequency / duplicate / first unique" → HashMap · "all combinations / subsets" → recursion · "overlapping intervals" → sort first.</div>
+    <div class="def"><b class="t">Edge-case checklist</b><br>N = 0 or 1 · all elements equal · negative numbers and zero · duplicates · already sorted / reverse sorted · maximum N (time) · values near 10<sup>9</sup> (use <b>long</b>) · empty string or spaces only · upper/lower case.</div>
+    <div class="def"><b class="t">When stuck</b><br>Write the brute force (nested loops) and submit it: it passes the small tests. Then optimise with a HashMap, sorting or two pointers. Print intermediate values to debug, and <b>remove the prints</b> before submitting.</div>
+  </div>
+  <div class="note warn"><span class="t">Output format is part of the answer</span>Print exactly what is asked: no extra text like "Answer:", no trailing spaces where a single space is expected, and the exact case (YES vs Yes). When a function is required, <b>return</b> the value instead of printing it.</div>
+</section>
+
+<!-- ================= PART A: DSA ================= -->
+<section class="page-break part dsa">
+  <div class="banner dsa"><div class="big">A</div><div class="pl">PART A · BACKEND DSA CODING (C1)</div><h2>Data Structures &amp; Algorithms</h2>
+    <p>Input handling, complexity, then the eight patterns that cover almost every Easy–Medium question, each with solved, tested programs in Java and Python.</p></div>
+  <div class="sec-head"><div class="sec-num">A1</div><div><div class="kicker">Read input, print output</div><h2>Input / Output Templates</h2></div></div>
+  <p>Some questions give a <b>function to complete</b> (the platform reads input for you). Others expect a <b>full program</b> that reads from standard input (the keyboard) and prints to standard output. Learn one reading template by heart in your language. Each one below reads <code>N</code>, then N numbers, then a word.</p>
+  <div class="code2"><div><div class="lang">Java — BufferedReader (fast)</div><pre class=""><code><span class="k">import</span> java.util.*;
+<span class="k">import</span> java.io.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) <span class="k">throws</span> IOException {
+        BufferedReader br = <span class="k">new</span> BufferedReader(<span class="k">new</span> InputStreamReader(<span class="k">System</span>.in));
+        <span class="k">int</span> n = <span class="k">Integer</span>.parseInt(br.readLine().trim());           <span class="c">// line 1: N</span>
+        StringTokenizer st = <span class="k">new</span> StringTokenizer(br.readLine());   <span class="c">// line 2: N numbers</span>
+        <span class="k">int</span>[] a = <span class="k">new</span> <span class="k">int</span>[n];
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) a[i] = <span class="k">Integer</span>.parseInt(st.nextToken());
+        <span class="k">String</span> word = br.readLine().trim();                        <span class="c">// line 3: a string</span>
+        <span class="k">long</span> sum = <span class="n">0</span>;
+        <span class="k">for</span> (<span class="k">int</span> x : a) sum += x;
+        <span class="k">System</span>.out.println(sum + <span class="s">&quot; &quot;</span> + word.length());
+    }
+}</code></pre></div><div><div class="lang">Python — read everything at once</div><pre class=""><code><span class="k">import</span> sys
+data = sys.stdin.read().split()      <span class="c"># all tokens at once (fast)</span>
+n = <span class="k">int</span>(data[<span class="n">0</span>])                     <span class="c"># line 1: N</span>
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, data[<span class="n">1</span>:<span class="n">1</span> + n]))    <span class="c"># line 2: N numbers</span>
+word = data[<span class="n">1</span> + n]                   <span class="c"># line 3: a string</span>
+<span class="k">print</span>(<span class="k">sum</span>(a), <span class="k">len</span>(word))</code></pre></div></div><div class="code2"><div><div class="lang">C++ — cin with fast I/O</div><pre class=""><code><span class="k">#include &lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="k">std</span>;
+
+<span class="k">int</span> <span class="k">main</span>() {
+    <span class="k">ios</span>::<span class="k">sync_with_stdio</span>(<span class="k">false</span>);
+    <span class="k">cin</span>.tie(<span class="k">nullptr</span>);
+    <span class="k">int</span> n;
+    <span class="k">cin</span> &gt;&gt; n;                          <span class="c">// line 1: N</span>
+    <span class="k">vector</span>&lt;<span class="k">long</span> <span class="k">long</span>&gt; a(n);
+    <span class="k">for</span> (<span class="k">auto</span> &amp;x : a) <span class="k">cin</span> &gt;&gt; x;        <span class="c">// line 2: N numbers</span>
+    <span class="k">string</span> word;
+    <span class="k">cin</span> &gt;&gt; word;                       <span class="c">// line 3: a string</span>
+    <span class="k">long</span> <span class="k">long</span> sum = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">auto</span> x : a) sum += x;
+    <span class="k">cout</span> &lt;&lt; sum &lt;&lt; <span class="s">&quot; &quot;</span> &lt;&lt; word.size() &lt;&lt; <span class="k">endl</span>;
+    <span class="k">return</span> <span class="n">0</span>;
+}</code></pre></div><div><div class="lang">C# — Console.ReadLine + Split</div><pre class=""><code><span class="k">using</span> System;
+<span class="k">using</span> System.Linq;
+
+<span class="k">class</span> Program {
+    <span class="k">static</span> <span class="k">void</span> Main() {
+        <span class="k">int</span> n = <span class="k">int</span>.<span class="k">Parse</span>(<span class="k">Console</span>.<span class="k">ReadLine</span>().Trim());               <span class="c">// line 1: N</span>
+        <span class="k">long</span>[] a = <span class="k">Console</span>.<span class="k">ReadLine</span>().<span class="k">Split</span>(<span class="s">&#x27; &#x27;</span>, StringSplitOptions.RemoveEmptyEntries)
+                          .<span class="k">Select</span>(<span class="k">long</span>.<span class="k">Parse</span>).ToArray();           <span class="c">// line 2: N numbers</span>
+        <span class="k">string</span> word = <span class="k">Console</span>.<span class="k">ReadLine</span>().Trim();                    <span class="c">// line 3: a string</span>
+        <span class="k">Console</span>.<span class="k">WriteLine</span>(a.Sum() + <span class="s">&quot; &quot;</span> + word.Length);
+    }
+}</code></pre></div></div><p class="small">Sample input <code>5 / 3 1 4 1 5 / hello</code> → output <b>14 5</b> (sum of the numbers and the length of the word). The Java, Python and C++ templates were compiled and run on this input; the C# template follows the same steps but was not executed for this guide.</p>
+  <div class="two">
+    <div class="def"><b class="t">Function-style template (very common)</b><br>You only write the body, for example <code>public static int secondLargest(int[] arr)</code> or <code>def second_largest(arr):</code>. <b>Return</b> the answer; do not print it and do not read input yourself. Keep the given signature unchanged.</div>
+    <div class="def"><b class="t">Reading tips</b><br>Java: <code>Scanner</code> is simple but slow for 10<sup>5</sup>+ numbers, so use <code>BufferedReader</code>. Mixing <code>nextInt()</code> and <code>nextLine()</code> leaves a newline behind, so call an extra <code>nextLine()</code>. Python: <code>input().split()</code> per line, or <code>sys.stdin.read().split()</code> for everything at once.</div>
+  </div>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">A2</div><div><div class="kicker">Will it be fast enough?</div><h2>Complexity in Practice</h2></div></div>
+  <p>Online judges allow roughly <b>10<sup>8</sup> simple operations per second</b> (Python is about 10× slower than Java/C++). Use the input limit to choose the algorithm before you code:</p>
+  <table class="tight"><thead><tr><th>Max N</th><th>Needed complexity</th><th>Typical approach</th></tr></thead><tbody>
+    <tr><td>N ≤ 10–20</td><td>O(2<sup>N</sup>), O(N!)</td><td>Recursion, generate all subsets/permutations</td></tr>
+    <tr><td>N ≤ 1,000</td><td>O(N²)</td><td>Two nested loops, brute force over pairs</td></tr>
+    <tr><td>N ≤ 10<sup>5</sup> – 10<sup>6</sup></td><td>O(N log N) or O(N)</td><td>Sorting, HashMap, two pointers, sliding window, prefix sums</td></tr>
+    <tr><td>N ≤ 10<sup>7</sup></td><td>O(N)</td><td>One pass, sieve</td></tr>
+    <tr><td>N ≤ 10<sup>18</sup></td><td>O(log N) or O(√N)</td><td>Math, binary representation, digit loops, GCD</td></tr>
+  </tbody></table>
+  <div class="three">
+    <div class="def"><b class="t">Integer overflow</b><br>Java/C++/C# <code>int</code> holds about ±2.1 × 10<sup>9</sup>. Sums of many values, products and factorials need <code>long</code> / <code>long long</code>. Python integers never overflow.</div>
+    <div class="def"><b class="t">Hidden O(N) costs</b><br>String <code>+=</code> in a loop (use StringBuilder / join), <code>list.remove(x)</code>, <code>x in list</code> (use a set), and <code>s.substring</code> inside a loop all cost O(N) each time.</div>
+    <div class="def"><b class="t">Space</b><br>A HashMap or extra array of N items is fine for N ≤ 10<sup>6</sup>. Deep recursion (N &gt; ~10<sup>4</sup>) can overflow the stack, so prefer loops then.</div>
+  </div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A3</div><div><div class="kicker">The most common topic</div><h2>Arrays</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Core moves</b><br>Traverse once and keep running values (max, min, sum, count) · <b>prefix sums</b> pre[i] = pre[i-1] + a[i], so a range sum is pre[r] − pre[l−1] · reverse a range with two indices · in-place rewrite with a write pointer · <b>Kadane</b> for the best subarray.</div>
+    <div class="def"><b class="t">Questions you will meet</b><br>Second largest / smallest · max subarray sum · rotate by K · move zeros · missing number (n(n+1)/2 − sum) · leaders in an array · equilibrium index (prefix sums) · stock buy/sell once (track the min price so far).</div>
+  </div>
+  
+<div class="prob">
+  <div class="phead"><span class="pno">P1</span><h3>Second Largest Distinct Element</h3><span class="chip easy">Easy</span><span class="chip t">Arrays</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Given an array of N integers, print the second largest <b>distinct</b> value. If it does not exist (all values equal, or N = 1), print -1.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N. Line 2: N integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">6
+12 35 1 10 34 1</pre></td><td><pre class="io">34</pre></td></tr><tr><td><pre class="io">3
+5 5 3</pre></td><td><pre class="io">3</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Keep two variables: <b>first</b> (largest) and <b>second</b>, both starting at the smallest possible value.</li><li>For each x: if x &gt; first, the old first becomes second and x becomes first.</li><li>Else if x &lt; first and x &gt; second, x becomes second (x == first is skipped, so duplicates of the max do not count).</li><li>One pass, no sorting needed.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 5 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Sorting and taking arr[n-2] is wrong when the maximum repeats: [5, 5, 3] must give 3, not 5.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">static</span> <span class="k">long</span> secondLargest(<span class="k">long</span>[] a) {
+        <span class="k">long</span> first = <span class="k">Long</span>.MIN_VALUE, second = <span class="k">Long</span>.MIN_VALUE;
+        <span class="k">for</span> (<span class="k">long</span> x : a) {
+            <span class="k">if</span> (x &gt; first) {
+                second = first;
+                first = x;
+            } <span class="k">else</span> <span class="k">if</span> (x &lt; first &amp;&amp; x &gt; second) {
+                second = x;
+            }
+        }
+        <span class="k">return</span> second == <span class="k">Long</span>.MIN_VALUE ? -<span class="n">1</span> : second;
+    }
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">long</span>[] a = <span class="k">new</span> <span class="k">long</span>[n];
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) a[i] = sc.nextLong();
+        <span class="k">System</span>.out.println(secondLargest(a));
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">def</span> second_largest(a):
+    first = second = <span class="k">None</span>
+    <span class="k">for</span> x <span class="k">in</span> a:
+        <span class="k">if</span> first <span class="k">is</span> <span class="k">None</span> <span class="k">or</span> x &gt; first:
+            second, first = first, x
+        <span class="k">elif</span> x &lt; first <span class="k">and</span> (second <span class="k">is</span> <span class="k">None</span> <span class="k">or</span> x &gt; second):
+            second = x
+    <span class="k">return</span> -<span class="n">1</span> <span class="k">if</span> second <span class="k">is</span> <span class="k">None</span> <span class="k">else</span> second
+
+n = <span class="k">int</span>(<span class="k">input</span>())
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+<span class="k">print</span>(second_largest(a))</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P2</span><h3>Maximum Subarray Sum (Kadane's Algorithm)</h3><span class="chip medium">Medium</span><span class="chip t">Arrays</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Given N integers (some may be negative), print the largest sum of a <b>contiguous</b> subarray with at least one element.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N. Line 2: N integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">9
+-2 1 -3 4 -1 2 1 -5 4</pre></td><td><pre class="io">6</pre></td></tr><tr><td><pre class="io">3
+-5 -2 -8</pre></td><td><pre class="io">-2</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li><b>cur</b> = best sum of a subarray that ends at the current index; <b>best</b> = best seen so far.</li><li>For each x: cur = max(x, cur + x) — either start fresh at x or extend the previous subarray.</li><li>best = max(best, cur). Start both with the first element so an all-negative array works.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Starting best at 0 prints 0 for an all-negative array; the answer must be the largest single element.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">long</span> cur = sc.nextLong(), best = cur;
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">1</span>; i &lt; n; i++) {
+            <span class="k">long</span> x = sc.nextLong();
+            cur = <span class="k">Math</span>.max(x, cur + x);
+            best = <span class="k">Math</span>.max(best, cur);
+        }
+        <span class="k">System</span>.out.println(best);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n = <span class="k">int</span>(<span class="k">input</span>())
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+cur = best = a[<span class="n">0</span>]
+<span class="k">for</span> x <span class="k">in</span> a[<span class="n">1</span>:]:
+    cur = <span class="k">max</span>(x, cur + x)
+    best = <span class="k">max</span>(best, cur)
+<span class="k">print</span>(best)</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P3</span><h3>Rotate an Array to the Right by K</h3><span class="chip medium">Medium</span><span class="chip t">Arrays</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Rotate an array of N integers to the right by K steps (K can be larger than N) and print it.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N and K. Line 2: N integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">5 2
+1 2 3 4 5</pre></td><td><pre class="io">4 5 1 2 3</pre></td></tr><tr><td><pre class="io">3 7
+10 20 30</pre></td><td><pre class="io">30 10 20</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Rotating N times gives the same array, so first do <b>k = k % n</b>.</li><li>Reversal trick: reverse the whole array, then reverse the first k elements, then reverse the rest.</li><li>Example [1 2 3 4 5], k=2: reverse all → 5 4 3 2 1 → reverse first 2 → 4 5 3 2 1 → reverse rest → 4 5 1 2 3.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1) extra</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Forgetting k % n gives an index error (or many wasted rotations) when K &gt; N.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">static</span> <span class="k">void</span> reverse(<span class="k">int</span>[] a, <span class="k">int</span> i, <span class="k">int</span> j) {
+        <span class="k">while</span> (i &lt; j) {
+            <span class="k">int</span> t = a[i]; a[i] = a[j]; a[j] = t;
+            i++; j--;
+        }
+    }
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt(), k = sc.nextInt();
+        <span class="k">int</span>[] a = <span class="k">new</span> <span class="k">int</span>[n];
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) a[i] = sc.nextInt();
+        k %= n;
+        reverse(a, <span class="n">0</span>, n - <span class="n">1</span>);
+        reverse(a, <span class="n">0</span>, k - <span class="n">1</span>);
+        reverse(a, k, n - <span class="n">1</span>);
+        <span class="k">StringBuilder</span> sb = <span class="k">new</span> <span class="k">StringBuilder</span>();
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) sb.append(a[i]).append(i &lt; n - <span class="n">1</span> ? <span class="s">&quot; &quot;</span> : <span class="s">&quot;&quot;</span>);
+        <span class="k">System</span>.out.println(sb);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n, k = <span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split())
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+k %= n
+a = a[-k:] + a[:-k] <span class="k">if</span> k <span class="k">else</span> a      <span class="c"># slicing does the rotation</span>
+<span class="k">print</span>(*a)</code></pre></div></div>
+</div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A4</div><div><div class="kicker">Characters and words</div><h2>Strings</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Core moves</b><br>Loop over characters · count with <code>int[26]</code> (<code>c - 'a'</code>) or a HashMap · two pointers from both ends (palindromes) · split into words · build output with <b>StringBuilder</b> (Java) or <code>"".join(list)</code> (Python). Java Strings are <b>immutable</b>; compare them with <code>.equals()</code>, never <code>==</code>.</div>
+    <div class="def"><b class="t">Questions you will meet</b><br>Palindrome · anagram · first unique character · reverse words · compress (aaabb → a3b2) · count vowels/consonants · toggle case · remove duplicates · longest common prefix · check rotation (s2 inside s1 + s1).</div>
+  </div>
+  
+<div class="prob">
+  <div class="phead"><span class="pno">P4</span><h3>Valid Palindrome (Ignore Case and Symbols)</h3><span class="chip easy">Easy</span><span class="chip t">Strings</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">A sentence is a palindrome if, after keeping only letters and digits and ignoring case, it reads the same forwards and backwards. Print <b>YES</b> or <b>NO</b>.</p>
+      <p class="pfmt"><b>Input:</b> One line of text (may contain spaces and punctuation).</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">A man, a plan, a canal: Panama</pre></td><td><pre class="io">YES</pre></td></tr><tr><td><pre class="io">race a car</pre></td><td><pre class="io">NO</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Two pointers: i from the left, j from the right.</li><li>Skip characters that are not letters or digits.</li><li>Compare lower-case characters; if they differ print NO. If the pointers meet, print YES.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Comparing without skipping spaces/punctuation, or without ignoring case, fails "A man, a plan, a canal: Panama".</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">String</span> s = sc.hasNextLine() ? sc.nextLine() : <span class="s">&quot;&quot;</span>;
+        <span class="k">int</span> i = <span class="n">0</span>, j = s.length() - <span class="n">1</span>;
+        <span class="k">boolean</span> ok = <span class="k">true</span>;
+        <span class="k">while</span> (i &lt; j) {
+            <span class="k">char</span> a = s.charAt(i), b = s.charAt(j);
+            <span class="k">if</span> (!<span class="k">Character</span>.isLetterOrDigit(a)) { i++; <span class="k">continue</span>; }
+            <span class="k">if</span> (!<span class="k">Character</span>.isLetterOrDigit(b)) { j--; <span class="k">continue</span>; }
+            <span class="k">if</span> (<span class="k">Character</span>.toLowerCase(a) != <span class="k">Character</span>.toLowerCase(b)) { ok = <span class="k">false</span>; <span class="k">break</span>; }
+            i++; j--;
+        }
+        <span class="k">System</span>.out.println(ok ? <span class="s">&quot;YES&quot;</span> : <span class="s">&quot;NO&quot;</span>);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>s = <span class="k">input</span>()
+clean = [c.lower() <span class="k">for</span> c <span class="k">in</span> s <span class="k">if</span> c.isalnum()]
+<span class="k">print</span>(<span class="s">&quot;YES&quot;</span> <span class="k">if</span> clean == clean[::-<span class="n">1</span>] <span class="k">else</span> <span class="s">&quot;NO&quot;</span>)</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P5</span><h3>Check if Two Strings are Anagrams</h3><span class="chip easy">Easy</span><span class="chip t">Strings</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Two words are anagrams if they contain the same letters the same number of times (case-insensitive). Print <b>YES</b> or <b>NO</b>.</p>
+      <p class="pfmt"><b>Input:</b> Two lines, one word on each.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">Listen
+Silent</pre></td><td><pre class="io">YES</pre></td></tr><tr><td><pre class="io">rat
+car</pre></td><td><pre class="io">NO</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>If the lengths differ, the answer is NO.</li><li>Count letters with an int[26] array (or a HashMap/Counter): +1 for each letter of the first word, -1 for the second.</li><li>They are anagrams only if every count ends at 0.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1) (26 counters)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Sorting both strings also works (O(N log N)), but remember to lower-case them first.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">String</span> a = sc.next().toLowerCase(), b = sc.next().toLowerCase();
+        <span class="k">if</span> (a.length() != b.length()) { <span class="k">System</span>.out.println(<span class="s">&quot;NO&quot;</span>); <span class="k">return</span>; }
+        <span class="k">int</span>[] cnt = <span class="k">new</span> <span class="k">int</span>[<span class="n">26</span>];
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; a.length(); i++) {
+            cnt[a.charAt(i) - <span class="s">&#x27;a&#x27;</span>]++;
+            cnt[b.charAt(i) - <span class="s">&#x27;a&#x27;</span>]--;
+        }
+        <span class="k">for</span> (<span class="k">int</span> c : cnt) <span class="k">if</span> (c != <span class="n">0</span>) { <span class="k">System</span>.out.println(<span class="s">&quot;NO&quot;</span>); <span class="k">return</span>; }
+        <span class="k">System</span>.out.println(<span class="s">&quot;YES&quot;</span>);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">from</span> collections <span class="k">import</span> Counter
+
+a = <span class="k">input</span>().strip().lower()
+b = <span class="k">input</span>().strip().lower()
+<span class="k">print</span>(<span class="s">&quot;YES&quot;</span> <span class="k">if</span> Counter(a) == Counter(b) <span class="k">else</span> <span class="s">&quot;NO&quot;</span>)</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P6</span><h3>Reverse the Words of a Sentence</h3><span class="chip easy">Easy</span><span class="chip t">Strings</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Reverse the order of the words in a sentence. Words are separated by one or more spaces; print them separated by a single space with no leading or trailing spaces.</p>
+      <p class="pfmt"><b>Input:</b> One line of text.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">the sky is blue</pre></td><td><pre class="io">blue is sky the</pre></td></tr><tr><td><pre class="io">  hello   world</pre></td><td><pre class="io">world hello</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Split on whitespace: Java <code>trim().split("\\s+")</code>, Python <code>split()</code> (no argument) — both drop empty pieces.</li><li>Join the words in reverse order with a single space.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 3 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> split(" ") keeps empty strings when there are double spaces, giving extra spaces in the output.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">String</span> line = sc.hasNextLine() ? sc.nextLine().trim() : <span class="s">&quot;&quot;</span>;
+        <span class="k">if</span> (line.isEmpty()) { <span class="k">System</span>.out.println(); <span class="k">return</span>; }
+        <span class="k">String</span>[] w = line.split(<span class="s">&quot;\\s+&quot;</span>);
+        <span class="k">StringBuilder</span> sb = <span class="k">new</span> <span class="k">StringBuilder</span>();
+        <span class="k">for</span> (<span class="k">int</span> i = w.length - <span class="n">1</span>; i &gt;= <span class="n">0</span>; i--) {
+            sb.append(w[i]);
+            <span class="k">if</span> (i &gt; <span class="n">0</span>) sb.append(<span class="s">&#x27; &#x27;</span>);
+        }
+        <span class="k">System</span>.out.println(sb);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>words = <span class="k">input</span>().split()
+<span class="k">print</span>(<span class="s">&quot; &quot;</span>.join(reversed(words)))</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P7</span><h3>String Compression (Run-Length Encoding)</h3><span class="chip medium">Medium</span><span class="chip t">Strings</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Compress a string by replacing each run of the same character with the character followed by the run length, e.g. <b>aaabbc → a3b2c1</b>.</p>
+      <p class="pfmt"><b>Input:</b> One line: a non-empty string of letters.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">aaabbc</pre></td><td><pre class="io">a3b2c1</pre></td></tr><tr><td><pre class="io">abc</pre></td><td><pre class="io">a1b1c1</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Walk the string with index i; count how far the same character continues (index j).</li><li>Append the character and the count (j - i), then jump i to j.</li><li>Use a StringBuilder in Java (string + in a loop is slow, O(N²)).</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Forgetting to output the last run after the loop ends (when using a single loop with a counter).</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">String</span> s = sc.next();
+        <span class="k">StringBuilder</span> sb = <span class="k">new</span> <span class="k">StringBuilder</span>();
+        <span class="k">int</span> i = <span class="n">0</span>;
+        <span class="k">while</span> (i &lt; s.length()) {
+            <span class="k">int</span> j = i;
+            <span class="k">while</span> (j &lt; s.length() &amp;&amp; s.charAt(j) == s.charAt(i)) j++;
+            sb.append(s.charAt(i)).append(j - i);
+            i = j;
+        }
+        <span class="k">System</span>.out.println(sb);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">from</span> itertools <span class="k">import</span> groupby
+
+s = <span class="k">input</span>().strip()
+<span class="k">print</span>(<span class="s">&quot;&quot;</span>.join(ch + <span class="k">str</span>(<span class="k">len</span>(<span class="k">list</span>(run))) <span class="k">for</span> ch, run <span class="k">in</span> groupby(s)))</code></pre></div></div>
+</div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A5</div><div><div class="kicker">O(1) lookups</div><h2>Hashing</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">The idea</b><br>A <b>HashMap</b> (dict) maps a key to a value and a <b>HashSet</b> (set) stores unique keys. Insert, lookup and delete take <b>O(1) on average</b>. Turn "have I seen this before?" from an O(N) search into an O(1) check. That usually turns O(N²) into O(N).</div>
+    <div class="def"><b class="t">Typical uses</b><br>Frequency counting · duplicates (set size vs list size) · Two Sum (complement lookup) · first non-repeating · group anagrams (key = sorted word) · longest consecutive sequence · subarray sum = K (map of prefix sums).</div>
+  </div>
+  
+<div class="prob">
+  <div class="phead"><span class="pno">P8</span><h3>First Non-Repeating Character</h3><span class="chip easy">Easy</span><span class="chip t">Hashing</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Print the first character of the string that appears exactly once. If there is none, print -1.</p>
+      <p class="pfmt"><b>Input:</b> One line: a string of lowercase letters.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">leetcode</pre></td><td><pre class="io">l</pre></td></tr><tr><td><pre class="io">loveleetcode</pre></td><td><pre class="io">v</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Pass 1: count every character (int[26] or HashMap).</li><li>Pass 2: walk the string again in order and print the first character whose count is 1.</li><li>Two passes over the string keep the original order.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Iterating over a HashMap instead of the string loses the original order (HashMap is unordered).</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">String</span> s = sc.next();
+        <span class="k">int</span>[] cnt = <span class="k">new</span> <span class="k">int</span>[<span class="n">26</span>];
+        <span class="k">for</span> (<span class="k">char</span> c : s.toCharArray()) cnt[c - <span class="s">&#x27;a&#x27;</span>]++;
+        <span class="k">for</span> (<span class="k">char</span> c : s.toCharArray()) {
+            <span class="k">if</span> (cnt[c - <span class="s">&#x27;a&#x27;</span>] == <span class="n">1</span>) { <span class="k">System</span>.out.println(c); <span class="k">return</span>; }
+        }
+        <span class="k">System</span>.out.println(-<span class="n">1</span>);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">from</span> collections <span class="k">import</span> Counter
+
+s = <span class="k">input</span>().strip()
+cnt = Counter(s)
+<span class="k">print</span>(next((c <span class="k">for</span> c <span class="k">in</span> s <span class="k">if</span> cnt[c] == <span class="n">1</span>), -<span class="n">1</span>))</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P9</span><h3>Two Sum (Return the Indices)</h3><span class="chip easy">Easy</span><span class="chip t">Hashing</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Given N integers and a target T, print the 0-based indices <b>i &lt; j</b> of the two numbers that add up to T (exactly one answer exists).</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N and T. Line 2: N integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">4 9
+2 7 11 15</pre></td><td><pre class="io">0 1</pre></td></tr><tr><td><pre class="io">3 6
+3 2 4</pre></td><td><pre class="io">1 2</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Brute force checks every pair: O(N²).</li><li>Better: a HashMap from value → index of the numbers seen so far.</li><li>For each a[j], if (T - a[j]) is already in the map, the answer is (map[T - a[j]], j). Otherwise store a[j].</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Storing all numbers first and then searching can pair an element with itself (e.g. T = 6 and a 3).</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">long</span> t = sc.nextLong();
+        <span class="k">Map</span>&lt;<span class="k">Long</span>, <span class="k">Integer</span>&gt; seen = <span class="k">new</span> <span class="k">HashMap</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="k">int</span> j = <span class="n">0</span>; j &lt; n; j++) {
+            <span class="k">long</span> x = sc.nextLong();
+            <span class="k">if</span> (seen.containsKey(t - x)) {
+                <span class="k">System</span>.out.println(seen.get(t - x) + <span class="s">&quot; &quot;</span> + j);
+                <span class="k">return</span>;
+            }
+            seen.put(x, j);
+        }
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n, t = <span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split())
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+seen = {}
+<span class="k">for</span> j, x <span class="k">in</span> <span class="k">enumerate</span>(a):
+    <span class="k">if</span> t - x <span class="k">in</span> seen:
+        <span class="k">print</span>(seen[t - x], j)
+        <span class="k">break</span>
+    seen[x] = j</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P10</span><h3>Most Frequent Element (Smallest on a Tie)</h3><span class="chip medium">Medium</span><span class="chip t">Hashing</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Print the value that appears most often. If several values share the highest frequency, print the smallest of them, followed by its frequency.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N. Line 2: N integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">7
+4 1 2 2 4 4 1</pre></td><td><pre class="io">4 3</pre></td></tr><tr><td><pre class="io">6
+5 3 5 3 9 9</pre></td><td><pre class="io">3 2</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Count frequencies in a HashMap (Python: Counter).</li><li>Pick the entry with the highest count; on equal counts prefer the smaller value.</li><li>Compare with a clear rule: (count bigger) OR (count equal AND value smaller).</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Returning the first value reached in the map on a tie — HashMap order is not sorted or insertion order.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">Map</span>&lt;<span class="k">Integer</span>, <span class="k">Integer</span>&gt; freq = <span class="k">new</span> <span class="k">HashMap</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) freq.merge(sc.nextInt(), <span class="n">1</span>, <span class="k">Integer</span>::sum);
+        <span class="k">int</span> bestVal = <span class="n">0</span>, bestCnt = <span class="n">0</span>;
+        <span class="k">for</span> (<span class="k">Map</span>.Entry&lt;<span class="k">Integer</span>, <span class="k">Integer</span>&gt; e : freq.entrySet()) {
+            <span class="k">int</span> v = e.getKey(), c = e.getValue();
+            <span class="k">if</span> (c &gt; bestCnt || (c == bestCnt &amp;&amp; v &lt; bestVal)) {
+                bestVal = v;
+                bestCnt = c;
+            }
+        }
+        <span class="k">System</span>.out.println(bestVal + <span class="s">&quot; &quot;</span> + bestCnt);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">from</span> collections <span class="k">import</span> Counter
+
+n = <span class="k">int</span>(<span class="k">input</span>())
+cnt = Counter(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+val, c = <span class="k">min</span>(cnt.items(), key=<span class="k">lambda</span> kv: (-kv[<span class="n">1</span>], kv[<span class="n">0</span>]))
+<span class="k">print</span>(val, c)</code></pre></div></div>
+</div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A6</div><div><div class="kicker">Two indices instead of two loops</div><h2>Two Pointers &amp; Sliding Window</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Two pointers</b><br>(a) <b>Opposite ends</b> on a <b>sorted</b> array: pair sum, palindrome check, container problems. (b) <b>Same direction</b> (read / write pointer): remove duplicates, move zeros, partition. Each pointer moves at most N times, so the total is O(N).</div>
+    <div class="def"><b class="t">Sliding window</b><br>A window [left, right] over an array or string. Grow right; when the window breaks a rule (repeat character, sum too big), shrink from left. Used for longest/shortest substring or subarray, max sum of K consecutive elements, and at most K distinct characters.</div>
+  </div>
+  
+<div class="prob">
+  <div class="phead"><span class="pno">P11</span><h3>Move Zeros to the End</h3><span class="chip easy">Easy</span><span class="chip t">Two Pointers</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Move all 0s to the end of the array while keeping the order of the non-zero elements. Print the array.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N. Line 2: N integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">5
+0 1 0 3 12</pre></td><td><pre class="io">1 3 12 0 0</pre></td></tr><tr><td><pre class="io">3
+0 0 0</pre></td><td><pre class="io">0 0 0</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Pointer <b>w</b> (write position) starts at 0.</li><li>Scan with i: whenever a[i] != 0, copy it to a[w] and move w forward.</li><li>Finally fill positions w..n-1 with 0. Non-zero order is preserved because we copy left to right.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 3 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Swapping zeros with the last element breaks the order of the non-zero values.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">int</span>[] a = <span class="k">new</span> <span class="k">int</span>[n];
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) a[i] = sc.nextInt();
+        <span class="k">int</span> w = <span class="n">0</span>;
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++)
+            <span class="k">if</span> (a[i] != <span class="n">0</span>) a[w++] = a[i];
+        <span class="k">while</span> (w &lt; n) a[w++] = <span class="n">0</span>;
+        <span class="k">StringBuilder</span> sb = <span class="k">new</span> <span class="k">StringBuilder</span>();
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) sb.append(a[i]).append(i &lt; n - <span class="n">1</span> ? <span class="s">&quot; &quot;</span> : <span class="s">&quot;&quot;</span>);
+        <span class="k">System</span>.out.println(sb);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n = <span class="k">int</span>(<span class="k">input</span>())
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+w = <span class="n">0</span>
+<span class="k">for</span> x <span class="k">in</span> a:
+    <span class="k">if</span> x != <span class="n">0</span>:
+        a[w] = x
+        w += <span class="n">1</span>
+<span class="k">for</span> i <span class="k">in</span> <span class="k">range</span>(w, n):
+    a[i] = <span class="n">0</span>
+<span class="k">print</span>(*a)</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P12</span><h3>Longest Substring Without Repeating Characters</h3><span class="chip medium">Medium</span><span class="chip t">Sliding Window</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Print the length of the longest substring (contiguous) that has no repeated character.</p>
+      <p class="pfmt"><b>Input:</b> One line: a string (may be empty).</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">abcabcbb</pre></td><td><pre class="io">3</pre></td></tr><tr><td><pre class="io">bbbbb</pre></td><td><pre class="io">1</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Sliding window [left, right]. Map each character to the last index where it was seen.</li><li>When s[right] was seen inside the window (last ≥ left), move left to last + 1.</li><li>Update last[s[right]] = right and best = max(best, right - left + 1).</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(alphabet)</b></span><span class="vf">&#10003; 5 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Moving left backwards: always use left = max(left, last + 1) (or the check last ≥ left).</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">String</span> s = sc.hasNextLine() ? sc.nextLine() : <span class="s">&quot;&quot;</span>;
+        <span class="k">Map</span>&lt;<span class="k">Character</span>, <span class="k">Integer</span>&gt; last = <span class="k">new</span> <span class="k">HashMap</span>&lt;&gt;();
+        <span class="k">int</span> left = <span class="n">0</span>, best = <span class="n">0</span>;
+        <span class="k">for</span> (<span class="k">int</span> right = <span class="n">0</span>; right &lt; s.length(); right++) {
+            <span class="k">char</span> c = s.charAt(right);
+            <span class="k">if</span> (last.containsKey(c) &amp;&amp; last.get(c) &gt;= left) left = last.get(c) + <span class="n">1</span>;
+            last.put(c, right);
+            best = <span class="k">Math</span>.max(best, right - left + <span class="n">1</span>);
+        }
+        <span class="k">System</span>.out.println(best);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">import</span> sys
+
+s = sys.stdin.readline().rstrip(<span class="s">&quot;\n&quot;</span>)
+last = {}
+left = best = <span class="n">0</span>
+<span class="k">for</span> right, c <span class="k">in</span> <span class="k">enumerate</span>(s):
+    <span class="k">if</span> last.get(c, -<span class="n">1</span>) &gt;= left:
+        left = last[c] + <span class="n">1</span>
+    last[c] = right
+    best = <span class="k">max</span>(best, right - left + <span class="n">1</span>)
+<span class="k">print</span>(best)</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P13</span><h3>Pair with Target Sum in a Sorted Array</h3><span class="chip easy">Easy</span><span class="chip t">Two Pointers</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">The array is sorted in ascending order. Print the first pair (smallest left value) whose sum equals T, or <b>NONE</b> if no pair exists.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N and T. Line 2: N sorted integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">6 10
+1 2 4 6 8 9</pre></td><td><pre class="io">1 9</pre></td></tr><tr><td><pre class="io">4 100
+1 2 3 4</pre></td><td><pre class="io">NONE</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>i at the start, j at the end.</li><li>sum = a[i] + a[j]. If sum == T, print the pair. If sum &lt; T, move i right (need bigger). If sum &gt; T, move j left.</li><li>Works because the array is sorted — no extra memory needed.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N)</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Using i ≤ j allows a number to pair with itself; use i &lt; j.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">long</span> t = sc.nextLong();
+        <span class="k">long</span>[] a = <span class="k">new</span> <span class="k">long</span>[n];
+        <span class="k">for</span> (<span class="k">int</span> k = <span class="n">0</span>; k &lt; n; k++) a[k] = sc.nextLong();
+        <span class="k">int</span> i = <span class="n">0</span>, j = n - <span class="n">1</span>;
+        <span class="k">while</span> (i &lt; j) {
+            <span class="k">long</span> sum = a[i] + a[j];
+            <span class="k">if</span> (sum == t) { <span class="k">System</span>.out.println(a[i] + <span class="s">&quot; &quot;</span> + a[j]); <span class="k">return</span>; }
+            <span class="k">if</span> (sum &lt; t) i++; <span class="k">else</span> j--;
+        }
+        <span class="k">System</span>.out.println(<span class="s">&quot;NONE&quot;</span>);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n, t = <span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split())
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+i, j = <span class="n">0</span>, n - <span class="n">1</span>
+ans = <span class="s">&quot;NONE&quot;</span>
+<span class="k">while</span> i &lt; j:
+    s = a[i] + a[j]
+    <span class="k">if</span> s == t:
+        ans = f<span class="s">&quot;{a[i]} {a[j]}&quot;</span>
+        <span class="k">break</span>
+    <span class="k">if</span> s &lt; t:
+        i += <span class="n">1</span>
+    <span class="k">else</span>:
+        j -= <span class="n">1</span>
+<span class="k">print</span>(ans)</code></pre></div></div>
+</div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A7</div><div><div class="kicker">Order makes it easy</div><h2>Sorting-Based Problems</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Why sort?</b><br>After sorting, equal items are neighbours (duplicates, grouping), overlapping intervals are adjacent, and two pointers work. Built-in sort is O(N log N): Java <code>Arrays.sort</code> / <code>Collections.sort</code>, Python <code>sorted()</code> / <code>list.sort()</code>, C++ <code>sort()</code>, C# <code>Array.Sort</code>.</div>
+    <div class="def"><b class="t">Custom order</b><br>Java: <code>list.sort((a, b) -&gt; ...)</code> returns negative / zero / positive; use <code>Integer.compare(a, b)</code> instead of <code>a - b</code> for large values. Python: <code>sorted(x, key=lambda v: (-count[v], v))</code> sorts by count descending, then value ascending.</div>
+  </div>
+  
+<div class="prob">
+  <div class="phead"><span class="pno">P14</span><h3>Merge Overlapping Intervals</h3><span class="chip medium">Medium</span><span class="chip t">Sorting</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Given N intervals [start, end], merge all overlapping intervals (touching ones such as [1,3] and [3,5] also merge) and print the result sorted by start, one interval per line.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N. Next N lines: start end.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">4
+1 3
+2 6
+8 10
+15 18</pre></td><td><pre class="io">1 6
+8 10
+15 18</pre></td></tr><tr><td><pre class="io">2
+1 4
+4 5</pre></td><td><pre class="io">1 5</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Sort the intervals by start.</li><li>Keep a list of merged intervals. For each interval, if it starts at or before the end of the last merged one, extend that end to max(end, current end).</li><li>Otherwise it starts a new merged interval.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N log N) for sorting</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Not sorting first, or replacing the end instead of taking the max ([1,10] and [2,3] must stay [1,10]).</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">int</span>[][] iv = <span class="k">new</span> <span class="k">int</span>[n][<span class="n">2</span>];
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) { iv[i][<span class="n">0</span>] = sc.nextInt(); iv[i][<span class="n">1</span>] = sc.nextInt(); }
+        <span class="k">Arrays</span>.sort(iv, (x, y) -&gt; <span class="k">Integer</span>.compare(x[<span class="n">0</span>], y[<span class="n">0</span>]));
+        <span class="k">List</span>&lt;<span class="k">int</span>[]&gt; out = <span class="k">new</span> <span class="k">ArrayList</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="k">int</span>[] cur : iv) {
+            <span class="k">if</span> (!out.isEmpty() &amp;&amp; cur[<span class="n">0</span>] &lt;= out.get(out.size() - <span class="n">1</span>)[<span class="n">1</span>]) {
+                <span class="k">int</span>[] last = out.get(out.size() - <span class="n">1</span>);
+                last[<span class="n">1</span>] = <span class="k">Math</span>.max(last[<span class="n">1</span>], cur[<span class="n">1</span>]);
+            } <span class="k">else</span> {
+                out.add(<span class="k">new</span> <span class="k">int</span>[]{cur[<span class="n">0</span>], cur[<span class="n">1</span>]});
+            }
+        }
+        <span class="k">for</span> (<span class="k">int</span>[] x : out) <span class="k">System</span>.out.println(x[<span class="n">0</span>] + <span class="s">&quot; &quot;</span> + x[<span class="n">1</span>]);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n = <span class="k">int</span>(<span class="k">input</span>())
+iv = <span class="k">sorted</span>(tuple(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split())) <span class="k">for</span> _ <span class="k">in</span> <span class="k">range</span>(n))
+out = []
+<span class="k">for</span> s, e <span class="k">in</span> iv:
+    <span class="k">if</span> out <span class="k">and</span> s &lt;= out[-<span class="n">1</span>][<span class="n">1</span>]:
+        out[-<span class="n">1</span>][<span class="n">1</span>] = <span class="k">max</span>(out[-<span class="n">1</span>][<span class="n">1</span>], e)
+    <span class="k">else</span>:
+        out.append([s, e])
+<span class="k">for</span> s, e <span class="k">in</span> out:
+    <span class="k">print</span>(s, e)</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P15</span><h3>Sort Characters by Frequency</h3><span class="chip medium">Medium</span><span class="chip t">Sorting</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Sort the characters of a string by frequency, highest first. Characters with the same frequency are ordered alphabetically. Print the resulting string.</p>
+      <p class="pfmt"><b>Input:</b> One line: a string of lowercase letters.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">tree</pre></td><td><pre class="io">eert</pre></td></tr><tr><td><pre class="io">cccaaa</pre></td><td><pre class="io">aaaccc</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Count each character.</li><li>Sort the distinct characters with a <b>custom comparator</b>: higher count first, then alphabetical.</li><li>Append each character count times.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N + K log K), K = distinct characters</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> A comparator must be consistent: compare counts first, and only when equal compare characters.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">String</span> s = sc.next();
+        <span class="k">int</span>[] cnt = <span class="k">new</span> <span class="k">int</span>[<span class="n">26</span>];
+        <span class="k">for</span> (<span class="k">char</span> c : s.toCharArray()) cnt[c - <span class="s">&#x27;a&#x27;</span>]++;
+        <span class="k">List</span>&lt;<span class="k">Character</span>&gt; chars = <span class="k">new</span> <span class="k">ArrayList</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; <span class="n">26</span>; i++) <span class="k">if</span> (cnt[i] &gt; <span class="n">0</span>) chars.add((<span class="k">char</span>) (<span class="s">&#x27;a&#x27;</span> + i));
+        chars.sort((x, y) -&gt; cnt[y - <span class="s">&#x27;a&#x27;</span>] != cnt[x - <span class="s">&#x27;a&#x27;</span>]
+                ? cnt[y - <span class="s">&#x27;a&#x27;</span>] - cnt[x - <span class="s">&#x27;a&#x27;</span>]
+                : x - y);
+        <span class="k">StringBuilder</span> sb = <span class="k">new</span> <span class="k">StringBuilder</span>();
+        <span class="k">for</span> (<span class="k">char</span> c : chars) sb.append(<span class="k">String</span>.valueOf(c).repeat(cnt[c - <span class="s">&#x27;a&#x27;</span>]));
+        <span class="k">System</span>.out.println(sb);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">from</span> collections <span class="k">import</span> Counter
+
+s = <span class="k">input</span>().strip()
+cnt = Counter(s)
+order = <span class="k">sorted</span>(cnt, key=<span class="k">lambda</span> c: (-cnt[c], c))
+<span class="k">print</span>(<span class="s">&quot;&quot;</span>.join(c * cnt[c] <span class="k">for</span> c <span class="k">in</span> order))</code></pre></div></div>
+</div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A8</div><div><div class="kicker">A function that calls itself</div><h2>Recursion &amp; Backtracking</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Two parts, always</b><br>(1) <b>Base case</b>: the smallest input, answered directly; without it the recursion never stops (StackOverflowError). (2) <b>Recursive case</b>: solve a smaller version and combine.</div>
+    <div class="def"><b class="t">Memoization</b><br>If the same arguments repeat (Fibonacci, stairs, grid paths), store the results in an array or map. The time drops from exponential to O(number of different states).</div>
+    <div class="def"><b class="t">Backtracking</b><br>Choose → recurse → <b>undo the choice</b>. Generates subsets, permutations and combinations: O(2<sup>N</sup>) or O(N!), so only for small N (≤ 10–20).</div>
+  </div>
+  
+<div class="prob">
+  <div class="phead"><span class="pno">P16</span><h3>Climbing Stairs (Recursion + Memoization)</h3><span class="chip easy">Easy</span><span class="chip t">Recursion</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">You can climb 1 or 2 steps at a time. Print the number of distinct ways to reach the top of N stairs (1 ≤ N ≤ 80).</p>
+      <p class="pfmt"><b>Input:</b> One integer N.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">2</pre></td><td><pre class="io">2</pre></td></tr><tr><td><pre class="io">5</pre></td><td><pre class="io">8</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Recurrence: ways(n) = ways(n-1) + ways(n-2), with ways(1) = 1 and ways(2) = 2.</li><li>Plain recursion recomputes the same values again and again: O(2<sup>N</sup>).</li><li><b>Memoization</b>: store each answer the first time it is computed, so every n is solved once: O(N).</li><li>Use long (64-bit): the answer for N = 80 is above the int range.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N) with memo</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 5 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Without memoization N = 45 already takes seconds; with int instead of long, large N overflows.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">static</span> <span class="k">long</span>[] memo = <span class="k">new</span> <span class="k">long</span>[<span class="n">100</span>];
+
+    <span class="k">static</span> <span class="k">long</span> ways(<span class="k">int</span> n) {
+        <span class="k">if</span> (n &lt;= <span class="n">2</span>) <span class="k">return</span> n;
+        <span class="k">if</span> (memo[n] != <span class="n">0</span>) <span class="k">return</span> memo[n];
+        <span class="k">return</span> memo[n] = ways(n - <span class="n">1</span>) + ways(n - <span class="n">2</span>);
+    }
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">System</span>.out.println(ways(sc.nextInt()));
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">from</span> functools <span class="k">import</span> lru_cache
+
+@lru_cache(maxsize=<span class="k">None</span>)
+<span class="k">def</span> ways(n):
+    <span class="k">if</span> n &lt;= <span class="n">2</span>:
+        <span class="k">return</span> n
+    <span class="k">return</span> ways(n - <span class="n">1</span>) + ways(n - <span class="n">2</span>)
+
+<span class="k">print</span>(ways(<span class="k">int</span>(<span class="k">input</span>())))</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P17</span><h3>Generate All Subsets (Backtracking)</h3><span class="chip medium">Medium</span><span class="chip t">Recursion</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Print every subset of the given distinct letters, one per line, in lexicographic order. Print the empty subset as <b>{}</b>.</p>
+      <p class="pfmt"><b>Input:</b> One line: distinct lowercase letters (1 to 10 of them).</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">abc</pre></td><td><pre class="io">{}
+a
+ab
+abc
+ac
+b
+bc
+c</pre></td></tr><tr><td><pre class="io">ba</pre></td><td><pre class="io">{}
+a
+ab
+b</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Sort the letters. Recursive function go(start, current): print current, then for each i ≥ start, add letter i and recurse with start = i + 1.</li><li>This visits subsets in lexicographic order: {}, a, ab, abc, ac, b, bc, c.</li><li>There are 2<sup>N</sup> subsets, so the work is O(N · 2<sup>N</sup>).</li></ol></div>
+      <div class="cx"><span>Time <b>O(N · 2^N)</b></span><span>Space <b>O(N) recursion depth</b></span><span class="vf">&#10003; 3 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Not removing the last letter after the recursive call (backtracking step) when using a shared StringBuilder/list.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">static</span> <span class="k">char</span>[] s;
+    <span class="k">static</span> <span class="k">StringBuilder</span> out = <span class="k">new</span> <span class="k">StringBuilder</span>();
+
+    <span class="k">static</span> <span class="k">void</span> go(<span class="k">int</span> start, <span class="k">StringBuilder</span> cur) {
+        out.append(cur.length() == <span class="n">0</span> ? <span class="s">&quot;{}&quot;</span> : cur.toString()).append(<span class="s">&#x27;\n&#x27;</span>);
+        <span class="k">for</span> (<span class="k">int</span> i = start; i &lt; s.length; i++) {
+            cur.append(s[i]);
+            go(i + <span class="n">1</span>, cur);
+            cur.deleteCharAt(cur.length() - <span class="n">1</span>);   <span class="c">// backtrack</span>
+        }
+    }
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        s = sc.next().toCharArray();
+        <span class="k">Arrays</span>.sort(s);
+        go(<span class="n">0</span>, <span class="k">new</span> <span class="k">StringBuilder</span>());
+        <span class="k">System</span>.out.print(out);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>s = <span class="k">sorted</span>(<span class="k">input</span>().strip())
+out = []
+
+<span class="k">def</span> go(start, cur):
+    out.append(<span class="s">&quot;&quot;</span>.join(cur) <span class="k">or</span> <span class="s">&quot;{}&quot;</span>)
+    <span class="k">for</span> i <span class="k">in</span> <span class="k">range</span>(start, <span class="k">len</span>(s)):
+        cur.append(s[i])
+        go(i + <span class="n">1</span>, cur)
+        cur.pop()                      <span class="c"># backtrack</span>
+
+go(<span class="n">0</span>, [])
+<span class="k">print</span>(<span class="s">&quot;\n&quot;</span>.join(out))</code></pre></div></div>
+</div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A9</div><div><div class="kicker">Math-flavoured problems</div><h2>Number Logic</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Digit tricks</b><br>Last digit: <code>n % 10</code> · remove the last digit: <code>n / 10</code> (Python <code>//</code>) · digit count: loop or <code>len(str(n))</code> · reverse: <code>rev = rev * 10 + n % 10</code> · palindrome number: reversed == original · sum of digits, Armstrong, strong, perfect and Harshad numbers all use the same loop.</div>
+    <div class="def"><b class="t">Number theory essentials</b><br>Prime check: divide only up to √n · many primes: sieve · GCD: Euclid · LCM = a / gcd × b · even/odd: <code>n % 2</code> or <code>n &amp; 1</code> · power of two: <code>n &gt; 0 &amp;&amp; (n &amp; (n − 1)) == 0</code> · fast power by squaring.</div>
+  </div>
+  
+<div class="prob">
+  <div class="phead"><span class="pno">P18</span><h3>Count Primes up to N (Sieve of Eratosthenes)</h3><span class="chip medium">Medium</span><span class="chip t">Number Logic</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Print how many prime numbers are ≤ N (0 ≤ N ≤ 10<sup>7</sup>).</p>
+      <p class="pfmt"><b>Input:</b> One integer N.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">10</pre></td><td><pre class="io">4</pre></td></tr><tr><td><pre class="io">1</pre></td><td><pre class="io">0</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Checking every number by trial division is O(N√N) — too slow for N = 10<sup>7</sup>.</li><li>Sieve: mark all numbers as prime, then for each prime p starting at 2, mark p·p, p·p + p, ... as not prime.</li><li>Only p up to √N are needed. Count what stays marked.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N log log N)</b></span><span>Space <b>O(N)</b></span><span class="vf">&#10003; 5 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> 0 and 1 are not prime; start crossing out at p·p (smaller multiples were already crossed out).</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">if</span> (n &lt; <span class="n">2</span>) { <span class="k">System</span>.out.println(<span class="n">0</span>); <span class="k">return</span>; }
+        <span class="k">boolean</span>[] composite = <span class="k">new</span> <span class="k">boolean</span>[n + <span class="n">1</span>];
+        <span class="k">int</span> count = <span class="n">0</span>;
+        <span class="k">for</span> (<span class="k">int</span> p = <span class="n">2</span>; p &lt;= n; p++) {
+            <span class="k">if</span> (composite[p]) <span class="k">continue</span>;
+            count++;
+            <span class="k">for</span> (<span class="k">long</span> m = (<span class="k">long</span>) p * p; m &lt;= n; m += p) composite[(<span class="k">int</span>) m] = <span class="k">true</span>;
+        }
+        <span class="k">System</span>.out.println(count);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n = <span class="k">int</span>(<span class="k">input</span>())
+<span class="k">if</span> n &lt; <span class="n">2</span>:
+    <span class="k">print</span>(<span class="n">0</span>)
+<span class="k">else</span>:
+    is_prime = bytearray([<span class="n">1</span>]) * (n + <span class="n">1</span>)
+    is_prime[<span class="n">0</span>] = is_prime[<span class="n">1</span>] = <span class="n">0</span>
+    p = <span class="n">2</span>
+    <span class="k">while</span> p * p &lt;= n:
+        <span class="k">if</span> is_prime[p]:
+            is_prime[p * p::p] = bytearray(<span class="k">len</span>(<span class="k">range</span>(p * p, n + <span class="n">1</span>, p)))
+        p += <span class="n">1</span>
+    <span class="k">print</span>(<span class="k">sum</span>(is_prime))</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P19</span><h3>Armstrong Numbers in a Range</h3><span class="chip easy">Easy</span><span class="chip t">Number Logic</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">An Armstrong number equals the sum of its digits each raised to the number of digits (153 = 1³ + 5³ + 3³). Print all Armstrong numbers between L and R (inclusive) separated by spaces, or -1 if there are none.</p>
+      <p class="pfmt"><b>Input:</b> One line: L R.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">100 500</pre></td><td><pre class="io">153 370 371 407</pre></td></tr><tr><td><pre class="io">1 9</pre></td><td><pre class="io">1 2 3 4 5 6 7 8 9</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>For each number, count its digits d (convert to string, or divide by 10 repeatedly).</li><li>Add digit<sup>d</sup> for every digit and compare with the number.</li><li>Collect the matches; print -1 if the list is empty.</li></ol></div>
+      <div class="cx"><span>Time <b>O((R - L) · digits)</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> Using the fixed power 3 for every number: 9474 has 4 digits, so it needs power 4.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">static</span> <span class="k">boolean</span> isArmstrong(<span class="k">int</span> x) {
+        <span class="k">int</span> d = <span class="k">String</span>.valueOf(x).length();
+        <span class="k">long</span> sum = <span class="n">0</span>;
+        <span class="k">for</span> (<span class="k">int</span> t = x; t &gt; <span class="n">0</span>; t /= <span class="n">10</span>) sum += (<span class="k">long</span>) <span class="k">Math</span>.pow(t % <span class="n">10</span>, d);
+        <span class="k">return</span> sum == x;
+    }
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> l = sc.nextInt(), r = sc.nextInt();
+        <span class="k">StringBuilder</span> sb = <span class="k">new</span> <span class="k">StringBuilder</span>();
+        <span class="k">for</span> (<span class="k">int</span> x = <span class="k">Math</span>.max(l, <span class="n">1</span>); x &lt;= r; x++) {
+            <span class="k">if</span> (isArmstrong(x)) sb.append(sb.length() &gt; <span class="n">0</span> ? <span class="s">&quot; &quot;</span> : <span class="s">&quot;&quot;</span>).append(x);
+        }
+        <span class="k">System</span>.out.println(sb.length() == <span class="n">0</span> ? <span class="s">&quot;-1&quot;</span> : sb.toString());
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>l, r = <span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split())
+res = [x <span class="k">for</span> x <span class="k">in</span> <span class="k">range</span>(<span class="k">max</span>(l, <span class="n">1</span>), r + <span class="n">1</span>)
+       <span class="k">if</span> x == <span class="k">sum</span>(<span class="k">int</span>(c) ** <span class="k">len</span>(<span class="k">str</span>(x)) <span class="k">for</span> c <span class="k">in</span> <span class="k">str</span>(x))]
+<span class="k">print</span>(*res <span class="k">if</span> res <span class="k">else</span> [-<span class="n">1</span>])</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P20</span><h3>GCD and LCM of an Array</h3><span class="chip easy">Easy</span><span class="chip t">Number Logic</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">Print the GCD and the LCM of N positive integers. The LCM fits in a 64-bit integer.</p>
+      <p class="pfmt"><b>Input:</b> Line 1: N. Line 2: N positive integers.</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">3
+12 18 24</pre></td><td><pre class="io">6 72</pre></td></tr><tr><td><pre class="io">2
+7 13</pre></td><td><pre class="io">1 91</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Euclid: gcd(a, b) = gcd(b, a % b), and gcd(a, 0) = a.</li><li>gcd of many numbers: fold left — g = gcd(g, x).</li><li>lcm(a, b) = a / gcd(a, b) * b. Divide <b>before</b> multiplying to avoid overflow.</li></ol></div>
+      <div class="cx"><span>Time <b>O(N log(max))</b></span><span>Space <b>O(1)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> a * b / gcd(a, b) can overflow even when the final LCM fits; compute a / gcd * b instead.</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">static</span> <span class="k">long</span> gcd(<span class="k">long</span> a, <span class="k">long</span> b) {
+        <span class="k">return</span> b == <span class="n">0</span> ? a : gcd(b, a % b);
+    }
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">int</span> n = sc.nextInt();
+        <span class="k">long</span> g = <span class="n">0</span>, l = <span class="n">1</span>;
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) {
+            <span class="k">long</span> x = sc.nextLong();
+            g = gcd(g, x);
+            l = l / gcd(l, x) * x;
+        }
+        <span class="k">System</span>.out.println(g + <span class="s">&quot; &quot;</span> + l);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code><span class="k">from</span> math <span class="k">import</span> gcd
+<span class="k">from</span> functools <span class="k">import</span> reduce
+
+n = <span class="k">int</span>(<span class="k">input</span>())
+a = <span class="k">list</span>(<span class="k">map</span>(<span class="k">int</span>, <span class="k">input</span>().split()))
+g = reduce(gcd, a)
+l = reduce(<span class="k">lambda</span> x, y: x // gcd(x, y) * y, a)
+<span class="k">print</span>(g, l)</code></pre></div></div>
+</div>
+<div class="prob">
+  <div class="phead"><span class="pno">P21</span><h3>Binary Form and Number of Set Bits</h3><span class="chip easy">Easy</span><span class="chip t">Number Logic</span></div>
+  <div class="pgrid">
+    <div>
+      <p class="pst">For a non-negative integer N, print its binary representation and the number of 1-bits.</p>
+      <p class="pfmt"><b>Input:</b> One integer N (0 ≤ N ≤ 10<sup>18</sup>).</p>
+      <table class="iot"><thead><tr><th>Sample input</th><th>Output</th></tr></thead><tbody><tr><td><pre class="io">10</pre></td><td><pre class="io">1010 2</pre></td></tr><tr><td><pre class="io">0</pre></td><td><pre class="io">0 0</pre></td></tr></tbody></table>
+    </div>
+    <div>
+      <div class="apr"><b class="t">Approach</b><ol><li>Repeatedly take N % 2 (the last bit) and divide by 2; the bits come out in reverse order.</li><li>Count the 1-bits along the way (or use n &amp; (n - 1), which removes the lowest 1-bit).</li><li>Library shortcuts: Java Long.toBinaryString / Long.bitCount; Python bin(n)[2:] / bin(n).count("1").</li></ol></div>
+      <div class="cx"><span>Time <b>O(log N)</b></span><span>Space <b>O(log N)</b></span><span class="vf">&#10003; 4 tests passed (Java + Python)</span></div>
+    </div>
+  </div>
+  <div class="trap2"><b>Trap:</b> N = 0 must print 0 (a loop that runs while n &gt; 0 prints nothing).</div>
+  <div class="code2"><div><div class="lang">Java</div><pre class=""><code><span class="k">import</span> java.util.*;
+
+<span class="k">public</span> <span class="k">class</span> Main {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> main(<span class="k">String</span>[] args) {
+        <span class="k">Scanner</span> sc = <span class="k">new</span> <span class="k">Scanner</span>(<span class="k">System</span>.in);
+        <span class="k">long</span> n = sc.nextLong();
+        <span class="k">if</span> (n == <span class="n">0</span>) { <span class="k">System</span>.out.println(<span class="s">&quot;0 0&quot;</span>); <span class="k">return</span>; }
+        <span class="k">StringBuilder</span> bits = <span class="k">new</span> <span class="k">StringBuilder</span>();
+        <span class="k">int</span> ones = <span class="n">0</span>;
+        <span class="k">while</span> (n &gt; <span class="n">0</span>) {
+            <span class="k">long</span> b = n % <span class="n">2</span>;
+            bits.append(b);
+            ones += (<span class="k">int</span>) b;
+            n /= <span class="n">2</span>;
+        }
+        <span class="k">System</span>.out.println(bits.reverse() + <span class="s">&quot; &quot;</span> + ones);
+    }
+}</code></pre></div><div><div class="lang">Python</div><pre class=""><code>n = <span class="k">int</span>(<span class="k">input</span>())
+b = bin(n)[<span class="n">2</span>:]
+<span class="k">print</span>(b, b.count(<span class="s">&quot;1&quot;</span>))</code></pre></div></div>
+</div>
+</section>
+
+<section class="part dsa">
+  <div class="sec-head"><div class="sec-num">A10</div><div><div class="kicker">Same idea, four syntaxes</div><h2>Language Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:15%">Task</th><th>Java</th><th>Python</th><th>C++</th><th>C#</th></tr></thead><tbody>
+    <tr><td>Dynamic list</td><td><code>List&lt;Integer&gt; a = new ArrayList&lt;&gt;(); a.add(5);</code></td><td><code>a = []; a.append(5)</code></td><td><code>vector&lt;int&gt; a; a.push_back(5);</code></td><td><code>var a = new List&lt;int&gt;(); a.Add(5);</code></td></tr>
+    <tr><td>Hash map count</td><td><code>m.merge(x, 1, Integer::sum);</code></td><td><code>m[x] = m.get(x, 0) + 1</code> or <code>Counter</code></td><td><code>unordered_map&lt;int,int&gt; m; m[x]++;</code></td><td><code>m[x] = m.GetValueOrDefault(x) + 1;</code></td></tr>
+    <tr><td>Set</td><td><code>Set&lt;Integer&gt; s = new HashSet&lt;&gt;();</code></td><td><code>s = set()</code></td><td><code>unordered_set&lt;int&gt; s;</code></td><td><code>var s = new HashSet&lt;int&gt;();</code></td></tr>
+    <tr><td>Sort</td><td><code>Arrays.sort(arr); list.sort(null);</code></td><td><code>a.sort()</code> / <code>sorted(a)</code></td><td><code>sort(a.begin(), a.end());</code></td><td><code>Array.Sort(arr); list.Sort();</code></td></tr>
+    <tr><td>Sort descending</td><td><code>list.sort(Collections.reverseOrder());</code></td><td><code>a.sort(reverse=True)</code></td><td><code>sort(a.rbegin(), a.rend());</code></td><td><code>list.Sort((x, y) =&gt; y.CompareTo(x));</code></td></tr>
+    <tr><td>String length · char</td><td><code>s.length()</code> · <code>s.charAt(i)</code></td><td><code>len(s)</code> · <code>s[i]</code></td><td><code>s.size()</code> · <code>s[i]</code></td><td><code>s.Length</code> · <code>s[i]</code></td></tr>
+    <tr><td>Substring</td><td><code>s.substring(a, b)</code> (b excluded)</td><td><code>s[a:b]</code></td><td><code>s.substr(a, len)</code></td><td><code>s.Substring(a, len)</code></td></tr>
+    <tr><td>Split words</td><td><code>s.trim().split("\\s+")</code></td><td><code>s.split()</code></td><td><code>stringstream ss(s); ss &gt;&gt; w</code></td><td><code>s.Split(' ', RemoveEmptyEntries)</code></td></tr>
+    <tr><td>Build string</td><td><code>StringBuilder sb; sb.append(x);</code></td><td><code>"".join(parts)</code></td><td><code>string r; r += c;</code></td><td><code>var sb = new StringBuilder();</code></td></tr>
+    <tr><td>Reverse</td><td><code>new StringBuilder(s).reverse()</code></td><td><code>s[::-1]</code></td><td><code>reverse(s.begin(), s.end());</code></td><td><code>new string(s.Reverse().ToArray())</code></td></tr>
+    <tr><td>Char tests</td><td><code>Character.isDigit(c)</code>, <code>isLetter</code></td><td><code>c.isdigit()</code>, <code>c.isalpha()</code></td><td><code>isdigit(c)</code>, <code>isalpha(c)</code></td><td><code>char.IsDigit(c)</code></td></tr>
+    <tr><td>Int ⇄ String</td><td><code>Integer.parseInt(s)</code> · <code>String.valueOf(n)</code></td><td><code>int(s)</code> · <code>str(n)</code></td><td><code>stoi(s)</code> · <code>to_string(n)</code></td><td><code>int.Parse(s)</code> · <code>n.ToString()</code></td></tr>
+    <tr><td>Max / min value</td><td><code>Integer.MAX_VALUE</code>, <code>Long.MIN_VALUE</code></td><td><code>float('inf')</code></td><td><code>INT_MAX</code>, <code>LLONG_MIN</code></td><td><code>int.MaxValue</code></td></tr>
+    <tr><td>64-bit integer</td><td><code>long</code></td><td>(automatic)</td><td><code>long long</code></td><td><code>long</code></td></tr>
+  </tbody></table>
+  <h3>The same solution in C++</h3>
+  <p class="small">For C++ users: Two Sum (P9) and Kadane (P2) are written below with STL containers.</p>
+  <div class="code2"><div><div class="lang">Two Sum (P9) in C++</div><pre class=""><code><span class="k">#include &lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="k">std</span>;
+
+<span class="k">int</span> <span class="k">main</span>() {
+    <span class="k">int</span> n; <span class="k">long</span> <span class="k">long</span> t;
+    <span class="k">cin</span> &gt;&gt; n &gt;&gt; t;
+    <span class="k">unordered_map</span>&lt;<span class="k">long</span> <span class="k">long</span>, <span class="k">int</span>&gt; seen;          <span class="c">// value -&gt; index</span>
+    <span class="k">for</span> (<span class="k">int</span> j = <span class="n">0</span>; j &lt; n; j++) {
+        <span class="k">long</span> <span class="k">long</span> x; <span class="k">cin</span> &gt;&gt; x;
+        <span class="k">auto</span> it = seen.find(t - x);
+        <span class="k">if</span> (it != seen.end()) { <span class="k">cout</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="s">&quot; &quot;</span> &lt;&lt; j &lt;&lt; <span class="k">endl</span>; <span class="k">return</span> <span class="n">0</span>; }
+        seen[x] = j;
+    }
+    <span class="k">return</span> <span class="n">0</span>;
+}</code></pre><p class="small">Input <code>4 9 / 2 7 11 15</code> → <b>0 1</b> (compiled with g++ and run)</p></div><div><div class="lang">Kadane (P2) in C++</div><pre class=""><code><span class="k">#include &lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="k">std</span>;
+
+<span class="k">int</span> <span class="k">main</span>() {
+    <span class="k">int</span> n; <span class="k">cin</span> &gt;&gt; n;
+    <span class="k">long</span> <span class="k">long</span> cur, best;
+    <span class="k">cin</span> &gt;&gt; cur; best = cur;
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="n">1</span>; i &lt; n; i++) {
+        <span class="k">long</span> <span class="k">long</span> x; <span class="k">cin</span> &gt;&gt; x;
+        cur = max(x, cur + x);
+        best = max(best, cur);
+    }
+    <span class="k">cout</span> &lt;&lt; best &lt;&lt; <span class="k">endl</span>;
+    <span class="k">return</span> <span class="n">0</span>;
+}</code></pre><p class="small">Input <code>9 / -2 1 -3 4 -1 2 1 -5 4</code> → <b>6</b> (compiled with g++ and run)</p></div></div>
+  <div class="note info"><span class="t">Choosing a language</span>Use the one you write fastest without looking things up. Python is shortest (Counter, slicing, sorted with key) but slower for very large inputs. Java and C# are verbose but safe. C++ is fastest. Practise in one language before the test, and know its input reading by heart.</div>
+</section>
+
+<!-- ================= PART B: SQL ================= -->
+<section class="page-break part sqlx">
+  <div class="banner sqlx"><div class="big">B</div><div class="pl">PART B · DATABASE SQL (C2)</div><h2>SQL for the Coding Round</h2>
+    <p>One query, about 15 minutes. Joins are the main focus, together with GROUP BY/HAVING, aggregates, DISTINCT, LIMIT and simple subqueries. Triggers, window functions and other advanced SQL are not asked.</p></div>
+  <div class="sec-head"><div class="sec-num">B1</div><div><div class="kicker">Read it like the database does</div><h2>Query Skeleton &amp; Execution Order</h2></div></div>
+  <div class="two">
+    <div>
+      <pre><code><span class="k">SELECT</span>   columns, aggregates <span class="k">AS</span> alias
+<span class="k">FROM</span>     table1 t1
+<span class="k">JOIN</span>     table2 t2 <span class="k">ON</span> t1.key = t2.key
+<span class="k">WHERE</span>    row conditions
+<span class="k">GROUP</span> <span class="k">BY</span> grouping columns
+<span class="k">HAVING</span>   group conditions
+<span class="k">ORDER</span> <span class="k">BY</span> columns <span class="k">DESC</span>
+<span class="k">LIMIT</span>    n;</code></pre>
+      <div class="flow"><span>FROM / JOIN</span><i>→</i><span>WHERE</span><i>→</i><span>GROUP BY</span><i>→</i><span>HAVING</span><i>→</i><span>SELECT</span><i>→</i><span>ORDER BY</span><i>→</i><span class="h">LIMIT</span></div>
+    </div>
+    <div>
+      <div class="def"><b class="t">Consequences of the order</b><br>WHERE runs before grouping, so <b>COUNT() cannot go in WHERE</b>; filter groups with HAVING. SELECT aliases can be used in ORDER BY but not in WHERE.</div>
+      <div class="def"><b class="t">Aggregates and NULL</b><br>COUNT(*) counts rows; COUNT(col), SUM, AVG, MIN and MAX <b>ignore NULLs</b>. Test with <code>IS NULL</code>, never <code>= NULL</code>.</div>
+      <div class="def"><b class="t">Aliases</b><br><code>COUNT(*) AS total</code>. An alias with a space needs quotes: <code>AS "First Name"</code>, or backticks in MySQL. The grader compares column names, so copy them exactly.</div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:6px"><div class="sec-num">B2</div><div><div class="kicker">The main focus</div><h2>Joins</h2></div></div>
+  <div class="venn">
+    <div><svg width="90" height="50"><circle cx="35" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/><circle cx="55" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/><path d="M45 8 A20 20 0 0 1 45 42 A20 20 0 0 1 45 8" fill="#818cf8"/></svg><b>INNER JOIN</b><br>Only rows that match in both tables</div>
+    <div><svg width="90" height="50"><circle cx="35" cy="25" r="20" fill="#818cf8" stroke="#4f46e5" stroke-width="2"/><circle cx="55" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/></svg><b>LEFT JOIN</b><br>All left rows, plus matches (NULL where there is no match)</div>
+    <div><svg width="90" height="50"><circle cx="35" cy="25" r="20" fill="none" stroke="#4f46e5" stroke-width="2"/><circle cx="55" cy="25" r="20" fill="#818cf8" stroke="#4f46e5" stroke-width="2"/></svg><b>RIGHT JOIN</b><br>All right rows, plus matches from the left</div>
+    <div><svg width="90" height="50"><circle cx="45" cy="25" r="20" fill="#818cf8" stroke="#4f46e5" stroke-width="2"/><circle cx="45" cy="25" r="11" fill="#fff" stroke="#4f46e5" stroke-width="1.5"/></svg><b>SELF JOIN</b><br>A table joined with itself (employee ↔ manager)</div>
+  </div>
+  <p class="small">Every SQL example below runs on these two tables. Arjun has no department and Finance has no employees, so you can see what each join does with unmatched rows.</p>
+  <div class="code2 tables"><div><div class="lang">employees</div><table class="g"><thead><tr><th>emp_id</th><th>name</th><th>dept_id</th><th>salary</th><th>manager_id</th></tr></thead><tbody><tr><td>101</td><td>Asha</td><td>1</td><td>90000</td><td class=nul>NULL</td></tr><tr><td>102</td><td>Ravi</td><td>1</td><td>72000</td><td>101</td></tr><tr><td>103</td><td>Meena</td><td>1</td><td>72000</td><td>101</td></tr><tr><td>104</td><td>John</td><td>2</td><td>48000</td><td>101</td></tr><tr><td>105</td><td>Priya</td><td>2</td><td>56000</td><td>104</td></tr><tr><td>106</td><td>Kiran</td><td>3</td><td>39000</td><td>101</td></tr><tr><td>107</td><td>Arjun</td><td class=nul>NULL</td><td>61000</td><td>102</td></tr><tr><td>108</td><td>Sara</td><td>2</td><td>48000</td><td>104</td></tr></tbody></table></div><div><div class="lang">departments</div><table class="g"><thead><tr><th>dept_id</th><th>dept_name</th></tr></thead><tbody><tr><td>1</td><td>Engineering</td></tr><tr><td>2</td><td>Sales</td></tr><tr><td>3</td><td>HR</td></tr><tr><td>4</td><td>Finance</td></tr></tbody></table></div></div>
+</section>
+
+<section class="part sqlx">
+  <div class="sec-head"><div class="sec-num">B3</div><div><div class="kicker">Learn these and most SQL questions are familiar</div><h2>Ten Patterns with Real Output</h2></div></div>
+  <div class="sqlp"><div class="phead"><span class="pno">S1</span><h3>Filter and sort</h3></div><p class="small">Employees earning more than 50000, highest first; ties by name.</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> name, salary
+<span class="k">FROM</span> employees
+<span class="k">WHERE</span> salary &gt; <span class="n">50000</span>
+<span class="k">ORDER</span> <span class="k">BY</span> salary <span class="k">DESC</span>, name;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>name</th><th>salary</th></tr></thead><tbody><tr><td>Asha</td><td>90000</td></tr><tr><td>Meena</td><td>72000</td></tr><tr><td>Ravi</td><td>72000</td></tr><tr><td>Arjun</td><td>61000</td></tr><tr><td>Priya</td><td>56000</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S2</span><h3>INNER JOIN</h3></div><p class="small">Each employee with their department name. Arjun has no department, so INNER JOIN drops him.</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> e.name, d.dept_name
+<span class="k">FROM</span> employees e
+<span class="k">INNER</span> <span class="k">JOIN</span> departments d <span class="k">ON</span> e.dept_id = d.dept_id
+<span class="k">ORDER</span> <span class="k">BY</span> e.name;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>name</th><th>dept_name</th></tr></thead><tbody><tr><td>Asha</td><td>Engineering</td></tr><tr><td>John</td><td>Sales</td></tr><tr><td>Kiran</td><td>HR</td></tr><tr><td>Meena</td><td>Engineering</td></tr><tr><td>Priya</td><td>Sales</td></tr><tr><td>Ravi</td><td>Engineering</td></tr><tr><td>Sara</td><td>Sales</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S3</span><h3>LEFT JOIN + COUNT(column)</h3></div><p class="small">Every department with its head-count, including departments with nobody (Finance shows 0).</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> d.dept_name, <span class="k">COUNT</span>(e.emp_id) <span class="k">AS</span> total
+<span class="k">FROM</span> departments d
+<span class="k">LEFT</span> <span class="k">JOIN</span> employees e <span class="k">ON</span> e.dept_id = d.dept_id
+<span class="k">GROUP</span> <span class="k">BY</span> d.dept_id, d.dept_name
+<span class="k">ORDER</span> <span class="k">BY</span> total <span class="k">DESC</span>, d.dept_name;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>dept_name</th><th>total</th></tr></thead><tbody><tr><td>Engineering</td><td>3</td></tr><tr><td>Sales</td><td>3</td></tr><tr><td>HR</td><td>1</td></tr><tr><td>Finance</td><td>0</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S4</span><h3>GROUP BY + HAVING</h3></div><p class="small">Departments whose average salary is above 50000.</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> d.dept_name, ROUND(<span class="k">AVG</span>(e.salary), <span class="n">2</span>) <span class="k">AS</span> avg_salary
+<span class="k">FROM</span> employees e
+<span class="k">JOIN</span> departments d <span class="k">ON</span> e.dept_id = d.dept_id
+<span class="k">GROUP</span> <span class="k">BY</span> d.dept_name
+<span class="k">HAVING</span> <span class="k">AVG</span>(e.salary) &gt; <span class="n">50000</span>
+<span class="k">ORDER</span> <span class="k">BY</span> avg_salary <span class="k">DESC</span>;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>dept_name</th><th>avg_salary</th></tr></thead><tbody><tr><td>Engineering</td><td>78000.0</td></tr><tr><td>Sales</td><td>50666.67</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S5</span><h3>SELF JOIN</h3></div><p class="small">Each employee with their manager's name (LEFT JOIN keeps Asha, who has no manager).</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> e.name <span class="k">AS</span> employee, m.name <span class="k">AS</span> manager
+<span class="k">FROM</span> employees e
+<span class="k">LEFT</span> <span class="k">JOIN</span> employees m <span class="k">ON</span> e.manager_id = m.emp_id
+<span class="k">ORDER</span> <span class="k">BY</span> e.emp_id;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>employee</th><th>manager</th></tr></thead><tbody><tr><td>Asha</td><td class=nul>NULL</td></tr><tr><td>Ravi</td><td>Asha</td></tr><tr><td>Meena</td><td>Asha</td></tr><tr><td>John</td><td>Asha</td></tr><tr><td>Priya</td><td>John</td></tr><tr><td>Kiran</td><td>Asha</td></tr><tr><td>Arjun</td><td>Ravi</td></tr><tr><td>Sara</td><td>John</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S6</span><h3>Second highest salary</h3></div><p class="small">Use a subquery so ties at the top are handled (two people earn 72000).</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> <span class="k">MAX</span>(salary) <span class="k">AS</span> second_highest
+<span class="k">FROM</span> employees
+<span class="k">WHERE</span> salary &lt; (<span class="k">SELECT</span> <span class="k">MAX</span>(salary) <span class="k">FROM</span> employees);</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>second_highest</th></tr></thead><tbody><tr><td>72000</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S7</span><h3>Top earner per department</h3></div><p class="small">A correlated subquery keeps everyone who earns their department's maximum.</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> d.dept_name, e.name, e.salary
+<span class="k">FROM</span> employees e
+<span class="k">JOIN</span> departments d <span class="k">ON</span> e.dept_id = d.dept_id
+<span class="k">WHERE</span> e.salary = (<span class="k">SELECT</span> <span class="k">MAX</span>(x.salary) <span class="k">FROM</span> employees x <span class="k">WHERE</span> x.dept_id = e.dept_id)
+<span class="k">ORDER</span> <span class="k">BY</span> d.dept_name;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>dept_name</th><th>name</th><th>salary</th></tr></thead><tbody><tr><td>Engineering</td><td>Asha</td><td>90000</td></tr><tr><td>HR</td><td>Kiran</td><td>39000</td></tr><tr><td>Sales</td><td>Priya</td><td>56000</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S8</span><h3>RIGHT JOIN / anti-join</h3></div><p class="small">Departments with no employees: RIGHT JOIN keeps every department, then keep the unmatched ones.</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> d.dept_name
+<span class="k">FROM</span> employees e
+<span class="k">RIGHT</span> <span class="k">JOIN</span> departments d <span class="k">ON</span> e.dept_id = d.dept_id
+<span class="k">WHERE</span> e.emp_id <span class="k">IS</span> <span class="k">NULL</span>;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>dept_name</th></tr></thead><tbody><tr><td>Finance</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S9</span><h3>DISTINCT + LIMIT</h3></div><p class="small">The three highest distinct salaries.</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> <span class="k">DISTINCT</span> salary
+<span class="k">FROM</span> employees
+<span class="k">ORDER</span> <span class="k">BY</span> salary <span class="k">DESC</span>
+<span class="k">LIMIT</span> <span class="n">3</span>;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>salary</th></tr></thead><tbody><tr><td>90000</td></tr><tr><td>72000</td></tr><tr><td>61000</td></tr></tbody></table></div></div></div><div class="sqlp"><div class="phead"><span class="pno">S10</span><h3>Duplicates</h3></div><p class="small">Salaries shared by more than one employee.</p><div class="sqlgrid"><div><pre class=""><code><span class="k">SELECT</span> salary, <span class="k">COUNT</span>(*) <span class="k">AS</span> people
+<span class="k">FROM</span> employees
+<span class="k">GROUP</span> <span class="k">BY</span> salary
+<span class="k">HAVING</span> <span class="k">COUNT</span>(*) &gt; <span class="n">1</span>
+<span class="k">ORDER</span> <span class="k">BY</span> salary;</code></pre></div><div><div class="lang">Real output</div><table class="g"><thead><tr><th>salary</th><th>people</th></tr></thead><tbody><tr><td>48000</td><td>2</td></tr><tr><td>72000</td><td>2</td></tr></tbody></table></div></div></div>
+  <div class="note warn"><span class="t">Common mistakes that fail hidden tests</span>INNER JOIN where "all customers / all departments" are required (use LEFT JOIN) · COUNT(*) after a LEFT JOIN (counts 1 instead of 0, so use COUNT(child.id)) · forgetting DISTINCT when one row can match many · <code>&gt;=</code> vs <code>&gt;</code> (read "more than" and "at least" carefully) · wrong ORDER BY direction, or no tie-breaker · alias spelled differently from the question · LIKE 'A%' (starts with) vs '%A%' (contains).</div>
+</section>
+
+<!-- ================= PART C: FRONTEND ================= -->
+<section class="page-break part fe">
+  <div class="banner fe"><div class="big">C</div><div class="pl">PART C · FRONTEND (C3)</div><h2>HTML, CSS, JavaScript, React &amp; Vue</h2>
+    <p>You get a template with HTML, CSS and JS tabs (or a React/Vue component) and a list of objectives. Hidden tests open your page, click, type and check the DOM and the computed CSS.</p></div>
+  <div class="sec-head"><div class="sec-num">C1</div><div><div class="kicker">What the grader checks</div><h2>How Front-end Tasks Are Graded</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Exact selectors</b><br>Tests find elements by the <b>id, class and text given in the question</b>. <code>id="p"</code> vs <code>id="para"</code>, or "Account Alert" vs "Account alert", is a fail even if the page looks right.</div>
+    <div class="def"><b class="t">Computed style</b><br>CSS is checked through the browser's computed values: <code>#71E5F4</code> becomes <code>rgb(113, 229, 244)</code>, and a width becomes "120px". Any valid CSS that produces the value passes.</div>
+    <div class="def"><b class="t">Behaviour</b><br>Tests click buttons and type into inputs, then check the result. "Remove" means <code>element.remove()</code>, not <code>display:none</code>. Read every constraint.</div>
+  </div>
+  <div class="sec-head" style="margin-top:6px"><div class="sec-num">C2</div><div><div class="kicker">Select → listen → change</div><h2>JavaScript DOM Essentials</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:24%">Need</th><th>Code</th></tr></thead><tbody>
+    <tr><td>Select</td><td><code>document.getElementById("id")</code> · <code>document.querySelector("#id .cls")</code> (first) · <code>querySelectorAll(".item")</code> (all, use forEach)</td></tr>
+    <tr><td>Read / write text</td><td><code>el.textContent = "Hi"</code> (safe) · <code>el.innerHTML = "&lt;b&gt;Hi&lt;/b&gt;"</code> (parses HTML) · input: <code>input.value</code></td></tr>
+    <tr><td>Classes</td><td><code>el.classList.add / remove / toggle / contains("x")</code> · replace all: <code>el.className = "x"</code></td></tr>
+    <tr><td>Styles &amp; attributes</td><td><code>el.style.display = "none"</code> · <code>el.setAttribute("data-name", "apple")</code> · <code>el.dataset.name</code> · <code>btn.disabled = true</code></td></tr>
+    <tr><td>Create / remove</td><td><code>const li = document.createElement("li"); list.appendChild(li);</code> · <code>el.remove()</code> · <code>parent.innerHTML = ""</code> (clear)</td></tr>
+    <tr><td>Events</td><td><code>el.addEventListener("click" | "input" | "change" | "submit" | "keydown", e =&gt; {...})</code> · <code>e.preventDefault()</code> · <code>e.key === "Enter"</code> · <code>e.target</code></td></tr>
+  </tbody></table>
+  <div class="code2"><div><div class="lang">Toggle a class on click</div><pre class=""><code><span class="c">// 1. select  2. listen  3. change the DOM</span>
+<span class="k">const</span> btn = <span class="k">document</span>.<span class="k">querySelector</span>(<span class="s">&quot;#btn&quot;</span>);
+<span class="k">const</span> p = <span class="k">document</span>.<span class="k">getElementById</span>(<span class="s">&quot;p&quot;</span>);
+
+btn.<span class="k">addEventListener</span>(<span class="s">&quot;click&quot;</span>, () =&gt; {
+    p.className = <span class="s">&quot;change&quot;</span>;          <span class="c">// replace all classes</span>
+    <span class="c">// p.classList.add(&quot;change&quot;);    // add one class</span>
+    <span class="c">// p.classList.toggle(&quot;open&quot;);   // add if missing, remove if present</span>
+});</code></pre></div><div><div class="lang">Create and remove elements</div><pre class=""><code><span class="k">function</span> addTask() {
+    <span class="k">const</span> text = input.value.trim();
+    <span class="k">if</span> (!text) <span class="k">return</span>;                       <span class="c">// ignore blank input</span>
+    <span class="k">const</span> li = <span class="k">document</span>.createElement(<span class="s">&quot;li&quot;</span>);
+    li.innerHTML = <span class="s">`&lt;span&gt;&lt;/span&gt;&lt;button class=&quot;delete&quot;&gt;Delete&lt;/button&gt;`</span>;
+    li.<span class="k">querySelector</span>(<span class="s">&quot;span&quot;</span>).textContent = text;   <span class="c">// textContent = safe text</span>
+    li.<span class="k">querySelector</span>(<span class="s">&quot;.delete&quot;</span>).<span class="k">addEventListener</span>(<span class="s">&quot;click&quot;</span>, () =&gt; {
+        li.remove();                         <span class="c">// removes it from the page</span>
+        updateCount();
+    });
+    list.appendChild(li);
+    input.value = <span class="s">&quot;&quot;</span>;
+    updateCount();
+}
+input.<span class="k">addEventListener</span>(<span class="s">&quot;keydown&quot;</span>, e =&gt; { <span class="k">if</span> (e.key === <span class="s">&quot;Enter&quot;</span>) addTask(); });</code></pre></div></div>
+  <div class="code2"><div><div class="lang">Form validation</div><pre class=""><code><span class="k">const</span> pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+<span class="k">function</span> validate() {
+    <span class="k">const</span> ok = pattern.test(email.value);
+    emailError.textContent = email.value &amp;&amp; !ok ? <span class="s">&quot;Invalid email&quot;</span> : <span class="s">&quot;&quot;</span>;
+    submitBtn.disabled = !(ok &amp;&amp; password.value.length &gt;= <span class="n">8</span>);
+}
+email.<span class="k">addEventListener</span>(<span class="s">&quot;input&quot;</span>, validate);
+password.<span class="k">addEventListener</span>(<span class="s">&quot;input&quot;</span>, validate);
+
+form.<span class="k">addEventListener</span>(<span class="s">&quot;submit&quot;</span>, e =&gt; {
+    e.preventDefault();                      <span class="c">// stop the page reload</span>
+    success.textContent = <span class="s">&quot;Registered!&quot;</span>;
+});</code></pre></div><div><div class="lang">Search filter with data-* and display</div><pre class=""><code><span class="k">function</span> filterProducts() {
+    <span class="k">const</span> term = search.value.toLowerCase();
+    <span class="k">document</span>.<span class="k">querySelectorAll</span>(<span class="s">&quot;.product&quot;</span>).forEach(item =&gt; {
+        <span class="k">const</span> name = item.dataset.name.toLowerCase();   <span class="c">// data-name attribute</span>
+        item.style.display = name.includes(term) ? <span class="s">&quot;&quot;</span> : <span class="s">&quot;none&quot;</span>;
+    });
+}
+search.value = <span class="s">&quot;nana&quot;</span>;
+filterProducts();                            <span class="c">// run once on load</span>
+search.<span class="k">addEventListener</span>(<span class="s">&quot;input&quot;</span>, filterProducts);</code></pre></div></div>
+</section>
+
+<section class="part fe">
+  <div class="sec-head"><div class="sec-num">C3</div><div><div class="kicker">Selectors and layout</div><h2>CSS Essentials</h2></div></div>
+  <div class="two">
+    <div>
+      <table class="tight"><thead><tr><th>Selector</th><th>Matches</th></tr></thead><tbody>
+        <tr><td><code>#id</code> · <code>.cls</code> · <code>p</code></td><td>by id · by class · by tag</td></tr>
+        <tr><td><code>.a.b</code></td><td>an element with both classes</td></tr>
+        <tr><td><code>.a .b</code> · <code>.a &gt; .b</code></td><td>descendant · direct child</td></tr>
+        <tr><td><code>button:hover</code> · <code>li:first-child</code></td><td>state · position</td></tr>
+        <tr><td><code>[data-name="x"]</code></td><td>by attribute</td></tr>
+      </tbody></table>
+      <div class="def"><b class="t">Which rule wins?</b> Inline style &gt; #id &gt; .class / [attr] / :hover &gt; tag. With equal weight, the <b>later</b> rule wins. <code>!important</code> overrides everything (avoid it).</div>
+      <div class="def"><b class="t">Box model</b> content → padding → border → margin. <code>box-sizing: border-box</code> makes width include padding and border. <code>display: none</code> removes the element from the layout; <code>visibility: hidden</code> keeps its space.</div>
+    </div>
+    <div><div class="lang">Flexbox, multi-class, media query</div><pre class=""><code>.container {
+    display: flex;                    <span class="c">/* children in a row */</span>
+    justify-content: space-between;   <span class="c">/* main axis spacing */</span>
+    align-items: center;              <span class="c">/* cross axis alignment */</span>
+    gap: 20px;
+}
+.card { border-radius: 8px; padding: 16px; box-shadow: <span class="n">0</span> 2px 8px rgba(<span class="n">0</span>,<span class="n">0</span>,<span class="n">0</span>,.<span class="n">1</span>); }
+.card h2 { color: #<span class="n">333333</span>; font-size: 20px; }
+.tab.active { background-color: #1d4ed8; color: white; }   <span class="c">/* two classes */</span>
+.hidden { display: none; }
+@media (max-width: 600px) {
+    .container { flex-direction: column; }                  <span class="c">/* stack on phones */</span>
+}</code></pre>
+      <div class="def"><b class="t">Flexbox in one look</b> <code>display:flex</code> on the parent · <code>flex-direction</code> row/column · <code>justify-content</code> (main axis): flex-start, center, space-between, space-around · <code>align-items</code> (cross axis): stretch, center · <code>gap</code> · <code>flex:1</code> on children shares the space · <code>flex-wrap: wrap</code>.</div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:6px"><div class="sec-num">C4</div><div><div class="kicker">Components and state</div><h2>React Essentials</h2></div></div>
+  <div class="two">
+    <div>
+      <table class="tight"><thead><tr><th style="width:30%">Concept</th><th>Remember</th></tr></thead><tbody>
+        <tr><td>Component</td><td>A function that returns JSX; its name starts with a capital letter. <code>export default App</code>.</td></tr>
+        <tr><td>JSX</td><td><code>className</code> (not class), <code>{expression}</code>, one root element (or <code>&lt;&gt;...&lt;/&gt;</code>), self-close <code>&lt;input /&gt;</code>.</td></tr>
+        <tr><td>State</td><td><code>const [count, setCount] = useState(0)</code>. Never change state directly; call the setter. Use <code>setCount(c =&gt; c + 1)</code> when the new value depends on the old one.</td></tr>
+        <tr><td>Events</td><td><code>onClick={() =&gt; ...}</code>, <code>onChange={e =&gt; setX(e.target.value)}</code>. Pass a function; do not call it (<code>onClick={f}</code>, not <code>onClick={f()}</code>).</td></tr>
+        <tr><td>Controlled input</td><td><code>value={x}</code> + <code>onChange</code> keeps the input and the state in sync.</td></tr>
+        <tr><td>Lists</td><td><code>items.map(i =&gt; &lt;li key={i.id}&gt;{i.name}&lt;/li&gt;)</code>. Every item needs a unique <b>key</b>.</td></tr>
+        <tr><td>Conditional</td><td><code>{ok ? &lt;A/&gt; : &lt;B/&gt;}</code> · <code>{show &amp;&amp; &lt;A/&gt;}</code></td></tr>
+        <tr><td>Props</td><td><code>&lt;Card title="Hi" /&gt;</code> → <code>function Card({ title })</code>. Data flows down; callbacks flow up.</td></tr>
+        <tr><td>useEffect</td><td><code>useEffect(() =&gt; {...}, [dep])</code> runs after render when dep changes; <code>[]</code> means once (fetching data, timers).</td></tr>
+      </tbody></table>
+    </div>
+    <div><div class="lang">Search list: state, derived value, map + key, conditional</div><pre class=""><code><span class="k">import</span> React, { <span class="k">useState</span> } <span class="k">from</span> <span class="s">&quot;react&quot;</span>;
+
+<span class="k">const</span> products = [<span class="s">&quot;Laptop&quot;</span>, <span class="s">&quot;Mouse&quot;</span>, <span class="s">&quot;Keyboard&quot;</span>, <span class="s">&quot;Monitor&quot;</span>];
+
+<span class="k">function</span> App() {
+    <span class="k">const</span> [query, setQuery] = <span class="k">useState</span>(<span class="s">&quot;&quot;</span>);                 <span class="c">// state</span>
+    <span class="k">const</span> visible = products.filter(p =&gt;
+        p.toLowerCase().includes(query.toLowerCase()));      <span class="c">// derived value</span>
+
+    <span class="k">return</span> (
+        &lt;div&gt;
+            &lt;input id=<span class="s">&quot;search&quot;</span> value={query}
+                   onChange={e =&gt; setQuery(e.target.value)} /&gt;   {<span class="c">/* controlled */</span>}
+            &lt;p id=<span class="s">&quot;total&quot;</span>&gt;Showing {visible.length} <span class="k">of</span> {products.length}&lt;/p&gt;
+            {visible.length === <span class="n">0</span>
+                ? &lt;p id=<span class="s">&quot;empty&quot;</span>&gt;No products found&lt;/p&gt;           <span class="c">// conditional</span>
+                : &lt;ul&gt;{visible.map(p =&gt;
+                      &lt;li className=<span class="s">&quot;item&quot;</span> key={p}&gt;{p}&lt;/li&gt;)}&lt;/ul&gt;}  {<span class="c">/* list + key */</span>}
+        &lt;/div&gt;
+    );
+}
+<span class="k">export</span> <span class="k">default</span> App;</code></pre></div>
+  </div>
+</section>
+
+<section class="part fe">
+  <div class="sec-head"><div class="sec-num">C5</div><div><div class="kicker">Templates and reactivity</div><h2>Vue 3 Essentials</h2></div></div>
+  <div class="two">
+    <div>
+      <table class="tight"><thead><tr><th style="width:28%">Directive / option</th><th>Use</th></tr></thead><tbody>
+        <tr><td><code>{{ value }}</code></td><td>Show data in the template (interpolation)</td></tr>
+        <tr><td><code>v-model</code></td><td>Two-way binding for input, textarea, select and checkbox</td></tr>
+        <tr><td><code>@click</code> / <code>v-on:click</code></td><td>Event handler (a method or a short expression)</td></tr>
+        <tr><td><code>:attr</code> / <code>v-bind</code></td><td>Bind an attribute: <code>:disabled="count &gt;= 5"</code>, <code>:class="{ done: todo.done }"</code></td></tr>
+        <tr><td><code>v-for</code> + <code>:key</code></td><td>Render a list: <code>v-for="t in todos" :key="t.id"</code></td></tr>
+        <tr><td><code>v-if</code> / <code>v-show</code></td><td>v-if adds/removes the element from the DOM; v-show only toggles display</td></tr>
+        <tr><td><code>data()</code></td><td>Returns the reactive state object (this.x in methods)</td></tr>
+        <tr><td><code>computed</code></td><td>Derived values that update automatically (remaining count, filtered list)</td></tr>
+        <tr><td><code>methods</code></td><td>Functions called from the template</td></tr>
+        <tr><td><code>setup()</code> + <code>ref()</code></td><td>Composition API: <code>const n = ref(0)</code>; use <code>n.value</code> in JS, plain <code>n</code> in the template</td></tr>
+      </tbody></table>
+    </div>
+    <div><div class="lang">Template</div><pre class=""><code>&lt;div id=<span class="s">&quot;app&quot;</span>&gt;
+    &lt;input id=<span class="s">&quot;newTodo&quot;</span> v-model=<span class="s">&quot;newTodo&quot;</span>&gt;
+    &lt;button id=<span class="s">&quot;add&quot;</span> @click=<span class="s">&quot;addTodo&quot;</span>&gt;Add&lt;/button&gt;
+    &lt;ul&gt;
+        &lt;li v-for=<span class="s">&quot;todo in todos&quot;</span> :key=<span class="s">&quot;todo.id&quot;</span>
+            class=<span class="s">&quot;todo&quot;</span> :class=<span class="s">&quot;{ done: todo.done }&quot;</span>&gt;
+            &lt;input type=<span class="s">&quot;checkbox&quot;</span> v-model=<span class="s">&quot;todo.done&quot;</span>&gt;
+            &lt;span&gt;{{ todo.text }}&lt;/span&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p id=<span class="s">&quot;remaining&quot;</span>&gt;{{ remaining }} left&lt;/p&gt;
+    &lt;p v-if=<span class="s">&quot;todos.length === 0&quot;</span>&gt;Nothing to do!&lt;/p&gt;
+&lt;/div&gt;</code></pre><div class="lang">App code</div><pre class=""><code><span class="k">const</span> { <span class="k">createApp</span> } = Vue;
+
+<span class="k">createApp</span>({
+    data() {
+        <span class="k">return</span> { newTodo: <span class="s">&quot;&quot;</span>, nextId: <span class="n">2</span>,
+                 todos: [{ id: <span class="n">1</span>, text: <span class="s">&quot;Learn Vue&quot;</span>, done: <span class="k">false</span> }] };
+    },
+    computed: {
+        remaining() { <span class="k">return</span> this.todos.filter(t =&gt; !t.done).length; }
+    },
+    methods: {
+        addTodo() {
+            <span class="k">const</span> text = this.newTodo.trim();
+            <span class="k">if</span> (!text) <span class="k">return</span>;
+            this.todos.push({ id: this.nextId++, text, done: <span class="k">false</span> });
+            this.newTodo = <span class="s">&quot;&quot;</span>;
+        }
+    }
+}).mount(<span class="s">&quot;#app&quot;</span>);</code></pre></div>
+  </div>
+  <div class="note tip"><span class="t">Front-end checklist before you submit</span>Every objective done? · ids, classes and texts copied exactly · colours in the right property (background-color vs color) · event attached to the right element · page loads with no red error in the Console · "remove" really removes · the initial state is correct on page load (filters and counters run once at start).</div>
+</section>
+
+<!-- ================= PART D ================= -->
+<section class="part plan">
+  <div class="banner plan"><div class="big">D</div><div class="pl">PART D · GET EXAM-READY</div><h2>Practice List, Plan &amp; Checklist</h2>
+    <p>What to practise, in what order, and what to check on the day.</p></div>
+  <div class="sec-head"><div class="sec-num">D1</div><div><div class="kicker">After the solved problems</div><h2>30 More Problems to Practise</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:18%">Pattern</th><th>Problems (Easy → Medium)</th></tr></thead><tbody>
+    <tr><td><b>Arrays</b></td><td>Missing number · leaders in an array · best time to buy and sell stock · equilibrium index (prefix sums) · product of array except self · maximum of every window of size K</td></tr>
+    <tr><td><b>Strings</b></td><td>Count vowels and consonants · longest common prefix · check if one string is a rotation of another · remove duplicate characters · largest word in a sentence · Roman to integer</td></tr>
+    <tr><td><b>Hashing</b></td><td>Contains duplicate · intersection of two arrays · group anagrams · longest consecutive sequence · subarray sum equals K · isomorphic strings</td></tr>
+    <tr><td><b>Two pointers / window</b></td><td>Remove duplicates from a sorted array · merge two sorted arrays · container with most water · 3-sum · max sum of K consecutive elements · smallest subarray with sum ≥ S</td></tr>
+    <tr><td><b>Sorting / recursion / numbers</b></td><td>Kth largest element · sort 0s, 1s and 2s · permutations of a string · power of a number (recursive) · palindrome number · sum of digits until one digit</td></tr>
+  </tbody></table>
+
+  <div class="sec-head" style="margin-top:8px"><div class="sec-num">D2</div><div><div class="kicker">One topic a day</div><h2>10-Day Plan</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:11%">Day</th><th>Focus (about 2 hours)</th></tr></thead><tbody>
+    <tr><td><b>1</b></td><td>Choose your language. Learn the input template (A1) and the cheat sheet (A10). Solve P1–P3.</td></tr>
+    <tr><td><b>2</b></td><td>Strings: P4–P7 + 3 problems from D1.</td></tr>
+    <tr><td><b>3</b></td><td>Hashing and two pointers: P8–P13.</td></tr>
+    <tr><td><b>4</b></td><td>Sorting and recursion: P14–P17. Write the recursion trees on paper.</td></tr>
+    <tr><td><b>5</b></td><td>Number logic: P18–P21 + digit problems from D1.</td></tr>
+    <tr><td><b>6</b></td><td>SQL: B1–B3. Retype all 10 patterns from memory, then do the SQL live practice (15 questions).</td></tr>
+    <tr><td><b>7</b></td><td>Frontend: C1–C3. HTML/CSS/JS questions in the front-end live practice platform.</td></tr>
+    <tr><td><b>8</b></td><td>React and Vue: C4–C5, then the React and Vue practice questions.</td></tr>
+    <tr><td><b>9</b></td><td>Full mock: 1 DSA + 1 SQL + 1 Frontend in 60 minutes with a timer. Review your mistakes.</td></tr>
+    <tr><td><b>10</b></td><td>Second full mock, then redo every problem you got wrong. Read the checklist below.</td></tr>
+  </tbody></table>
+</section>
+
+<section class="part plan">
+  <div class="sec-head"><div class="sec-num">D3</div><div><div class="kicker">Read this the night before</div><h2>Final Cheat Sheet</h2></div></div>
+  <div class="cards c3">
+    <div class="card" style="border-top:4px solid #059669"><h4 style="margin-top:0;color:#059669">DSA</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Comment out <code>throw new Exception</code> in Java templates</li>
+      <li>Return (function template) vs print (full program)</li>
+      <li>Read the limits: 10<sup>5</sup> needs O(N log N) or better</li>
+      <li>Pair/complement → HashMap · sorted → two pointers</li>
+      <li>Substring/subarray "longest" → sliding window</li>
+      <li>Frequency → int[26] or Counter</li>
+      <li>Intervals → sort by start, then merge</li>
+      <li>Recursion: base case first; memoize repeats</li>
+      <li>Use long for sums and products</li>
+      <li>Test N = 1, all equal, negatives, empty</li>
+      <li>Exact output format, no debug prints</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #4f46e5"><h4 style="margin-top:0;color:#4f46e5">SQL</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT</li>
+      <li>Aggregate filter → HAVING, never WHERE</li>
+      <li>"All X even without Y" → LEFT JOIN + COUNT(y.id)</li>
+      <li>"No matching rows" → LEFT JOIN … WHERE y.id IS NULL</li>
+      <li>Manager/employee → self join with two aliases</li>
+      <li>Second highest → MAX(...) WHERE &lt; (SELECT MAX…)</li>
+      <li>Top per group → correlated subquery with MAX</li>
+      <li>Duplicates → GROUP BY … HAVING COUNT(*) &gt; 1</li>
+      <li>Copy aliases and column order exactly</li>
+      <li>DISTINCT when one row can match many</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #db2777"><h4 style="margin-top:0;color:#db2777">Frontend</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Copy ids, classes and texts exactly</li>
+      <li>querySelector → addEventListener → change the DOM</li>
+      <li>classList.add / remove / toggle; className replaces all</li>
+      <li>textContent for text; value for inputs</li>
+      <li>Forms: e.preventDefault() on submit</li>
+      <li>Remove means el.remove()</li>
+      <li>Run filters/counters once on load too</li>
+      <li>React: useState + setter, className, key in map</li>
+      <li>Vue: v-model, v-for + :key, v-if, computed, :class</li>
+      <li>No red errors in the Console</li>
+    </ul></div>
+  </div>
+  <div class="note brand"><span class="t">Practise on the live platforms</span>This series also has two practice platforms. The <b>SQL Assessment Live Practice</b> has 15 questions with a 15-minute timer and 5 test cases each. The <b>Front-end Technology Live Practice</b> has 15 questions across HTML/CSS/JS, React and Vue, with a 20-minute timer and automatic tests. Use them for days 6–10.</div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Accenture. The exam pattern is based on publicly reported candidate experiences and may change. All problems are original practice problems. Every Java and Python program was compiled and run (JDK 21, Python 3) against all of its listed test cases. The C++ programs were compiled with g++ and run. The C# template was not executed. SQL outputs come from SQLite; MySQL gives the same results for these queries.</p>
+</section>
+
+</body>
+</html>
