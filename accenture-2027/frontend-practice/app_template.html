@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Front-end Technology – Live Practice</title>
+<style>
+:root{
+  --navy:#101a3a; --ink:#14172b; --ink2:#3b4160; --muted:#6b7090; --line:#e2e5ee; --bg:#f3f4f8;
+  --blue:#1d4ed8; --lav:#e9ebfb; --lav2:#f4f5fd; --green:#15803d; --gbtn:#16a34a; --gsoft:#dcfce7;
+  --rose:#dc2626; --rsoft:#fee2e2; --amber:#b45309; --asoft:#fef3c7; --purple:#6d28d9; --teal:#0f766e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+code,pre,textarea{font-family:"JetBrains Mono",Consolas,"DejaVu Sans Mono",monospace}
+code{background:#eef0f7;border-radius:4px;padding:0 4px;font-size:.92em}
+
+.wrap{max-width:1080px;margin:0 auto;padding:22px 16px 48px}
+.hero{background:radial-gradient(90% 80% at 100% 0%,#7c3aed 0%,transparent 55%),radial-gradient(80% 70% at 0% 100%,#0e7490 0%,transparent 55%),linear-gradient(160deg,#0b1026,#141c42 60%,#070a18);color:#fff;border-radius:22px;padding:30px 30px 26px}
+.hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
+.hero h1{font-size:32px;line-height:1.12;margin:14px 0 8px;letter-spacing:-.02em}
+.hero h1 span{color:#c4b5fd}
+.hero p{opacity:.86;margin:0;max-width:720px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:11px 14px}
+.stat b{display:block;font-size:22px}.stat span{font-size:12px;opacity:.8}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:16px}
+.card h2{font-size:19px;margin:0 0 8px}
+.two{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start}
+ul.clean{padding-left:18px;margin:6px 0} ul.clean li{margin:4px 0} ul.clean li::marker{color:var(--purple)}
+.note{border-left:4px solid var(--purple);background:#f5f3ff;border-radius:10px;padding:10px 13px;margin-top:12px;font-size:13.5px}
+.btn{border:0;border-radius:10px;padding:11px 20px;font-weight:700;background:var(--blue);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.btn.green{background:var(--gbtn)}
+.btn.ghost{background:#fff;color:var(--ink2);border:1px solid #cfd3e0}
+.btn.big{font-size:16px;padding:14px 28px}
+.btn.sm{padding:7px 14px;font-size:13.5px}
+.btn:disabled{opacity:.55;cursor:wait}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.fbtn{border:1px solid #cfd3e0;background:#fff;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600;color:var(--ink2)}
+.fbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.qc{border:1px solid var(--line);border-radius:14px;padding:13px 14px;background:#fff;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:border-color .15s,box-shadow .15s;text-align:left}
+.qc:hover{border-color:#c4b5fd;box-shadow:0 6px 18px rgba(109,40,217,.08)}
+.qc .n{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.qc .t{font-weight:700;font-size:14.5px;line-height:1.3}
+.qc .tp{font-size:12.5px;color:var(--ink2)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:#eef0f6;color:var(--ink2);white-space:nowrap}
+.chip.Easy{background:var(--gsoft);color:var(--green)}.chip.Medium{background:var(--asoft);color:var(--amber)}.chip.Hard{background:var(--rsoft);color:var(--rose)}
+.chip.orig{background:#ede9fe;color:var(--purple)}
+.chip.best{background:var(--lav);color:var(--blue)}
+.chip.web{background:#fff1e6;color:#c2410c}.chip.react{background:#e0f7fc;color:#0e7490}.chip.vue{background:#e3f8ee;color:#047857}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:22px}
+
+/* ---------- exam ---------- */
+#exam{display:flex;flex-direction:column;height:100vh}
+.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:18px;padding:0 18px;height:58px;flex:none}
+.top .brand{font-weight:800;font-size:17px;padding-right:16px;border-right:1px solid rgba(255,255,255,.25);white-space:nowrap}
+.top .crumb{opacity:.9;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .sp{flex:1}
+.top .timer{display:flex;align-items:center;gap:7px;font-size:15px;white-space:nowrap}
+.top .timer b{font-variant-numeric:tabular-nums;font-size:17px}
+.top .timer.low b{color:#fca5a5}
+.top .tbtn{background:#ef4444;color:#fff;border:0;border-radius:8px;padding:9px 16px;font-weight:700;white-space:nowrap}
+.main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;padding:14px;min-height:0}
+.pane{background:#fff;border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.tabs{display:flex;gap:4px;padding:0 10px;border-bottom:1px solid var(--line);align-items:flex-end;flex:none;overflow-x:auto}
+.tab{background:none;border:0;padding:11px 12px 9px;color:var(--ink2);font-weight:600;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tab .ic{font-family:Consolas,monospace;font-weight:800;font-size:12.5px;color:var(--muted)}
+.tab.on{color:var(--ink);border-bottom-color:var(--ink)}
+.tab.on .ic{color:var(--blue)}
+.tabs .sp{flex:1}
+.ibtn{background:none;border:0;color:var(--ink2);padding:8px;border-radius:6px;font-size:16px}
+.ibtn:hover{background:#f1f2f7}
+.body{flex:1;min-height:0;overflow:auto;position:relative}
+.qtext{padding:14px 20px 20px}
+.qhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.qhead h2{font-size:20px;margin:0}
+.sec{background:var(--lav);color:#1e2a78;font-weight:800;font-size:15.5px;border-radius:6px;padding:5px 10px;margin:14px 0 8px}
+.qtext ol,.qtext ul{margin:4px 0;padding-left:22px}
+.qtext li{margin:6px 0}
+.editor{display:flex;height:100%;background:#fbfcfe}
+.gut{background:#f1f3f8;color:#8a90aa;text-align:right;padding:10px 8px;font:13.5px/1.6 "JetBrains Mono",Consolas,"DejaVu Sans Mono",monospace;user-select:none;overflow:hidden;min-width:44px}
+.editor textarea{flex:1;border:0;outline:0;resize:none;padding:10px 12px;font-size:13.5px;line-height:1.6;background:transparent;color:#111;white-space:pre;overflow:auto;tab-size:4}
+#preview{width:100%;height:100%;border:0;background:#fff;display:block}
+.console{font:12.8px/1.55 "JetBrains Mono",Consolas,monospace;padding:8px 0}
+.console div{padding:3px 14px;border-bottom:1px solid #f1f2f6;white-space:pre-wrap;word-break:break-word}
+.console .warn{background:#fffbeb;color:#92400e}.console .error{background:#fef2f2;color:#b91c1c}
+.console .empty{color:var(--muted);border:0}
+.tests{padding:12px 14px}
+.tc{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:9px}
+.tc .ic{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:13px;flex:none;margin-top:1px}
+.tc.pass .ic{background:var(--green)}.tc.fail .ic{background:var(--rose)}.tc.wait .ic{background:#a7adc4}
+.tc b{display:block;font-size:14.5px}
+.tc .s{font-size:13px;color:var(--ink2)}
+.tc.fail .s{color:var(--rose)}
+.ok{background:var(--gsoft);color:#14532d;border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:9px}
+.summary{font-size:13px;color:var(--ink2);margin-bottom:9px}
+.bar{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding:9px 12px;flex:none;flex-wrap:wrap}
+.bar .sp{flex:1}
+.hint{font-size:12.5px;color:var(--muted)}
+.cerr{position:absolute;left:10px;right:10px;bottom:10px;background:#fef2f2;color:#991b1b;border:1px solid #fecaca;border-radius:8px;padding:8px 10px;font:12.5px/1.45 Consolas,monospace;white-space:pre-wrap;max-height:40%;overflow:auto}
+
+.score{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.ring{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:26px;flex:none}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1;min-width:260px}
+.kv div{background:var(--lav2);border-radius:12px;padding:10px 12px}
+.kv b{display:block;font-size:20px}.kv span{font-size:12px;color:var(--muted)}
+pre.code{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:12px 14px;overflow:auto;font-size:12.8px;line-height:1.55;margin:6px 0 12px;max-height:360px}
+.fname{font-weight:700;font-size:13px;color:var(--ink2);margin-top:8px}
+table.res{border-collapse:collapse;width:100%;font-size:13.5px}
+table.res th,table.res td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left}
+table.res th{background:#f6f7fb}
+
+#testFrames{position:fixed;left:-12000px;top:0;width:1000px;height:800px;overflow:hidden}
+#testFrames iframe{width:1000px;height:800px;border:0;background:#fff}
+
+@media (max-width:860px){
+  .stats{grid-template-columns:repeat(2,1fr)} .two,.kv{grid-template-columns:1fr}
+  .qgrid{grid-template-columns:1fr 1fr}
+  #exam{height:auto;min-height:100vh}
+  .main{grid-template-columns:1fr;padding:10px}
+  .pane{height:72vh}
+  .top{height:auto;flex-wrap:wrap;padding:10px 12px;gap:10px}
+  .top .brand{border:0;padding:0}
+}
+@media (max-width:520px){ .qgrid{grid-template-columns:1fr} .hero h1{font-size:25px} }
+</style>
+</head>
+<body>
+
+<!-- ================= HOME ================= -->
+<div id="home" class="wrap">
+  <div class="hero">
+    <span class="tag">Accenture 2026–2027 Hiring · Front-end Technology</span>
+    <h1>Front-end Coding <span>Live Practice</span></h1>
+    <p>Write HTML, CSS and JavaScript, or a React or Vue component, in a real editor. You see the result live, as in the exam. Each question has a <b>20-minute timer</b> and automatic <b>test cases</b> that click, type and check your page.</p>
+    <div class="stats">
+      <div class="stat"><b id="stQ">15</b><span>Practice questions</span></div>
+      <div class="stat"><b>3</b><span>Stacks: HTML/CSS/JS · React · Vue</span></div>
+      <div class="stat"><b>20:00</b><span>Timer per question</span></div>
+      <div class="stat"><b>5</b><span>Automatic test cases each</span></div>
+    </div>
+  </div>
+  <div class="two">
+    <div class="card">
+      <h2>How the real round works</h2>
+      <ul class="clean">
+        <li>You get <b>1 front-end question</b>. The <b>Question</b> tab lists the objectives and constraints; the <b>HTML</b>, <b>CSS</b> and <b>JavaScript</b> tabs hold the starter code with TODOs.</li>
+        <li>The <b>Result</b> pane updates as you type. <b>Console</b> shows console.log output and errors.</li>
+        <li>Your code is graded by hidden test cases that check the DOM, the computed CSS and the behaviour (clicks, typing). Follow ids, classes and texts <b>exactly</b>.</li>
+        <li>Here, <b>Run Tests</b> shows which objectives already pass. When the timer ends, your code is submitted automatically.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Start</h2>
+      <p style="margin:0 0 10px;color:var(--ink2)"><b>Exam mode</b> picks one random question. Or choose any question below.</p>
+      <div class="row"><button class="btn big" onclick="APP.exam()">Exam Mode · 1 random question</button></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" onclick="APP.start(0,'seq')">Practise all in order</button>
+        <button class="btn ghost" onclick="APP.resetProgress()">Reset progress</button>
+      </div>
+      <div class="note"><b>Built in:</b> HTML5, CSS3, JavaScript (ES2020+), <b>React 18</b> (JSX, hooks; <code>import</code> from "react" works) and <b>Vue 3</b> (global build, <code>Vue.createApp</code>). Everything runs offline in your browser.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h2 style="margin:0">Question bank</h2><span class="hint" id="progTxt"></span></div>
+    <div class="filters" id="filters"></div>
+    <div class="qgrid" id="qgrid"></div>
+  </div>
+  <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Questions marked "Exam pattern" are modelled on reported assessment questions.</p>
+</div>
+
+<!-- ================= EXAM ================= -->
+<div id="exam" class="hidden">
+  <div class="top">
+    <div class="brand">Front-end Practice</div>
+    <div class="crumb">Front end Technology &nbsp;/&nbsp; <span id="crumbQ">Question 1</span></div>
+    <div class="sp"></div>
+    <div class="timer" id="timerBox">&#9201; Test Time: <b id="timer">20:00</b></div>
+    <button class="tbtn" onclick="APP.submit(false)">Finish Test</button>
+  </div>
+  <div class="main">
+    <div class="pane">
+      <div class="tabs" id="ltabs"></div>
+      <div class="body" id="lbody"></div>
+    </div>
+    <div class="pane">
+      <div class="tabs">
+        <button class="tab on" data-r="result" onclick="APP.rtab('result')">Result</button>
+        <button class="tab" data-r="console" onclick="APP.rtab('console')">Console <span class="chip" id="conCount" style="display:none"></span></button>
+        <button class="tab" data-r="tests" onclick="APP.rtab('tests')">Test Cases</button>
+        <span class="sp"></span>
+        <button class="ibtn" title="Refresh preview" onclick="APP.refresh()">&#8635;</button>
+      </div>
+      <div class="body">
+        <div id="r-result" style="height:100%"><iframe id="preview" title="Result"></iframe><div class="cerr hidden" id="cerr"></div></div>
+        <div id="r-console" class="hidden console"></div>
+        <div id="r-tests" class="hidden tests"></div>
+      </div>
+      <div class="bar">
+        <span class="hint" id="autoHint">Result updates as you type.</span><span class="sp"></span>
+        <button class="btn ghost sm" onclick="APP.resetCode()">Reset code</button>
+        <button class="btn sm" id="runBtn" onclick="APP.runTests()">Run Tests</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div id="result" class="wrap hidden"></div>
+<div id="testFrames" aria-hidden="true"></div>
+
+<script>
+var FE_LIBS={react:/*LIB_REACT*/,reactdom:/*LIB_REACTDOM*/,vue:/*LIB_VUE*/,babel:/*LIB_BABEL*/};
+</script>
+<script>/*QUESTIONS_JS*/</script>
+<script>
+/* ================= SCORM 1.2 (works standalone too) ================= */
+var SCORM=(function(){
+  var api=null,on=false;
+  function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  try{api=find(window)||(window.opener?find(window.opener):null);}catch(e){api=null;}
+  function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}
+  function get(k){if(on){try{return api.LMSGetValue(k);}catch(e){}}return"";}
+  function commit(){if(on){try{api.LMSCommit("");}catch(e){}}}
+  return{
+    init:function(){if(!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){on=false;}
+      if(!on)return;var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");commit();},
+    report:function(score,secs){if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));
+      set("cmi.core.lesson_status","completed");commit();},
+    finish:function(){if(on){commit();try{api.LMSFinish("");}catch(e){}on=false;}}
+  };
+})();
+var STORE={get:function(k,d){try{var v=localStorage.getItem("fep_"+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
+           set:function(k,v){try{localStorage.setItem("fep_"+k,JSON.stringify(v));}catch(e){}}};
+
+/* ================= stacks & document builder ================= */
+var STACKS={
+  web:{label:"HTML / CSS / JS",files:[["html","HTML","</>"],["css","CSS","#"],["js","JavaScript","JS"]]},
+  react:{label:"React",files:[["jsx","App.jsx","JSX"],["css","App.css","#"]]},
+  vue:{label:"Vue",files:[["html","HTML (template)","</>"],["js","JavaScript","JS"],["css","CSS","#"]]}
+};
+var CONSOLE_HOOK='<script>(function(){var P=parent;function s(a){return a.map(function(x){if(typeof x==="string")return x;if(x instanceof Error)return x.name+": "+x.message;try{return JSON.stringify(x);}catch(e){return String(x);}}).join(" ");}'+
+ '["log","info","warn","error"].forEach(function(l){var o=console[l];console[l]=function(){try{P.__feLog(window,l,s([].slice.call(arguments)));}catch(e){}o.apply(console,arguments);};});'+
+ 'window.addEventListener("error",function(e){try{P.__feLog(window,"error",(e.message||"Error"),e.lineno||0);}catch(x){}});'+
+ 'window.addEventListener("unhandledrejection",function(e){try{P.__feLog(window,"error","Unhandled promise rejection: "+(e.reason&&e.reason.message||e.reason));}catch(x){}});})();<\/script>';
+function scriptSafe(s){return String(s).replace(/<\/script/gi,"<\\/script");}
+function libTag(name){return'<script>window.eval(parent.FE_LIBS.'+name+');<\/script>';}
+function loadBabel(){if(!window.Babel){(0,eval)(FE_LIBS.babel);}return window.Babel;}
+function buildDoc(stack,f){
+  var head='<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'+CONSOLE_HOOK+"<style>"+(f.css||"")+"</style>";
+  if(stack==="web"||stack==="vue"){
+    var pre="<!DOCTYPE html><html><head>"+head+(stack==="vue"?libTag("vue"):"")+"</head><body>"+(f.html||"")+"<script>";
+    return{doc:pre+scriptSafe(f.js||"")+"\n<\/script></body></html>",jsLine:pre.split("\n").length-1,file:"JavaScript"};
+  }
+  var code;
+  try{code=loadBabel().transform(f.jsx||"",{presets:["react"],plugins:["transform-modules-commonjs"],filename:"App.jsx"}).code;}
+  catch(e){return{error:"JSX compile error: "+String(e.message||e).replace(/\u001b\[[0-9;]*m/g,"")};}
+  var boot='var exports={},module={exports:exports};function require(n){if(n==="react")return React;if(n==="react-dom"||n.indexOf("react-dom/")===0)return ReactDOM;if(/\\.css$/.test(n))return {};throw new Error("Cannot import \\""+n+"\\" in this editor. Only react and react-dom are available.");}\n';
+  var mount='\n;(function(){var A=module.exports&&module.exports.default||exports.default;if(!A&&typeof App!=="undefined")A=App;'+
+    'if(!A){console.error("No component found. Add: export default App;");return;}'+
+    'if(!window.__mounted){window.__mounted=true;ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(A));}})();';
+  return{doc:"<!DOCTYPE html><html><head>"+head+libTag("react")+libTag("reactdom")+'</head><body><div id="root"></div><script>'+boot+scriptSafe(code)+mount+"\n<\/script></body></html>",jsLine:null,file:"App.jsx"};
+}
+
+/* ================= console routing ================= */
+var LOGSINK=null;  /* function(win, level, msg) set by the app */
+window.__feLog=function(win,level,msg,line){if(LOGSINK)LOGSINK(win,level,msg,line);};
+
+/* ================= test helpers ================= */
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function makeHelpers(frame){
+  var win=frame.contentWindow,doc=frame.contentDocument;
+  function need(el,what){if(!el)throw new Error((what||"Element")+" not found.");return el;}
+  function parseColor(s){var m=String(s).match(/[\d.]+/g)||[];return m.slice(0,3).map(Number).join(",")+(m.length>3&&+m[3]<1?","+(+m[3]):"");}
+  function hex2rgb(h){h=h.replace("#","");if(h.length===3)h=h.split("").map(function(c){return c+c;}).join("");return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)].join(",");}
+  var t={win:win,doc:doc,sleep:sleep,
+    $:function(s){return doc.querySelector(s);},
+    $$:function(s){return Array.prototype.slice.call(doc.querySelectorAll(s));},
+    text:function(el){return el?String(el.textContent).replace(/\s+/g," ").trim():"";},
+    css:function(el,p){need(el);return win.getComputedStyle(el).getPropertyValue(p);},
+    ok:function(c,msg){if(!c)throw new Error(msg||"Check failed.");},
+    sameColor:function(el,p,hex){need(el);var got=win.getComputedStyle(el).getPropertyValue(p);if(parseColor(got)!==hex2rgb(hex))throw new Error(p+" is "+got+", expected "+hex+".");return true;},
+    click:async function(el){need(el,"Clickable element");el.click();await sleep(70);},
+    type:async function(el,v){need(el,"Input");var proto=el.tagName==="TEXTAREA"?win.HTMLTextAreaElement.prototype:win.HTMLInputElement.prototype;
+      Object.getOwnPropertyDescriptor(proto,"value").set.call(el,v);el.dispatchEvent(new win.Event("input",{bubbles:true}));el.dispatchEvent(new win.Event("change",{bubbles:true}));await sleep(70);},
+    select:async function(el,v){need(el,"Select");Object.getOwnPropertyDescriptor(win.HTMLSelectElement.prototype,"value").set.call(el,v);
+      el.dispatchEvent(new win.Event("input",{bubbles:true}));el.dispatchEvent(new win.Event("change",{bubbles:true}));await sleep(70);},
+    key:async function(el,k){need(el);var o={key:k,code:k,keyCode:k==="Enter"?13:0,which:k==="Enter"?13:0,bubbles:true,cancelable:true};
+      ["keydown","keypress","keyup"].forEach(function(e){el.dispatchEvent(new win.KeyboardEvent(e,o));});await sleep(70);},
+    resize:async function(w){frame.style.width=w+"px";await sleep(150);}
+  };
+  return t;
+}
+function loadFrame(frame,doc){return new Promise(function(res){var done=false;frame.onload=function(){if(!done){done=true;res();}};frame.srcdoc=doc;setTimeout(function(){if(!done){done=true;res();}},4000);});}
+async function runTestsFor(q,files){
+  var built=buildDoc(q.stack,files);
+  if(built.error)return q.tests.map(function(){return{ok:false,why:built.error};});
+  var host=document.getElementById("testFrames"),out=[];
+  for(var i=0;i<q.tests.length;i++){
+    var fr=document.createElement("iframe");host.appendChild(fr);var errs=[];
+    var prev=LOGSINK;LOGSINK=function(win,level,msg){if(win===fr.contentWindow){if(level==="error")errs.push(msg);}else if(prev)prev(win,level,msg);};
+    await loadFrame(fr,built.doc);await sleep(q.stack==="web"?60:250);
+    var r;
+    try{
+      var v=await Promise.race([Promise.resolve(q.tests[i].fn(makeHelpers(fr))),sleep(6000).then(function(){throw new Error("Test timed out.");})]);
+      r=v===true?{ok:true,why:""}:{ok:false,why:typeof v==="string"?v:"Check failed."};
+    }catch(e){r={ok:false,why:String(e&&e.message||e)};}
+    if(!r.ok&&errs.length)r.why+=" | Console error: "+errs[0];
+    LOGSINK=prev;fr.remove();out.push(r);
+  }
+  return out;
+}
+
+/* ================= UI helpers ================= */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function fmt(s){s=Math.max(0,s);return(s<600?"0":"")+Math.floor(s/60)+":"+(s%60<10?"0":"")+s%60;}
+
+/* ================= APP ================= */
+var APP=(function(){
+  var lastBuilt=null,LIMIT=20*60,cur=null,mode="single",t0=0,tick=null,files={},ltab="question",refreshT=null,session=[],sessStart=Date.now(),filter="all",busy=false;
+  var best=STORE.get("best",{}),logs=[];
+  function show(id){["home","exam","result"].forEach(function(x){document.getElementById(x).classList.toggle("hidden",x!==id);});window.scrollTo(0,0);}
+  function home(){
+    clearInterval(tick);
+    var f=document.getElementById("filters");
+    f.innerHTML=[["all","All"],["orig","Exam pattern"],["web","HTML / CSS / JS"],["react","React"],["vue","Vue"]].map(function(x){return'<button class="fbtn'+(filter===x[0]?" on":"")+'" onclick="APP.filter(\''+x[0]+'\')">'+x[1]+"</button>";}).join("");
+    var done=0;FE_BANK.forEach(function(q){if(best[q.id]!==undefined)done++;});
+    document.getElementById("qgrid").innerHTML=FE_BANK.map(function(q,i){
+      if(filter==="orig"&&!q.original)return"";if(["web","react","vue"].indexOf(filter)>=0&&q.stack!==filter)return"";
+      var b=best[q.id];
+      return'<button class="qc" onclick="APP.start('+i+',\'single\')"><span class="n">QUESTION '+(i+1)+'</span><span class="t">'+esc(q.title)+'</span><span class="tp">'+esc(q.topic)+'</span><span class="chips"><span class="chip '+q.stack+'">'+STACKS[q.stack].label+'</span><span class="chip '+q.difficulty+'">'+q.difficulty+"</span>"+
+        (q.original?'<span class="chip orig">Exam pattern</span>':"")+(b!==undefined?'<span class="chip best">Best '+b+"/"+q.tests.length+"</span>":"")+"</span></button>";}).join("");
+    document.getElementById("progTxt").textContent=done+" of "+FE_BANK.length+" attempted";
+    document.getElementById("stQ").textContent=FE_BANK.length;
+    show("home");
+  }
+  function questionHTML(q,i){
+    return'<div class="qtext"><div class="qhead"><h2>'+(mode==="exam"?"Question 1":"Question "+(i+1))+'</h2><span class="chips"><span class="chip '+q.stack+'">'+STACKS[q.stack].label+'</span><span class="chip '+q.difficulty+'">'+q.difficulty+"</span></span></div>"+
+      '<div class="sec">How to Attempt?</div><p style="margin:4px 0">'+q.intro+"</p>"+
+      '<div class="sec">Objectives:</div><ol>'+q.objectives.map(function(o){return"<li>"+o+"</li>";}).join("")+"</ol>"+
+      '<div class="sec">Constraints:</div><ul>'+q.constraints.map(function(o){return"<li>"+o+"</li>";}).join("")+"</ul>"+
+      '<p class="hint" style="margin-top:14px">Open the code tabs above to edit. The <b>Result</b> pane on the right shows your page live; <b>Run Tests</b> checks the objectives.</p></div>';
+  }
+  function renderLeft(){
+    var q=FE_BANK[cur];
+    var tabs=[["question","Question","?"]].concat(STACKS[q.stack].files);
+    document.getElementById("ltabs").innerHTML=tabs.map(function(t){return'<button class="tab'+(ltab===t[0]?" on":"")+'" onclick="APP.ltab(\''+t[0]+'\')"><span class="ic">'+esc(t[2])+"</span>"+esc(t[1])+"</button>";}).join("");
+    var body=document.getElementById("lbody");
+    if(ltab==="question"){body.innerHTML=questionHTML(q,cur);body.scrollTop=0;return;}
+    body.innerHTML='<div class="editor"><div class="gut" id="gut"></div><textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div>';
+    var ta=document.getElementById("code");ta.value=files[ltab]||"";gutter();
+    ta.addEventListener("input",function(){files[ltab]=ta.value;STORE.set("draft_"+q.id,files);gutter();schedule();});
+    ta.addEventListener("scroll",function(){document.getElementById("gut").scrollTop=ta.scrollTop;});
+    ta.addEventListener("keydown",function(e){if(e.key==="Tab"){e.preventDefault();var s=ta.selectionStart,en=ta.selectionEnd;ta.value=ta.value.slice(0,s)+"    "+ta.value.slice(en);ta.selectionStart=ta.selectionEnd=s+4;ta.dispatchEvent(new Event("input"));}});
+    setTimeout(function(){ta.focus();},30);
+  }
+  function gutter(){var ta=document.getElementById("code");if(!ta)return;var n=ta.value.split("\n").length,h="";for(var i=1;i<=n;i++)h+=i+"<br>";var g=document.getElementById("gut");g.innerHTML=h;g.scrollTop=ta.scrollTop;}
+  function ltabFn(t){ltab=t;renderLeft();}
+  function rtab(t){document.querySelectorAll(".tab[data-r]").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-r")===t);});
+    ["result","console","tests"].forEach(function(x){document.getElementById("r-"+x).classList.toggle("hidden",x!==t);});}
+  function renderConsole(){var c=document.getElementById("r-console");
+    c.innerHTML=logs.length?logs.map(function(l){return'<div class="'+l.level+'">'+(l.level==="error"?"&#10007; ":l.level==="warn"?"&#9888; ":"&rsaquo; ")+esc(l.msg)+"</div>";}).join(""):'<div class="empty">No console output yet. Use console.log() in your code.</div>';
+    var n=logs.length,cc=document.getElementById("conCount");cc.style.display=n?"":"none";cc.textContent=n;
+    cc.className="chip"+(logs.some(function(l){return l.level==="error";})?" Hard":"");}
+  function refresh(){
+    clearTimeout(refreshT);var q=FE_BANK[cur],fr=document.getElementById("preview"),built=buildDoc(q.stack,files),ce=document.getElementById("cerr");
+    logs=[];renderConsole();
+    if(built.error){ce.textContent=built.error;ce.classList.remove("hidden");logs.push({level:"error",msg:built.error});renderConsole();return;}
+    ce.classList.add("hidden");lastBuilt=built;fr.srcdoc=built.doc;
+  }
+  function schedule(){clearTimeout(refreshT);refreshT=setTimeout(refresh,700);}
+  function testsHTML(q,res){
+    if(!res)return q.tests.map(function(tc,k){return'<div class="tc wait"><span class="ic">?</span><div><b>Test Case '+(k+1)+'</b><span class="s">'+esc(tc.name)+"</span></div></div>";}).join("");
+    var p=res.filter(function(r){return r.ok;}).length,n=res.length;
+    return'<div class="'+(p===n?"ok":"summary")+'">'+p+" of "+n+" test cases passed."+(p===n?" Well done.":"")+"</div>"+
+      res.map(function(r,k){return'<div class="tc '+(r.ok?"pass":"fail")+'"><span class="ic">'+(r.ok?"&#10003;":"&#10007;")+'</span><div><b>Test Case '+(k+1)+": "+esc(q.tests[k].name)+'</b><span class="s">'+(r.ok?"Passed":"Failed &middot; "+esc(r.why))+"</span></div></div>";}).join("");
+  }
+  function start(i,m){
+    mode=m;cur=i;var q=FE_BANK[i];
+    var saved=STORE.get("draft_"+q.id,null);files={};STACKS[q.stack].files.forEach(function(f){files[f[0]]=saved&&typeof saved[f[0]]==="string"?saved[f[0]]:q.files[f[0]];});
+    document.getElementById("crumbQ").textContent=m==="exam"?"Question 1":"Question "+(i+1)+" of "+FE_BANK.length;
+    ltab="question";renderLeft();rtab("result");
+    document.getElementById("r-tests").innerHTML=testsHTML(q,null);
+    document.getElementById("autoHint").textContent=q.stack==="react"?"JSX is compiled in your browser; the result updates as you type.":"Result updates as you type.";
+    show("exam");refresh();
+    t0=Date.now();clearInterval(tick);document.getElementById("timer").textContent=fmt(LIMIT);document.getElementById("timerBox").classList.remove("low");
+    tick=setInterval(function(){var left=LIMIT-Math.floor((Date.now()-t0)/1000);document.getElementById("timer").textContent=fmt(left);
+      document.getElementById("timerBox").classList.toggle("low",left<=60);if(left<=0){clearInterval(tick);submit(true);}},250);
+  }
+  async function runTests(){
+    if(busy)return;busy=true;var b=document.getElementById("runBtn");b.disabled=true;b.textContent="Running…";
+    var q=FE_BANK[cur];rtab("tests");document.getElementById("r-tests").innerHTML='<div class="summary">Running '+q.tests.length+" test cases…</div>";
+    try{var res=await runTestsFor(q,files);document.getElementById("r-tests").innerHTML=testsHTML(q,res);}
+    finally{busy=false;b.disabled=false;b.textContent="Run Tests";}
+  }
+  function resetCode(){if(!confirm("Replace your code with the starter code?"))return;var q=FE_BANK[cur];files={};STACKS[q.stack].files.forEach(function(f){files[f[0]]=q.files[f[0]];});STORE.set("draft_"+q.id,null);renderLeft();refresh();}
+  async function submit(auto){
+    if(!auto&&!confirm("Finish this question? Your code will be checked against all test cases."))return;
+    clearInterval(tick);var q=FE_BANK[cur],used=Math.min(LIMIT,Math.round((Date.now()-t0)/1000));
+    document.getElementById("result").innerHTML='<div class="card"><p>Checking your code…</p></div>';show("result");
+    var res=await runTestsFor(q,files),passed=res.filter(function(r){return r.ok;}).length,n=res.length;
+    if(best[q.id]===undefined||passed>best[q.id]){best[q.id]=passed;STORE.set("best",best);}
+    session.push({i:cur,passed:passed,n:n,used:used});
+    var nextIdx=mode==="seq"&&cur<FE_BANK.length-1?cur+1:null,pct=Math.round(passed/n*100),col=passed===n?"#16a34a":passed>=n/2?"#d97706":"#dc2626";
+    var fl=STACKS[q.stack].files;
+    function codeBlock(src){return fl.map(function(f){return'<div class="fname">'+esc(f[1])+'</div><pre class="code">'+esc(src[f[0]]||"")+"</pre>";}).join("");}
+    document.getElementById("result").innerHTML=
+      '<div class="hero"><span class="tag">'+(auto?"Time is up · auto-submitted":"Answer submitted")+"</span><h1>"+esc(q.title)+"</h1><p>"+esc(STACKS[q.stack].label)+" · "+esc(q.topic)+" · "+q.difficulty+"</p></div>"+
+      '<div class="card"><div class="score"><div class="ring" style="background:conic-gradient('+col+" "+pct*3.6+'deg,#e8eaf2 0);"><div style="width:92px;height:92px;border-radius:50%;background:#fff;display:grid;place-items:center">'+passed+"/"+n+"</div></div>"+
+      '<div class="kv"><div><b>'+pct+'%</b><span>Test cases passed</span></div><div><b>'+fmt(used)+'</b><span>Time used (of 20:00)</span></div><div><b>'+best[q.id]+"/"+n+'</b><span>Your best on this question</span></div></div></div>'+
+      '<h3 style="margin:16px 0 6px">Test case results</h3>'+testsHTML(q,res)+"</div>"+
+      '<div class="two"><div class="card"><h2>Your code</h2>'+codeBlock(files)+'</div><div class="card"><h2>Reference solution</h2>'+codeBlock(q.solution)+"</div></div>"+
+      '<div class="card row">'+(nextIdx!==null?'<button class="btn green big" onclick="APP.start('+nextIdx+',\'seq\')">Next question &rarr;</button>':"")+
+      '<button class="btn ghost" onclick="APP.start('+cur+',\''+mode+'\')">Retry this question</button>'+
+      '<button class="btn ghost" onclick="APP.exam()">New random question</button>'+
+      '<button class="btn ghost" onclick="APP.home()">Question bank</button>'+
+      '<button class="btn" onclick="APP.finish()">Finish session</button></div>';
+  }
+  function finish(){
+    clearInterval(tick);
+    var bestIn={};session.forEach(function(s){if(bestIn[s.i]===undefined||s.passed>bestIn[s.i].passed)bestIn[s.i]=s;});
+    var keys=Object.keys(bestIn),tot=0,max=0;keys.forEach(function(k){tot+=bestIn[k].passed;max+=bestIn[k].n;});
+    var score=max?Math.round(tot/max*100):0,secs=Math.round((Date.now()-sessStart)/1000);
+    SCORM.report(score,secs);
+    document.getElementById("result").innerHTML='<div class="hero"><span class="tag">Session complete</span><h1>Your front-end practice score: <span>'+score+"%</span></h1><p>"+keys.length+" question"+(keys.length===1?"":"s")+" attempted in this session.</p></div>"+
+      '<div class="card"><table class="res"><thead><tr><th>#</th><th>Question</th><th>Stack</th><th>Passed</th><th>Time</th></tr></thead><tbody>'+
+      (keys.length?keys.map(function(k){var s=bestIn[k],q=FE_BANK[s.i];return"<tr><td>"+(s.i+1)+"</td><td>"+esc(q.title)+"</td><td>"+STACKS[q.stack].label+"</td><td><b>"+s.passed+"/"+s.n+"</b></td><td>"+fmt(s.used)+"</td></tr>";}).join(""):'<tr><td colspan="5">No question submitted yet.</td></tr>')+
+      '</tbody></table><div class="row" style="margin-top:14px"><button class="btn" onclick="APP.home()">Back to question bank</button><button class="btn ghost" onclick="window.print()">Print / Save as PDF</button></div></div>';
+    show("result");
+  }
+  function exam(){var n=FE_BANK.length,i=Math.floor(Math.random()*n);if(n>1&&i===cur)i=(i+1)%n;start(i,"exam");}
+  function resetProgress(){if(!confirm("Clear your best scores and saved code?"))return;best={};STORE.set("best",{});FE_BANK.forEach(function(q){STORE.set("draft_"+q.id,null);});home();}
+
+  LOGSINK=function(win,level,msg,line){var fr=document.getElementById("preview");if(fr&&win===fr.contentWindow){
+    if(line&&lastBuilt){if(lastBuilt.jsLine!==null&&line>lastBuilt.jsLine)msg+=" ("+lastBuilt.file+" line "+(line-lastBuilt.jsLine)+")";else if(lastBuilt.jsLine===null)msg+=" (in App.jsx)";}
+    logs.push({level:level,msg:msg});renderConsole();}};
+  document.addEventListener("DOMContentLoaded",function(){SCORM.init();home();});
+  window.addEventListener("beforeunload",function(){SCORM.finish();});
+  return{start:start,ltab:ltabFn,rtab:rtab,refresh:refresh,runTests:runTests,resetCode:resetCode,submit:submit,finish:finish,home:home,exam:exam,resetProgress:resetProgress,
+         filter:function(f){filter=f;home();},_files:function(){return files;},_set:function(k,v){files[k]=v;}};
+})();
+</script>
+</body>
+</html>
