@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Communication Assessment – Zero to Hero Guide</title>
+<style>
+  :root{
+    --ink:#14122b; --ink-2:#3d3a5c; --muted:#6b6889;
+    --brand:#5b2be0; --brand-2:#8b5cf6; --brand-soft:#efe9ff; --brand-line:#d9ccff;
+    --teal:#0e9f8a; --teal-soft:#e2f7f3;
+    --amber:#c77700; --amber-soft:#fff4dd;
+    --rose:#d63a5a; --rose-soft:#ffe8ee;
+    --sky:#2563eb; --sky-soft:#e6efff;
+    --line:#e6e4f0; --bg-alt:#f8f7fc;
+  }
+  @page{ size:A4; margin:16mm 15mm 18mm 15mm; }
+  @page :first{ margin:0; }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; font-family:"Inter",system-ui,sans-serif; color:var(--ink); font-size:10pt; line-height:1.55; }
+  h1,h2,h3,h4{ margin:0; line-height:1.2; letter-spacing:-.01em; }
+  p{ margin:0 0 8px; }
+  ul{ margin:4px 0 8px; padding-left:18px; }
+  li{ margin:2px 0; }
+  li::marker{ color:var(--brand); }
+  b,strong{ font-weight:650; }
+  code,.mono{ font-family:"DejaVu Sans Mono",monospace; font-size:8.6pt; }
+  .page-break{ break-before:page; }
+  .avoid{ break-inside:avoid; }
+  h2,h3,h4,.sec-head{ break-after:avoid; page-break-after:avoid; }
+
+  /* ---------- COVER ---------- */
+  .cover{ height:297mm; width:210mm; position:relative; overflow:hidden; color:#fff;
+    background:radial-gradient(120% 80% at 100% 0%, #7c4dff 0%, transparent 55%),
+               radial-gradient(90% 70% at 0% 100%, #1fb6a0 0%, transparent 50%),
+               linear-gradient(160deg,#1a1240 0%,#2a1a6e 55%,#140f33 100%);
+    padding:24mm 20mm 18mm; display:flex; flex-direction:column; }
+  .cover .grid{ position:absolute; inset:0; opacity:.08;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:14mm 14mm; }
+  .cover > *{ position:relative; }
+  .tag{ display:inline-block; font-size:8.5pt; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.08); }
+  .cover h1{ font-size:40pt; font-weight:800; margin-top:20mm; line-height:1.05; letter-spacing:-.02em; }
+  .cover h1 span{ color:#b9a6ff; }
+  .cover .sub{ font-size:13pt; opacity:.85; margin-top:6mm; max-width:150mm; }
+  .cover .roles{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10mm; }
+  .cover .roles div{ padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); font-weight:600; font-size:10pt; }
+  .cover .stats{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .cover .stat{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:14px; padding:14px; }
+  .cover .stat b{ display:block; font-size:22pt; font-weight:800; }
+  .cover .stat span{ font-size:8.5pt; opacity:.8; }
+  .cover .foot{ margin-top:10mm; font-size:8pt; opacity:.65; display:flex; justify-content:space-between; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .sec-num{ flex:none; width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#fff; font-weight:800; font-size:15pt; }
+  .sec-head h2{ font-size:19pt; font-weight:800; }
+  .sec-head .kicker{ font-size:8pt; text-transform:uppercase; letter-spacing:.14em; color:var(--brand); font-weight:700; margin-bottom:2px; }
+  h3{ font-size:12.5pt; font-weight:750; margin:16px 0 8px; color:var(--ink); display:flex; align-items:center; gap:8px; }
+  h3 .pill{ font-size:8pt; font-weight:600; padding:3px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand); }
+  h4{ font-size:10.5pt; font-weight:700; margin:10px 0 4px; }
+  .lead{ color:var(--ink-2); font-size:10.5pt; }
+
+  /* ---------- CARDS ---------- */
+  .cards{ display:grid; gap:10px; margin:10px 0; }
+  .c2{ grid-template-columns:1fr 1fr; } .c3{ grid-template-columns:repeat(3,1fr); } .c4{ grid-template-columns:repeat(4,1fr); }
+  .card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid; }
+  .card.alt{ background:var(--bg-alt); }
+  .card .lbl{ font-size:7.8pt; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .card .val{ font-size:15pt; font-weight:800; margin-top:2px; }
+  .card .val small{ font-size:9pt; font-weight:600; color:var(--muted); }
+  .role-card{ border-top:4px solid var(--brand); }
+  .role-card.t{ border-top-color:var(--teal);} .role-card.a{ border-top-color:var(--amber);} .role-card.s{ border-top-color:var(--sky);}
+  .role-card h4{ margin:0 0 2px; font-size:11pt; }
+  .role-card .code{ font-size:8pt; color:var(--muted); font-weight:600; }
+  .role-card .ctc{ font-size:16pt; font-weight:800; margin:8px 0 2px; }
+
+  /* ---------- CALLOUTS ---------- */
+  .note{ border-radius:12px; padding:11px 14px 11px 14px; margin:10px 0; break-inside:avoid; border-left:4px solid; }
+  .note .t{ font-weight:750; font-size:9.5pt; margin-bottom:3px; display:block; }
+  .note p:last-child,.note ul:last-child{ margin-bottom:0; }
+  .note.info{ background:var(--sky-soft); border-color:var(--sky);} .note.info .t{ color:var(--sky);}
+  .note.tip{ background:var(--teal-soft); border-color:var(--teal);} .note.tip .t{ color:var(--teal);}
+  .note.warn{ background:var(--amber-soft); border-color:var(--amber);} .note.warn .t{ color:var(--amber);}
+  .note.alert{ background:var(--rose-soft); border-color:var(--rose);} .note.alert .t{ color:var(--rose);}
+  .note.brand{ background:var(--brand-soft); border-color:var(--brand);} .note.brand .t{ color:var(--brand);}
+
+  /* ---------- TABLES ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:8px 0 12px; font-size:9.2pt; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  thead th{ background:var(--ink); color:#fff; text-align:left; font-weight:650; padding:9px 11px; font-size:8.6pt; letter-spacing:.02em; }
+  tbody td{ padding:8px 11px; border-top:1px solid var(--line); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--bg-alt); }
+  tr{ break-inside:avoid; }
+  td.c{ text-align:center; white-space:nowrap; } th.c{ text-align:center; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:999px; font-size:8pt; font-weight:700; white-space:nowrap; }
+  .b-yes{ background:var(--rose-soft); color:var(--rose);} .b-no{ background:var(--teal-soft); color:var(--teal);}
+  .b-mid{ background:var(--amber-soft); color:var(--amber);} .b-fin{ background:var(--brand-soft); color:var(--brand);}
+
+  /* ---------- PROCESS FLOW ---------- */
+  .flow{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:12px 0 16px; }
+  .step{ position:relative; text-align:center; padding:12px 6px 10px; border-radius:12px; background:var(--bg-alt); border:1px solid var(--line); }
+  .step .n{ width:26px; height:26px; margin:0 auto 6px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:9pt; color:#fff; background:var(--brand); }
+  .step:nth-child(even) .n{ background:var(--teal); }
+  .step:last-child .n{ background:var(--amber); }
+  .step b{ display:block; font-size:8.4pt; line-height:1.25; }
+  .step span{ display:block; font-size:7.4pt; color:var(--muted); margin-top:3px; }
+  .step:not(:last-child)::after{ content:"›"; position:absolute; right:-7px; top:16px; font-size:14pt; color:var(--brand); font-weight:800; }
+
+  /* ---------- CODE ---------- */
+  pre{ background:#16132e; color:#e8e6ff; border-radius:12px; padding:12px 14px; margin:8px 0 10px; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; line-height:1.55; white-space:pre-wrap; break-inside:avoid; }
+  pre .k{ color:#c4b5fd; } pre .c{ color:#8b88b0; } pre .s{ color:#5eead4; } pre .n{ color:#fcd34d; }
+  .kbd{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* ---------- MISC ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+  .chip{ font-size:8.4pt; padding:4px 10px; border-radius:999px; background:var(--brand-soft); color:#3b1fa8; font-weight:600; }
+  .chip.t{ background:var(--teal-soft); color:#0b6e60; } .chip.r{ background:var(--rose-soft); color:#a3213f; }
+  .game{ display:flex; gap:12px; }
+  .game .ic{ flex:none; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#fff; font-size:13pt; }
+  .week{ border-left:4px solid var(--brand); }
+  .week:nth-child(2){ border-left-color:var(--teal);} .week:nth-child(3){ border-left-color:var(--amber);} .week:nth-child(4){ border-left-color:var(--rose);}
+  .check li{ list-style:none; position:relative; padding-left:4px; }
+  .check{ padding-left:20px; }
+  .check li::before{ content:"✓"; position:absolute; left:-18px; top:0; color:var(--teal); font-weight:800; }
+  .disclaimer{ font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; margin-top:16px; }
+</style>
+<style>
+  :root{ --pa:#16a34a; --pb:#7c3aed; --pc:#2563eb; --pd:#ea580c; --cy:#06b6d4; }
+  .cover{ background:
+      linear-gradient(rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(6,182,212,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(100% 70% at 100% 0%, #0e7490 0%, transparent 55%),
+      radial-gradient(90% 60% at 0% 100%, #4338ca 0%, transparent 55%),
+      linear-gradient(160deg,#06101f 0%,#0a1a33 55%,#040a14 100%); }
+  .cover .grid{ display:none; }
+  .cover h1 span{ color:#67e8f9; }
+  .cover .mono-tag{ font-family:"DejaVu Sans Mono",monospace; font-size:9pt; color:#67e8f9; margin-top:6mm; opacity:.9; }
+  .sec-head{ break-inside:avoid; }
+  .avoid-head{ break-inside:avoid; break-after:avoid; }
+  code{ white-space:nowrap; background:#eef2f7; padding:0 4px; border-radius:4px; font-size:8.4pt; }
+  pre code{ background:none; padding:0; white-space:pre; }
+  h3{ break-after:avoid; }
+
+  /* part theming */
+  .part{ --pc1:#16a34a; --pc2:#22c55e; --pcs:#e8f8ee; }
+  .part.b{ --pc1:#7c3aed; --pc2:#a78bfa; --pcs:#f1ebff; }
+  .part.c{ --pc1:#2563eb; --pc2:#38bdf8; --pcs:#e7f0ff; }
+  .part.d{ --pc1:#ea580c; --pc2:#fb923c; --pcs:#fff1e6; }
+  .part .sec-num{ background:linear-gradient(135deg,var(--pc1),var(--pc2)); }
+  .part .sec-head .kicker{ color:var(--pc1); }
+  .part li::marker{ color:var(--pc1); }
+  .banner{ border-radius:16px; padding:18px 22px; color:#fff; margin:0 0 14px; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,var(--pc1),#0a1a33); break-inside:avoid; }
+  .banner .pl{ font:700 8.5pt "DejaVu Sans Mono",monospace; letter-spacing:.12em; opacity:.85; }
+  .banner h2{ font-size:22pt; font-weight:800; margin:4px 0 4px; color:#fff; }
+  .banner p{ margin:0; opacity:.9; font-size:9.6pt; max-width:150mm; }
+  .banner .chips{ margin:10px 0 0; }
+  .banner .chip{ background:rgba(255,255,255,.14); color:#fff; }
+  .banner .big{ position:absolute; right:18px; top:10px; font:800 54pt Inter,sans-serif; opacity:.14; }
+  .def{ border:1px solid var(--line); border-left:4px solid var(--pc1,#2563eb); border-radius:10px; padding:7px 11px; margin:6px 0; font-size:9.2pt; background:#fff; break-inside:avoid; }
+  .def b.t{ color:var(--pc1,#2563eb); }
+  .trap{ border:1px dashed #e11d48; background:#fff5f7; border-radius:10px; padding:8px 12px; margin:8px 0; font-size:9pt; break-inside:avoid; }
+  .trap b{ color:#e11d48; }
+  table.tight td, table.tight th{ padding:4.5px 8px; font-size:8.6pt; }
+  table.tight{ margin:6px 0 10px; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .three{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  pre .k{ background:none; border:0; padding:0; font-size:inherit; white-space:inherit; }
+  .k{ font-family:"DejaVu Sans Mono",monospace; font-size:8pt; padding:1px 6px; border-radius:5px; background:#fff; border:1px solid var(--line); border-bottom-width:2px; white-space:nowrap; }
+
+  /* MCQs */
+  .mcq{ display:grid; grid-template-columns:34px 1fr; gap:8px; border:1px solid var(--line); border-radius:12px; padding:9px 12px; margin:7px 0; break-inside:avoid; background:#fff; }
+  .mcq .qn{ font:800 9pt Inter,sans-serif; color:#fff; background:var(--pc1,#2563eb); border-radius:7px; height:22px; display:grid; place-items:center; }
+  .mcq .qt{ font-size:9.4pt; font-weight:600; }
+  .mcq .tg{ display:inline-block; font-size:7.6pt; font-weight:700; color:var(--pc1); background:var(--pcs); border-radius:99px; padding:1px 8px; margin-right:6px; }
+  .mcq pre{ margin:6px 0; font-size:8.2pt; }
+  .opts{ list-style:none; padding:0; margin:5px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:3px 14px; font-size:9pt; }
+  .opts li{ margin:0; } .opts li b{ color:var(--pc1); margin-right:4px; }
+  .mcqs2{ columns:2; column-gap:10px; } .mcqs2 .mcq{ display:inline-grid; width:100%; }
+  .keyt td{ font-size:8.3pt; padding:6px 9px; } .keyt td.ans{ font-weight:800; color:var(--pc1); text-align:center; }
+  .keyt td:first-child{ width:7%; } .keyt td:nth-child(2){ width:6%; } .keyt td:nth-child(3){ width:24%; }
+  .sheet td,.sheet th{ text-align:center; font-family:"DejaVu Sans Mono",monospace; font-size:8.4pt; padding:5px 8px; }
+  .sheet th{ background:#217346; } .sheet td:first-child{ background:#f0f2f5; font-weight:700; color:#6b6889; width:6%; }
+  .toc{ columns:2; column-gap:18px; padding:0; list-style:none; margin:10px 0; }
+  .toc li{ break-inside:avoid; display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:9.4pt; }
+  .toc li b{ width:30px; font-family:"DejaVu Sans Mono",monospace; }
+</style>
+<style>
+  .cover{ background:
+      linear-gradient(rgba(125,211,252,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(125,211,252,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(85% 60% at 100% 0%, #0284c7 0%, transparent 55%),
+      radial-gradient(70% 50% at 0% 100%, #9333ea 0%, transparent 60%),
+      linear-gradient(160deg,#04101c 0%,#0d1430 55%,#05060d 100%); }
+  .cover h1 span{ color:#7dd3fc; }
+  .part.cm{ --pc1:#0284c7; --pc2:#38bdf8; --pcs:#e6f4fd; }
+  .part.gr{ --pc1:#9333ea; --pc2:#c084fc; --pcs:#f4ebff; }
+  .part.ml{ --pc1:#0d9488; --pc2:#2dd4bf; --pcs:#e3f7f4; }
+  .part.pl{ --pc1:#d97706; --pc2:#fbbf24; --pcs:#fff6e0; }
+  .banner.cm{ background:linear-gradient(135deg,#0284c7,#04182b); }
+  .banner.gr{ background:linear-gradient(135deg,#9333ea,#1c0733); }
+  .banner.ml{ background:linear-gradient(135deg,#0d9488,#03201d); }
+  .banner.pl{ background:linear-gradient(135deg,#d97706,#2a1a03); }
+  .two{ align-items:start; } .two>div,.three>div{ min-width:0; }
+  .small{ font-size:8.4pt; color:var(--muted); margin:3px 0 6px; }
+  code{ white-space:normal; }
+  .lgrid,.mgrid{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .lc,.talk,.mail{ border:1px solid var(--line); border-radius:12px; padding:8px 11px; background:#fff; break-inside:avoid; }
+  .lh{ display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:9.4pt; }
+  .no{ background:var(--pc1); color:#fff; font-weight:800; font-size:8.2pt; border-radius:6px; padding:1px 7px; }
+  .aud{ font-size:8pt; color:var(--muted); font-weight:700; letter-spacing:.04em; }
+  .wc{ margin-left:auto; font-size:7.8pt; background:#dcfce7; color:#15803d; border-radius:999px; padding:1px 8px; font-weight:700; white-space:nowrap; }
+  .clip{ font-style:italic; font-size:8.8pt; margin:2px 0 5px; color:#3d3a5c; }
+  .q{ font-size:8.8pt; margin:2px 0; }
+  .ans{ font-size:8.8pt; margin:3px 0 0; background:var(--pcs); border-radius:7px; padding:4px 8px; }
+  .ans b,.notes b.t{ color:var(--pc1); }
+  ol.rl li{ font-size:10.5pt; line-height:1.7; margin:3px 0; }
+  ol.rl b{ color:var(--pc1); }
+  .ps{ color:#e11d48; font-weight:800; margin:0 1px; }
+  ol.qs{ columns:2; column-gap:22px; font-size:9pt; margin:6px 0; padding-left:20px; }
+  ol.qs li{ break-inside:avoid; margin:3px 0; }
+  .bl{ border-bottom:1.5px solid var(--pc1); color:transparent; }
+  table.keyx td{ font-size:8.3pt !important; padding:3px 7px !important; }
+  .talk{ margin:8px 0; }
+  .tgrid{ display:grid; grid-template-columns:1fr 2.4fr; gap:10px; align-items:start; }
+  .notes{ background:var(--pcs); border-radius:8px; padding:5px 9px; font-size:8.4pt; }
+  .notes ul{ margin:3px 0 0; padding-left:15px; } .notes li{ margin:2px 0; }
+  .model{ font-size:8.9pt; margin:0; line-height:1.55; }
+  .task{ font-size:8.6pt; color:#3d3a5c; flex:1; }
+  .env{ border:1px dashed #b7c3d0; border-radius:8px; padding:6px 10px; font-size:8.5pt; background:#fbfdff; }
+  .env p{ margin:4px 0; } .subj{ border-bottom:1px solid var(--line); padding-bottom:3px; margin-bottom:4px; }
+  .flow{ display:flex; gap:5px; align-items:center; flex-wrap:wrap; margin:8px 0; }
+  .flow span{ border:1.5px solid var(--pc1); border-radius:8px; padding:3px 9px; font-weight:700; font-size:8.6pt; background:#fff; }
+  .flow span.h{ background:var(--pc1); color:#fff; }
+  .flow i{ font-style:normal; color:var(--pc1); font-weight:800; }
+  .mx{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .mx div{ border:1px solid var(--line); border-radius:10px; padding:7px 9px; font-size:8.5pt; background:#fff; }
+  .mx b{ display:block; color:var(--pc1); font-size:9.5pt; }
+  .banner{ break-after:avoid; page-break-after:avoid; }
+  .part.pl .card ul{ font-size:7.8pt !important; }
+  .part.pl .card li{ margin:1px 0; }
+  .part.pl table.tight td{ padding-top:2px !important; padding-bottom:2px !important; }
+  .bad{ color:#b91c1c; } .good{ color:#15803d; font-weight:600; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Assessment 4 · Communication</span></div>
+  <h1>Communication<br>Assessment<br><span>Zero to Hero</span></h1>
+  <div class="mono-tag">&gt; 7 sections (A–G) + email · ~30 minutes · spoken + written English_</div>
+  <p class="sub">A complete guide to the spoken and written English round. It covers the test set-up, how the automated scoring listens to you, pronunciation and fluency basics, the grammar behind fill-in and error-correction items, a step-by-step method for each section A–G, and a ready email formula. It comes with model answers and 20 + 25 grammar items with an answer key.</p>
+  <div class="roles"><div>Listening</div><div>Conversation</div><div>Reading aloud</div><div>Listen &amp; repeat</div><div>Grammar</div><div>Speaking</div><div>Email writing</div></div>
+  <div class="stats">
+    <div class="stat"><b>7 + 1</b><span>Sections + email</span></div>
+    <div class="stat"><b>~30 min</b><span>Duration</span></div>
+    <div class="stat"><b>8</b><span>Model 45-second talks</span></div>
+    <div class="stat"><b>6</b><span>Model emails</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + OVERVIEW ================= -->
+<section class="page-break part cm">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#0284c7">00</b>The round: sections, timing and scoring</li>
+    <li><b style="color:#0284c7">01</b>Set-up and test-day rules</li>
+    <li><b style="color:#9333ea">F1</b>Pronunciation: sounds and word stress</li>
+    <li><b style="color:#9333ea">F2</b>Fluency, pace and intonation</li>
+    <li><b style="color:#9333ea">F3</b>Grammar you need for E and F</li>
+    <li><b style="color:#0284c7">A</b>Listening comprehension</li>
+    <li><b style="color:#0284c7">B</b>Conversation response</li>
+    <li><b style="color:#0284c7">C</b>Reading aloud</li>
+    <li><b style="color:#0284c7">D</b>Listen and repeat</li>
+    <li><b style="color:#0284c7">E</b>Fill in the missing word (20 items)</li>
+    <li><b style="color:#0284c7">F</b>Error correction (25 items)</li>
+    <li><b style="color:#0284c7">G</b>Speaking on a topic (8 model talks)</li>
+    <li><b style="color:#0d9488">M</b>Email writing (6 model emails)</li>
+    <li><b style="color:#d97706">Z</b>7-day plan and final cheat sheet</li>
+  </ul>
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">00</div><div><div class="kicker">Know the round</div><h2>Sections, Timing &amp; Scoring</h2></div></div>
+  <p class="lead">A separate email gives you the login details and the time window. The round is about <b>30 minutes</b> and is listed as "20 questions · 30 minutes". Those questions are spread over <b>seven speaking/listening sections (A–G)</b> and a <b>compulsory email</b>. It is an elimination round, but it is very trainable.</p>
+  <table class="tight"><thead><tr><th style="width:24%">Section</th><th>You hear / see → you do</th><th style="width:28%">Main skill scored</th></tr></thead><tbody>
+    <tr><td><b>A · Listening comprehension</b></td><td>Short audio clip → answer the question in <b>one complete sentence</b></td><td>Listening, factual recall, sentence building</td></tr>
+    <tr><td><b>B · Conversation response</b></td><td>A short line from a manager, colleague or client → give a polite, professional reply</td><td>Fluency, workplace etiquette</td></tr>
+    <tr><td><b>C · Reading aloud</b></td><td>Read about <b>8 sentences</b> aloud at a natural pace</td><td>Pronunciation, pausing at punctuation</td></tr>
+    <tr><td><b>D · Listen &amp; repeat</b></td><td>Repeat each sentence <b>exactly</b> as you heard it</td><td>Intonation, stress, auditory memory</td></tr>
+    <tr><td><b>E · Fill in the missing word</b></td><td>A sentence with a blank → say the <b>full sentence</b> with the right word</td><td>Grammar: agreement, tense, articles</td></tr>
+    <tr><td><b>F · Error correction</b></td><td>An incorrect sentence → say the <b>corrected</b> sentence</td><td>Grammar accuracy</td></tr>
+    <tr><td><b>G · Speaking on a topic</b></td><td><b>30 s</b> to prepare, then <b>45 s</b> to speak</td><td>Fluency, vocabulary, structure, confidence</td></tr>
+    <tr><td><b>Email (compulsory)</b></td><td>Write a professional email of <b>at least 50 words</b></td><td>Etiquette, structure, grammar, tone</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">Verbal parameters</b><br>Pronunciation · fluency (smooth, steady speech) · active listening · understanding of spoken English · vocabulary · articulation (clear sounds) · grammar.</div>
+    <div class="def"><b class="t">Written parameters</b><br>Email etiquette (greeting, tone, sign-off) · content structure (purpose, details, action) · grammar and spelling accuracy.</div>
+  </div>
+  <div class="note info"><span class="t">How automated scoring "hears" you</span>Responses are usually scored by software. It compares <b>what</b> you said with the expected content, and <b>how</b> you said it (speed, pauses, clarity, stress). It cannot guess unclear words, and long silence is scored as missing content. Clear, steady and complete answers matter more than an accent.</div>
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">01</div><div><div class="kicker">Lose no marks to the set-up</div><h2>Set-up &amp; Test-Day Rules</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Before the test</b><ul style="margin:3px 0;padding-left:16px">
+      <li>Use a <b>headset with a microphone</b>; laptop mics pick up echo and fan noise.</li>
+      <li>A quiet room: fan off, door closed, phone silent.</li>
+      <li>Updated Chrome, stable internet, laptop charged.</li>
+      <li>Allow camera and mic access, and do the sample/mic check.</li></ul></div>
+    <div class="def"><b class="t">While speaking</b><ul style="margin:3px 0;padding-left:16px">
+      <li>Mic about <b>two fingers</b> from your mouth, slightly to the side.</li>
+      <li>Speak at <b>normal conversation volume</b>; do not shout or whisper.</li>
+      <li>Start speaking <b>right after the beep / recording cue</b>.</li>
+      <li>Keep going: if you make a mistake, correct it once and continue.</li></ul></div>
+    <div class="def"><b class="t">Rules to respect</b><ul style="margin:3px 0;padding-left:16px">
+      <li>Video and audio may be recorded for integrity.</li>
+      <li>No one else in the room, no talking to others.</li>
+      <li>Most recordings <b>cannot be redone</b>; there is no pause button.</li>
+      <li>Read every instruction screen. Timers start automatically.</li></ul></div>
+  </div>
+  <div class="note warn"><span class="t">The four biggest score killers</span><b>Silence</b> of more than 3–4 seconds · <b>one-word answers</b> in sections A and B · <b>speaking too fast</b> (the words blur together) · <b>background noise</b> or a clipped mic. Fix these four and your score rises before you improve anything else.</div>
+</section>
+
+<!-- ================= FOUNDATIONS ================= -->
+<section class="page-break part gr">
+  <div class="banner gr"><div class="big">F</div><div class="pl">FOUNDATIONS</div><h2>Sound Clear, Speak Smoothly, Be Correct</h2>
+    <p>These three skills are scored in every spoken section. A few focused fixes make a big difference.</p></div>
+  <div class="sec-head"><div class="sec-num">F1</div><div><div class="kicker">Clear sounds</div><h2>Pronunciation: Sounds &amp; Word Stress</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:18%">Sound pair</th><th>How to make it</th><th style="width:34%">Practise</th></tr></thead><tbody>
+    <tr><td><b>v</b> vs <b>w</b></td><td>v: top teeth touch the lower lip, with voice. w: round the lips, no teeth.</td><td>very / wary · vest / west · vine / wine</td></tr>
+    <tr><td><b>th</b> (θ, ð)</td><td>Tip of the tongue lightly between the teeth. θ is unvoiced (think), ð is voiced (this).</td><td>think, three, month · this, that, weather</td></tr>
+    <tr><td><b>z</b> vs <b>j</b></td><td>z is a buzzing s, with no tongue tap. Do not say "jero".</td><td>zero, zone, easy, business</td></tr>
+    <tr><td><b>s</b> vs <b>sh</b></td><td>sh pushes the lips forward.</td><td>sip / ship · seat / sheet · sue / shoe</td></tr>
+    <tr><td>Endings <b>-ed</b></td><td>/t/ after voiceless sounds, /d/ after voiced sounds, /ɪd/ after t or d.</td><td>worked /t/ · played /d/ · wanted /ɪd/</td></tr>
+    <tr><td>Endings <b>-s</b></td><td>Always pronounce the final s; it changes the meaning (plural or he/she verb).</td><td>reports, he works, clients</td></tr>
+    <tr><td>Silent letters</td><td>Do not pronounce them.</td><td>de(b)t, lis(t)en, (k)now, is(l)and, We(d)nesday, recei(p)t</td></tr>
+  </tbody></table>
+  <h3>Word stress: say the CAPITAL syllable louder and longer</h3>
+  <table class="tight"><thead><tr><th>Word</th><th>Say</th><th>Word</th><th>Say</th><th>Word</th><th>Say</th></tr></thead><tbody>
+    <tr><td>development</td><td>di-VEL-up-ment</td><td>hotel</td><td>hoh-TEL</td><td>colleague</td><td>KOL-eeg</td></tr>
+    <tr><td>determine</td><td>di-TER-min</td><td>career</td><td>kuh-REER</td><td>company</td><td>KUM-puh-nee</td></tr>
+    <tr><td>comfortable</td><td>KUMF-ter-bul</td><td>vegetable</td><td>VEJ-tuh-bul</td><td>analysis</td><td>uh-NAL-uh-sis</td></tr>
+    <tr><td>category</td><td>KAT-uh-gor-ee</td><td>purpose</td><td>PUR-pus</td><td>photography</td><td>fuh-TOG-ruh-fee</td></tr>
+    <tr><td>record (noun)</td><td>REK-ord</td><td>record (verb)</td><td>ri-KORD</td><td>receipt</td><td>ri-SEET</td></tr>
+    <tr><td>present (noun)</td><td>PREZ-ent</td><td>present (verb)</td><td>pri-ZENT</td><td>Wednesday</td><td>WENZ-day</td></tr>
+  </tbody></table>
+  <p class="small">Two-syllable words that are both a noun and a verb usually stress the first syllable as a noun and the second as a verb: PROject / proJECT, OBject / obJECT, INcrease / inCREASE.</p>
+
+  <div class="sec-head" style="margin-top:8px"><div class="sec-num">F2</div><div><div class="kicker">Smooth and natural</div><h2>Fluency, Pace &amp; Intonation</h2></div></div>
+  <div class="mx">
+    <div><b>Pace</b>About <b>120–150 words per minute</b>, calm and steady. If you are nervous, slow down a little; clarity beats speed.</div>
+    <div><b>Pauses</b>Short pause at a comma, a full stop at a full stop. Pause between word groups, never in the middle of one.</div>
+    <div><b>Fillers</b>Avoid "umm", "aaa", "like", "basically", "you know". Use a silent 1-second pause instead.</div>
+    <div><b>Linking</b>Join words smoothly: "turn_it_off", "an_apple". Do not stop after every word.</div>
+  </div>
+  <div class="two" style="margin-top:8px">
+    <div class="def"><b class="t">Intonation (the music of the sentence)</b><br><b>Falling ↘</b> at the end of statements and wh-questions: "The report is ready ↘." "Where is the meeting ↘?"<br><b>Rising ↗</b> for yes/no questions and lists before the last item: "Are you free today ↗?" "Java ↗, Python ↗ and SQL ↘."</div>
+    <div class="def"><b class="t">Sentence stress</b><br>Stress the <b>content words</b> (nouns, main verbs, adjectives, numbers, negatives) and keep small words (a, the, to, of, is) light: "I <b>NEED</b> the <b>REPORT</b> by <b>FRIDAY</b>." Stressing the right words is what makes you sound fluent.</div>
+  </div>
+  <div class="note tip"><span class="t">10-minute daily drill</span>Record yourself reading one news paragraph on your phone and play it back. Listen for blurred endings, missing -s/-ed, fillers and rushing. Next, shadow a 1-minute clip: play a sentence and repeat it immediately with the same rhythm.</div>
+</section>
+
+<section class="part gr">
+  <div class="sec-head"><div class="sec-num">F3</div><div><div class="kicker">Rules behind sections E and F</div><h2>Grammar You Need</h2></div></div>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">Subject–verb agreement</h3>
+      <table class="tight"><thead><tr><th>Rule</th><th>Example</th></tr></thead><tbody>
+        <tr><td>Each / every / either / neither <b>of</b> + plural → singular verb</td><td>Each of the trainees <b>has</b> a badge.</td></tr>
+        <tr><td><b>as well as, along with, with</b> do not change the subject</td><td>The manager, as well as the team, <b>is</b> here.</td></tr>
+        <tr><td><b>either…or / neither…nor</b>: the verb follows the nearer subject</td><td>Neither Ravi nor his friends <b>were</b> late.</td></tr>
+        <tr><td>One of + plural noun → singular verb</td><td>One of my friends <b>works</b> at TCS.</td></tr>
+        <tr><td>Uncountable nouns are singular</td><td>The information / advice / news / equipment <b>is</b> …</td></tr>
+        <tr><td>Amounts as one unit are singular</td><td>Five lakh rupees <b>is</b> a good package.</td></tr>
+      </tbody></table>
+      <h3>Articles &amp; prepositions</h3>
+      <table class="tight"><tbody>
+        <tr><td><b>a / an</b> by sound</td><td>an hour, an MBA, an honest man · a university, a one-day trip, a European</td></tr>
+        <tr><td><b>the</b></td><td>something specific or unique: the report you sent, the sun, the best, the office</td></tr>
+        <tr><td><b>at / on / in</b> (time)</td><td>at 10 a.m., at night · on Monday, on 5 May · in June, in 2025, in the morning</td></tr>
+        <tr><td><b>for / since</b></td><td>for 3 years (length) · since 2022 (starting point)</td></tr>
+        <tr><td>Fixed pairs</td><td>good at, interested in, depend on, reply to, discuss (no preposition), explain something to someone</td></tr>
+      </tbody></table>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Tenses: pick by the time words</h3>
+      <table class="tight"><thead><tr><th>Time words</th><th>Tense</th><th>Example</th></tr></thead><tbody>
+        <tr><td>every day, usually, always</td><td>Present simple</td><td>She <b>works</b> in Pune.</td></tr>
+        <tr><td>now, at the moment</td><td>Present continuous</td><td>I <b>am attending</b> a call.</td></tr>
+        <tr><td>already, just, yet, ever (no finished time)</td><td>Present perfect</td><td>I <b>have</b> already <b>sent</b> it.</td></tr>
+        <tr><td>since / for + still continuing</td><td>Present perfect continuous</td><td>He <b>has been working</b> since 9.</td></tr>
+        <tr><td>yesterday, last week, in 2024, ago</td><td>Past simple</td><td>We <b>launched</b> it last week.</td></tr>
+        <tr><td>by the time / before (earlier past)</td><td>Past perfect</td><td>The call <b>had ended</b> before I joined.</td></tr>
+        <tr><td>tomorrow, next week</td><td>will / going to</td><td>I <b>will share</b> it tomorrow.</td></tr>
+      </tbody></table>
+      <div class="def"><b class="t">State verbs do not take -ing</b> know, have (possess), want, like, believe, understand, need: "I <b>know</b> him", not "I am knowing him".</div>
+      <div class="def"><b class="t">Conditionals</b> 1st: If + present, will + verb ("If it rains, I will stay"). 2nd: If + past, would + verb ("If I had time, I would join"). Never put <i>will</i> in the if-clause.</div>
+      <div class="def"><b class="t">Reported speech</b> moves one tense back: "I am busy" → He said (that) he <b>was</b> busy. Use <b>say</b> something, <b>tell</b> someone.</div>
+    </div>
+  </div>
+  <div class="note alert"><span class="t">Indian-English habits the test marks wrong</span>discuss <s>about</s> · return <s>back</s> / revert <s>back</s> · cope <s>up</s> with · I <s>am having</s> have experience · <s>Myself</s> I am Rahul · <s>passed out</s> graduated · since <s>two years</s> → for two years · one of my <s>friend</s> friends · senior <s>than</s> to · <s>today morning</s> this morning · <s>do one thing</s> → say the action directly.</div>
+</section>
+
+<!-- ================= SECTIONS A–G ================= -->
+<section class="part cm">
+  <div class="banner cm"><div class="big">A–G</div><div class="pl">THE SEVEN SPOKEN SECTIONS</div><h2>Section-by-Section Strategy</h2>
+    <p>For each section: what happens, the method, the traps, and examples to practise out loud. Since this is a PDF, the audio is shown as a transcript. Ask a friend to read it to you, or use a text-to-speech app.</p></div>
+  <div class="sec-head"><div class="sec-num">A</div><div><div class="kicker">Listen, then answer in a full sentence</div><h2>Listening Comprehension</h2></div></div>
+  <div class="flow"><span>Listen for the 5 Ws</span><i>→</i><span>Catch the key fact</span><i>→</i><span>Reuse the question's words</span><i>→</i><span class="h">One complete sentence</span></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>While listening, track <b>who, what, when, where, why</b>, numbers and days. Build your answer from the question: "Why has the meeting been moved?" → "The meeting has been moved <b>because</b> …". Answer only what was asked.</div>
+    <div class="def"><b class="t">Traps</b><br><span class="bad">"Room 4."</span> One-word answers lose most marks. <span class="good">"The meeting is in Room 4."</span> Do not add guesses or extra stories. If you missed a detail, still answer in a full sentence with the part you heard.</div>
+  </div>
+  <div class="lgrid"><div class="lc"><div class="lh"><span class="no">A1</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“The team meeting has been moved from Monday to Wednesday at 3 p.m. because the client presentation on Monday will run the whole afternoon. Please update your calendars.”</p><p class="q"><b>Q:</b> Why has the team meeting been moved?</p><p class="ans"><b>Model answer:</b> The team meeting has been moved because the client presentation on Monday will run the whole afternoon.</p></div><div class="lc"><div class="lh"><span class="no">A2</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“Hi, this is Neha from HR. Your laptop is ready for collection at the IT desk on the second floor. Please bring your employee ID card when you come.”</p><p class="q"><b>Q:</b> What should the employee bring to collect the laptop?</p><p class="ans"><b>Model answer:</b> The employee should bring their employee ID card to collect the laptop.</p></div><div class="lc"><div class="lh"><span class="no">A3</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“Our office cafeteria will remain closed this Friday for maintenance work. Lunch coupons for a nearby restaurant will be given to all employees at the reception.”</p><p class="q"><b>Q:</b> Where will employees get the lunch coupons?</p><p class="ans"><b>Model answer:</b> Employees will get the lunch coupons at the reception.</p></div><div class="lc"><div class="lh"><span class="no">A4</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“The training on cloud security starts next Tuesday. It will run for three days, from 10 a.m. to 1 p.m., and everyone who joined this quarter must attend.”</p><p class="q"><b>Q:</b> How long will the cloud security training last?</p><p class="ans"><b>Model answer:</b> The cloud security training will last for three days, from 10 a.m. to 1 p.m. each day.</p></div><div class="lc"><div class="lh"><span class="no">A5</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“Rahul could not finish the sales report yesterday because the database was down for most of the day. He has promised to send it to the manager by noon today.”</p><p class="q"><b>Q:</b> When will Rahul send the sales report?</p><p class="ans"><b>Model answer:</b> Rahul will send the sales report to the manager by noon today.</p></div><div class="lc"><div class="lh"><span class="no">A6</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“Please note that from next month, travel claims must be submitted within fifteen days of the trip. Claims submitted after that will need approval from the finance head.”</p><p class="q"><b>Q:</b> Within how many days must travel claims be submitted?</p><p class="ans"><b>Model answer:</b> Travel claims must be submitted within fifteen days of the trip.</p></div><div class="lc"><div class="lh"><span class="no">A7</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“The client has asked for two changes to the website: a larger search bar on the home page and a dark mode option. The design team will share the new screens on Thursday.”</p><p class="q"><b>Q:</b> What changes has the client asked for?</p><p class="ans"><b>Model answer:</b> The client has asked for a larger search bar on the home page and a dark mode option.</p></div><div class="lc"><div class="lh"><span class="no">A8</span><span class="aud">&#127911; Audio transcript</span></div><p class="clip">“Good morning everyone. Due to heavy rain, the shuttle buses will leave the office at 5 p.m. today instead of 6 p.m. Employees who need to stay late should inform the transport desk.”</p><p class="q"><b>Q:</b> What should employees who need to stay late do?</p><p class="ans"><b>Model answer:</b> Employees who need to stay late should inform the transport desk.</p></div></div>
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">B</div><div><div class="kicker">Reply like a professional</div><h2>Conversation Response</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">The 3-part reply</b><br>(1) <b>Acknowledge</b>: "Sure", "Of course", "I'm sorry to hear that". (2) <b>Answer or act</b>: what you will do, with a time. (3) <b>Optional polite extra</b>: an offer or a question ("Could you share the agenda?"). Aim for 1–2 complete sentences.</div>
+    <div class="def"><b class="t">Phrase bank</b><br>Agree: "Certainly, I'll …" · Decline politely: "I'm sorry, but … However, I can …" · Clarify: "Could you please tell me …?" · Apologise: "I apologise for the delay; I will …" · Thank: "Thank you, I really appreciate …"</div>
+  </div>
+  <table class="tight"><thead><tr><th style="width:4%">#</th><th style="width:38%">What you hear</th><th>A strong reply</th></tr></thead><tbody><tr><td>1</td><td>Manager: Can you send me the project report by today?</td><td>Sure, I will share the project report with you by the end of the day.</td></tr><tr><td>2</td><td>Colleague: I am stuck with this Excel formula. Do you have a minute?</td><td>Of course. Please share your screen, and we can look at the formula together.</td></tr><tr><td>3</td><td>Client: The application is loading very slowly since yesterday.</td><td>I am sorry for the inconvenience. I will check the issue right away and update you within an hour.</td></tr><tr><td>4</td><td>Manager: Can you lead the client call tomorrow at 9 a.m.?</td><td>Yes, I would be happy to lead the call. Could you share the agenda with me today so that I can prepare?</td></tr><tr><td>5</td><td>Colleague: Could you cover my tasks on Friday? I have a family function.</td><td>I am sorry, but I have a deadline on Friday. However, I can help you with your tasks on Thursday evening.</td></tr><tr><td>6</td><td>Team lead: Why was the deployment delayed last night?</td><td>The deployment was delayed because two test cases failed at the last minute. We have fixed them, and it is scheduled again for tonight.</td></tr><tr><td>7</td><td>HR: Would you be comfortable relocating to Bengaluru?</td><td>Yes, I am comfortable relocating to Bengaluru. I see it as a good opportunity to learn and grow.</td></tr><tr><td>8</td><td>Client: Can we move tomorrow&#x27;s meeting to the afternoon?</td><td>Certainly. Would 3 p.m. work for you? I will send an updated invitation.</td></tr><tr><td>9</td><td>Colleague: Great job on the presentation today!</td><td>Thank you so much. Your feedback during the practice session really helped me.</td></tr><tr><td>10</td><td>Manager: I noticed a few errors in your last report.</td><td>Thank you for pointing them out. I will correct them today and double-check my future reports before sending them.</td></tr></tbody></table>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">C</div><div><div class="kicker">Read clearly at a natural pace</div><h2>Reading Aloud</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Use the first second to scan the sentence for difficult words and commas. Read in <b>word groups</b>, pause at punctuation, stress the content words and end statements with a falling tone. Keep a steady pace: do not race through the sentence.</div>
+    <div class="def"><b class="t">Traps</b><br>Skipping or adding small words (a, the, of) · dropping -s and -ed endings · stopping mid-sentence to restart. If you trip over a word, simply continue; restarting costs more than a small slip.</div>
+  </div>
+  <p class="small">Practise these. <b>Bold</b> = stressed word, <span class="ps">|</span> = short pause, <span class="ps">||</span> = longer pause.</p>
+  <ol class="rl"><li>Our <b>company</b> <span class="ps">|</span> has <b>offices</b> in more than <b>forty</b> <b>countries</b>, <span class="ps">||</span> and it <b>helps</b> <b>clients</b> <span class="ps">|</span> use <b>technology</b> to <b>grow.</b></li><li>Before the <b>meeting</b> <b>starts</b>, <span class="ps">|</span> please make <b>sure</b> <span class="ps">|</span> that your <b>microphone</b> is <b>muted.</b></li><li>The <b>new</b> <b>software</b> <span class="ps">|</span> will be <b>installed</b> on all <b>laptops</b> <span class="ps">|</span> by the <b>end</b> of this <b>week.</b></li><li>If you have <b>any</b> <b>questions</b> about the <b>project</b>, <span class="ps">|</span> feel <b>free</b> to <b>contact</b> your <b>team</b> <b>lead.</b></li><li><b>Customer</b> <b>satisfaction</b> <span class="ps">|</span> is the <b>most</b> <b>important</b> <b>measure</b> <span class="ps">|</span> of our <b>success.</b></li><li>The <b>training</b> <b>programme</b> <span class="ps">|</span> covers <b>cloud</b> <b>computing</b>, <span class="ps">|</span> <b>data</b> <b>security</b>, <span class="ps">|</span> and <b>artificial</b> <b>intelligence.</b></li><li>Although the <b>deadline</b> was <b>tight</b>, <span class="ps">||</span> the <b>team</b> <b>delivered</b> the <b>product</b> <span class="ps">|</span> on <b>time.</b></li><li>Please <b>remember</b> <span class="ps">|</span> to <b>submit</b> your <b>timesheet</b> <span class="ps">|</span> every <b>friday</b> <span class="ps">|</span> before <b>six</b> <b>p.m.</b></li></ol>
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">D</div><div><div class="kicker">Exactly what you heard</div><h2>Listen &amp; Repeat</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Listen for the <b>meaning</b>, not single words; a sentence you understand is easy to rebuild. Mentally split it into 2–3 chunks ("The training session | will start | after the coffee break"). Copy the speaker's rhythm and falling tone. Start right after the beep.</div>
+    <div class="def"><b class="t">Traps</b><br>Changing words ("will start" → "starts") · dropping articles and plural -s · long silence while trying to remember. Saying 90% of the sentence fluently scores better than silence.</div>
+  </div>
+  <p class="small">Practise in three lengths: ask someone to read each sentence once, then repeat it.</p>
+  <div class="three"><div class="def"><b class="t">Short (4–5+ words)</b><ol><li>Please close the door.</li><li>The report is ready.</li><li>I will call you later.</li><li>Lunch is served at one.</li></ol></div><div class="def"><b class="t">Medium (6–6+ words)</b><ol><li>The manager approved my leave request.</li><li>Our team works on a banking project.</li><li>Could you send me the meeting link?</li><li>The client visit has been postponed.</li></ol></div><div class="def"><b class="t">Long (9–12+ words)</b><ol><li>The training session will start after the coffee break.</li><li>Most employees prefer working from the office on Mondays.</li><li>Please update the document before you share it with the client.</li><li>Our new office in Pune has a large cafeteria and a gym.</li></ol></div></div>
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">E</div><div><div class="kicker">Grammar in your voice</div><h2>Fill in the Missing Word</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Find the clue words around the blank: a time word (since, yesterday), a subject (each of, neither…nor), the next word's sound (a/an) or a fixed pair (good ___ coding). Then say the <b>whole sentence</b> with the word in it, smoothly.</div>
+    <div class="def"><b class="t">Traps</b><br>Saying only the missing word · changing other words in the sentence · forgetting the article in the full sentence. Revise F3: most items test agreement, tense, articles and prepositions.</div>
+  </div>
+  <ol class="qs"><li>Each of the employees <span class=bl>______</span> a laptop.</li><li>She <span class=bl>______</span> working here since 2022.</li><li>I <span class=bl>______</span> my assignment yesterday.</li><li>He is <span class=bl>______</span> honest person.</li><li>She is <span class=bl>______</span> university student.</li><li>If I <span class=bl>______</span> the time, I would join the course.</li><li>The meeting will start <span class=bl>______</span> 10 a.m.</li><li>We have a holiday <span class=bl>______</span> Monday.</li><li>I have lived in Delhi <span class=bl>______</span> five years.</li><li>Neither the manager nor the employees <span class=bl>______</span> aware of the change.</li><li>The manager, as well as his team, <span class=bl>______</span> attending the event.</li><li>She is the <span class=bl>______</span> performer in our team.</li><li>This laptop is <span class=bl>______</span> than the old one.</li><li>He said that he <span class=bl>______</span> tired.</li><li>By the time we reached the station, the train <span class=bl>______</span> left.</li><li>Neither of the answers <span class=bl>______</span> correct.</li><li>The news <span class=bl>______</span> good today.</li><li>I am looking forward to <span class=bl>______</span> you.</li><li>She is good <span class=bl>______</span> public speaking.</li><li>The report was written <span class=bl>______</span> Priya.</li></ol><h3>Answer key</h3><table class="tight keyx"><thead><tr><th style="width:4%">#</th><th style="width:15%">Answer</th><th>Rule</th></tr></thead><tbody><tr><td>1</td><td><b>has</b></td><td>Each of + plural noun takes a singular verb.</td></tr><tr><td>2</td><td><b>has been</b></td><td>since + a point in time → present perfect continuous.</td></tr><tr><td>3</td><td><b>submitted</b></td><td>yesterday → simple past.</td></tr><tr><td>4</td><td><b>an</b></td><td>an before a vowel sound (h is silent in honest).</td></tr><tr><td>5</td><td><b>a</b></td><td>university starts with a &#x27;yoo&#x27; sound, so a.</td></tr><tr><td>6</td><td><b>had</b></td><td>Second conditional: if + past simple, would + verb.</td></tr><tr><td>7</td><td><b>at</b></td><td>at for exact clock times.</td></tr><tr><td>8</td><td><b>on</b></td><td>on for days and dates.</td></tr><tr><td>9</td><td><b>for</b></td><td>for + a length of time; since + a starting point.</td></tr><tr><td>10</td><td><b>were</b></td><td>neither…nor: the verb agrees with the nearer subject (employees → were).</td></tr><tr><td>11</td><td><b>is</b></td><td>as well as does not change the subject; the manager → is.</td></tr><tr><td>12</td><td><b>best</b></td><td>Superlative of good = best (with the).</td></tr><tr><td>13</td><td><b>lighter</b></td><td>Comparison of two things → comparative -er + than.</td></tr><tr><td>14</td><td><b>was</b></td><td>Reported speech moves the tense back: is → was.</td></tr><tr><td>15</td><td><b>had</b></td><td>Earlier of two past actions → past perfect.</td></tr><tr><td>16</td><td><b>is</b></td><td>Neither of + plural noun takes a singular verb.</td></tr><tr><td>17</td><td><b>is</b></td><td>news is uncountable and singular.</td></tr><tr><td>18</td><td><b>meeting</b></td><td>look forward to + -ing.</td></tr><tr><td>19</td><td><b>at</b></td><td>good at (a skill).</td></tr><tr><td>20</td><td><b>by</b></td><td>Passive voice: the doer is introduced with by.</td></tr></tbody></table>
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">F</div><div><div class="kicker">Spot it, fix it, say it</div><h2>Error Correction</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Check, in this order: (1) subject–verb agreement, (2) tense versus the time words, (3) articles and singular/plural, (4) prepositions and extra words (discuss <s>about</s>), (5) word form (senior <s>than</s> to). Then say the <b>full corrected sentence</b>.</div>
+    <div class="def"><b class="t">Traps</b><br>Fix only the error and keep the rest of the sentence the same. Rewriting the whole sentence can introduce new mistakes. Say the corrected sentence, not an explanation.</div>
+  </div>
+  <ol class="qs"><li>Each of the students have a laptop.</li><li>We will discuss about the project tomorrow.</li><li>Please revert back to me by Friday.</li><li>I am working here since 2023.</li><li>One of my friend works at Infosys.</li><li>She don&#x27;t like coffee.</li><li>He is more taller than me.</li><li>I have completed my graduation in 2024.</li><li>Let&#x27;s return back to the main topic.</li><li>I am having two years of experience.</li><li>The informations are on the portal.</li><li>He gave me many advices.</li><li>Myself Rahul, from the testing team.</li><li>I passed out from college in 2025.</li><li>There is many reasons for the delay.</li><li>She is senior than me.</li><li>The team are working on it since morning.</li><li>I didn&#x27;t went to office yesterday.</li><li>We need to cope up with the changes.</li><li>He said me that he was busy.</li><li>Can you explain me the process?</li><li>Neither Ravi nor Anil have submitted the form.</li><li>Ten kilometres are a long distance to walk.</li><li>She is good in coding.</li><li>If I will get time, I will finish it.</li></ol><h3>Answer key</h3><table class="tight keyx"><thead><tr><th style="width:4%">#</th><th style="width:42%">Correct sentence</th><th>Rule</th></tr></thead><tbody><tr><td>1</td><td>Each of the students has a laptop.</td><td>Each of → singular verb.</td></tr><tr><td>2</td><td>We will discuss the project tomorrow.</td><td>discuss takes no preposition.</td></tr><tr><td>3</td><td>Please reply to me by Friday.</td><td>revert already means go back; for replies, say reply.</td></tr><tr><td>4</td><td>I have been working here since 2023.</td><td>since + start point → present perfect continuous.</td></tr><tr><td>5</td><td>One of my friends works at Infosys.</td><td>one of + plural noun, singular verb.</td></tr><tr><td>6</td><td>She doesn&#x27;t like coffee.</td><td>she / he / it → does not.</td></tr><tr><td>7</td><td>He is taller than me.</td><td>Do not use more with -er (double comparative).</td></tr><tr><td>8</td><td>I completed my graduation in 2024.</td><td>A finished past time (in 2024) → simple past, not present perfect.</td></tr><tr><td>9</td><td>Let&#x27;s return to the main topic.</td><td>return already means come back.</td></tr><tr><td>10</td><td>I have two years of experience.</td><td>have (possess) is a state verb; do not use the -ing form.</td></tr><tr><td>11</td><td>The information is on the portal.</td><td>information is uncountable: no plural, singular verb.</td></tr><tr><td>12</td><td>He gave me a lot of advice.</td><td>advice is uncountable.</td></tr><tr><td>13</td><td>I am Rahul, from the testing team.</td><td>Introduce yourself with I am; myself is reflexive.</td></tr><tr><td>14</td><td>I graduated from college in 2025.</td><td>pass out means to faint; use graduated.</td></tr><tr><td>15</td><td>There are many reasons for the delay.</td><td>there is + singular, there are + plural (many reasons).</td></tr><tr><td>16</td><td>She is senior to me.</td><td>senior / junior / superior take to, not than.</td></tr><tr><td>17</td><td>The team has been working on it since morning.</td><td>since morning → present perfect continuous; a team acting as one unit takes a singular verb in Indian and American English.</td></tr><tr><td>18</td><td>I didn&#x27;t go to the office yesterday.</td><td>did / didn&#x27;t + base verb (go), and the office.</td></tr><tr><td>19</td><td>We need to cope with the changes.</td><td>The verb is cope with.</td></tr><tr><td>20</td><td>He told me that he was busy.</td><td>say something; tell someone.</td></tr><tr><td>21</td><td>Can you explain the process to me?</td><td>explain something to someone.</td></tr><tr><td>22</td><td>Neither Ravi nor Anil has submitted the form.</td><td>neither…nor with two singular subjects → singular verb.</td></tr><tr><td>23</td><td>Ten kilometres is a long distance to walk.</td><td>An amount of distance, money or time taken as one unit → singular verb.</td></tr><tr><td>24</td><td>She is good at coding.</td><td>good at a skill.</td></tr><tr><td>25</td><td>If I get time, I will finish it.</td><td>First conditional: if + present simple, will + verb.</td></tr></tbody></table>
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">G</div><div><div class="kicker">30 s to prepare, 45 s to speak</div><h2>Speaking on a Topic</h2></div></div>
+  <div class="flow"><span>Opening: your view in one line</span><i>→</i><span>Point 1 + reason / example</span><i>→</i><span>Point 2 + reason / example</span><i>→</i><span class="h">Closing: sum up in one line</span></div>
+  <div class="three">
+    <div class="def"><b class="t">Use the 30 seconds</b><br>Write 3 keywords only: your view, point 1, point 2. Do not write sentences. Think of one real example from college, projects or internships.</div>
+    <div class="def"><b class="t">Linkers that sound fluent</b><br>In my opinion · Firstly · For example · Moreover · On the other hand · However · That is why · In conclusion / To sum up.</div>
+    <div class="def"><b class="t">Timing</b><br>45 seconds is about <b>90–100 words</b> at a calm pace. Keep speaking until the timer ends. If you finish early, add one more example rather than stopping.</div>
+  </div>
+  <div class="talk"><div class="lh"><span class="no">G1</span><b>Work from home or work from office: which is better?</b><span class="wc">91 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>View: a hybrid model works best</li><li>Home: saves travel time, fewer distractions</li><li>Office: teamwork, faster learning for freshers</li></ul></div><p class="model">In my opinion, a hybrid model is the best option. Working from home saves a lot of travel time and helps people focus on tasks that need deep concentration. However, the office has its own advantages. When we sit together, we solve problems faster, and freshers learn much more by watching experienced colleagues. Informal conversations also build trust in a team. So, I believe two or three days in the office and the rest at home gives us the best of both worlds. It keeps productivity high and the team connected.</p></div></div><div class="talk"><div class="lh"><span class="no">G2</span><b>The role of technology in education</b><span class="wc">87 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>View: technology has made learning open to everyone</li><li>Online courses and videos for any topic</li><li>Needs balance: screen time and discipline</li></ul></div><p class="model">Technology has completely changed the way we learn. Today, a student in a small town can watch lectures from the best teachers in the world, often for free. Online courses, videos and practice platforms let us learn at our own pace and revise whenever we want. During my own preparation, I used coding websites to practise every day. However, technology also brings distractions, so self-discipline is very important. In conclusion, technology is a powerful tool for education, as long as we use it with a clear goal.</p></div></div><div class="talk"><div class="lh"><span class="no">G3</span><b>Your biggest strength</b><span class="wc">89 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>Strength: I learn new things quickly</li><li>Example: learned React in two weeks for a college project</li><li>Why it matters in IT</li></ul></div><p class="model">My biggest strength is that I learn new things quickly. For example, in my final year, our team needed a web interface for our project, but none of us knew React. I took the responsibility, followed online tutorials and built the first version within two weeks. Later, I also helped my teammates understand the code. In the IT industry, technologies change very fast, so the ability to learn quickly is extremely valuable. I believe this strength will help me adapt to any project and contribute from the first day.</p></div></div><div class="talk"><div class="lh"><span class="no">G4</span><b>Why is teamwork important?</b><span class="wc">92 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>View: big goals need many skills</li><li>Example: college hackathon</li><li>Teams share load and ideas</li></ul></div><p class="model">Teamwork is important because most real projects are too big for one person. A software product needs developers, testers, designers and business analysts working together. When people with different skills share ideas, the final result is much better. I experienced this during a college hackathon, where our team of four built a working app in twenty-four hours. We divided the work according to our strengths and supported each other when someone was stuck. Good teamwork also reduces stress, because the workload is shared. That is why companies value team players so much.</p></div></div><div class="talk"><div class="lh"><span class="no">G5</span><b>Social media: a boon or a bane?</b><span class="wc">94 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>View: both, depends on how we use it</li><li>Boon: connection, learning, opportunities</li><li>Bane: addiction, fake news</li></ul></div><p class="model">I think social media is both a boon and a bane, and it depends on how we use it. On the positive side, it connects people across the world, helps small businesses reach customers and gives us access to useful information. Platforms like LinkedIn also help students find internships and jobs. On the negative side, too much social media can become addictive, waste our time and spread fake news very quickly. So, the key is balance. If we use it with purpose and check facts before sharing, social media can be a great tool.</p></div></div><div class="talk"><div class="lh"><span class="no">G6</span><b>How do you handle pressure?</b><span class="wc">100 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>Stay calm and plan</li><li>Example: two deadlines in one week</li><li>Break work into small tasks, communicate early</li></ul></div><p class="model">I handle pressure by staying calm and making a clear plan. When I have too much work, I first list all the tasks and decide which ones are most urgent. Then I break big tasks into smaller steps, so that I can see progress. For example, last semester I had two project submissions and an exam in the same week. I made a day-by-day schedule, finished the coding part first and asked my professor early about one doubt. I completed everything on time. I also believe in communicating early if I need help, instead of waiting until the last moment.</p></div></div><div class="talk"><div class="lh"><span class="no">G7</span><b>A skill you want to learn</b><span class="wc">93 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>Skill: cloud computing</li><li>Why: most companies are moving to the cloud</li><li>Plan: certification + projects</li></ul></div><p class="model">One skill I really want to learn is cloud computing. Today, most companies are moving their applications and data to cloud platforms like AWS, Azure and Google Cloud, so cloud skills are in very high demand. I have already studied the basics, such as virtual machines and storage, and now I plan to complete a beginner certification. I also want to deploy one of my college projects on the cloud, because practical experience is more valuable than theory. I believe this skill will make me a stronger engineer and open many career opportunities.</p></div></div><div class="talk"><div class="lh"><span class="no">G8</span><b>The importance of time management</b><span class="wc">93 words ≈ 45 s</span></div><div class="tgrid"><div class="notes"><b class="t">30-second prep notes</b><ul><li>View: time is the one resource we cannot get back</li><li>Plan the day, prioritise</li><li>Example: placement preparation</li></ul></div><p class="model">Time management is important because time is the one resource we can never get back. People who manage their time well finish their work on time, feel less stressed and still have time for family and health. A simple method is to plan the day in the morning and do the most important task first. During my placement preparation, I divided my day into fixed slots for aptitude, coding and communication practice. This routine helped me stay consistent. In short, good time management is the foundation of success in both studies and work.</p></div></div>
+  <p class="small">More topics to practise: your hometown · your favourite subject · online vs offline learning · the importance of English at work · a person who inspires you · your final-year project · how AI is changing jobs · the importance of health for professionals · team leader qualities · how to handle failure.</p>
+</section>
+
+<!-- ================= EMAIL ================= -->
+<section class="part ml">
+  <div class="banner ml"><div class="big">M</div><div class="pl">WRITTEN TASK · COMPULSORY</div><h2>Email Writing</h2>
+    <p>A short professional email of at least 50 words. Use the same structure every time, so the whole email takes under 5 minutes.</p></div>
+  <div class="sec-head"><div class="sec-num">M1</div><div><div class="kicker">The formula</div><h2>Structure, Tone &amp; Phrase Bank</h2></div></div>
+  <div class="flow"><span>Subject line</span><i>→</i><span>Greeting</span><i>→</i><span>Purpose (1 line)</span><i>→</i><span>Details / reason</span><i>→</i><span>Action / assurance</span><i>→</i><span>Polite close</span><i>→</i><span class="h">Sign-off + name</span></div>
+  <table class="tight"><thead><tr><th style="width:18%">Part</th><th>Phrases you can use</th></tr></thead><tbody>
+    <tr><td><b>Subject</b></td><td>Short and specific: "Leave Request for 14–15 November" · "Update on the Payment Module" · "Apology for Missing Today's Meeting"</td></tr>
+    <tr><td><b>Greeting</b></td><td>Dear Mr. / Ms. Surname, (formal) · Dear Team, · Hi Arjun, (a friendly colleague only)</td></tr>
+    <tr><td><b>Purpose</b></td><td>I am writing to … · I would like to request … · This is to inform you that … · Thank you for …</td></tr>
+    <tr><td><b>Details</b></td><td>Due to … · Since this morning … · During testing, we found … · As discussed in yesterday's meeting …</td></tr>
+    <tr><td><b>Action / assurance</b></td><td>I will … by (date). · I have already … · Rohit will handle … in my absence. · This will not happen again.</td></tr>
+    <tr><td><b>Close</b></td><td>Please let me know if you have any questions. · I would be grateful if … · Thank you for your understanding / support.</td></tr>
+    <tr><td><b>Sign-off</b></td><td>Best regards, · Kind regards, · Regards, · Thank you, then your <b>full name</b> on the next line</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">Do</b><br>Answer every point in the task · keep 3 short paragraphs · polite, positive tone · specific dates and times · 60–100 words · check spelling, capital letters and full stops.</div>
+    <div class="def"><b class="t">Do not</b><br>SMS language (u, pls, plz, thx) · ALL CAPS · emojis · "Respected Sir/Madam" chains · very long sentences · blaming others · forgetting the subject line or your name.</div>
+  </div>
+  <div class="sec-head" style="margin-top:8px"><div class="sec-num">M2</div><div><div class="kicker">Ready-to-adapt samples</div><h2>Six Model Emails</h2></div></div>
+  <div class="mgrid"><div class="mail"><div class="lh"><span class="no">E1</span><span class="task">You missed yesterday&#x27;s team meeting. Write an email to your manager, Mr. Sharma, apologising and explaining.</span><span class="wc">69 words</span></div><div class="env"><div class="subj"><b>Subject:</b> Apology for Missing Yesterday&#x27;s Team Meeting</div><p>Dear Mr. Sharma,</p><p>I am writing to apologise for missing yesterday&#x27;s team meeting. Due to an unexpected network outage at my location, I was unable to join the call.</p><p>I have gone through the minutes of the meeting and noted the action items assigned to me. I will complete them by Thursday. I have also arranged a backup internet connection so that this does not happen again.</p><p>Thank you for your understanding.</p><p>Best regards,<br>Ankit Verma</p></div></div><div class="mail"><div class="lh"><span class="no">E2</span><span class="task">Write an email to your team lead, Ms. Priya, requesting two days of leave next week for a family function.</span><span class="wc">64 words</span></div><div class="env"><div class="subj"><b>Subject:</b> Leave Request for 14 and 15 November</div><p>Dear Ms. Priya,</p><p>I would like to request leave for two days, on 14 and 15 November, as I need to attend a family wedding in my hometown.</p><p>I will complete my current tasks before I leave, and Rohit has agreed to handle any urgent issues during my absence. I will also be reachable on my phone if needed.</p><p>Kindly let me know if this is possible.</p><p>Thank you,<br>Sneha Iyer</p></div></div><div class="mail"><div class="lh"><span class="no">E3</span><span class="task">The client asked for an update on a delayed module. Write an email explaining the delay and the new date.</span><span class="wc">72 words</span></div><div class="env"><div class="subj"><b>Subject:</b> Update on the Payment Module Delivery</div><p>Dear Mr. Kapoor,</p><p>Thank you for your patience. I would like to update you on the payment module. During testing, we found an issue with refunds that needed to be fixed before release.</p><p>The issue has now been resolved, and the module is in its final round of testing. We will deliver it by Monday, 18 November. I will share the test report along with it.</p><p>Please let me know if you have any questions.</p><p>Kind regards,<br>Rahul Mehta</p></div></div><div class="mail"><div class="lh"><span class="no">E4</span><span class="task">Write an email to the IT helpdesk reporting that your laptop restarts again and again.</span><span class="wc">65 words</span></div><div class="env"><div class="subj"><b>Subject:</b> Laptop Restarting Repeatedly – Request for Support</div><p>Dear IT Support Team,</p><p>I am facing a problem with my laptop (asset ID LT-20457). Since this morning, it restarts every ten to fifteen minutes, even when only the browser is open. I have already installed the latest updates, but the problem continues.</p><p>This is affecting my work, so I would be grateful if someone could check it today. I am available at my desk on the third floor.</p><p>Thank you,<br>Kavya Nair</p></div></div><div class="mail"><div class="lh"><span class="no">E5</span><span class="task">Write an email to a colleague thanking them for helping you complete a project.</span><span class="wc">65 words</span></div><div class="env"><div class="subj"><b>Subject:</b> Thank You for Your Help on the Dashboard Project</div><p>Hi Arjun,</p><p>I wanted to thank you for your help with the dashboard project last week. Your suggestion to use a shared data model saved us a lot of time, and the client was very happy with the final demo.</p><p>I really appreciate that you made time for this despite your own deadlines. Please let me know if I can help you with anything in the future.</p><p>Best wishes,<br>Diya</p></div></div><div class="mail"><div class="lh"><span class="no">E6</span><span class="task">Write an email to your manager asking to reschedule a meeting because you have a client call at the same time.</span><span class="wc">61 words</span></div><div class="env"><div class="subj"><b>Subject:</b> Request to Reschedule Tomorrow&#x27;s 11 a.m. Meeting</div><p>Dear Ms. Rao,</p><p>I have a client call tomorrow from 10:30 a.m. to 12 p.m., which clashes with our 11 a.m. review meeting.</p><p>Could we please move our meeting to 2 p.m. or 4 p.m. on the same day? I will make sure the review document is shared with you before the meeting.</p><p>I apologise for the inconvenience, and thank you for your flexibility.</p><p>Regards,<br>Vikram Singh</p></div></div></div>
+</section>
+
+<!-- ================= PLAN ================= -->
+<section class="part pl">
+  <div class="sec-head"><div class="sec-num">Z</div><div><div class="kicker">Get exam-ready</div><h2>7-Day Plan &amp; Final Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:11%">Day</th><th>Plan (40–60 minutes, out loud)</th></tr></thead><tbody>
+    <tr><td><b>Day 1</b></td><td>Set up the headset. Record yourself reading section C; fix pace and pauses. Learn F1 (sounds and stress).</td></tr>
+    <tr><td><b>Day 2</b></td><td>Grammar F3. Do all fill-in items in section E aloud, then check the answer key.</td></tr>
+    <tr><td><b>Day 3</b></td><td>Error correction (section F) aloud. Note every rule you missed. Revise the Indian-English habits list.</td></tr>
+    <tr><td><b>Day 4</b></td><td>Listening (A) and conversation (B): a friend reads the transcripts, you answer in full sentences.</td></tr>
+    <tr><td><b>Day 5</b></td><td>Listen and repeat (D) with shadowing. Speaking (G): 3 topics with a 30 + 45 second timer.</td></tr>
+    <tr><td><b>Day 6</b></td><td>Write 3 emails from the M2 tasks without looking, then compare. 5 more G topics.</td></tr>
+    <tr><td><b>Day 7</b></td><td>Full run-through of all sections in one sitting with a timer. Read the cheat sheet. Test the set-up again.</td></tr>
+  </tbody></table>
+  <div class="cards c3">
+    <div class="card" style="border-top:4px solid #0284c7"><h4 style="margin-top:0;color:#0284c7">Speaking</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Headset, quiet room, mic two fingers away</li>
+      <li>Start right after the beep, no long silence</li>
+      <li>120–150 words per minute: calm and steady</li>
+      <li>Pause at commas and full stops</li>
+      <li>Stress content words; falling tone at the end</li>
+      <li>Pronounce final -s and -ed</li>
+      <li>No fillers: a silent pause instead</li>
+      <li>A mistake? Correct once and continue</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #9333ea"><h4 style="margin-top:0;color:#9333ea">Sections</h4><ul style="font-size:8.2pt;margin:0">
+      <li>A: one full sentence, reuse the question's words</li>
+      <li>B: acknowledge + action + polite extra</li>
+      <li>C: read in word groups, don't restart</li>
+      <li>D: remember the meaning, repeat in chunks</li>
+      <li>E: say the whole sentence, not one word</li>
+      <li>F: fix only the error, say the full sentence</li>
+      <li>G: view → 2 points → conclusion, 45 s</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #0d9488"><h4 style="margin-top:0;color:#0d9488">Email &amp; grammar</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Subject · greeting · purpose · details · action · close · name</li>
+      <li>At least 50 words (aim for 60–100)</li>
+      <li>Each of / one of → singular verb</li>
+      <li>since + point, for + duration</li>
+      <li>Finished time → past simple</li>
+      <li>discuss, return, cope with: no extra words</li>
+      <li>Tell someone, say something</li>
+      <li>No SMS language, no ALL CAPS</li>
+    </ul></div>
+  </div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Accenture. The section format is based on the official notification summary and publicly reported candidate experiences, and may change. All practice items, model answers and emails are original. Model talk lengths and email word counts were checked automatically. Pronunciation respellings are simplified guides, not phonetic transcriptions.</p>
+</section>
+
+</body>
+</html>

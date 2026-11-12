@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Communication Assessment – Zero to Hero Guide</title>
+<!--BASE_STYLE-->
+<style>
+  .cover{ background:
+      linear-gradient(rgba(125,211,252,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      linear-gradient(90deg,rgba(125,211,252,.07) 1px,transparent 1px) 0 0/10mm 10mm,
+      radial-gradient(85% 60% at 100% 0%, #0284c7 0%, transparent 55%),
+      radial-gradient(70% 50% at 0% 100%, #9333ea 0%, transparent 60%),
+      linear-gradient(160deg,#04101c 0%,#0d1430 55%,#05060d 100%); }
+  .cover h1 span{ color:#7dd3fc; }
+  .part.cm{ --pc1:#0284c7; --pc2:#38bdf8; --pcs:#e6f4fd; }
+  .part.gr{ --pc1:#9333ea; --pc2:#c084fc; --pcs:#f4ebff; }
+  .part.ml{ --pc1:#0d9488; --pc2:#2dd4bf; --pcs:#e3f7f4; }
+  .part.pl{ --pc1:#d97706; --pc2:#fbbf24; --pcs:#fff6e0; }
+  .banner.cm{ background:linear-gradient(135deg,#0284c7,#04182b); }
+  .banner.gr{ background:linear-gradient(135deg,#9333ea,#1c0733); }
+  .banner.ml{ background:linear-gradient(135deg,#0d9488,#03201d); }
+  .banner.pl{ background:linear-gradient(135deg,#d97706,#2a1a03); }
+  .two{ align-items:start; } .two>div,.three>div{ min-width:0; }
+  .small{ font-size:8.4pt; color:var(--muted); margin:3px 0 6px; }
+  code{ white-space:normal; }
+  .lgrid,.mgrid{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .lc,.talk,.mail{ border:1px solid var(--line); border-radius:12px; padding:8px 11px; background:#fff; break-inside:avoid; }
+  .lh{ display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:9.4pt; }
+  .no{ background:var(--pc1); color:#fff; font-weight:800; font-size:8.2pt; border-radius:6px; padding:1px 7px; }
+  .aud{ font-size:8pt; color:var(--muted); font-weight:700; letter-spacing:.04em; }
+  .wc{ margin-left:auto; font-size:7.8pt; background:#dcfce7; color:#15803d; border-radius:999px; padding:1px 8px; font-weight:700; white-space:nowrap; }
+  .clip{ font-style:italic; font-size:8.8pt; margin:2px 0 5px; color:#3d3a5c; }
+  .q{ font-size:8.8pt; margin:2px 0; }
+  .ans{ font-size:8.8pt; margin:3px 0 0; background:var(--pcs); border-radius:7px; padding:4px 8px; }
+  .ans b,.notes b.t{ color:var(--pc1); }
+  ol.rl li{ font-size:10.5pt; line-height:1.7; margin:3px 0; }
+  ol.rl b{ color:var(--pc1); }
+  .ps{ color:#e11d48; font-weight:800; margin:0 1px; }
+  ol.qs{ columns:2; column-gap:22px; font-size:9pt; margin:6px 0; padding-left:20px; }
+  ol.qs li{ break-inside:avoid; margin:3px 0; }
+  .bl{ border-bottom:1.5px solid var(--pc1); color:transparent; }
+  table.keyx td{ font-size:8.3pt !important; padding:3px 7px !important; }
+  .talk{ margin:8px 0; }
+  .tgrid{ display:grid; grid-template-columns:1fr 2.4fr; gap:10px; align-items:start; }
+  .notes{ background:var(--pcs); border-radius:8px; padding:5px 9px; font-size:8.4pt; }
+  .notes ul{ margin:3px 0 0; padding-left:15px; } .notes li{ margin:2px 0; }
+  .model{ font-size:8.9pt; margin:0; line-height:1.55; }
+  .task{ font-size:8.6pt; color:#3d3a5c; flex:1; }
+  .env{ border:1px dashed #b7c3d0; border-radius:8px; padding:6px 10px; font-size:8.5pt; background:#fbfdff; }
+  .env p{ margin:4px 0; } .subj{ border-bottom:1px solid var(--line); padding-bottom:3px; margin-bottom:4px; }
+  .flow{ display:flex; gap:5px; align-items:center; flex-wrap:wrap; margin:8px 0; }
+  .flow span{ border:1.5px solid var(--pc1); border-radius:8px; padding:3px 9px; font-weight:700; font-size:8.6pt; background:#fff; }
+  .flow span.h{ background:var(--pc1); color:#fff; }
+  .flow i{ font-style:normal; color:var(--pc1); font-weight:800; }
+  .mx{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .mx div{ border:1px solid var(--line); border-radius:10px; padding:7px 9px; font-size:8.5pt; background:#fff; }
+  .mx b{ display:block; color:var(--pc1); font-size:9.5pt; }
+  .banner{ break-after:avoid; page-break-after:avoid; }
+  .part.pl .card ul{ font-size:7.8pt !important; }
+  .part.pl .card li{ margin:1px 0; }
+  .part.pl table.tight td{ padding-top:2px !important; padding-bottom:2px !important; }
+  .bad{ color:#b91c1c; } .good{ color:#15803d; font-weight:600; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="grid"></div>
+  <div><span class="tag">Accenture 2026–2027 Hiring · Assessment 4 · Communication</span></div>
+  <h1>Communication<br>Assessment<br><span>Zero to Hero</span></h1>
+  <div class="mono-tag">&gt; 7 sections (A–G) + email · ~30 minutes · spoken + written English_</div>
+  <p class="sub">A complete guide to the spoken and written English round. It covers the test set-up, how the automated scoring listens to you, pronunciation and fluency basics, the grammar behind fill-in and error-correction items, a step-by-step method for each section A–G, and a ready email formula. It comes with model answers and <!--N_FILL--> + <!--N_ERR--> grammar items with an answer key.</p>
+  <div class="roles"><div>Listening</div><div>Conversation</div><div>Reading aloud</div><div>Listen &amp; repeat</div><div>Grammar</div><div>Speaking</div><div>Email writing</div></div>
+  <div class="stats">
+    <div class="stat"><b>7 + 1</b><span>Sections + email</span></div>
+    <div class="stat"><b>~30 min</b><span>Duration</span></div>
+    <div class="stat"><b><!--N_TALK--></b><span>Model 45-second talks</span></div>
+    <div class="stat"><b><!--N_MAIL--></b><span>Model emails</span></div>
+  </div>
+  <div class="foot"><span>Independent preparation guide · Not affiliated with or endorsed by Accenture</span><span>Edition: 2026–2027</span></div>
+</section>
+
+<!-- ================= CONTENTS + OVERVIEW ================= -->
+<section class="page-break part cm">
+  <div class="sec-head"><div class="sec-num">≡</div><div><div class="kicker">Inside this guide</div><h2>Contents</h2></div></div>
+  <ul class="toc">
+    <li><b style="color:#0284c7">00</b>The round: sections, timing and scoring</li>
+    <li><b style="color:#0284c7">01</b>Set-up and test-day rules</li>
+    <li><b style="color:#9333ea">F1</b>Pronunciation: sounds and word stress</li>
+    <li><b style="color:#9333ea">F2</b>Fluency, pace and intonation</li>
+    <li><b style="color:#9333ea">F3</b>Grammar you need for E and F</li>
+    <li><b style="color:#0284c7">A</b>Listening comprehension</li>
+    <li><b style="color:#0284c7">B</b>Conversation response</li>
+    <li><b style="color:#0284c7">C</b>Reading aloud</li>
+    <li><b style="color:#0284c7">D</b>Listen and repeat</li>
+    <li><b style="color:#0284c7">E</b>Fill in the missing word (<!--N_FILL--> items)</li>
+    <li><b style="color:#0284c7">F</b>Error correction (<!--N_ERR--> items)</li>
+    <li><b style="color:#0284c7">G</b>Speaking on a topic (<!--N_TALK--> model talks)</li>
+    <li><b style="color:#0d9488">M</b>Email writing (<!--N_MAIL--> model emails)</li>
+    <li><b style="color:#d97706">Z</b>7-day plan and final cheat sheet</li>
+  </ul>
+  <div class="sec-head" style="margin-top:14px"><div class="sec-num">00</div><div><div class="kicker">Know the round</div><h2>Sections, Timing &amp; Scoring</h2></div></div>
+  <p class="lead">A separate email gives you the login details and the time window. The round is about <b>30 minutes</b> and is listed as "20 questions · 30 minutes". Those questions are spread over <b>seven speaking/listening sections (A–G)</b> and a <b>compulsory email</b>. It is an elimination round, but it is very trainable.</p>
+  <table class="tight"><thead><tr><th style="width:24%">Section</th><th>You hear / see → you do</th><th style="width:28%">Main skill scored</th></tr></thead><tbody>
+    <tr><td><b>A · Listening comprehension</b></td><td>Short audio clip → answer the question in <b>one complete sentence</b></td><td>Listening, factual recall, sentence building</td></tr>
+    <tr><td><b>B · Conversation response</b></td><td>A short line from a manager, colleague or client → give a polite, professional reply</td><td>Fluency, workplace etiquette</td></tr>
+    <tr><td><b>C · Reading aloud</b></td><td>Read about <b>8 sentences</b> aloud at a natural pace</td><td>Pronunciation, pausing at punctuation</td></tr>
+    <tr><td><b>D · Listen &amp; repeat</b></td><td>Repeat each sentence <b>exactly</b> as you heard it</td><td>Intonation, stress, auditory memory</td></tr>
+    <tr><td><b>E · Fill in the missing word</b></td><td>A sentence with a blank → say the <b>full sentence</b> with the right word</td><td>Grammar: agreement, tense, articles</td></tr>
+    <tr><td><b>F · Error correction</b></td><td>An incorrect sentence → say the <b>corrected</b> sentence</td><td>Grammar accuracy</td></tr>
+    <tr><td><b>G · Speaking on a topic</b></td><td><b>30 s</b> to prepare, then <b>45 s</b> to speak</td><td>Fluency, vocabulary, structure, confidence</td></tr>
+    <tr><td><b>Email (compulsory)</b></td><td>Write a professional email of <b>at least 50 words</b></td><td>Etiquette, structure, grammar, tone</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">Verbal parameters</b><br>Pronunciation · fluency (smooth, steady speech) · active listening · understanding of spoken English · vocabulary · articulation (clear sounds) · grammar.</div>
+    <div class="def"><b class="t">Written parameters</b><br>Email etiquette (greeting, tone, sign-off) · content structure (purpose, details, action) · grammar and spelling accuracy.</div>
+  </div>
+  <div class="note info"><span class="t">How automated scoring "hears" you</span>Responses are usually scored by software. It compares <b>what</b> you said with the expected content, and <b>how</b> you said it (speed, pauses, clarity, stress). It cannot guess unclear words, and long silence is scored as missing content. Clear, steady and complete answers matter more than an accent.</div>
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">01</div><div><div class="kicker">Lose no marks to the set-up</div><h2>Set-up &amp; Test-Day Rules</h2></div></div>
+  <div class="three">
+    <div class="def"><b class="t">Before the test</b><ul style="margin:3px 0;padding-left:16px">
+      <li>Use a <b>headset with a microphone</b>; laptop mics pick up echo and fan noise.</li>
+      <li>A quiet room: fan off, door closed, phone silent.</li>
+      <li>Updated Chrome, stable internet, laptop charged.</li>
+      <li>Allow camera and mic access, and do the sample/mic check.</li></ul></div>
+    <div class="def"><b class="t">While speaking</b><ul style="margin:3px 0;padding-left:16px">
+      <li>Mic about <b>two fingers</b> from your mouth, slightly to the side.</li>
+      <li>Speak at <b>normal conversation volume</b>; do not shout or whisper.</li>
+      <li>Start speaking <b>right after the beep / recording cue</b>.</li>
+      <li>Keep going: if you make a mistake, correct it once and continue.</li></ul></div>
+    <div class="def"><b class="t">Rules to respect</b><ul style="margin:3px 0;padding-left:16px">
+      <li>Video and audio may be recorded for integrity.</li>
+      <li>No one else in the room, no talking to others.</li>
+      <li>Most recordings <b>cannot be redone</b>; there is no pause button.</li>
+      <li>Read every instruction screen. Timers start automatically.</li></ul></div>
+  </div>
+  <div class="note warn"><span class="t">The four biggest score killers</span><b>Silence</b> of more than 3–4 seconds · <b>one-word answers</b> in sections A and B · <b>speaking too fast</b> (the words blur together) · <b>background noise</b> or a clipped mic. Fix these four and your score rises before you improve anything else.</div>
+</section>
+
+<!-- ================= FOUNDATIONS ================= -->
+<section class="page-break part gr">
+  <div class="banner gr"><div class="big">F</div><div class="pl">FOUNDATIONS</div><h2>Sound Clear, Speak Smoothly, Be Correct</h2>
+    <p>These three skills are scored in every spoken section. A few focused fixes make a big difference.</p></div>
+  <div class="sec-head"><div class="sec-num">F1</div><div><div class="kicker">Clear sounds</div><h2>Pronunciation: Sounds &amp; Word Stress</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:18%">Sound pair</th><th>How to make it</th><th style="width:34%">Practise</th></tr></thead><tbody>
+    <tr><td><b>v</b> vs <b>w</b></td><td>v: top teeth touch the lower lip, with voice. w: round the lips, no teeth.</td><td>very / wary · vest / west · vine / wine</td></tr>
+    <tr><td><b>th</b> (θ, ð)</td><td>Tip of the tongue lightly between the teeth. θ is unvoiced (think), ð is voiced (this).</td><td>think, three, month · this, that, weather</td></tr>
+    <tr><td><b>z</b> vs <b>j</b></td><td>z is a buzzing s, with no tongue tap. Do not say "jero".</td><td>zero, zone, easy, business</td></tr>
+    <tr><td><b>s</b> vs <b>sh</b></td><td>sh pushes the lips forward.</td><td>sip / ship · seat / sheet · sue / shoe</td></tr>
+    <tr><td>Endings <b>-ed</b></td><td>/t/ after voiceless sounds, /d/ after voiced sounds, /ɪd/ after t or d.</td><td>worked /t/ · played /d/ · wanted /ɪd/</td></tr>
+    <tr><td>Endings <b>-s</b></td><td>Always pronounce the final s; it changes the meaning (plural or he/she verb).</td><td>reports, he works, clients</td></tr>
+    <tr><td>Silent letters</td><td>Do not pronounce them.</td><td>de(b)t, lis(t)en, (k)now, is(l)and, We(d)nesday, recei(p)t</td></tr>
+  </tbody></table>
+  <h3>Word stress: say the CAPITAL syllable louder and longer</h3>
+  <table class="tight"><thead><tr><th>Word</th><th>Say</th><th>Word</th><th>Say</th><th>Word</th><th>Say</th></tr></thead><tbody>
+    <tr><td>development</td><td>di-VEL-up-ment</td><td>hotel</td><td>hoh-TEL</td><td>colleague</td><td>KOL-eeg</td></tr>
+    <tr><td>determine</td><td>di-TER-min</td><td>career</td><td>kuh-REER</td><td>company</td><td>KUM-puh-nee</td></tr>
+    <tr><td>comfortable</td><td>KUMF-ter-bul</td><td>vegetable</td><td>VEJ-tuh-bul</td><td>analysis</td><td>uh-NAL-uh-sis</td></tr>
+    <tr><td>category</td><td>KAT-uh-gor-ee</td><td>purpose</td><td>PUR-pus</td><td>photography</td><td>fuh-TOG-ruh-fee</td></tr>
+    <tr><td>record (noun)</td><td>REK-ord</td><td>record (verb)</td><td>ri-KORD</td><td>receipt</td><td>ri-SEET</td></tr>
+    <tr><td>present (noun)</td><td>PREZ-ent</td><td>present (verb)</td><td>pri-ZENT</td><td>Wednesday</td><td>WENZ-day</td></tr>
+  </tbody></table>
+  <p class="small">Two-syllable words that are both a noun and a verb usually stress the first syllable as a noun and the second as a verb: PROject / proJECT, OBject / obJECT, INcrease / inCREASE.</p>
+
+  <div class="sec-head" style="margin-top:8px"><div class="sec-num">F2</div><div><div class="kicker">Smooth and natural</div><h2>Fluency, Pace &amp; Intonation</h2></div></div>
+  <div class="mx">
+    <div><b>Pace</b>About <b>120–150 words per minute</b>, calm and steady. If you are nervous, slow down a little; clarity beats speed.</div>
+    <div><b>Pauses</b>Short pause at a comma, a full stop at a full stop. Pause between word groups, never in the middle of one.</div>
+    <div><b>Fillers</b>Avoid "umm", "aaa", "like", "basically", "you know". Use a silent 1-second pause instead.</div>
+    <div><b>Linking</b>Join words smoothly: "turn_it_off", "an_apple". Do not stop after every word.</div>
+  </div>
+  <div class="two" style="margin-top:8px">
+    <div class="def"><b class="t">Intonation (the music of the sentence)</b><br><b>Falling ↘</b> at the end of statements and wh-questions: "The report is ready ↘." "Where is the meeting ↘?"<br><b>Rising ↗</b> for yes/no questions and lists before the last item: "Are you free today ↗?" "Java ↗, Python ↗ and SQL ↘."</div>
+    <div class="def"><b class="t">Sentence stress</b><br>Stress the <b>content words</b> (nouns, main verbs, adjectives, numbers, negatives) and keep small words (a, the, to, of, is) light: "I <b>NEED</b> the <b>REPORT</b> by <b>FRIDAY</b>." Stressing the right words is what makes you sound fluent.</div>
+  </div>
+  <div class="note tip"><span class="t">10-minute daily drill</span>Record yourself reading one news paragraph on your phone and play it back. Listen for blurred endings, missing -s/-ed, fillers and rushing. Next, shadow a 1-minute clip: play a sentence and repeat it immediately with the same rhythm.</div>
+</section>
+
+<section class="part gr">
+  <div class="sec-head"><div class="sec-num">F3</div><div><div class="kicker">Rules behind sections E and F</div><h2>Grammar You Need</h2></div></div>
+  <div class="two">
+    <div>
+      <h3 style="margin-top:0">Subject–verb agreement</h3>
+      <table class="tight"><thead><tr><th>Rule</th><th>Example</th></tr></thead><tbody>
+        <tr><td>Each / every / either / neither <b>of</b> + plural → singular verb</td><td>Each of the trainees <b>has</b> a badge.</td></tr>
+        <tr><td><b>as well as, along with, with</b> do not change the subject</td><td>The manager, as well as the team, <b>is</b> here.</td></tr>
+        <tr><td><b>either…or / neither…nor</b>: the verb follows the nearer subject</td><td>Neither Ravi nor his friends <b>were</b> late.</td></tr>
+        <tr><td>One of + plural noun → singular verb</td><td>One of my friends <b>works</b> at TCS.</td></tr>
+        <tr><td>Uncountable nouns are singular</td><td>The information / advice / news / equipment <b>is</b> …</td></tr>
+        <tr><td>Amounts as one unit are singular</td><td>Five lakh rupees <b>is</b> a good package.</td></tr>
+      </tbody></table>
+      <h3>Articles &amp; prepositions</h3>
+      <table class="tight"><tbody>
+        <tr><td><b>a / an</b> by sound</td><td>an hour, an MBA, an honest man · a university, a one-day trip, a European</td></tr>
+        <tr><td><b>the</b></td><td>something specific or unique: the report you sent, the sun, the best, the office</td></tr>
+        <tr><td><b>at / on / in</b> (time)</td><td>at 10 a.m., at night · on Monday, on 5 May · in June, in 2025, in the morning</td></tr>
+        <tr><td><b>for / since</b></td><td>for 3 years (length) · since 2022 (starting point)</td></tr>
+        <tr><td>Fixed pairs</td><td>good at, interested in, depend on, reply to, discuss (no preposition), explain something to someone</td></tr>
+      </tbody></table>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Tenses: pick by the time words</h3>
+      <table class="tight"><thead><tr><th>Time words</th><th>Tense</th><th>Example</th></tr></thead><tbody>
+        <tr><td>every day, usually, always</td><td>Present simple</td><td>She <b>works</b> in Pune.</td></tr>
+        <tr><td>now, at the moment</td><td>Present continuous</td><td>I <b>am attending</b> a call.</td></tr>
+        <tr><td>already, just, yet, ever (no finished time)</td><td>Present perfect</td><td>I <b>have</b> already <b>sent</b> it.</td></tr>
+        <tr><td>since / for + still continuing</td><td>Present perfect continuous</td><td>He <b>has been working</b> since 9.</td></tr>
+        <tr><td>yesterday, last week, in 2024, ago</td><td>Past simple</td><td>We <b>launched</b> it last week.</td></tr>
+        <tr><td>by the time / before (earlier past)</td><td>Past perfect</td><td>The call <b>had ended</b> before I joined.</td></tr>
+        <tr><td>tomorrow, next week</td><td>will / going to</td><td>I <b>will share</b> it tomorrow.</td></tr>
+      </tbody></table>
+      <div class="def"><b class="t">State verbs do not take -ing</b> know, have (possess), want, like, believe, understand, need: "I <b>know</b> him", not "I am knowing him".</div>
+      <div class="def"><b class="t">Conditionals</b> 1st: If + present, will + verb ("If it rains, I will stay"). 2nd: If + past, would + verb ("If I had time, I would join"). Never put <i>will</i> in the if-clause.</div>
+      <div class="def"><b class="t">Reported speech</b> moves one tense back: "I am busy" → He said (that) he <b>was</b> busy. Use <b>say</b> something, <b>tell</b> someone.</div>
+    </div>
+  </div>
+  <div class="note alert"><span class="t">Indian-English habits the test marks wrong</span>discuss <s>about</s> · return <s>back</s> / revert <s>back</s> · cope <s>up</s> with · I <s>am having</s> have experience · <s>Myself</s> I am Rahul · <s>passed out</s> graduated · since <s>two years</s> → for two years · one of my <s>friend</s> friends · senior <s>than</s> to · <s>today morning</s> this morning · <s>do one thing</s> → say the action directly.</div>
+</section>
+
+<!-- ================= SECTIONS A–G ================= -->
+<section class="part cm">
+  <div class="banner cm"><div class="big">A–G</div><div class="pl">THE SEVEN SPOKEN SECTIONS</div><h2>Section-by-Section Strategy</h2>
+    <p>For each section: what happens, the method, the traps, and examples to practise out loud. Since this is a PDF, the audio is shown as a transcript. Ask a friend to read it to you, or use a text-to-speech app.</p></div>
+  <div class="sec-head"><div class="sec-num">A</div><div><div class="kicker">Listen, then answer in a full sentence</div><h2>Listening Comprehension</h2></div></div>
+  <div class="flow"><span>Listen for the 5 Ws</span><i>→</i><span>Catch the key fact</span><i>→</i><span>Reuse the question's words</span><i>→</i><span class="h">One complete sentence</span></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>While listening, track <b>who, what, when, where, why</b>, numbers and days. Build your answer from the question: "Why has the meeting been moved?" → "The meeting has been moved <b>because</b> …". Answer only what was asked.</div>
+    <div class="def"><b class="t">Traps</b><br><span class="bad">"Room 4."</span> One-word answers lose most marks. <span class="good">"The meeting is in Room 4."</span> Do not add guesses or extra stories. If you missed a detail, still answer in a full sentence with the part you heard.</div>
+  </div>
+  <!--LISTEN-->
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">B</div><div><div class="kicker">Reply like a professional</div><h2>Conversation Response</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">The 3-part reply</b><br>(1) <b>Acknowledge</b>: "Sure", "Of course", "I'm sorry to hear that". (2) <b>Answer or act</b>: what you will do, with a time. (3) <b>Optional polite extra</b>: an offer or a question ("Could you share the agenda?"). Aim for 1–2 complete sentences.</div>
+    <div class="def"><b class="t">Phrase bank</b><br>Agree: "Certainly, I'll …" · Decline politely: "I'm sorry, but … However, I can …" · Clarify: "Could you please tell me …?" · Apologise: "I apologise for the delay; I will …" · Thank: "Thank you, I really appreciate …"</div>
+  </div>
+  <!--CONVERSE-->
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">C</div><div><div class="kicker">Read clearly at a natural pace</div><h2>Reading Aloud</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Use the first second to scan the sentence for difficult words and commas. Read in <b>word groups</b>, pause at punctuation, stress the content words and end statements with a falling tone. Keep a steady pace: do not race through the sentence.</div>
+    <div class="def"><b class="t">Traps</b><br>Skipping or adding small words (a, the, of) · dropping -s and -ed endings · stopping mid-sentence to restart. If you trip over a word, simply continue; restarting costs more than a small slip.</div>
+  </div>
+  <p class="small">Practise these. <b>Bold</b> = stressed word, <span class="ps">|</span> = short pause, <span class="ps">||</span> = longer pause.</p>
+  <!--READ-->
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">D</div><div><div class="kicker">Exactly what you heard</div><h2>Listen &amp; Repeat</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Listen for the <b>meaning</b>, not single words; a sentence you understand is easy to rebuild. Mentally split it into 2–3 chunks ("The training session | will start | after the coffee break"). Copy the speaker's rhythm and falling tone. Start right after the beep.</div>
+    <div class="def"><b class="t">Traps</b><br>Changing words ("will start" → "starts") · dropping articles and plural -s · long silence while trying to remember. Saying 90% of the sentence fluently scores better than silence.</div>
+  </div>
+  <p class="small">Practise in three lengths: ask someone to read each sentence once, then repeat it.</p>
+  <!--REPEAT-->
+
+  <div class="sec-head" style="margin-top:10px"><div class="sec-num">E</div><div><div class="kicker">Grammar in your voice</div><h2>Fill in the Missing Word</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Find the clue words around the blank: a time word (since, yesterday), a subject (each of, neither…nor), the next word's sound (a/an) or a fixed pair (good ___ coding). Then say the <b>whole sentence</b> with the word in it, smoothly.</div>
+    <div class="def"><b class="t">Traps</b><br>Saying only the missing word · changing other words in the sentence · forgetting the article in the full sentence. Revise F3: most items test agreement, tense, articles and prepositions.</div>
+  </div>
+  <!--FILL-->
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">F</div><div><div class="kicker">Spot it, fix it, say it</div><h2>Error Correction</h2></div></div>
+  <div class="two">
+    <div class="def"><b class="t">Method</b><br>Check, in this order: (1) subject–verb agreement, (2) tense versus the time words, (3) articles and singular/plural, (4) prepositions and extra words (discuss <s>about</s>), (5) word form (senior <s>than</s> to). Then say the <b>full corrected sentence</b>.</div>
+    <div class="def"><b class="t">Traps</b><br>Fix only the error and keep the rest of the sentence the same. Rewriting the whole sentence can introduce new mistakes. Say the corrected sentence, not an explanation.</div>
+  </div>
+  <!--ERRORS-->
+</section>
+
+<section class="part cm">
+  <div class="sec-head"><div class="sec-num">G</div><div><div class="kicker">30 s to prepare, 45 s to speak</div><h2>Speaking on a Topic</h2></div></div>
+  <div class="flow"><span>Opening: your view in one line</span><i>→</i><span>Point 1 + reason / example</span><i>→</i><span>Point 2 + reason / example</span><i>→</i><span class="h">Closing: sum up in one line</span></div>
+  <div class="three">
+    <div class="def"><b class="t">Use the 30 seconds</b><br>Write 3 keywords only: your view, point 1, point 2. Do not write sentences. Think of one real example from college, projects or internships.</div>
+    <div class="def"><b class="t">Linkers that sound fluent</b><br>In my opinion · Firstly · For example · Moreover · On the other hand · However · That is why · In conclusion / To sum up.</div>
+    <div class="def"><b class="t">Timing</b><br>45 seconds is about <b>90–100 words</b> at a calm pace. Keep speaking until the timer ends. If you finish early, add one more example rather than stopping.</div>
+  </div>
+  <!--TALKS-->
+  <p class="small">More topics to practise: your hometown · your favourite subject · online vs offline learning · the importance of English at work · a person who inspires you · your final-year project · how AI is changing jobs · the importance of health for professionals · team leader qualities · how to handle failure.</p>
+</section>
+
+<!-- ================= EMAIL ================= -->
+<section class="part ml">
+  <div class="banner ml"><div class="big">M</div><div class="pl">WRITTEN TASK · COMPULSORY</div><h2>Email Writing</h2>
+    <p>A short professional email of at least 50 words. Use the same structure every time, so the whole email takes under 5 minutes.</p></div>
+  <div class="sec-head"><div class="sec-num">M1</div><div><div class="kicker">The formula</div><h2>Structure, Tone &amp; Phrase Bank</h2></div></div>
+  <div class="flow"><span>Subject line</span><i>→</i><span>Greeting</span><i>→</i><span>Purpose (1 line)</span><i>→</i><span>Details / reason</span><i>→</i><span>Action / assurance</span><i>→</i><span>Polite close</span><i>→</i><span class="h">Sign-off + name</span></div>
+  <table class="tight"><thead><tr><th style="width:18%">Part</th><th>Phrases you can use</th></tr></thead><tbody>
+    <tr><td><b>Subject</b></td><td>Short and specific: "Leave Request for 14–15 November" · "Update on the Payment Module" · "Apology for Missing Today's Meeting"</td></tr>
+    <tr><td><b>Greeting</b></td><td>Dear Mr. / Ms. Surname, (formal) · Dear Team, · Hi Arjun, (a friendly colleague only)</td></tr>
+    <tr><td><b>Purpose</b></td><td>I am writing to … · I would like to request … · This is to inform you that … · Thank you for …</td></tr>
+    <tr><td><b>Details</b></td><td>Due to … · Since this morning … · During testing, we found … · As discussed in yesterday's meeting …</td></tr>
+    <tr><td><b>Action / assurance</b></td><td>I will … by (date). · I have already … · Rohit will handle … in my absence. · This will not happen again.</td></tr>
+    <tr><td><b>Close</b></td><td>Please let me know if you have any questions. · I would be grateful if … · Thank you for your understanding / support.</td></tr>
+    <tr><td><b>Sign-off</b></td><td>Best regards, · Kind regards, · Regards, · Thank you, then your <b>full name</b> on the next line</td></tr>
+  </tbody></table>
+  <div class="two">
+    <div class="def"><b class="t">Do</b><br>Answer every point in the task · keep 3 short paragraphs · polite, positive tone · specific dates and times · 60–100 words · check spelling, capital letters and full stops.</div>
+    <div class="def"><b class="t">Do not</b><br>SMS language (u, pls, plz, thx) · ALL CAPS · emojis · "Respected Sir/Madam" chains · very long sentences · blaming others · forgetting the subject line or your name.</div>
+  </div>
+  <div class="sec-head" style="margin-top:8px"><div class="sec-num">M2</div><div><div class="kicker">Ready-to-adapt samples</div><h2>Six Model Emails</h2></div></div>
+  <!--EMAILS-->
+</section>
+
+<!-- ================= PLAN ================= -->
+<section class="part pl">
+  <div class="sec-head"><div class="sec-num">Z</div><div><div class="kicker">Get exam-ready</div><h2>7-Day Plan &amp; Final Cheat Sheet</h2></div></div>
+  <table class="tight"><thead><tr><th style="width:11%">Day</th><th>Plan (40–60 minutes, out loud)</th></tr></thead><tbody>
+    <tr><td><b>Day 1</b></td><td>Set up the headset. Record yourself reading section C; fix pace and pauses. Learn F1 (sounds and stress).</td></tr>
+    <tr><td><b>Day 2</b></td><td>Grammar F3. Do all fill-in items in section E aloud, then check the answer key.</td></tr>
+    <tr><td><b>Day 3</b></td><td>Error correction (section F) aloud. Note every rule you missed. Revise the Indian-English habits list.</td></tr>
+    <tr><td><b>Day 4</b></td><td>Listening (A) and conversation (B): a friend reads the transcripts, you answer in full sentences.</td></tr>
+    <tr><td><b>Day 5</b></td><td>Listen and repeat (D) with shadowing. Speaking (G): 3 topics with a 30 + 45 second timer.</td></tr>
+    <tr><td><b>Day 6</b></td><td>Write 3 emails from the M2 tasks without looking, then compare. 5 more G topics.</td></tr>
+    <tr><td><b>Day 7</b></td><td>Full run-through of all sections in one sitting with a timer. Read the cheat sheet. Test the set-up again.</td></tr>
+  </tbody></table>
+  <div class="cards c3">
+    <div class="card" style="border-top:4px solid #0284c7"><h4 style="margin-top:0;color:#0284c7">Speaking</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Headset, quiet room, mic two fingers away</li>
+      <li>Start right after the beep, no long silence</li>
+      <li>120–150 words per minute: calm and steady</li>
+      <li>Pause at commas and full stops</li>
+      <li>Stress content words; falling tone at the end</li>
+      <li>Pronounce final -s and -ed</li>
+      <li>No fillers: a silent pause instead</li>
+      <li>A mistake? Correct once and continue</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #9333ea"><h4 style="margin-top:0;color:#9333ea">Sections</h4><ul style="font-size:8.2pt;margin:0">
+      <li>A: one full sentence, reuse the question's words</li>
+      <li>B: acknowledge + action + polite extra</li>
+      <li>C: read in word groups, don't restart</li>
+      <li>D: remember the meaning, repeat in chunks</li>
+      <li>E: say the whole sentence, not one word</li>
+      <li>F: fix only the error, say the full sentence</li>
+      <li>G: view → 2 points → conclusion, 45 s</li>
+    </ul></div>
+    <div class="card" style="border-top:4px solid #0d9488"><h4 style="margin-top:0;color:#0d9488">Email &amp; grammar</h4><ul style="font-size:8.2pt;margin:0">
+      <li>Subject · greeting · purpose · details · action · close · name</li>
+      <li>At least 50 words (aim for 60–100)</li>
+      <li>Each of / one of → singular verb</li>
+      <li>since + point, for + duration</li>
+      <li>Finished time → past simple</li>
+      <li>discuss, return, cope with: no extra words</li>
+      <li>Tell someone, say something</li>
+      <li>No SMS language, no ALL CAPS</li>
+    </ul></div>
+  </div>
+  <p class="disclaimer"><b>Disclaimer:</b> This is an independent preparation guide for informational purposes only, not affiliated with or endorsed by Accenture. The section format is based on the official notification summary and publicly reported candidate experiences, and may change. All practice items, model answers and emails are original. Model talk lengths and email word counts were checked automatically. Pronunciation respellings are simplified guides, not phonetic transcriptions.</p>
+</section>
+
+</body>
+</html>
