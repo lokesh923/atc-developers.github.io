@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coding Assessment</title>
+<style>
+:root{--navy:#0f1d3d;--ink:#14172b;--ink2:#3b4160;--muted:#6b7090;--line:#e2e5ee;--bg:#f3f4f8;--blue:#1d4ed8;--lav:#e9ebfb;--lav2:#f4f5fd;
+  --green:#15803d;--gsoft:#dcfce7;--rose:#dc2626;--rsoft:#fee2e2;--amber:#b45309;--asoft:#fef3c7}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.5}
+button{font:inherit;cursor:pointer}.hidden{display:none!important}
+code,pre,textarea{font-family:"JetBrains Mono",Consolas,"DejaVu Sans Mono",monospace}
+.wrap{max-width:980px;margin:0 auto;padding:22px 16px 48px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:16px}
+.btn{border:0;border-radius:9px;padding:9px 18px;font-weight:700;background:var(--blue);color:#fff}.btn.ghost{background:#fff;color:var(--ink2);border:1px solid #cfd3e0}
+.btn.red{background:#ef4444}.btn.green{background:#16a34a}.btn.big{font-size:16px;padding:14px 30px}.btn.sm{padding:6px 12px;font-size:13px}.btn:disabled{opacity:.55;cursor:wait}
+table.t{border-collapse:collapse;width:100%;font-size:14px}table.t th,table.t td{border-bottom:1px solid var(--line);padding:8px;text-align:left}table.t th{background:#f6f7fb}
+/* exam */
+#exam{display:flex;flex-direction:column;height:100vh}
+.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:0 18px;height:54px;flex:none}
+.top .brand{font-weight:800;padding-right:16px;border-right:1px solid rgba(255,255,255,.25)}.top .sp{flex:1}
+.top .tm b{font-variant-numeric:tabular-nums;font-size:17px}.top .tm.low b{color:#fca5a5}
+.body{flex:1;display:grid;grid-template-columns:200px minmax(0,1fr) minmax(0,1.1fr);min-height:0}
+.side{background:#fff;border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:8px}
+.qtab{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px}
+.qtab.on{border-color:var(--blue);background:#eef2ff}.qtab b{display:block;font-size:13.5px}.qtab span{font-size:12px;color:var(--muted)}
+.pane{background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.scroll{overflow:auto;padding:14px 18px 18px;flex:1}
+.sec{background:var(--lav);color:#1e2a78;font-weight:800;border-radius:6px;padding:4px 10px;margin:12px 0 6px;font-size:14.5px}
+.stmt{background:var(--lav2);border-radius:8px;padding:9px 12px}
+table.g{border-collapse:collapse;width:100%;font-size:12.6px;margin:4px 0}table.g th{background:#eef0f7;text-align:left;padding:3px 8px}table.g td{border-top:1px solid #edf0f5;padding:3px 8px}
+table.g td.null{color:#9aa0b8;font-style:italic}
+pre.io{background:#f6f7fb;border-radius:6px;padding:6px 9px;margin:3px 0;font-size:12.8px;white-space:pre-wrap}
+.tabs{display:flex;gap:2px;padding:0 10px;border-bottom:1px solid var(--line);flex:none;align-items:flex-end;overflow-x:auto}
+.tab{background:none;border:0;padding:10px 11px 8px;color:var(--ink2);font-weight:600;border-bottom:3px solid transparent;white-space:nowrap}.tab.on{color:var(--ink);border-bottom-color:var(--ink)}
+.tabs .sp{flex:1}.tabs select{font:inherit;font-size:13px;padding:4px 6px;margin:4px 0;border:1px solid #cfd3e0;border-radius:6px}
+.ed{flex:1;display:flex;min-height:200px;background:#fbfcfe}
+.gut{background:#f1f3f8;color:#8a90aa;text-align:right;padding:10px 8px;font:13px/1.6 "JetBrains Mono",Consolas,monospace;user-select:none;overflow:hidden;min-width:40px}
+.ed textarea{flex:1;border:0;outline:0;resize:none;padding:10px 12px;font-size:13px;line-height:1.6;background:transparent;white-space:pre;overflow:auto;tab-size:4}
+.out{flex:none;max-height:42%;overflow:auto;border-top:1px solid var(--line);padding:10px 14px;font-size:13px}
+.actions{display:flex;gap:8px;padding:8px 12px;border-top:1px solid var(--line);flex:none;align-items:center;flex-wrap:wrap}.actions .sp{flex:1}
+.tc{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:7px 11px;margin-bottom:6px}
+.tc .ic{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:11px;flex:none}
+.tc.pass .ic{background:var(--green)}.tc.fail .ic{background:var(--rose)}.tc .s{font-size:12.5px;color:var(--ink2)}.tc.fail .s{color:var(--rose)}
+.err{background:var(--rsoft);color:#991b1b;border-radius:8px;padding:8px 10px;font:12.5px/1.5 Consolas,monospace;white-space:pre-wrap}
+.okm{background:var(--gsoft);color:#14532d;border-radius:8px;padding:7px 10px;margin-bottom:6px}
+#preview{width:100%;flex:1;border:0;background:#fff;min-height:240px}
+#testFrames{position:fixed;left:-12000px;top:0;width:1000px;height:800px;overflow:hidden}#testFrames iframe{width:1000px;height:800px;border:0}
+.ring{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:24px;flex:none}
+pre.code{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:11px 13px;overflow:auto;font-size:12.6px;max-height:340px}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:grid;place-items:center;padding:16px;z-index:9}.modal .box{background:#fff;border-radius:16px;max-width:560px;width:100%;padding:22px}
+@media (max-width:980px){#exam{height:auto}.body{grid-template-columns:1fr}.pane{min-height:60vh}.top{height:auto;flex-wrap:wrap;padding:10px}}
+</style>
+</head>
+<body>
+<div id="intro" class="wrap"><div class="card">
+  <h1 style="margin:0 0 6px">Coding Assessment</h1>
+  <p style="margin:0;color:var(--ink2)">3 questions · 60 minutes in total. Switch between them at any time. Suggested split: about 25 min for DSA, 15 for SQL and 20 for Frontend; start with your strongest.</p>
+  <table class="t" style="margin-top:12px"><thead><tr><th>#</th><th>Question</th><th>How it is graded</th></tr></thead><tbody>
+    <tr><td>1</td><td><b>Backend (DSA)</b>: Python 3 or JavaScript</td><td>Your program reads standard input and prints the answer; it runs against all test cases (hidden ones included).</td></tr>
+    <tr><td>2</td><td><b>Database (SQL)</b></td><td>Your query runs on 5 datasets; columns (aliases) and rows must match.</td></tr>
+    <tr><td>3</td><td><b>Front end Technology</b></td><td>Automatic tests open your page, click, type and check the DOM and the CSS.</td></tr>
+  </tbody></table>
+  <p style="font-size:13px;color:var(--muted)">Note: this simulator runs code in your browser, so DSA supports Python 3 and JavaScript (the real test also offers Java, C++ and C#). Python runs on Skulpt in the browser: the standard built-ins, lists, dicts, sets, strings and <code>collections</code> work, but a few modules such as <code>functools</code> are not available.</p>
+  <button class="btn big" onclick="C.start()">Start Coding Assessment</button>
+</div></div>
+
+<div id="exam" class="hidden">
+  <div class="top"><div class="brand">Coding Assessment</div><div class="sp"></div><div class="tm" id="tmBox">&#9201; Test Time: <b id="tm">60:00</b></div><button class="btn red" onclick="C.askFinish()">Finish Test</button></div>
+  <div class="body">
+    <div class="side" id="side"></div>
+    <div class="pane"><div class="tabs" id="ltabs"></div><div class="scroll" id="left"></div></div>
+    <div class="pane" id="right"></div>
+  </div>
+</div>
+<div id="modal" class="modal hidden"><div class="box" id="mbox"></div></div>
+<div id="report" class="wrap hidden"></div>
+<div id="testFrames" aria-hidden="true"></div>
+
+<script>/*SQLJS*/</script>
+<script>/*SKULPT*/</script>
+<script>/*SKULPT_STDLIB*/</script>
+<script>
+var WASM_B64="/*WASM_B64*/";
+var FE_LIBS={react:/*LIB_REACT*/,reactdom:/*LIB_REACTDOM*/,vue:/*LIB_VUE*/,babel:/*LIB_BABEL*/};
+var SQL_BANK=/*SQL_BANK*/;
+var DSA_BANK=/*DSA_BANK*/;
+</script>
+<script>/*FE_BANK*/</script>
+<script>/*SQL_CORE*/</script>
+<script>/*FE_CORE*/</script>
+<script>
+var SCORM=(function(){var api=null,on=false;function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  try{api=find(window);}catch(e){api=null;}function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}
+  return{init:function(){if(!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){}},
+    report:function(score,secs){if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));set("cmi.core.lesson_status","completed");try{api.LMSCommit("");}catch(e){}}};})();
+var SPEED=(function(){var m=location.search.match(/speed=(\d+)/)||location.hash.match(/speed=(\d+)/);return m?Math.max(1,+m[1]):1;})();
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function pickOne(a){return a[Math.floor(Math.random()*a.length)];}
+function cell(v){return v===null?'<td class="null">NULL</td>':"<td>"+esc(v)+"</td>";}
+function tableHTML(cols,rows){return'<table class="g"><thead><tr>'+cols.map(function(c){return"<th>"+esc(c)+"</th>";}).join("")+"</tr></thead><tbody>"+(rows.length?rows.map(function(r){return"<tr>"+r.map(cell).join("")+"</tr>";}).join(""):'<tr><td colspan="'+cols.length+'" class="null">(no rows)</td></tr>')+"</tbody></table>";}
+
+/* ================= DSA runner: JavaScript (Web Worker) and Python 3 (Skulpt) ================= */
+var DSA_RUN=(function(){
+  var WORKER="self.onmessage=function(e){var lines=e.data.input.split(/\\r?\\n/),i=0,out=[];"+
+    "self.readLine=function(){return i<lines.length?lines[i++]:null;};self.readline=self.readLine;"+
+    "var log=function(){out.push(Array.prototype.map.call(arguments,function(x){return typeof x==='string'?x:(x&&typeof x==='object'?JSON.stringify(x):String(x));}).join(' '));};"+
+    "console.log=log;self.print=log;try{(new Function(e.data.code))();self.postMessage({ok:true,out:out.join('\\n')});}"+
+    "catch(err){self.postMessage({ok:false,out:out.join('\\n'),err:String(err&&err.stack||err).split('\\n')[0]});}};";
+  var wurl=null;
+  function js(code,input){return new Promise(function(res){if(!wurl)wurl=URL.createObjectURL(new Blob([WORKER],{type:"text/javascript"}));
+    var w=new Worker(wurl),done=false,t=setTimeout(function(){if(!done){done=true;w.terminate();res({ok:false,out:"",err:"Time limit exceeded (3 s). Check for an infinite loop."});}},3000);
+    w.onmessage=function(e){if(!done){done=true;clearTimeout(t);w.terminate();res(e.data);}};w.onerror=function(e){if(!done){done=true;clearTimeout(t);w.terminate();res({ok:false,out:"",err:e.message});}};
+    w.postMessage({code:code,input:input});});}
+  function py(code,input){return new Promise(function(res){var out="",lines=input.split(/\r?\n/),i=0;
+    Sk.configure({output:function(t){out+=t;},read:function(x){if(Sk.builtinFiles===undefined||Sk.builtinFiles.files[x]===undefined)throw"File not found: '"+x+"'";return Sk.builtinFiles.files[x];},
+      inputfun:function(){return i<lines.length?lines[i++]:"";},inputfunTakesPrompt:true,__future__:Sk.python3,execLimit:4000,yieldLimit:null});
+    Sk.misceval.asyncToPromise(function(){return Sk.importMainWithBody("<stdin>",false,code,true);})
+      .then(function(){res({ok:true,out:out});},function(err){var m=String(err);if(/TimeLimit/.test(m))m="Time limit exceeded (4 s). Check for an infinite loop.";res({ok:false,out:out,err:m});});});}
+  function norm(s){return String(s).replace(/\r/g,"").split("\n").map(function(l){return l.replace(/\s+$/,"");}).join("\n").replace(/\n+$/,"");}
+  async function run(lang,code,input){return lang==="python"?py(code,input):js(code,input);}
+  async function judge(p,lang,code){var res=[];for(var k=0;k<p.tests.length;k++){var t=p.tests[k],r=await run(lang,code,t[0]);
+    if(!r.ok)res.push({ok:false,why:r.err});else if(norm(r.out)===norm(t[1]))res.push({ok:true,why:""});else res.push({ok:false,why:k<2?"Expected \""+norm(t[1]).slice(0,80)+"\", got \""+norm(r.out).slice(0,80)+"\"":"Wrong output on a hidden test case."});}return res;}
+  return{run:run,judge:judge,norm:norm};
+})();
+
+/* ================= the exam ================= */
+var C=(function(){
+  var LIMIT=60*60,t0=0,tick=null,done=false,curQ=0,Q=[],ltab={};
+  var START={python:"# Read input with input() and print the answer with print().\n\ndef main():\n    # n = int(input())\n    # arr = list(map(int, input().split()))\n    pass\n\nmain()\n",
+             javascript:"// Read input with readLine() (returns the next line, or null).\n// Print the answer with console.log().\n\nfunction main() {\n    // const n = parseInt(readLine());\n    // const arr = readLine().split(\" \").map(Number);\n}\n\nmain();\n"};
+  function $(id){return document.getElementById(id);}
+  function setup(){
+    var p=pickOne(DSA_BANK),s=pickOne(SQL_BANK),f=pickOne(FE_BANK);
+    Q=[{kind:"dsa",title:"Backend (DSA)",p:p,lang:"python",code:{python:START.python,javascript:START.javascript},res:null,out:""},
+       {kind:"sql",title:"Database (SQL)",p:s,code:"",res:null,out:""},
+       {kind:"fe",title:"Front end Technology",p:f,files:(function(){var o={};STACKS[f.stack].files.forEach(function(x){o[x[0]]=f.files[x[0]];});return o;})(),res:null,tab:"question"}];
+  }
+  function start(){setup();$("intro").classList.add("hidden");$("exam").classList.remove("hidden");t0=Date.now();
+    tick=setInterval(function(){var left=LIMIT-Math.floor((Date.now()-t0)*SPEED/1000),m=Math.max(0,left);$("tm").textContent=("0"+Math.floor(m/60)).slice(-2)+":"+("0"+m%60).slice(-2);$("tmBox").classList.toggle("low",left<=300);if(left<=0)finish(true);},250);
+    LOGSINK=function(win,level,msg){var fr=document.getElementById("preview");if(fr&&win===fr.contentWindow){var c=$("feCon");if(c)c.innerHTML+='<div class="'+(level==="error"?"err":"")+'" style="margin:2px 0">'+esc(msg)+"</div>";}};
+    show(0);}
+  function sideHTML(){return Q.map(function(q,i){var st=q.res?q.res.filter(function(r){return r.ok;}).length+"/"+q.res.length+" tests passed":"Not run yet";
+    return'<button class="qtab'+(i===curQ?" on":"")+'" onclick="C.show('+i+')"><b>'+(i+1)+". "+q.title+"</b><span>"+st+"</span></button>";}).join("")+'<p style="font-size:12px;color:var(--muted);margin-top:auto">Your code is kept when you switch questions.</p>';}
+  function editor(id,val){return'<div class="ed"><div class="gut" id="g_'+id+'"></div><textarea id="'+id+'" spellcheck="false" autocapitalize="off" autocomplete="off">'+esc(val)+"</textarea></div>";}
+  function wireEditor(id,onChange){var ta=$(id),g=$("g_"+id);function gut(){var n=ta.value.split("\n").length,h="";for(var i=1;i<=n;i++)h+=i+"<br>";g.innerHTML=h;g.scrollTop=ta.scrollTop;}
+    gut();ta.addEventListener("input",function(){gut();onChange(ta.value);});ta.addEventListener("scroll",function(){g.scrollTop=ta.scrollTop;});
+    ta.addEventListener("keydown",function(e){if(e.key==="Tab"){e.preventDefault();var s=ta.selectionStart;ta.value=ta.value.slice(0,s)+"    "+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+4;ta.dispatchEvent(new Event("input"));}});}
+  function testsHTML(res,names){if(!res)return"";var p=res.filter(function(r){return r.ok;}).length;
+    return'<div class="'+(p===res.length?"okm":"")+'" style="margin-bottom:6px">'+p+" of "+res.length+" test cases passed.</div>"+res.map(function(r,k){return'<div class="tc '+(r.ok?"pass":"fail")+'"><span class="ic">'+(r.ok?"&#10003;":"&#10007;")+'</span><div><b>Test Case '+(k+1)+(names?": "+esc(names[k]):"")+'</b><div class="s">'+(r.ok?"Passed":esc(r.why))+"</div></div></div>";}).join("");}
+
+  function show(i){curQ=i;$("side").innerHTML=sideHTML();var q=Q[i];
+    if(q.kind==="dsa")showDSA(q);else if(q.kind==="sql")showSQL(q);else showFE(q);}
+  /* ---------- DSA ---------- */
+  function showDSA(q){var p=q.p;$("ltabs").innerHTML='<button class="tab on">Problem</button>';
+    $("left").innerHTML='<h2 style="margin:4px 0 6px">'+esc(p.title)+'</h2><div class="sec">Problem Statement</div><div class="stmt">'+p.statement+'</div><div class="sec">Input Format</div><div>'+p.fmt+'</div><div class="sec">Examples</div>'+
+      p.tests.slice(0,2).map(function(t,k){return"<b>Sample "+(k+1)+'</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:12px;color:var(--muted)">Input</div><pre class="io">'+esc(t[0].replace(/\n$/,""))+'</pre></div><div><div style="font-size:12px;color:var(--muted)">Output</div><pre class="io">'+esc(t[1])+"</pre></div></div>";}).join("")+
+      '<p style="font-size:13px;color:var(--muted)">Your program is also run on '+(p.tests.length-2)+" hidden test cases (edge cases).</p>";
+    $("right").innerHTML='<div class="tabs"><button class="tab on">Code</button><span class="sp"></span><select id="lang" onchange="C.lang(this.value)"><option value="python">Python 3</option><option value="javascript">JavaScript (Node-style)</option></select></div>'+
+      editor("dsaCode",q.code[q.lang])+'<div class="out" id="dsaOut">'+(q.out||'<span style="color:var(--muted)">Run your code on the sample input, or run all test cases.</span>')+'</div><div class="actions"><span class="sp"></span><button class="btn ghost" id="dsaRun" onclick="C.dsaRun()">Run (sample)</button><button class="btn" id="dsaAll" onclick="C.dsaAll()">Run all tests</button></div>';
+    $("lang").value=q.lang;wireEditor("dsaCode",function(v){q.code[q.lang]=v;});}
+  function lang(l){var q=Q[0];q.lang=l;showDSA(q);}
+  async function dsaRun(){var q=Q[0],b=$("dsaRun");b.disabled=true;b.textContent="Running…";try{var t=q.p.tests[0],r=await DSA_RUN.run(q.lang,q.code[q.lang],t[0]);
+    q.out=(r.ok?"":'<div class="err">'+esc(r.err)+"</div>")+'<b>Your output</b><pre class="io">'+esc(r.out||"")+'</pre><b>Expected output</b><pre class="io">'+esc(t[1])+"</pre>"+(r.ok&&DSA_RUN.norm(r.out)===DSA_RUN.norm(t[1])?'<div class="okm">Sample output matches.</div>':"");$("dsaOut").innerHTML=q.out;}finally{b.disabled=false;b.textContent="Run (sample)";}}
+  async function dsaAll(){var q=Q[0],b=$("dsaAll");b.disabled=true;b.textContent="Running…";try{q.res=await DSA_RUN.judge(q.p,q.lang,q.code[q.lang]);q.out=testsHTML(q.res);$("dsaOut").innerHTML=q.out;$("side").innerHTML=sideHTML();}finally{b.disabled=false;b.textContent="Run all tests";}}
+  /* ---------- SQL ---------- */
+  var sqlExpected=null;
+  function sqlSchema(p){return p.tables.map(function(t){return'<div style="font-weight:700;margin-top:8px">Table: '+esc(t.name)+'</div><table class="g"><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody>'+t.cols.map(function(c){return"<tr><td><b>"+esc(c.name)+"</b></td><td>"+esc(c.type)+"</td><td>"+esc(c.desc)+"</td></tr>";}).join("")+"</tbody></table>";}).join("");}
+  function showSQL(q){var p=q.p;$("ltabs").innerHTML='<button class="tab on">Question</button>';
+    ENGINE.load().then(function(){if(!sqlExpected)sqlExpected=p.datasets.map(function(d){return ENGINE.run(d,p.solution);});
+      var ex=sqlExpected[0];var inputs=p.tables.map(function(t){var r=ENGINE.run(p.datasets[0],"SELECT * FROM "+t.name);return'<div style="font-size:12.5px;font-weight:700">'+esc(t.name)+"</div>"+tableHTML(r.cols,r.rows);}).join("");
+      $("left").innerHTML='<h2 style="margin:4px 0 6px">'+esc(p.title)+'</h2><div class="sec">Problem Statement</div><div>Write an SQL query to display:</div><div class="stmt">'+p.statement+'</div><div style="margin-top:6px">Output columns: <b>'+p.columns.map(esc).join(", ")+'</b></div><div class="sec">Database Schema</div>'+sqlSchema(p)+'<div class="sec">Example</div>'+inputs+'<div style="font-size:12.5px;font-weight:700;margin-top:6px">Output</div>'+tableHTML(ex.cols,ex.rows);});
+    $("right").innerHTML='<div class="tabs"><button class="tab on">Query</button><span class="sp"></span><span style="font-size:12px;color:var(--muted)">SQLite · standard SQL</span></div>'+editor("sqlCode",q.code)+'<div class="out" id="sqlOut">'+(q.out||'<span style="color:var(--muted)">Run your query on the sample data, or check it against all 5 test cases.</span>')+'</div><div class="actions"><span class="sp"></span><button class="btn ghost" onclick="C.sqlRun()">Run Query</button><button class="btn" onclick="C.sqlCheck()">Check Query</button></div>';
+    wireEditor("sqlCode",function(v){q.code=v;});}
+  function sqlEval(q){var p=q.p;if(!sqlExpected)sqlExpected=p.datasets.map(function(d){return ENGINE.run(d,p.solution);});return p.datasets.map(function(d,k){return compare(p,ENGINE.run(d,q.code),sqlExpected[k]);});}
+  function sqlRun(){var q=Q[1];ENGINE.load().then(function(){var r=ENGINE.run(q.p.datasets[0],q.code);q.out=r.error?'<div class="err">'+esc(r.error)+"</div>":"<b>Output on the sample data</b>"+tableHTML(r.cols,r.rows);$("sqlOut").innerHTML=q.out;});}
+  function sqlCheck(){var q=Q[1];ENGINE.load().then(function(){q.res=sqlEval(q);q.out=testsHTML(q.res);$("sqlOut").innerHTML=q.out;$("side").innerHTML=sideHTML();});}
+  /* ---------- Frontend ---------- */
+  function showFE(q){var f=q.p,files=STACKS[f.stack].files;
+    $("ltabs").innerHTML=[["question","Question"]].concat(files.map(function(x){return[x[0],x[1]];})).map(function(t){return'<button class="tab'+(q.tab===t[0]?" on":"")+'" onclick="C.feTab(\''+t[0]+'\')">'+esc(t[1])+"</button>";}).join("");
+    if(q.tab==="question"){$("left").innerHTML='<h2 style="margin:4px 0 6px">'+esc(f.title)+'</h2><div class="sec">How to Attempt?</div><p style="margin:4px 0">'+f.intro+'</p><div class="sec">Objectives</div><ol>'+f.objectives.map(function(o){return"<li>"+o+"</li>";}).join("")+'</ol><div class="sec">Constraints</div><ul>'+f.constraints.map(function(o){return"<li>"+o+"</li>";}).join("")+"</ul>";}
+    else{$("left").innerHTML=editor("feCode",q.files[q.tab]);$("left").style.padding="0";wireEditor("feCode",function(v){q.files[q.tab]=v;clearTimeout(q.t);q.t=setTimeout(feRefresh,700);});}
+    if(q.tab==="question")$("left").style.padding="";
+    $("right").innerHTML='<div class="tabs"><button class="tab on">Result</button><span class="sp"></span><button class="btn ghost sm" onclick="C.feRefresh()">&#8635; Refresh</button></div><iframe id="preview" title="Result"></iframe><div class="out" id="feOut"><div id="feCon"></div>'+(q.res?testsHTML(q.res,f.tests.map(function(t){return t.name;})):'<span style="color:var(--muted)">The result updates as you type. Run the tests to check the objectives.</span>')+'</div><div class="actions"><span class="sp"></span><button class="btn" id="feRunBtn" onclick="C.feTests()">Run Tests</button></div>';
+    feRefresh();}
+  function feTab(t){Q[2].tab=t;showFE(Q[2]);}
+  function feRefresh(){var q=Q[2],b=buildDoc(q.p.stack,q.files),fr=$("preview");if(!fr)return;var c=$("feCon");if(c)c.innerHTML="";if(b.error){if(c)c.innerHTML='<div class="err">'+esc(b.error)+"</div>";return;}fr.srcdoc=b.doc;}
+  async function feTests(){var q=Q[2],b=$("feRunBtn");b.disabled=true;b.textContent="Running…";try{q.res=await runTestsFor(q.p,q.files);$("feOut").innerHTML='<div id="feCon"></div>'+testsHTML(q.res,q.p.tests.map(function(t){return t.name;}));$("side").innerHTML=sideHTML();}finally{b.disabled=false;b.textContent="Run Tests";}}
+  /* ---------- finish ---------- */
+  function askFinish(){$("mbox").innerHTML='<h2 style="margin:0 0 8px">&#9888; Finish Test</h2><p>All three answers will now be checked against every test case.</p><table class="t">'+Q.map(function(q,i){return"<tr><td>"+(i+1)+". "+q.title+"</td><td>"+(q.res?q.res.filter(function(r){return r.ok;}).length+"/"+q.res.length+" last run":"not run")+"</td></tr>";}).join("")+'</table><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px"><button class="btn ghost" onclick="C.closeModal()">No, Back to Test</button><button class="btn red" onclick="C.finish(false)">Finish Test</button></div>';$("modal").classList.remove("hidden");}
+  function closeModal(){$("modal").classList.add("hidden");}
+  async function finish(auto){if(done)return;done=true;clearInterval(tick);closeModal();var used=Math.min(LIMIT,Math.round((Date.now()-t0)*SPEED/1000));
+    $("exam").classList.add("hidden");$("report").classList.remove("hidden");$("report").innerHTML='<div class="card"><p>Checking your answers…</p></div>';
+    await ENGINE.load();Q[0].res=await DSA_RUN.judge(Q[0].p,Q[0].lang,Q[0].code[Q[0].lang]);Q[1].res=sqlEval(Q[1]);Q[2].res=await runTestsFor(Q[2].p,Q[2].files);
+    var pct=Q.map(function(q){return Math.round(q.res.filter(function(r){return r.ok;}).length/q.res.length*100);}),score=Math.round((pct[0]+pct[1]+pct[2])/3);
+    SCORM.report(score,used);var col=score>=60?"#16a34a":score>=40?"#d97706":"#dc2626";
+    function files(src){return STACKS[Q[2].p.stack].files.map(function(x){return'<div style="font-weight:700;margin-top:6px">'+esc(x[1])+'</div><pre class="code">'+esc(src[x[0]]||"")+"</pre>";}).join("");}
+    $("report").innerHTML='<div class="card"><div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div class="ring" style="background:conic-gradient('+col+" "+score*3.6+'deg,#e8eaf2 0)"><div style="width:94px;height:94px;border-radius:50%;background:#fff;display:grid;place-items:center">'+score+'%</div></div><div><h2 style="margin:0">Coding Assessment</h2><p style="margin:4px 0 0;color:var(--ink2)">'+(auto?"Time was up; answers were submitted automatically. ":"")+"Time used "+Math.floor(used/60)+" min. Score = average of the three questions.</p></div></div>"+
+      '<table class="t" style="margin-top:12px"><thead><tr><th>Question</th><th>Test cases</th><th>Score</th></tr></thead><tbody>'+Q.map(function(q,i){return"<tr><td>"+(i+1)+". "+q.title+": "+esc(q.p.title)+"</td><td>"+q.res.filter(function(r){return r.ok;}).length+"/"+q.res.length+"</td><td><b>"+pct[i]+"%</b></td></tr>";}).join("")+"</tbody></table></div>"+
+      '<div class="card"><h2 style="margin:0 0 6px">1. '+esc(Q[0].p.title)+"</h2>"+testsHTML(Q[0].res)+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Your code ('+Q[0].lang+')</b><pre class="code">'+esc(Q[0].code[Q[0].lang])+'</pre></div><div><b>Reference solution (Python)</b><pre class="code">'+esc(Q[0].p.py)+'</pre></div></div><p style="font-size:13.5px;color:var(--ink2)"><b>Approach:</b> '+Q[0].p.approach.join(" ")+"</p></div>"+
+      '<div class="card"><h2 style="margin:0 0 6px">2. '+esc(Q[1].p.title)+"</h2>"+testsHTML(Q[1].res)+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Your query</b><pre class="code">'+esc(Q[1].code||"-- (empty)")+'</pre></div><div><b>Reference solution</b><pre class="code">'+esc(Q[1].p.solution)+'</pre></div></div><p style="font-size:13.5px;color:var(--ink2)">'+esc(Q[1].p.explain)+"</p></div>"+
+      '<div class="card"><h2 style="margin:0 0 6px">3. '+esc(Q[2].p.title)+"</h2>"+testsHTML(Q[2].res,Q[2].p.tests.map(function(t){return t.name;}))+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Your code</b>'+files(Q[2].files)+"</div><div><b>Reference solution</b>"+files(Q[2].p.solution)+"</div></div></div>";}
+  document.addEventListener("DOMContentLoaded",function(){SCORM.init();});
+  return{start:start,show:show,lang:lang,dsaRun:dsaRun,dsaAll:dsaAll,sqlRun:sqlRun,sqlCheck:sqlCheck,feTab:feTab,feRefresh:feRefresh,feTests:feTests,askFinish:askFinish,closeModal:closeModal,finish:finish,_Q:function(){return Q;}};
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full Exam Simulation – Accenture 2026–2027 Hiring</title>
+<style>
+:root{--navy:#0c1630;--ink:#14172b;--ink2:#3b4160;--muted:#6b7090;--line:#e2e5ee;--bg:#f3f4f8;--vio:#7c3aed;--blue:#1d4ed8;
+  --green:#15803d;--gsoft:#dcfce7;--rose:#dc2626;--rsoft:#fee2e2;--amber:#b45309;--asoft:#fef3c7}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55}
+button{font:inherit;cursor:pointer}.hidden{display:none!important}
+.wrap{max-width:1000px;margin:0 auto;padding:22px 16px 48px}
+.hero{background:radial-gradient(90% 80% at 100% 0%,#7c3aed 0%,transparent 55%),radial-gradient(80% 70% at 0% 100%,#0e7490 0%,transparent 55%),linear-gradient(160deg,#070b1d,#121a3e 60%,#05060d);color:#fff;border-radius:22px;padding:32px 30px 28px}
+.hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
+.hero h1{font-size:34px;line-height:1.1;margin:14px 0 8px;letter-spacing:-.02em}.hero h1 span{color:#c4b5fd}.hero p{opacity:.86;margin:0;max-width:740px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:11px 14px}.stat b{display:block;font-size:22px}.stat span{font-size:12px;opacity:.8}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:16px}.card h2{margin:0 0 8px;font-size:20px}
+.btn{border:0;border-radius:10px;padding:11px 22px;font-weight:700;background:var(--vio);color:#fff}.btn.ghost{background:#fff;color:var(--ink2);border:1px solid #cfd3e0}
+.btn.big{font-size:16px;padding:14px 30px}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.green{background:#16a34a}
+table.t{border-collapse:collapse;width:100%;font-size:14.5px}table.t th,table.t td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}table.t th{background:#f6f7fb}
+.pill{font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px;white-space:nowrap}.pill.y{background:var(--rsoft);color:var(--rose)}.pill.n{background:#eef0f6;color:var(--ink2)}
+.pill.g{background:var(--gsoft);color:var(--green)}.pill.a{background:var(--asoft);color:var(--amber)}
+input[type=text]{font:inherit;padding:10px 12px;border:1px solid #cfd3e0;border-radius:10px;width:100%;max-width:380px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+ul.r{padding-left:20px;margin:6px 0}ul.r li{margin:4px 0}
+.steps{display:flex;gap:6px;margin:18px 0 0;flex-wrap:wrap}
+.step{flex:1;min-width:120px;border-radius:12px;padding:9px 12px;background:#fff;border:1px solid var(--line);font-size:13px}
+.step b{display:block;font-size:13.5px}.step.done{background:var(--gsoft);border-color:#bbf7d0}.step.cur{background:#ede9fe;border-color:#c4b5fd}
+/* runner */
+#runner{position:fixed;inset:0;display:flex;flex-direction:column;background:#fff;z-index:5}
+.rbar{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:0 16px;height:44px;flex:none;font-size:14px}
+.rbar .sp{flex:1}.rbar button{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:8px;padding:5px 12px;font-size:13px}
+#frames{flex:1;position:relative}#frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.ring{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:28px;flex:none}
+.big-ok{font-size:42px}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:26px}}
+</style>
+</head>
+<body>
+<div id="welcome" class="wrap">
+  <div class="hero">
+    <span class="tag">Accenture 2026–2027 Hiring · Full Exam Simulation</span>
+    <h1>The complete Accenture test, <span>start to finish</span></h1>
+    <p>Sit all five rounds in the exam order, with the same question counts, timers and screens: behavioural, cognitive games, technical MCQs, coding (DSA + SQL + Frontend) and communication. At the end you get a full report for every round.</p>
+    <div class="stats"><div class="stat"><b>5</b><span>Rounds</span></div><div class="stat"><b>~3 h</b><span>Total time</span></div><div class="stat"><b>45 + 3</b><span>Technical MCQs + coding tasks</span></div><div class="stat"><b>4</b><span>Elimination rounds</span></div></div>
+  </div>
+  <div class="card">
+    <h2>Exam pattern</h2>
+    <table class="t"><thead><tr><th>#</th><th>Round</th><th>Questions</th><th>Duration</th><th>Elimination</th></tr></thead><tbody id="patt"></tbody></table>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:0">Elimination in this simulator uses <b>practice cut-offs</b> (shown in the final report). Accenture does not publish its cut-offs; these are targets to aim for, not official values.</p>
+  </div>
+  <div class="card">
+    <h2>Before you start</h2>
+    <ul class="r">
+      <li>Use <b>Chrome or Edge</b> on a laptop, full screen, in a quiet room. Keep about <b>3 hours</b> free; take short breaks only between rounds.</li>
+      <li>The <b>Communication</b> round needs a <b>headset microphone</b>. If the microphone is blocked inside your course page, that round shows an <b>Open in a new tab</b> button.</li>
+      <li>Do not refresh or close this page during a round: the round would restart.</li>
+      <li>As in the real exam, scores are hidden until the end.</li>
+    </ul>
+    <div class="row" style="margin-top:10px"><input type="text" id="cname" placeholder="Your full name (shown on the report)"></div>
+    <label class="row" style="margin-top:12px;font-size:14px"><input type="checkbox" id="agree"> I will attempt every round honestly, without outside help, as in the real exam.</label>
+    <div class="row" style="margin-top:14px"><button class="btn big" id="startBtn" disabled onclick="X.begin()">Start full exam</button></div>
+  </div>
+  <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:20px">Independent practice simulator · Not affiliated with or endorsed by Accenture · Scores are estimates to guide preparation.</p>
+</div>
+
+<div id="between" class="wrap hidden"></div>
+
+<div id="runner" class="hidden">
+  <div class="rbar"><b id="rbName"></b><span id="rbStep" style="opacity:.8"></span><span class="sp"></span><button id="rbBack" class="hidden" onclick="X.closeView()">&larr; Back to final report</button><button id="rbExit" onclick="X.exitExam()">End exam</button></div>
+  <div id="frames"></div>
+</div>
+
+<div id="final" class="wrap hidden"></div>
+
+<script>var APPS=/*APPS_JSON*/;</script>
+<script>
+/* ---------- real LMS (SCORM 1.2): look for it ABOVE this page, because this page provides its own API to the rounds ---------- */
+var LMS=(function(){var api=null,on=false;function find(w){var n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;}
+  try{if(window.parent&&window.parent!==window)api=find(window.parent);if(!api&&window.opener)api=find(window.opener);}catch(e){api=null;}
+  function set(k,v){if(on){try{api.LMSSetValue(k,String(v));}catch(e){}}}function get(k){if(on){try{return api.LMSGetValue(k);}catch(e){}}return"";}
+  return{init:function(){if(!api)return;try{var r=api.LMSInitialize("");on=(r===true||r==="true");}catch(e){}if(on){var st=get("cmi.core.lesson_status");if(!st||st==="not attempted")set("cmi.core.lesson_status","incomplete");try{api.LMSCommit("");}catch(e){}}},
+    name:function(){var n=get("cmi.core.student_name");if(!n)return"";var p=n.split(",");return p.length>1?(p[1].trim()+" "+p[0].trim()):n;},
+    report:function(score,secs){if(!on)return;set("cmi.core.score.min",0);set("cmi.core.score.max",100);set("cmi.core.score.raw",score);
+      function p(x){return(x<10?"0":"")+x;}set("cmi.core.session_time",p(Math.floor(secs/3600))+":"+p(Math.floor(secs%3600/60))+":"+p(secs%60));set("cmi.core.lesson_status","completed");try{api.LMSCommit("");}catch(e){}},
+    finish:function(){if(on){try{api.LMSCommit("");api.LMSFinish("");}catch(e){}on=false;}}};})();
+
+/* ---------- the exam ---------- */
+var ROUNDS=[
+  {id:"beh",name:"Behavioural Assessment (psychometric)",short:"Behavioural",qs:"54",dur:"20 min",elim:false,cut:null,
+   parts:[{app:"behavioural",label:"Behavioural test"}],
+   how:"Rate 54 workplace statements on a 5-point agree/disagree scale in 20 minutes. Answer honestly and consistently; there are no right or wrong answers, but extreme or contradictory answers lower the profile score. Inside the window: enter your name, tick the agreement and press <b>Start Test</b>."},
+  {id:"cog",name:"Cognitive Assessment (gamified)",short:"Cognitive",qs:"3 games",dur:"~20 min",elim:true,cut:50,
+   parts:[{app:"bubbles",label:"Game 1 · Bubbles (number sense)"},{app:"pathfinding",label:"Game 2 · Pathfinding (spatial reasoning)"},{app:"keys",label:"Game 3 · Key Collection (memory and planning)"}],
+   how:"Three games, one after another. Each game opens with its own rules screen: press <b>Start Game</b> in the default exam mode. Your round score is the average of the three games."},
+  {id:"tech",name:"Technical Assessment",short:"Technical",qs:"45",dur:"45 min",elim:true,cut:60,
+   parts:[{app:"technical",label:"45 MCQs in 4 sections"}],
+   how:"Four untimed sections in one 45-minute test: Common Applications and MS Office (7), Pseudo Code (10), Networking, Security and Cloud (14) and Computer Science (14). Move freely between sections, use <b>Revisit Later</b>, and press <b>Finish Test</b> at the end. This is the most elimination-heavy round."},
+  {id:"code",name:"Coding Assessment (Backend + SQL + Frontend)",short:"Coding",qs:"3",dur:"60 min",elim:true,cut:50,
+   parts:[{app:"coding",label:"DSA + SQL + Frontend"}],
+   how:"One DSA problem (Python 3 or JavaScript), one SQL query and one front-end task, all under one 60-minute timer. Switch between them from the left panel; your code is kept. Run the tests as often as you like, then press <b>Finish Test</b>."},
+  {id:"comm",name:"Communication Assessment",short:"Communication",qs:"7 sections + email",dur:"~30 min",elim:true,cut:60,
+   parts:[{app:"communication",label:"Sections A–G + email"}],
+   how:"Spoken and written English: listening, conversation, reading aloud, listen and repeat, fill in the word, error correction, speaking on a topic, then an email. Check your microphone in the device check, then press <b>Start full mock</b>. If the microphone is blocked here, use <b>Open in a new tab</b> and keep this page open."}
+];
+var X=(function(){
+  var name="",ri=0,pi=0,results={},startedAt=0,urls={},frames={},current=null;
+  function $(id){return document.getElementById(id);}
+  function show(id){["welcome","between","final"].forEach(function(x){$(x).classList.toggle("hidden",x!==id);});$("runner").classList.toggle("hidden",id!=="runner");window.scrollTo(0,0);}
+  function url(app){if(!urls[app])urls[app]=URL.createObjectURL(new Blob([APPS[app]],{type:"text/html"}));return urls[app];}
+  function welcome(){$("patt").innerHTML=ROUNDS.map(function(r,i){return"<tr><td>"+(i+1)+"</td><td><b>"+r.name+"</b></td><td>"+r.qs+"</td><td>"+r.dur+"</td><td>"+(r.elim?'<span class="pill y">Yes</span>'+(r.id==="tech"?" · most elimination-heavy":""):'<span class="pill n">No</span>')+"</td></tr>";}).join("");
+    var n=LMS.name();if(n)$("cname").value=n;$("agree").addEventListener("change",function(){$("startBtn").disabled=!this.checked;});}
+  function stepsHTML(){return'<div class="steps">'+ROUNDS.map(function(r,i){return'<div class="step'+(i<ri?" done":i===ri?" cur":"")+'"><b>'+(i<ri?"✓ ":"")+(i+1)+". "+r.short+"</b>"+r.dur+"</div>";}).join("")+"</div>";}
+  function begin(){name=$("cname").value.trim();startedAt=Date.now();ri=0;pi=0;intro();}
+  function intro(){var r=ROUNDS[ri],part=r.parts[pi];
+    $("between").innerHTML=stepsHTML()+'<div class="card"><div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase">Round '+(ri+1)+" of "+ROUNDS.length+(r.parts.length>1?" · part "+(pi+1)+" of "+r.parts.length:"")+'</div><h2 style="font-size:26px;margin:6px 0">'+r.name+"</h2>"+
+      (r.parts.length>1?'<p style="margin:0 0 6px"><b>'+part.label+"</b></p>":"")+'<p style="color:var(--ink2)">'+r.how+'</p><table class="t" style="max-width:520px"><tr><th>Questions</th><td>'+r.qs+"</td></tr><tr><th>Duration</th><td>"+r.dur+"</td></tr><tr><th>Elimination</th><td>"+(r.elim?"Yes":"No")+'</td></tr></table><div class="row" style="margin-top:16px"><button class="btn big" onclick="X.load()">Begin '+(r.parts.length>1?part.label.split(" · ")[0]:"round")+" &rarr;</button></div></div>";
+    show("between");}
+  function load(){var r=ROUNDS[ri],part=r.parts[pi],key=r.id+"_"+pi;
+    /* a fresh SCORM 1.2 API for this round: the round reports to it, and the shell moves on */
+    var vals={"cmi.core.lesson_status":"not attempted","cmi.core.student_name":name||""};
+    window.API={LMSInitialize:function(){return"true";},LMSFinish:function(){return"true";},LMSGetValue:function(k){return vals[k]||"";},
+      LMSSetValue:function(k,v){vals[k]=String(v);if(k==="cmi.core.lesson_status"&&(v==="completed"||v==="passed"||v==="failed"))setTimeout(function(){partDone(key,+vals["cmi.core.score.raw"]||0);},400);return"true";},
+      LMSCommit:function(){return"true";},LMSGetLastError:function(){return"0";},LMSGetErrorString:function(){return"";},LMSGetDiagnostic:function(){return"";}};
+    Object.keys(frames).forEach(function(k){frames[k].style.display="none";});
+    var f=document.createElement("iframe");f.src=url(part.app);f.setAttribute("allow","microphone; autoplay; fullscreen; clipboard-write");f.title=part.label;
+    $("frames").appendChild(f);frames[key]=f;current=key;
+    $("rbName").textContent=r.name;$("rbStep").textContent="Round "+(ri+1)+" of "+ROUNDS.length+(r.parts.length>1?" · "+part.label:"");$("rbBack").classList.add("hidden");$("rbExit").classList.remove("hidden");
+    show("runner");}
+  function partDone(key,score){if(current!==key)return;current=null;var r=ROUNDS[ri];(results[r.id]=results[r.id]||[])[pi]=score;frames[key].style.display="none";
+    if(pi<r.parts.length-1){pi++;
+      $("between").innerHTML=stepsHTML()+'<div class="card"><div class="big-ok">✓</div><h2>'+r.parts[pi-1].label+' complete</h2><p style="color:var(--ink2)">Next: <b>'+r.parts[pi].label+'</b>.</p><button class="btn big" onclick="X.intro()">Continue &rarr;</button></div>';show("between");return;}
+    var sc=roundScore(r.id);ri++;pi=0;
+    var below=r.elim&&r.cut!==null&&sc<r.cut;
+    $("between").innerHTML=stepsHTML()+'<div class="card"><div class="big-ok">✓</div><h2>'+r.name+' complete</h2>'+
+      (below?'<div style="background:var(--asoft);border-radius:12px;padding:12px 14px;margin:8px 0"><b>You are below the practice cut-off for this round.</b> In the real exam this round is an elimination round, so you might not move on. You can still continue to practise the remaining rounds.</div>':'<p style="color:var(--ink2)">Your answers have been saved. Scores are shown in the final report.</p>')+
+      (ri<ROUNDS.length?'<div class="row"><button class="btn big" onclick="X.intro()">Continue to Round '+(ri+1)+": "+ROUNDS[ri].short+' &rarr;</button>'+(below?'<button class="btn ghost" onclick="X.final()">End exam and see report</button>':"")+"</div>":'<button class="btn big green" onclick="X.final()">See my final report &rarr;</button>')+"</div>";
+    show("between");}
+  function roundScore(id){var a=(results[id]||[]).filter(function(x){return typeof x==="number";});return a.length?Math.round(a.reduce(function(s,x){return s+x;},0)/a.length):null;}
+  function exitExam(){if(!confirm("End the exam now? Rounds you have not finished will be marked as not attempted."))return;if(current){frames[current].style.display="none";current=null;}final();}
+  function band(s,cut){return s===null?"n":cut===null?(s>=70?"g":s>=50?"a":"y"):(s>=cut?"g":"y");}
+  function final(){var secs=Math.round((Date.now()-startedAt)/1000),done=ROUNDS.filter(function(r){return roundScore(r.id)!==null;});
+    var overall=done.length?Math.round(done.reduce(function(s,r){return s+roundScore(r.id);},0)/done.length):0;
+    var cleared=ROUNDS.filter(function(r){var s=roundScore(r.id);return r.elim&&s!==null&&s>=r.cut;}).length,elimR=ROUNDS.filter(function(r){return r.elim;}).length;
+    var verdict=ROUNDS.every(function(r){var s=roundScore(r.id);return s!==null&&(!r.elim||s>=r.cut);});
+    LMS.report(overall,secs);var col=overall>=65?"#16a34a":overall>=45?"#d97706":"#dc2626";
+    $("final").innerHTML='<div class="hero"><span class="tag">Final report'+(name?" · "+name.replace(/</g,"&lt;"):"")+'</span><h1>'+(verdict?'All rounds <span>cleared</span>':'Overall score: <span>'+overall+'%</span>')+'</h1><p>'+done.length+" of "+ROUNDS.length+" rounds attempted · "+cleared+" of "+elimR+" elimination rounds above the practice cut-off · total time "+Math.floor(secs/3600)+" h "+Math.floor(secs%3600/60)+' min.</p></div>'+
+      '<div class="card"><div class="row" style="gap:20px;align-items:center"><div class="ring" style="background:conic-gradient('+col+" "+overall*3.6+'deg,#e8eaf2 0)"><div style="width:102px;height:102px;border-radius:50%;background:#fff;display:grid;place-items:center">'+overall+'%</div></div><div style="flex:1;min-width:260px"><table class="t"><thead><tr><th>Round</th><th>Score</th><th>Practice cut-off</th><th>Status</th><th></th></tr></thead><tbody>'+
+      ROUNDS.map(function(r){var s=roundScore(r.id),parts=(results[r.id]||[]);return"<tr><td><b>"+r.short+"</b>"+(r.parts.length>1&&parts.length?'<div style="font-size:12.5px;color:var(--muted)">'+r.parts.map(function(p,i){return p.label.split(" · ")[1]+": "+(typeof parts[i]==="number"?parts[i]+"%":"–");}).join(" · ")+"</div>":"")+"</td><td><b>"+(s===null?"–":s+"%")+"</b></td><td>"+(r.cut===null?"No elimination":r.cut+"%")+'</td><td><span class="pill '+band(s,r.cut)+'">'+(s===null?"Not attempted":r.cut===null?"Profile recorded":s>=r.cut?"Cleared":"Below cut-off")+"</span></td><td>"+
+        (s===null?"":r.parts.map(function(p,i){return frames[r.id+"_"+i]?'<button class="btn ghost" style="padding:5px 10px;font-size:12.5px;margin:2px" onclick="X.view(\''+r.id+"_"+i+'\',\''+(r.parts.length>1?p.label.split(" · ")[0]:"Report")+'\')">'+(r.parts.length>1?p.label.split(" · ")[0]:"Detailed report")+"</button>":"";}).join(""))+"</td></tr>";}).join("")+
+      '</tbody></table></div></div></div><div class="card"><h2>What to do next</h2><ul class="r">'+ROUNDS.map(function(r){var s=roundScore(r.id);if(s===null)return"<li><b>"+r.short+":</b> not attempted; take this round in the next attempt.</li>";
+        if(r.cut!==null&&s<r.cut)return"<li><b>"+r.short+":</b> "+s+"% is below the "+r.cut+"% target. Open the detailed report, study the explanations, and practise this round on its own platform.</li>";return"<li><b>"+r.short+":</b> "+s+"%. Keep it up and review the questions you missed.</li>";}).join("")+
+      '</ul><div class="row" style="margin-top:12px"><button class="btn" onclick="location.reload()">Take a new full exam</button><button class="btn ghost" onclick="window.print()">Print / Save as PDF</button></div><p style="font-size:12.5px;color:var(--muted);margin-bottom:0">Practice cut-offs are targets for this simulator, not Accenture\'s official values. Each new attempt draws a fresh set of questions where the bank allows it.</p></div>';
+    show("final");}
+  function view(key,label){Object.keys(frames).forEach(function(k){frames[k].style.display=k===key?"block":"none";});$("rbName").textContent="Detailed report";$("rbStep").textContent=label;$("rbBack").classList.remove("hidden");$("rbExit").classList.add("hidden");show("runner");}
+  function closeView(){Object.keys(frames).forEach(function(k){frames[k].style.display="none";});show("final");}
+  document.addEventListener("DOMContentLoaded",function(){LMS.init();welcome();});
+  window.addEventListener("beforeunload",function(e){LMS.finish();});
+  return{begin:begin,intro:intro,load:load,final:final,exitExam:exitExam,view:view,closeView:closeView,_results:function(){return results;},_partDone:partDone};
+})();
+</script>
+</body>
+</html>
