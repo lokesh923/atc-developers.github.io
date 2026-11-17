@@ -15,6 +15,13 @@ html,body{margin:0}
 body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;min-height:100vh}
 button{font:inherit;cursor:pointer}
 .hidden{display:none!important}
+html{overflow-y:auto;-webkit-overflow-scrolling:touch}
+/* embedded in a course page (iframe): exam first, compact header, no section practice */
+body.embed .wrap{padding:12px 12px 28px}
+body.embed .hero{padding:16px 20px}body.embed .hero h1{font-size:24px;margin:8px 0 2px}body.embed .hero p,body.embed .stats{display:none}
+body.embed .card{margin-top:12px;padding:14px 16px}
+#fsBtn{position:fixed;right:10px;bottom:10px;z-index:60;border:0;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;background:#0f172a;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.25);opacity:.92}
+#fsBtn:hover{opacity:1}
 .wrap{max-width:1040px;margin:0 auto;padding:22px 16px 48px}
 .hero{background:radial-gradient(90% 80% at 100% 0%,#0284c7 0%,transparent 55%),radial-gradient(80% 70% at 0% 100%,#9333ea 0%,transparent 55%),linear-gradient(160deg,#06101e,#101833 60%,#05060d);color:#fff;border-radius:22px;padding:30px 30px 26px}
 .hero .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.08)}
@@ -113,6 +120,7 @@ audio{height:34px;margin-top:6px;max-width:100%}
 </head>
 <body>
 
+<button id="fsBtn" class="hidden" onclick="APP.fullscreen()" title="Use the whole screen (press Esc to leave)">&#x26F6; Full screen</button>
 <!-- ================= HOME ================= -->
 <div id="home" class="wrap">
   <div class="hero">
@@ -151,7 +159,7 @@ audio{height:34px;margin-top:6px;max-width:100%}
     <div class="card">
       <h2>2 · Full mock test</h2>
       <p style="margin:0 0 10px;color:var(--ink2)">The exam flow: A×3, B×3, C×4, D×3, E×3, F×3, G×1, then the email. About 20–25 minutes, with no pauses between items.</p>
-      <button class="btn big" onclick="APP.mock()">Start full mock</button>
+      <button class="btn big" id="mockBtn" onclick="APP.mock()">Start full mock</button>
     </div>
     <div class="card">
       <h2>How you are scored</h2>
@@ -243,6 +251,8 @@ var SRC=window.SpeechRecognition||window.webkitSpeechRecognition,SR_BROKEN=null;
 var IN_FRAME=(function(){try{return window.top!==window.self;}catch(e){return true;}})();
 /* FX_EXAM is set by the full exam simulation: there the round must finish inside its own window */
 var FX=!!window.FX_EXAM;
+/* EMBED: shown inside another site's iframe (e.g. a Graphy lesson) or opened with ?embed=1 */
+var EMBED=!FX&&(/[?&#]embed=1/.test(location.search+location.hash)||(function(){try{return window.top!==window.self;}catch(e){return true;}})());
 var MIC_POLICY=(function(){try{var p=document.permissionsPolicy||document.featurePolicy;return p&&p.allowsFeature?p.allowsFeature("microphone"):null;}catch(e){return null;}})();
 function startRecognition(lang){
   if(!SRC||SR_BROKEN)return null;
@@ -326,7 +336,14 @@ var APP=(function(){
     $("sgrid").innerHTML=ORDER.map(function(k){var s=SEC[k],b=best[k];return'<button class="sc" onclick="APP.practice(\''+k+'\')"><span class="l">'+(k==="M"?"✉":k)+'</span><span class="t">'+s.name+'</span><span class="n">'+BANK[s.key].length+" items · "+(k==="G"?"30 s + 45 s":k==="M"?"8 min":s.time+" s each")+'</span>'+(b!==undefined?'<span class="chip">Best '+b+"%</span>":"")+"</button>";}).join("");
     $("ttsState").className="badge "+(TTS.ok?"ok":"no");$("ttsState").textContent=TTS.ok?"Available":"Not supported: transcripts are shown";
     var srOk=!!SRC;$("srState").className="badge "+(srOk?"ok":"no");$("srState").textContent=srOk?"Available (needs internet)":"Not supported in this browser";
-    if(FX){var sc=$("sgrid").parentNode;sc.classList.add("hidden");}
+    if(FX||EMBED){var sc=$("sgrid").parentNode;sc.classList.add("hidden");}
+    if(EMBED&&!document.body.classList.contains("embed")){document.body.classList.add("embed");
+      var hero=document.querySelector("#home .hero");hero.querySelector("h1").innerHTML="Communication <span>Assessment</span>";var rb=document.querySelector("#run .brand");if(rb)rb.textContent="Communication Assessment";
+      var mc=$("mockBtn").closest(".card");mc.querySelector("h2").textContent="Start the Communication Assessment";$("mockBtn").textContent="Start Communication Assessment";
+      hero.parentNode.insertBefore(mc,hero.nextSibling);
+      if(document.fullscreenEnabled||document.webkitFullscreenEnabled)$("fsBtn").classList.remove("hidden");
+      var fsl=function(){var on=!!(document.fullscreenElement||document.webkitFullscreenElement);$("fsBtn").innerHTML=on?"&#x2715; Exit full screen":"&#x26F6; Full screen";};
+      document.addEventListener("fullscreenchange",fsl);document.addEventListener("webkitfullscreenchange",fsl);}
     if(IN_FRAME&&MIC_POLICY===false){if(FX)fxKeyboard();else showFrameNote();}
     if(SCORM.linked())$("linkNote").classList.remove("hidden");
     if(!srOk){$("srNote").classList.remove("hidden");$("srNote").innerHTML="<b>Speech-to-text is not available here.</b> Your answers will still be recorded so you can listen to them, and you can type what you said in the report to get a score. For automatic scoring, use Chrome or Edge, or switch on <b>Keyboard mode</b>.";}
@@ -352,6 +369,8 @@ var APP=(function(){
     $("frameNote").classList.remove("hidden");return w;}
   function ttsTest(){TTS.say("Hello. This is how the audio questions will sound in the test.");}
   function setKb(v){KB=v;}
+  function fullscreen(){var d=document,e=d.documentElement;try{if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d);}
+    else{var r=(e.requestFullscreen||e.webkitRequestFullscreen).call(e);if(r&&r.catch)r.catch(function(){});}}catch(x){}}
 
   /* ---------- runner UI ---------- */
   function panel(html){$("panel").innerHTML=html;}
@@ -462,7 +481,7 @@ var APP=(function(){
 
   document.addEventListener("DOMContentLoaded",function(){SCORM.init();$("lang").addEventListener("change",function(){LANG=this.value;});home();});
   window.addEventListener("beforeunload",function(){SCORM.finish();});
-  return{openTab:openTab,home:home,micTest:micTest,ttsTest:ttsTest,setKb:setKb,mock:mock,practice:practice,quit:quit,rescore:rescore,resetBest:resetBest,_stopCd:function(){},
+  return{fullscreen:fullscreen,openTab:openTab,home:home,micTest:micTest,ttsTest:ttsTest,setKb:setKb,mock:mock,practice:practice,quit:quit,rescore:rescore,resetBest:resetBest,_stopCd:function(){},
          _results:function(){return results;},_score:scoreItem,_email:scoreEmail};
 })();
 </script>
