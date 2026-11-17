@@ -91,6 +91,13 @@ def main():
     with zipfile.ZipFile(os.path.join(HERE, "Accenture-Full-Exam-Simulation-SCORM.zip"), "w", zipfile.ZIP_DEFLATED) as z:
         z.write(os.path.join(HERE, "imsmanifest.xml"), "imsmanifest.xml")
         z.writestr("index.html", shell)
+    # website bundle for the iframe route (newoffcampusjobs.com/practice/full-exam/): mic allowed by the iframe
+    with zipfile.ZipFile(os.path.join(HERE, "hosting", "newoffcampusjobs-full-exam.zip"), "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("full-exam/index.html", shell)
+        z.write(os.path.join(HERE, "hosting", "htaccess.txt"), "full-exam/.htaccess")
+    os.makedirs(os.path.join(HERE, "hosting", "full-exam"), exist_ok=True)  # the same two files, unzipped
+    open(os.path.join(HERE, "hosting", "full-exam", "index.html"), "w", encoding="utf-8").write(shell)
+    open(os.path.join(HERE, "hosting", "full-exam", ".htaccess"), "w").write(rd("full-exam", "hosting", "htaccess.txt"))
     print({k: f"{round(len(v) / 1024)} KB" for k, v in apps.items()}, "shell", round(len(shell) / 1024 / 1024, 1), "MB")
 
 
