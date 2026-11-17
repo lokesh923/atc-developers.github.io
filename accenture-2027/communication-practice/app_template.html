@@ -143,6 +143,7 @@ audio{height:34px;margin-top:6px;max-width:100%}
     <div class="note warn hidden" id="frameNote"><b>The microphone is blocked inside this course window.</b> Your learning platform shows this practice inside a frame that does not allow microphone access, so the browser blocks it. Open the practice in its own tab: the microphone and speech-to-text work there, and your score is still sent back to this course.
       <div class="row" style="margin-top:10px"><button class="btn" onclick="APP.openTab()">Open in a new tab</button><span id="tabMsg" style="font-size:13.5px"></span></div>
       <div style="font-size:13px;margin-top:6px;color:var(--ink2)">Keep this course page open while you practise. If you prefer not to use the microphone, switch on <b>Keyboard mode</b> above.</div></div>
+    <div class="note warn hidden" id="fxNote"><b>The microphone is blocked inside this exam window.</b> Your course platform does not allow microphone access inside the course frame, so this round runs in <b>Keyboard mode</b>: you hear each item and type your answer. Spoken skills such as pace and pauses are not measured. To practise speaking, open the exam file directly in Chrome or Edge (not inside the course), or use the separate Communication practice page.</div>
     <div class="note hidden" id="linkNote"><b>Connected to your course.</b> This tab was opened from your course page; your score will be saved there. Keep the course tab open until you finish.</div>
   </div>
 
@@ -159,7 +160,7 @@ audio{height:34px;margin-top:6px;max-width:100%}
   </div>
 
   <div class="card">
-    <div class="row" style="justify-content:space-between"><h2 style="margin:0">3 · Practise one section</h2><button class="btn ghost sm" onclick="APP.resetBest()">Reset best scores</button></div>
+    <div class="row" id="secHead" style="justify-content:space-between"><h2 style="margin:0">3 · Practise one section</h2><button class="btn ghost sm" onclick="APP.resetBest()">Reset best scores</button></div>
     <div class="sgrid" id="sgrid"></div>
   </div>
   <p class="foot">Independent practice tool · Not affiliated with or endorsed by Accenture · Automatic scores are an estimate to guide practice, not the official scoring.</p>
@@ -240,6 +241,8 @@ var MIC={stream:null,an:null,buf:null,noise:0.01,
 
 var SRC=window.SpeechRecognition||window.webkitSpeechRecognition,SR_BROKEN=null;
 var IN_FRAME=(function(){try{return window.top!==window.self;}catch(e){return true;}})();
+/* FX_EXAM is set by the full exam simulation: there the round must finish inside its own window */
+var FX=!!window.FX_EXAM;
 var MIC_POLICY=(function(){try{var p=document.permissionsPolicy||document.featurePolicy;return p&&p.allowsFeature?p.allowsFeature("microphone"):null;}catch(e){return null;}})();
 function startRecognition(lang){
   if(!SRC||SR_BROKEN)return null;
@@ -323,7 +326,8 @@ var APP=(function(){
     $("sgrid").innerHTML=ORDER.map(function(k){var s=SEC[k],b=best[k];return'<button class="sc" onclick="APP.practice(\''+k+'\')"><span class="l">'+(k==="M"?"✉":k)+'</span><span class="t">'+s.name+'</span><span class="n">'+BANK[s.key].length+" items · "+(k==="G"?"30 s + 45 s":k==="M"?"8 min":s.time+" s each")+'</span>'+(b!==undefined?'<span class="chip">Best '+b+"%</span>":"")+"</button>";}).join("");
     $("ttsState").className="badge "+(TTS.ok?"ok":"no");$("ttsState").textContent=TTS.ok?"Available":"Not supported: transcripts are shown";
     var srOk=!!SRC;$("srState").className="badge "+(srOk?"ok":"no");$("srState").textContent=srOk?"Available (needs internet)":"Not supported in this browser";
-    if(IN_FRAME&&MIC_POLICY===false){showFrameNote();}
+    if(FX){var sc=$("sgrid").parentNode;sc.classList.add("hidden");}
+    if(IN_FRAME&&MIC_POLICY===false){if(FX)fxKeyboard();else showFrameNote();}
     if(SCORM.linked())$("linkNote").classList.remove("hidden");
     if(!srOk){$("srNote").classList.remove("hidden");$("srNote").innerHTML="<b>Speech-to-text is not available here.</b> Your answers will still be recorded so you can listen to them, and you can type what you said in the report to get a score. For automatic scoring, use Chrome or Edge, or switch on <b>Keyboard mode</b>.";}
     show("home");
@@ -338,7 +342,9 @@ var APP=(function(){
       $("micState").className="badge "+(peak>0.02?"ok":"no");$("micPlay").innerHTML='<audio controls src="'+URL.createObjectURL(new Blob(ch))+'"></audio>';};
     rec.start();setTimeout(function(){rec.stop();},3000);
   }
-  function showFrameNote(){$("frameNote").classList.remove("hidden");$("srState").className="badge no";$("srState").textContent="Blocked in this window: open in a new tab";
+  function fxKeyboard(){KB=true;$("kbMode").checked=true;$("fxNote").classList.remove("hidden");$("frameNote").classList.add("hidden");
+    $("micState").className="badge no";$("micState").textContent="Blocked by the course window: Keyboard mode";$("srState").className="badge no";$("srState").textContent="Not needed in Keyboard mode";}
+  function showFrameNote(){if(FX){fxKeyboard();return;}$("frameNote").classList.remove("hidden");$("srState").className="badge no";$("srState").textContent="Blocked in this window: open in a new tab";
     $("micState").className="badge no";$("micState").textContent="Blocked by the course window";}
   function openTab(){var w=null;try{w=window.open(location.href,"_blank");}catch(e){w=null;}
     var m=$("tabMsg");if(w){m.innerHTML="<b>Opened.</b> Continue in the new tab, then come back here.";}
@@ -400,8 +406,8 @@ var APP=(function(){
   async function runPlan(plan,m){
     var id=++runId;mode=m;results=[];startedAt=Date.now();show("run");
     if(!KB){var ok=await MIC.init();if(!ok){
-      if(IN_FRAME&&confirm("The microphone is blocked inside this course window.\n\nOK = open the practice in a new tab, where the microphone works (recommended).\nCancel = continue here in Keyboard mode (type your answers).")){runId++;openTab();home();return;}
-      KB=true;$("kbMode").checked=true;if(!IN_FRAME)alert("No microphone access, so the test continues in Keyboard mode (type your answers).");}}
+      if(IN_FRAME&&!FX&&confirm("The microphone is blocked inside this course window.\n\nOK = open the practice in a new tab, where the microphone works (recommended).\nCancel = continue here in Keyboard mode (type your answers).")){if(openTab()){runId++;home();return;}}
+      if(FX)fxKeyboard();KB=true;$("kbMode").checked=true;if(!IN_FRAME)alert("No microphone access, so the test continues in Keyboard mode (type your answers).");}}
     var total=plan.reduce(function(s,p){return s+(p.sec==="M"?0:p.items.length);},0),q=0;
     for(var p=0;p<plan.length;p++){var sec=plan[p].sec;if(!(await intro(sec,id)))return;
       for(var i=0;i<plan[p].items.length;i++){var it=plan[p].items[i];var n=sec==="M"?1:(m==="mock"?total:plan[p].items.length);var qNo=sec==="M"?0:(m==="mock"?q:i);

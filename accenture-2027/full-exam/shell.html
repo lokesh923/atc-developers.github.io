@@ -117,7 +117,7 @@ var X=(function(){
      shell with postMessage, which works even when the course player sandboxes the frames or the file is
      opened from disk (where the rounds cannot reach window.parent.API directly). */
   function bridge(key){var nm=JSON.stringify(name||"").replace(/</g,"\\u003c");
-    return'<script>(function(){var V={"cmi.core.lesson_status":"not attempted","cmi.core.student_name":'+nm+'};'+
+    return'<script>window.FX_EXAM=true;(function(){var V={"cmi.core.lesson_status":"not attempted","cmi.core.student_name":'+nm+'};'+
       'function send(k,v){try{parent.postMessage({fx:"scorm",key:"'+key+'",k:k,v:v},"*");}catch(e){}}'+
       'window.API={LMSInitialize:function(){return"true";},LMSFinish:function(){return"true";},LMSGetValue:function(k){return V[k]||"";},'+
       'LMSSetValue:function(k,v){V[k]=String(v);send(k,String(v));return"true";},LMSCommit:function(){return"true";},'+
