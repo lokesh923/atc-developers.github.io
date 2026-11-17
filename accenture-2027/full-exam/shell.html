@@ -31,6 +31,8 @@ ul.r{padding-left:20px;margin:6px 0}ul.r li{margin:4px 0}
 /* runner */
 #runner{position:fixed;inset:0;display:flex;flex-direction:column;background:#fff;z-index:5}
 .rbar{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:0 16px;height:44px;flex:none;font-size:14px}
+#ask{position:fixed;inset:0;background:rgba(15,20,40,.55);z-index:50;display:grid;place-items:center;padding:16px}#ask.hidden{display:none}
+.askbox{background:#fff;color:#1b2033;border-radius:16px;padding:22px 24px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}.askbox h3{margin:0 0 8px;font-size:19px}.askbox p{margin:0;color:#4a5068;line-height:1.5}
 .rbar .sp{flex:1}.rbar button{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:8px;padding:5px 12px;font-size:13px}
 #frames{flex:1;position:relative}#frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
 .ring{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:28px;flex:none}
@@ -69,9 +71,11 @@ ul.r{padding-left:20px;margin:6px 0}ul.r li{margin:4px 0}
 <div id="between" class="wrap hidden"></div>
 
 <div id="runner" class="hidden">
-  <div class="rbar"><b id="rbName"></b><span id="rbStep" style="opacity:.8"></span><span class="sp"></span><button id="rbBack" class="hidden" onclick="X.closeView()">&larr; Back to final report</button><button id="rbExit" onclick="X.exitExam()">End exam</button></div>
+  <div class="rbar"><b id="rbName"></b><span id="rbStep" style="opacity:.8"></span><span class="sp"></span><button id="rbBack" class="hidden" onclick="X.closeView()">&larr; Back to final report</button><button id="rbSkip" onclick="X.skip()" title="Not recommended">Skip to next part &raquo; <small style="opacity:.75">(not recommended)</small></button><button id="rbExit" onclick="X.exitExam()">End exam</button></div>
+
   <div id="frames"></div>
 </div>
+<div id="ask" class="hidden"><div class="askbox"><h3 id="askT"></h3><p id="askM"></p><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost" onclick="X.askNo()">Cancel</button><button class="btn" id="askY" onclick="X.askYes()"></button></div></div></div>
 
 <div id="final" class="wrap hidden"></div>
 
@@ -132,25 +136,34 @@ var X=(function(){
   function begin(){name=$("cname").value.trim();startedAt=Date.now();ri=0;pi=0;intro();}
   function intro(){var r=ROUNDS[ri],part=r.parts[pi];
     $("between").innerHTML=stepsHTML()+'<div class="card"><div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase">Round '+(ri+1)+" of "+ROUNDS.length+(r.parts.length>1?" · part "+(pi+1)+" of "+r.parts.length:"")+'</div><h2 style="font-size:26px;margin:6px 0">'+r.name+"</h2>"+
-      (r.parts.length>1?'<p style="margin:0 0 6px"><b>'+part.label+"</b></p>":"")+'<p style="color:var(--ink2)">'+r.how+'</p><table class="t" style="max-width:520px"><tr><th>Questions</th><td>'+r.qs+"</td></tr><tr><th>Duration</th><td>"+r.dur+"</td></tr><tr><th>Elimination</th><td>"+(r.elim?"Yes":"No")+'</td></tr></table><div class="row" style="margin-top:16px"><button class="btn big" onclick="X.load()">Begin '+(r.parts.length>1?part.label.split(" · ")[0]:"round")+" &rarr;</button></div></div>";
+      (r.parts.length>1?'<p style="margin:0 0 6px"><b>'+part.label+"</b></p>":"")+'<p style="color:var(--ink2)">'+r.how+'</p><table class="t" style="max-width:520px"><tr><th>Questions</th><td>'+r.qs+"</td></tr><tr><th>Duration</th><td>"+r.dur+"</td></tr><tr><th>Elimination</th><td>"+(r.elim?"Yes":"No")+'</td></tr></table><div class="row" style="margin-top:16px"><button class="btn big" onclick="X.load()">Begin '+(r.parts.length>1?part.label.split(" · ")[0]:"round")+' &rarr;</button><button class="btn ghost" onclick="X.skip()">Skip '+(r.parts.length>1?"this game":"this round")+' (not recommended)</button></div></div>';
     show("between");}
   function load(){var r=ROUNDS[ri],part=r.parts[pi],key=r.id+"_"+pi;
     Object.keys(frames).forEach(function(k){frames[k].style.display="none";});
     var f=document.createElement("iframe");f.src=url(part.app,key);f.setAttribute("allow","microphone; autoplay; fullscreen; clipboard-write");f.title=part.label;
     $("frames").appendChild(f);frames[key]=f;current=key;
-    $("rbName").textContent=r.name;$("rbStep").textContent="Round "+(ri+1)+" of "+ROUNDS.length+(r.parts.length>1?" · "+part.label:"");$("rbBack").classList.add("hidden");$("rbExit").classList.remove("hidden");
+    $("rbName").textContent=r.name;$("rbStep").textContent="Round "+(ri+1)+" of "+ROUNDS.length+(r.parts.length>1?" · "+part.label:"");$("rbBack").classList.add("hidden");$("rbExit").classList.remove("hidden");$("rbSkip").classList.remove("hidden");
     show("runner");}
-  function partDone(key,score){if(current!==key)return;current=null;var r=ROUNDS[ri];(results[r.id]=results[r.id]||[])[pi]=score;frames[key].style.display="none";
+  function partDone(key,score,skipped){if(current!==key)return;current=null;var r=ROUNDS[ri];(results[r.id]=results[r.id]||[])[pi]=skipped?"skipped":score;if(frames[key])frames[key].style.display="none";
+    var mark=skipped?'<div class="big-ok" style="background:var(--asoft);color:#b45309">&raquo;</div>':'<div class="big-ok">✓</div>',word=skipped?" skipped":" complete";
     if(pi<r.parts.length-1){pi++;
-      $("between").innerHTML=stepsHTML()+'<div class="card"><div class="big-ok">✓</div><h2>'+r.parts[pi-1].label+' complete</h2><p style="color:var(--ink2)">Next: <b>'+r.parts[pi].label+'</b>.</p><button class="btn big" onclick="X.intro()">Continue &rarr;</button></div>';show("between");return;}
+      $("between").innerHTML=stepsHTML()+'<div class="card">'+mark+'<h2>'+r.parts[pi-1].label+word+'</h2><p style="color:var(--ink2)">Next: <b>'+r.parts[pi].label+'</b>.</p><button class="btn big" onclick="X.intro()">Continue &rarr;</button></div>';show("between");return;}
     var sc=roundScore(r.id);ri++;pi=0;
     var below=r.elim&&r.cut!==null&&sc<r.cut;
-    $("between").innerHTML=stepsHTML()+'<div class="card"><div class="big-ok">✓</div><h2>'+r.name+' complete</h2>'+
-      (below?'<div style="background:var(--asoft);border-radius:12px;padding:12px 14px;margin:8px 0"><b>You are below the practice cut-off for this round.</b> In the real exam this round is an elimination round, so you might not move on. You can still continue to practise the remaining rounds.</div>':'<p style="color:var(--ink2)">Your answers have been saved. Scores are shown in the final report.</p>')+
+    var allSkip=(results[r.id]||[]).every(function(x){return x==="skipped";});
+    $("between").innerHTML=stepsHTML()+'<div class="card">'+(allSkip?'<div class="big-ok" style="background:var(--asoft);color:#b45309">&raquo;</div>':'<div class="big-ok">✓</div>')+'<h2>'+r.name+(allSkip?" skipped":" complete")+'</h2>'+
+      (allSkip?'<p style="color:var(--ink2)">This round is marked as <b>skipped</b> in the final report. In the real exam a skipped round counts as not attempted.</p>':below?'<div style="background:var(--asoft);border-radius:12px;padding:12px 14px;margin:8px 0"><b>You are below the practice cut-off for this round.</b> In the real exam this round is an elimination round, so you might not move on. You can still continue to practise the remaining rounds.</div>':'<p style="color:var(--ink2)">Your answers have been saved. Scores are shown in the final report.</p>')+
       (ri<ROUNDS.length?'<div class="row"><button class="btn big" onclick="X.intro()">Continue to Round '+(ri+1)+": "+ROUNDS[ri].short+' &rarr;</button>'+(below?'<button class="btn ghost" onclick="X.final()">End exam and see report</button>':"")+"</div>":'<button class="btn big green" onclick="X.final()">See my final report &rarr;</button>')+"</div>";
     show("between");}
   function roundScore(id){var a=(results[id]||[]).filter(function(x){return typeof x==="number";});return a.length?Math.round(a.reduce(function(s,x){return s+x;},0)/a.length):null;}
-  function exitExam(){if(!confirm("End the exam now? Rounds you have not finished will be marked as not attempted."))return;if(current){frames[current].style.display="none";current=null;}final();}
+  /* in-page confirm box: window.confirm() is silently blocked inside sandboxed course players */
+  var askFn=null;
+  function ask(t,m,yes,fn){$("askT").textContent=t;$("askM").innerHTML=m;$("askY").textContent=yes;askFn=fn;$("ask").classList.remove("hidden");}
+  function askYes(){$("ask").classList.add("hidden");var f=askFn;askFn=null;if(f)f();}
+  function askNo(){$("ask").classList.add("hidden");askFn=null;}
+  function exitExam(){ask("End the exam now?","Rounds you have not finished will be marked as not attempted, and you will see the final report.","End exam",function(){if(current){frames[current].style.display="none";current=null;}final();});}
+  function skip(){var r=ROUNDS[ri];if(!r)return;var part=r.parts[pi],label=r.parts.length>1?part.label:r.name,key=r.id+"_"+pi;
+    ask("Skip "+label+"?","<b>Not recommended.</b> This part will be marked as <b>skipped</b> and will not get a score. Any answers you gave in it are not counted. Use this only if you are stuck and want to practise the next part.","Yes, skip to next part",function(){current=key;partDone(key,null,true);});}
   function band(s,cut){return s===null?"n":cut===null?(s>=70?"g":s>=50?"a":"y"):(s>=cut?"g":"y");}
   function final(){var secs=Math.round((Date.now()-startedAt)/1000),done=ROUNDS.filter(function(r){return roundScore(r.id)!==null;});
     var overall=done.length?Math.round(done.reduce(function(s,r){return s+roundScore(r.id);},0)/done.length):0;
@@ -159,17 +172,17 @@ var X=(function(){
     LMS.report(overall,secs);var col=overall>=65?"#16a34a":overall>=45?"#d97706":"#dc2626";
     $("final").innerHTML='<div class="hero"><span class="tag">Final report'+(name?" · "+name.replace(/</g,"&lt;"):"")+'</span><h1>'+(verdict?'All rounds <span>cleared</span>':'Overall score: <span>'+overall+'%</span>')+'</h1><p>'+done.length+" of "+ROUNDS.length+" rounds attempted · "+cleared+" of "+elimR+" elimination rounds above the practice cut-off · total time "+Math.floor(secs/3600)+" h "+Math.floor(secs%3600/60)+' min.</p></div>'+
       '<div class="card"><div class="row" style="gap:20px;align-items:center"><div class="ring" style="background:conic-gradient('+col+" "+overall*3.6+'deg,#e8eaf2 0)"><div style="width:102px;height:102px;border-radius:50%;background:#fff;display:grid;place-items:center">'+overall+'%</div></div><div style="flex:1;min-width:260px"><table class="t"><thead><tr><th>Round</th><th>Score</th><th>Practice cut-off</th><th>Status</th><th></th></tr></thead><tbody>'+
-      ROUNDS.map(function(r){var s=roundScore(r.id),parts=(results[r.id]||[]);return"<tr><td><b>"+r.short+"</b>"+(r.parts.length>1&&parts.length?'<div style="font-size:12.5px;color:var(--muted)">'+r.parts.map(function(p,i){return p.label.split(" · ")[1]+": "+(typeof parts[i]==="number"?parts[i]+"%":"–");}).join(" · ")+"</div>":"")+"</td><td><b>"+(s===null?"–":s+"%")+"</b></td><td>"+(r.cut===null?"No elimination":r.cut+"%")+'</td><td><span class="pill '+band(s,r.cut)+'">'+(s===null?"Not attempted":r.cut===null?"Profile recorded":s>=r.cut?"Cleared":"Below cut-off")+"</span></td><td>"+
+      ROUNDS.map(function(r){var s=roundScore(r.id),parts=(results[r.id]||[]);return"<tr><td><b>"+r.short+"</b>"+(r.parts.length>1&&parts.length?'<div style="font-size:12.5px;color:var(--muted)">'+r.parts.map(function(p,i){return p.label.split(" · ")[1]+": "+(typeof parts[i]==="number"?parts[i]+"%":parts[i]==="skipped"?"skipped":"–");}).join(" · ")+"</div>":"")+"</td><td><b>"+(s===null?"–":s+"%")+"</b></td><td>"+(r.cut===null?"No elimination":r.cut+"%")+'</td><td><span class="pill '+band(s,r.cut)+'">'+(s===null?((results[r.id]||[]).indexOf("skipped")>=0?"Skipped":"Not attempted"):r.cut===null?"Profile recorded":s>=r.cut?"Cleared":"Below cut-off")+"</span></td><td>"+
         (s===null?"":r.parts.map(function(p,i){return frames[r.id+"_"+i]?'<button class="btn ghost" style="padding:5px 10px;font-size:12.5px;margin:2px" onclick="X.view(\''+r.id+"_"+i+'\',\''+(r.parts.length>1?p.label.split(" · ")[0]:"Report")+'\')">'+(r.parts.length>1?p.label.split(" · ")[0]:"Detailed report")+"</button>":"";}).join(""))+"</td></tr>";}).join("")+
-      '</tbody></table></div></div></div><div class="card"><h2>What to do next</h2><ul class="r">'+ROUNDS.map(function(r){var s=roundScore(r.id);if(s===null)return"<li><b>"+r.short+":</b> not attempted; take this round in the next attempt.</li>";
+      '</tbody></table></div></div></div><div class="card"><h2>What to do next</h2><ul class="r">'+ROUNDS.map(function(r){var s=roundScore(r.id);if(s===null)return"<li><b>"+r.short+":</b> "+((results[r.id]||[]).indexOf("skipped")>=0?"skipped":"not attempted")+"; take this round in the next attempt.</li>";
         if(r.cut!==null&&s<r.cut)return"<li><b>"+r.short+":</b> "+s+"% is below the "+r.cut+"% target. Open the detailed report, study the explanations, and practise this round on its own platform.</li>";return"<li><b>"+r.short+":</b> "+s+"%. Keep it up and review the questions you missed.</li>";}).join("")+
       '</ul><div class="row" style="margin-top:12px"><button class="btn" onclick="location.reload()">Take a new full exam</button><button class="btn ghost" onclick="window.print()">Print / Save as PDF</button></div><p style="font-size:12.5px;color:var(--muted);margin-bottom:0">Practice cut-offs are targets for this simulator, not Accenture\'s official values. Each new attempt draws a fresh set of questions where the bank allows it.</p></div>';
     show("final");}
-  function view(key,label){Object.keys(frames).forEach(function(k){frames[k].style.display=k===key?"block":"none";});$("rbName").textContent="Detailed report";$("rbStep").textContent=label;$("rbBack").classList.remove("hidden");$("rbExit").classList.add("hidden");show("runner");}
+  function view(key,label){Object.keys(frames).forEach(function(k){frames[k].style.display=k===key?"block":"none";});$("rbName").textContent="Detailed report";$("rbStep").textContent=label;$("rbBack").classList.remove("hidden");$("rbExit").classList.add("hidden");$("rbSkip").classList.add("hidden");show("runner");}
   function closeView(){Object.keys(frames).forEach(function(k){frames[k].style.display="none";});show("final");}
   document.addEventListener("DOMContentLoaded",function(){LMS.init();welcome();});
   window.addEventListener("beforeunload",function(e){LMS.finish();});
-  return{begin:begin,intro:intro,load:load,final:final,exitExam:exitExam,view:view,closeView:closeView,_results:function(){return results;},_partDone:partDone};
+  return{skip:skip,askYes:askYes,askNo:askNo,begin:begin,intro:intro,load:load,final:final,exitExam:exitExam,view:view,closeView:closeView,_results:function(){return results;},_partDone:partDone};
 })();
 </script>
 </body>
