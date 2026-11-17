@@ -31,6 +31,12 @@ table.t{border-collapse:collapse;width:100%;font-size:14px}table.t th,table.t td
 .stmt{background:var(--lav2);border-radius:8px;padding:9px 12px}
 table.g{border-collapse:collapse;width:100%;font-size:12.6px;margin:4px 0}table.g th{background:#eef0f7;text-align:left;padding:3px 8px}table.g td{border-top:1px solid #edf0f5;padding:3px 8px}
 table.g td.null{color:#9aa0b8;font-style:italic}
+.spec{background:#f6f7fb;border-radius:8px;padding:8px 12px;margin:4px 0 8px;line-height:1.65}
+.formula{background:#eef0ff;border-radius:8px;padding:10px 12px;margin:8px 0;text-align:center;font-size:15px}
+.misprint{display:block;margin-top:4px;font-size:12.5px;color:#92400e;background:#fffbeb;border-radius:6px;padding:4px 8px}
+.exq{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;gap:10px;background:#f6f7fb;border-radius:8px;padding:8px 12px;margin:4px 0 10px;font-size:13.5px}
+.exq .in{font-family:"JetBrains Mono",Consolas,monospace;font-size:12.8px;line-height:1.7;border-right:1px solid #d9dcea;padding-right:8px;word-break:break-all}
+.dbg{background:#111827;color:#e5e7eb;border-radius:6px;padding:6px 9px;margin:3px 0;font:12.5px/1.5 Consolas,monospace;white-space:pre-wrap;max-height:160px;overflow:auto}
 pre.io{background:#f6f7fb;border-radius:6px;padding:6px 9px;margin:3px 0;font-size:12.8px;white-space:pre-wrap}
 .tabs{display:flex;gap:2px;padding:0 10px;border-bottom:1px solid var(--line);flex:none;align-items:flex-end;overflow-x:auto}
 .tab{background:none;border:0;padding:10px 11px 8px;color:var(--ink2);font-weight:600;border-bottom:3px solid transparent;white-space:nowrap}.tab.on{color:var(--ink);border-bottom-color:var(--ink)}
@@ -58,11 +64,11 @@ pre.code{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:11px 13px;o
   <h1 style="margin:0 0 6px">Coding Assessment</h1>
   <p style="margin:0;color:var(--ink2)">3 questions · 60 minutes in total. Switch between them at any time. Suggested split: about 25 min for DSA, 15 for SQL and 20 for Frontend; start with your strongest.</p>
   <table class="t" style="margin-top:12px"><thead><tr><th>#</th><th>Question</th><th>How it is graded</th></tr></thead><tbody>
-    <tr><td>1</td><td><b>Backend (DSA)</b>: Python 3 or JavaScript</td><td>Your program reads standard input and prints the answer; it runs against all test cases (hidden ones included).</td></tr>
+    <tr><td>1</td><td><b>Backend (DSA)</b>: an official Accenture question in Python 3, Java, C++ or C</td><td>Complete the function in <code>UserMainCode</code> and return the answer; it runs against all test cases (hidden ones included).</td></tr>
     <tr><td>2</td><td><b>Database (SQL)</b></td><td>Your query runs on 5 datasets; columns (aliases) and rows must match.</td></tr>
     <tr><td>3</td><td><b>Front end Technology</b></td><td>Automatic tests open your page, click, type and check the DOM and the CSS.</td></tr>
   </tbody></table>
-  <p style="font-size:13px;color:var(--muted)">Note: this simulator runs code in your browser, so DSA supports Python 3 and JavaScript (the real test also offers Java, C++ and C#). Python runs on Skulpt in the browser: the standard built-ins, lists, dicts, sets, strings and <code>collections</code> work, but a few modules such as <code>functools</code> are not available.</p>
+  <p style="font-size:13px;color:var(--muted)">Note: Backend code is compiled and run on real compilers (GCC for C/C++, OpenJDK for Java, CPython for Python 3) through the free online service wandbox.org, so keep the internet on. If that service cannot be reached, Python 3 still runs inside the browser.</p>
   <button class="btn big" onclick="C.start()">Start Coding Assessment</button>
 </div></div>
 
@@ -102,39 +108,109 @@ function pickOne(a){return a[Math.floor(Math.random()*a.length)];}
 function cell(v){return v===null?'<td class="null">NULL</td>':"<td>"+esc(v)+"</td>";}
 function tableHTML(cols,rows){return'<table class="g"><thead><tr>'+cols.map(function(c){return"<th>"+esc(c)+"</th>";}).join("")+"</tr></thead><tbody>"+(rows.length?rows.map(function(r){return"<tr>"+r.map(cell).join("")+"</tr>";}).join(""):'<tr><td colspan="'+cols.length+'" class="null">(no rows)</td></tr>')+"</tbody></table>";}
 
-/* ================= DSA runner: JavaScript (Web Worker) and Python 3 (Skulpt) ================= */
+/* ================= Backend runner: Python 3, Java, C++ and C =================
+   Official Accenture questions are function-based. The page adds a hidden driver that reads every test
+   case, calls the candidate's function and prints "##RES k value" after each call, so one program run
+   checks all test cases. Code is compiled and run by real compilers (GCC, OpenJDK, CPython) on the
+   free Wandbox service. If that cannot be reached, Python 3 still runs in the browser (Skulpt). */
 var DSA_RUN=(function(){
-  var WORKER="self.onmessage=function(e){var lines=e.data.input.split(/\\r?\\n/),i=0,out=[];"+
-    "self.readLine=function(){return i<lines.length?lines[i++]:null;};self.readline=self.readLine;"+
-    "var log=function(){out.push(Array.prototype.map.call(arguments,function(x){return typeof x==='string'?x:(x&&typeof x==='object'?JSON.stringify(x):String(x));}).join(' '));};"+
-    "console.log=log;self.print=log;try{(new Function(e.data.code))();self.postMessage({ok:true,out:out.join('\\n')});}"+
-    "catch(err){self.postMessage({ok:false,out:out.join('\\n'),err:String(err&&err.stack||err).split('\\n')[0]});}};";
-  var wurl=null;
-  function js(code,input){return new Promise(function(res){if(!wurl)wurl=URL.createObjectURL(new Blob([WORKER],{type:"text/javascript"}));
-    var w=new Worker(wurl),done=false,t=setTimeout(function(){if(!done){done=true;w.terminate();res({ok:false,out:"",err:"Time limit exceeded (3 s). Check for an infinite loop."});}},3000);
-    w.onmessage=function(e){if(!done){done=true;clearTimeout(t);w.terminate();res(e.data);}};w.onerror=function(e){if(!done){done=true;clearTimeout(t);w.terminate();res({ok:false,out:"",err:e.message});}};
-    w.postMessage({code:code,input:input});});}
-  function py(code,input){return new Promise(function(res){var out="",lines=input.split(/\r?\n/),i=0;
+  var WB="https://wandbox.org/api/",LANGS={python:"Python",java:"Java",cpp:"C++",c:"C"};
+  var FALLBACK={python:"cpython-3.12.7",java:"openjdk-jdk-22+36",cpp:"gcc-13.2.0",c:"gcc-13.2.0-c"},compilers=null;
+  function fetchT(url,opt,ms){var c=new AbortController(),t=setTimeout(function(){c.abort();},ms);opt.signal=c.signal;return fetch(url,opt).finally(function(){clearTimeout(t);});}
+  function vnum(v){return String(v||"").split(/[^0-9]+/).filter(Boolean).slice(0,4).map(function(x){return("0000"+x).slice(-5);}).join(".");}
+  async function pickCompilers(){if(compilers)return compilers;var out={};
+    try{var r=await fetchT(WB+"list.json",{},15000);var list=await r.json();
+      Object.keys(LANGS).forEach(function(k){var L=list.filter(function(c){return c.language===LANGS[k]&&!/head|dev|nightly|snapshot/i.test(c.name+" "+c.version);});
+        var pref=L.filter(function(c){return k==="python"?/^cpython/.test(c.name)&&/^3\./.test(c.version):k==="java"?/jdk/i.test(c.name):/^gcc/.test(c.name);});
+        if(pref.length)L=pref;L.sort(function(x,y){return vnum(y.version)<vnum(x.version)?-1:vnum(y.version)>vnum(x.version)?1:0;});if(L.length)out[k]=L[0].name;});
+      compilers=out;}catch(e){}
+    Object.keys(FALLBACK).forEach(function(k){if(!out[k])out[k]=FALLBACK[k];});return out;}
+
+  /* ----- signatures and starter code (Accenture style) ----- */
+  var JT={"int":"int","long":"long","double":"double","int[]":"int[]"},CT={"int":"int","long":"long long","double":"double","int[]":"int"};
+  function sig(p,lang){var ps=p.params.map(function(t,i){var n="input"+(i+1);
+      if(lang==="java")return JT[t]+" "+n;if(lang==="python")return n;return CT[t]+" "+n+(t==="int[]"?"[]":"");}).join(", ");
+    return{ps:ps,ret:lang==="java"?JT[p.ret]:CT[p.ret]};}
+  function starter(p,lang){var s=sig(p,lang),f=p.func,q="'"+"''";
+    if(lang==="python")return"class UserMainCode(object):\n    @classmethod\n    def "+f+"(cls, "+s.ps+"):\n        "+q+"\n"+p.params.map(function(t,i){return"        input"+(i+1)+" : "+t+"\n";}).join("")+"\n        Expected return type : "+(p.ret==="long"?"int":p.ret)+"\n        "+q+"\n        # Write code here\n        pass\n";
+    if(lang==="java")return"import java.io.*;\nimport java.util.*;\n\nclass UserMainCode\n{\n    public "+s.ret+" "+f+"("+s.ps+"){\n        // Write code here\n        return 0;\n    }\n}\n";
+    if(lang==="cpp")return"#include <bits/stdc++.h>\nusing namespace std;\n\nclass UserMainCode\n{\npublic:\n    static "+s.ret+" "+f+"("+s.ps+")\n    {\n        // Write code here\n        return 0;\n    }\n};\n";
+    return"#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n#include <math.h>\n\n"+s.ret+" "+f+"("+s.ps+")\n{\n    // Write code here\n    return 0;\n}\n";}
+
+  /* ----- test data on standard input: T, then one line per parameter (arrays: length, then values) ----- */
+  function stdin(tests,p){return tests.length+"\n"+tests.map(function(t){return t.args.map(function(v,i){return p.params[i]==="int[]"?v.length+(v.length?" "+v.join(" "):""):String(v);}).join("\n");}).join("\n")+"\n";}
+
+  /* ----- hidden drivers, added without changing the candidate's line numbers ----- */
+  function driver(lang,p){var f=p.func,np=p.params.length,i,t,rd=[],args=[];
+    if(lang==="python"){for(i=0;i<np;i++){t=p.params[i];rd.push(t==="int[]"?"_acc_a"+i+"=[int(_acc_n()) for _acc_j in range(int(_acc_n()))]":t==="double"?"_acc_a"+i+"=float(_acc_n())":"_acc_a"+i+"=int(_acc_n())");args.push("_acc_a"+i);}
+      return"\n\ndef _acc_drv(_acc_t):\n    _acc_it=iter(_acc_t)\n    _acc_n=lambda: next(_acc_it)\n    try:\n        _acc_f=getattr(UserMainCode(),'"+f+"')\n    except NameError:\n        _acc_f="+f+"\n    for _acc_k in range(int(_acc_n())):\n        "+rd.join("\n        ")+
+        "\n        try:\n            _acc_r=_acc_f("+args.join(", ")+")\n            print('\\n##RES %d %s' % (_acc_k, _acc_r))\n        except Exception as _acc_e:\n            print('\\n##ERR %d %s: %s' % (_acc_k, type(_acc_e).__name__, _acc_e))\n";}
+    if(lang==="java"){for(i=0;i<np;i++){t=p.params[i];rd.push(t==="int[]"?"int[] a"+i+"=new int[Integer.parseInt(n())];for(int q=0;q<a"+i+".length;q++)a"+i+"[q]=Integer.parseInt(n());":t==="double"?"double a"+i+"=Double.parseDouble(n());":t==="long"?"long a"+i+"=Long.parseLong(n());":"int a"+i+"=Integer.parseInt(n());");args.push("a"+i);}
+      var body="static String[] t;static int p=0;static String n(){return t[p++];}static void go()throws Exception{java.io.BufferedReader r=new java.io.BufferedReader(new java.io.InputStreamReader(System.in));StringBuilder sb=new StringBuilder();String l;while((l=r.readLine())!=null)sb.append(l).append(' ');t=sb.toString().trim().split(\"\\\\s+\");int T=Integer.parseInt(n());"+
+        "for(int k=0;k<T;k++){"+rd.join("")+"try{Object res=new UserMainCode()."+f+"("+args.join(",")+");System.out.println();System.out.println(\"##RES \"+k+\" \"+res);}catch(Throwable e){System.out.println();System.out.println(\"##ERR \"+k+\" \"+e);}System.out.flush();}}";
+      return"class prog{public static void main(String[] x)throws Exception{AccDriver.go();}} MAINCLASS class AccDriver{"+body+"} ";}
+    for(i=0;i<np;i++){t=p.params[i];
+      if(t==="int[]")rd.push("int __n"+i+"; if(scanf(\"%d\",&__n"+i+")!=1)return 0; int *__a"+i+"=(int*)malloc(sizeof(int)*(__n"+i+">0?__n"+i+":1)); for(int __q=0;__q<__n"+i+";__q++) if(scanf(\"%d\",&__a"+i+"[__q])!=1)return 0;");
+      else rd.push(CT[t]+" __a"+i+"; if(scanf(\""+(t==="double"?"%lf":t==="long"?"%lld":"%d")+"\",&__a"+i+")!=1)return 0;");args.push("__a"+i);}
+    var call=lang==="cpp"?"UserMainCode __u; long long __r=(long long)__u."+f+"("+args.join(",")+");":"long long __r=(long long)"+f+"("+args.join(",")+");";
+    return"\n#include <stdio.h>\n#include <stdlib.h>\nint main(void){int __T; if(scanf(\"%d\",&__T)!=1)return 0; for(int __k=0;__k<__T;__k++){"+rd.join(" ")+" "+call+" fflush(stdout); printf(\"\\n##RES %d %lld\\n\",__k,__r); fflush(stdout);"+
+      p.params.map(function(t,i){return t==="int[]"?" free(__a"+i+");":"";}).join("")+"} return 0;}\n";}
+  function program(lang,code,p){var d=driver(lang,p);
+    if(lang==="java"){var c=code.replace(/^(\s*)public\s+((?:final\s+|abstract\s+|static\s+)*)(class|interface|enum|record)\b/gm,"$1$2$3");
+      d=d.replace("MAINCLASS",/\bclass\s+Main\b/.test(c)?"":"class Main{public static void main(String[] x)throws Exception{AccDriver.go();}}");
+      var m=c.match(/^[ \t]*(?:(?:final|abstract|static)\s+)*(?:class|interface|enum|record)\b/m);
+      return m?c.slice(0,m.index)+d+c.slice(m.index):d+c;}
+    return code+(lang==="python"?d+"\n_acc_drv(__import__('sys').stdin.read().split())\n":d);}
+
+  /* ----- run one batch on Wandbox ----- */
+  async function wandbox(lang,code,p,tests){var cs=await pickCompilers();
+    var body={compiler:cs[lang],code:program(lang,code,p),stdin:stdin(tests,p),save:false};
+    if(lang==="cpp")body["compiler-option-raw"]="-O2";if(lang==="c")body["compiler-option-raw"]="-O2\n-lm";
+    var r=await fetchT(WB+"compile.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)},60000);
+    if(!r.ok)throw new Error("HTTP "+r.status);var j=await r.json();
+    var st=String(j.status==null?"":j.status),out=j.program_output||"",perr=j.program_error||"",cerr="";
+    if(!out&&!perr&&st!=="0"&&!j.signal&&(j.compiler_error||j.compiler_message))cerr=j.compiler_error||j.compiler_message;
+    if(lang==="python"&&!/##RES/.test(out)&&/(SyntaxError|IndentationError|TabError)/.test(perr))cerr=perr;
+    return{out:out,err:perr,signal:j.signal||"",status:st,cerr:cerr};}
+  /* ----- Python in the browser (offline fallback) ----- */
+  function skulpt(code,p,tests){return new Promise(function(res){var out="",toks=stdin(tests,p).split(/\s+/).filter(Boolean);
+    var src=code+driver("python",p)+"\n_acc_drv("+JSON.stringify(toks)+")\n";
     Sk.configure({output:function(t){out+=t;},read:function(x){if(Sk.builtinFiles===undefined||Sk.builtinFiles.files[x]===undefined)throw"File not found: '"+x+"'";return Sk.builtinFiles.files[x];},
-      inputfun:function(){return i<lines.length?lines[i++]:"";},inputfunTakesPrompt:true,__future__:Sk.python3,execLimit:4000,yieldLimit:null});
-    Sk.misceval.asyncToPromise(function(){return Sk.importMainWithBody("<stdin>",false,code,true);})
-      .then(function(){res({ok:true,out:out});},function(err){var m=String(err);if(/TimeLimit/.test(m))m="Time limit exceeded (4 s). Check for an infinite loop.";res({ok:false,out:out,err:m});});});}
-  function norm(s){return String(s).replace(/\r/g,"").split("\n").map(function(l){return l.replace(/\s+$/,"");}).join("\n").replace(/\n+$/,"");}
-  async function run(lang,code,input){return lang==="python"?py(code,input):js(code,input);}
-  async function judge(p,lang,code){var res=[];for(var k=0;k<p.tests.length;k++){var t=p.tests[k],r=await run(lang,code,t[0]);
-    if(!r.ok)res.push({ok:false,why:r.err});else if(norm(r.out)===norm(t[1]))res.push({ok:true,why:""});else res.push({ok:false,why:k<2?"Expected \""+norm(t[1]).slice(0,80)+"\", got \""+norm(r.out).slice(0,80)+"\"":"Wrong output on a hidden test case."});}return res;}
-  return{run:run,judge:judge,norm:norm};
+      __future__:Sk.python3,execLimit:10000,yieldLimit:null});
+    Sk.misceval.asyncToPromise(function(){return Sk.importMainWithBody("<stdin>",false,src,true);})
+      .then(function(){res({out:out,err:"",cerr:"",signal:""});},function(err){var m=String(err);if(/TimeLimit/.test(m))m="Time limit exceeded";res({out:out,err:m,signal:"",cerr:/SyntaxError|IndentationError|ParseError/.test(m)?m:""});});});}
+
+  function normv(v){v=String(v).trim();if(/^-?\d+\.0+$/.test(v))v=v.replace(/\.0+$/,"");return v;}
+  function tidy(msg){return String(msg||"").replace(/(?:\/[\w.+-]+)+\/(prog\.\w+)/g,"$1").replace(/\n{3,}/g,"\n\n").trim();}
+  /* run tests (normal cases in one batch, large cases in another) and return one result per test */
+  async function judge(p,lang,code,tests){tests=tests||p.tests;
+    var groups=[tests.filter(function(t){return!t.big;}),tests.filter(function(t){return t.big;})].filter(function(g){return g.length;});
+    var res=new Array(tests.length),log=[],cerr="",offline=false,engine="",net=false;
+    for(var g=0;g<groups.length;g++){var grp=groups[g],r=null;
+      try{r=await wandbox(lang,code,p,grp);engine=(await pickCompilers())[lang];}
+      catch(e){if(lang==="python"&&typeof Sk!=="undefined"&&grp[0].big){net=true;grp.forEach(function(t){res[tests.indexOf(t)]={ok:false,net:true,why:"Not run in offline mode: the large test (N = "+t.args[0]+") needs the online compiler."};});continue;}
+        if(lang==="python"&&typeof Sk!=="undefined"){r=await skulpt(code,p,grp);offline=true;engine="Python in the browser (offline mode: the online compiler could not be reached)";}
+        else{net=true;grp.forEach(function(t){res[tests.indexOf(t)]={ok:false,net:true,why:"Not run: the online compiler could not be reached."};});continue;}}
+      if(r.cerr){cerr=tidy(r.cerr);tests.forEach(function(t,k){if(!res[k])res[k]={ok:false,why:"Compilation error"};});break;}
+      var got={},errs={},user=[];String(r.out).replace(/\r/g,"").split("\n").forEach(function(l){var m=l.match(/^##RES (\d+) (.*)$/),e=l.match(/^##ERR (\d+) (.*)$/);if(m)got[+m[1]]=m[2];else if(e)errs[+e[1]]=e[2];else if(l.trim())user.push(l);});
+      if(user.length)log.push(user.slice(0,60).join("\n")+(user.length>60?"\n…":""));
+      var crash=tidy(r.err+(r.signal?"\n"+r.signal:"")),tle=/Time limit|Killed|SIGKILL|SIGXCPU|CPU time/i.test(crash);
+      grp.forEach(function(t,k){var at=tests.indexOf(t),hidden=at>=p.examples.length&&tests===p.tests;
+        if(k in got){var ok=normv(got[k])===normv(t.exp);res[at]={ok:ok,got:got[k],why:ok?"":hidden?"Wrong answer on a hidden test case.":"Expected "+t.exp+", got "+got[k]};}
+        else if(k in errs)res[at]={ok:false,why:"Runtime error: "+errs[k].slice(0,200)};
+        else res[at]={ok:false,why:tle?(t.big?"Time limit exceeded on the large test (N = "+t.args[0]+"): an O(N log N) solution is needed.":"Time limit exceeded."):"Runtime error"+(crash?": "+crash.split("\n").filter(Boolean).slice(-2).join(" ").slice(0,200):" (the program stopped before this test).")};});}
+    return{res:res,cerr:cerr,log:log.join("\n"),offline:offline,engine:engine,net:net};}
+  return{judge:judge,starter:starter,program:program,stdin:stdin,LANGS:LANGS,_pick:pickCompilers};
 })();
 
 /* ================= the exam ================= */
 var C=(function(){
   var LIMIT=60*60,t0=0,tick=null,done=false,curQ=0,Q=[],ltab={};
-  var START={python:"# Read input with input() and print the answer with print().\n\ndef main():\n    # n = int(input())\n    # arr = list(map(int, input().split()))\n    pass\n\nmain()\n",
-             javascript:"// Read input with readLine() (returns the next line, or null).\n// Print the answer with console.log().\n\nfunction main() {\n    // const n = parseInt(readLine());\n    // const arr = readLine().split(\" \").map(Number);\n}\n\nmain();\n"};
+  var LANG_NAMES={python:"Python 3",java:"Java",cpp:"C++",c:"C"};
   function $(id){return document.getElementById(id);}
   function setup(){
     var p=pickOne(DSA_BANK),s=pickOne(SQL_BANK),f=pickOne(FE_BANK);
-    Q=[{kind:"dsa",title:"Backend (DSA)",p:p,lang:"python",code:{python:START.python,javascript:START.javascript},res:null,out:""},
+    Q=[{kind:"dsa",title:"Backend (DSA)",p:p,lang:"python",code:{python:DSA_RUN.starter(p,"python"),java:DSA_RUN.starter(p,"java"),cpp:DSA_RUN.starter(p,"cpp"),c:DSA_RUN.starter(p,"c")},res:null,out:"",ran:null},
        {kind:"sql",title:"Database (SQL)",p:s,code:"",res:null,out:""},
        {kind:"fe",title:"Front end Technology",p:f,files:(function(){var o={};STACKS[f.stack].files.forEach(function(x){o[x[0]]=f.files[x[0]];});return o;})(),res:null,tab:"question"}];
   }
@@ -154,17 +230,30 @@ var C=(function(){
   function show(i){curQ=i;$("side").innerHTML=sideHTML();var q=Q[i];
     if(q.kind==="dsa")showDSA(q);else if(q.kind==="sql")showSQL(q);else showFE(q);}
   /* ---------- DSA ---------- */
-  function showDSA(q){var p=q.p;$("ltabs").innerHTML='<button class="tab on">Problem</button>';
-    $("left").innerHTML='<h2 style="margin:4px 0 6px">'+esc(p.title)+'</h2><div class="sec">Problem Statement</div><div class="stmt">'+p.statement+'</div><div class="sec">Input Format</div><div>'+p.fmt+'</div><div class="sec">Examples</div>'+
-      p.tests.slice(0,2).map(function(t,k){return"<b>Sample "+(k+1)+'</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><div style="font-size:12px;color:var(--muted)">Input</div><pre class="io">'+esc(t[0].replace(/\n$/,""))+'</pre></div><div><div style="font-size:12px;color:var(--muted)">Output</div><pre class="io">'+esc(t[1])+"</pre></div></div>";}).join("")+
-      '<p style="font-size:13px;color:var(--muted)">Your program is also run on '+(p.tests.length-2)+" hidden test cases (edge cases).</p>";
-    $("right").innerHTML='<div class="tabs"><button class="tab on">Code</button><span class="sp"></span><select id="lang" onchange="C.lang(this.value)"><option value="python">Python 3</option><option value="javascript">JavaScript (Node-style)</option></select></div>'+
-      editor("dsaCode",q.code[q.lang])+'<div class="out" id="dsaOut">'+(q.out||'<span style="color:var(--muted)">Run your code on the sample input, or run all test cases.</span>')+'</div><div class="actions"><span class="sp"></span><button class="btn ghost" id="dsaRun" onclick="C.dsaRun()">Run (sample)</button><button class="btn" id="dsaAll" onclick="C.dsaAll()">Run all tests</button></div>';
+  function fmtArg(v,t){return t==="int[]"?"{"+v.join(",")+"}":String(v);}
+  function showDSA(q){var p=q.p;$("ltabs").innerHTML='<button class="tab on">Question</button>';
+    $("left").innerHTML='<h2 style="margin:4px 0 2px">'+p.title+'</h2><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Official Accenture question</div><div class="sec">How to Attempt?</div><div class="stmt">'+p.html+"</div>"+
+      p.examples.map(function(ex,k){var t=p.tests[k];return'<div class="sec">Example '+(k+1)+':</div><div class="exq"><div class="in">'+t.args.map(function(v,i){return"<b>input"+(i+1)+" :</b> "+esc(fmtArg(v,p.params[i]));}).join("<br>")+"<br><b>Output :</b> "+esc(t.exp)+'</div><div><b>Explanation:</b><br>'+ex+"</div></div>";}).join("")+
+      '<p style="font-size:13px;color:var(--muted)">Your function is also run on '+(p.tests.length-p.examples.length)+" hidden test cases (edge cases"+(p.tests.some(function(t){return t.big;})?" and a large input":"")+").</p>";
+    $("right").innerHTML='<div class="tabs"><button class="tab on">Code</button><span class="sp"></span><select id="lang" onchange="C.lang(this.value)">'+Object.keys(LANG_NAMES).map(function(k){return'<option value="'+k+'">'+LANG_NAMES[k]+"</option>";}).join("")+"</select></div>"+
+      editor("dsaCode",q.code[q.lang])+'<div class="out" id="dsaOut">'+(q.out||'<span style="color:var(--muted)">Complete the function, then run it on the examples or on all test cases. Do not change the class name or the function signature.</span>')+'</div><div class="actions"><button class="btn ghost sm" onclick="C.dsaReset()" title="Restore the starter code for this language">Reset code</button><span class="sp"></span><button class="btn ghost" id="dsaRun" onclick="C.dsaRun()">Run (examples)</button><button class="btn" id="dsaAll" onclick="C.dsaAll()">Run all tests</button></div>';
     $("lang").value=q.lang;wireEditor("dsaCode",function(v){q.code[q.lang]=v;});}
-  function lang(l){var q=Q[0];q.lang=l;showDSA(q);}
-  async function dsaRun(){var q=Q[0],b=$("dsaRun");b.disabled=true;b.textContent="Running…";try{var t=q.p.tests[0],r=await DSA_RUN.run(q.lang,q.code[q.lang],t[0]);
-    q.out=(r.ok?"":'<div class="err">'+esc(r.err)+"</div>")+'<b>Your output</b><pre class="io">'+esc(r.out||"")+'</pre><b>Expected output</b><pre class="io">'+esc(t[1])+"</pre>"+(r.ok&&DSA_RUN.norm(r.out)===DSA_RUN.norm(t[1])?'<div class="okm">Sample output matches.</div>':"");$("dsaOut").innerHTML=q.out;}finally{b.disabled=false;b.textContent="Run (sample)";}}
-  async function dsaAll(){var q=Q[0],b=$("dsaAll");b.disabled=true;b.textContent="Running…";try{q.res=await DSA_RUN.judge(q.p,q.lang,q.code[q.lang]);q.out=testsHTML(q.res);$("dsaOut").innerHTML=q.out;$("side").innerHTML=sideHTML();}finally{b.disabled=false;b.textContent="Run all tests";}}
+  function lang(l){var q=Q[0];q.lang=l;q.out="";showDSA(q);}
+  function dsaReset(){var q=Q[0];q.code[q.lang]=DSA_RUN.starter(q.p,q.lang);q.out="";showDSA(q);}
+  function runHead(r){return(r.cerr?'<div class="err"><b>Compilation error</b>\n'+esc(r.cerr.slice(0,3000))+"</div>":"")+(r.net&&!r.offline?'<div class="err">Could not reach the online compiler (wandbox.org). Check your internet connection and run again.'+(Q[0].lang!=="python"?" Python 3 also works offline.":"")+"</div>":"")+
+    (r.log?'<b>Your printed output</b> <span style="font-size:12px;color:var(--muted)">(not checked; only the returned value counts)</span><div class="dbg">'+esc(r.log)+"</div>":"")+
+    (r.engine?'<div style="font-size:11.5px;color:var(--muted);margin-top:4px">Ran on '+esc(r.engine)+"</div>":"");}
+  function busy(id,on,label){var b=$(id);if(!b)return;b.disabled=on;b.textContent=on?"Running…":label;}
+  async function dsaRun(){var q=Q[0],p=q.p;busy("dsaRun",true);busy("dsaAll",true);
+    try{var ex=p.tests.slice(0,p.examples.length),r=await DSA_RUN.judge(p,q.lang,q.code[q.lang],ex);
+      q.out=(r.cerr||r.net?"":'<div class="'+(r.res.every(function(x){return x.ok;})?"okm":"")+'" style="margin-bottom:6px">'+r.res.filter(function(x){return x.ok;}).length+" of "+r.res.length+" examples correct.</div>"+
+        r.res.map(function(x,k){return'<div class="tc '+(x.ok?"pass":"fail")+'"><span class="ic">'+(x.ok?"&#10003;":"&#10007;")+"</span><div><b>Example "+(k+1)+'</b><div class="s">Expected <b>'+esc(ex[k].exp)+"</b> · your function returned <b>"+(x.got!==undefined?esc(x.got):"–")+"</b>"+(x.ok||x.got!==undefined?"":"<br>"+esc(x.why))+"</div></div></div>";}).join(""))+runHead(r);
+      if($("dsaOut"))$("dsaOut").innerHTML=q.out;}finally{busy("dsaRun",false,"Run (examples)");busy("dsaAll",false,"Run all tests");}}
+  async function dsaAll(){var q=Q[0];busy("dsaRun",true);busy("dsaAll",true);
+    try{var code=q.code[q.lang],r=await DSA_RUN.judge(q.p,q.lang,code);if(!r.net)q.ran={lang:q.lang,code:code,res:r.res};q.res=r.res;q.out=(r.cerr||r.net?"":testsHTML(r.res))+runHead(r);if($("dsaOut"))$("dsaOut").innerHTML=q.out;$("side").innerHTML=sideHTML();}
+    finally{busy("dsaRun",false,"Run (examples)");busy("dsaAll",false,"Run all tests");}}
+  async function dsaFinal(){var q=Q[0],code=q.code[q.lang],r=await DSA_RUN.judge(q.p,q.lang,code);
+    if(r.net&&q.ran&&q.ran.lang===q.lang&&q.ran.code===code)return q.ran.res;return r.res;}
   /* ---------- SQL ---------- */
   var sqlExpected=null;
   function sqlSchema(p){return p.tables.map(function(t){return'<div style="font-weight:700;margin-top:8px">Table: '+esc(t.name)+'</div><table class="g"><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody>'+t.cols.map(function(c){return"<tr><td><b>"+esc(c.name)+"</b></td><td>"+esc(c.type)+"</td><td>"+esc(c.desc)+"</td></tr>";}).join("")+"</tbody></table>";}).join("");}
@@ -193,17 +282,17 @@ var C=(function(){
   function closeModal(){$("modal").classList.add("hidden");}
   async function finish(auto){if(done)return;done=true;clearInterval(tick);closeModal();var used=Math.min(LIMIT,Math.round((Date.now()-t0)*SPEED/1000));
     $("exam").classList.add("hidden");$("report").classList.remove("hidden");$("report").innerHTML='<div class="card"><p>Checking your answers…</p></div>';
-    await ENGINE.load();Q[0].res=await DSA_RUN.judge(Q[0].p,Q[0].lang,Q[0].code[Q[0].lang]);Q[1].res=sqlEval(Q[1]);Q[2].res=await runTestsFor(Q[2].p,Q[2].files);
+    await ENGINE.load();Q[0].res=await dsaFinal();Q[1].res=sqlEval(Q[1]);Q[2].res=await runTestsFor(Q[2].p,Q[2].files);
     var pct=Q.map(function(q){return Math.round(q.res.filter(function(r){return r.ok;}).length/q.res.length*100);}),score=Math.round((pct[0]+pct[1]+pct[2])/3);
     SCORM.report(score,used);var col=score>=60?"#16a34a":score>=40?"#d97706":"#dc2626";
     function files(src){return STACKS[Q[2].p.stack].files.map(function(x){return'<div style="font-weight:700;margin-top:6px">'+esc(x[1])+'</div><pre class="code">'+esc(src[x[0]]||"")+"</pre>";}).join("");}
     $("report").innerHTML='<div class="card"><div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div class="ring" style="background:conic-gradient('+col+" "+score*3.6+'deg,#e8eaf2 0)"><div style="width:94px;height:94px;border-radius:50%;background:#fff;display:grid;place-items:center">'+score+'%</div></div><div><h2 style="margin:0">Coding Assessment</h2><p style="margin:4px 0 0;color:var(--ink2)">'+(auto?"Time was up; answers were submitted automatically. ":"")+"Time used "+Math.floor(used/60)+" min. Score = average of the three questions.</p></div></div>"+
-      '<table class="t" style="margin-top:12px"><thead><tr><th>Question</th><th>Test cases</th><th>Score</th></tr></thead><tbody>'+Q.map(function(q,i){return"<tr><td>"+(i+1)+". "+q.title+": "+esc(q.p.title)+"</td><td>"+q.res.filter(function(r){return r.ok;}).length+"/"+q.res.length+"</td><td><b>"+pct[i]+"%</b></td></tr>";}).join("")+"</tbody></table></div>"+
-      '<div class="card"><h2 style="margin:0 0 6px">1. '+esc(Q[0].p.title)+"</h2>"+testsHTML(Q[0].res)+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Your code ('+Q[0].lang+')</b><pre class="code">'+esc(Q[0].code[Q[0].lang])+'</pre></div><div><b>Reference solution (Python)</b><pre class="code">'+esc(Q[0].p.py)+'</pre></div></div><p style="font-size:13.5px;color:var(--ink2)"><b>Approach:</b> '+Q[0].p.approach.join(" ")+"</p></div>"+
+      '<table class="t" style="margin-top:12px"><thead><tr><th>Question</th><th>Test cases</th><th>Score</th></tr></thead><tbody>'+Q.map(function(q,i){return"<tr><td>"+(i+1)+". "+q.title+": "+(q.kind==="dsa"?q.p.title:esc(q.p.title))+"</td><td>"+q.res.filter(function(r){return r.ok;}).length+"/"+q.res.length+"</td><td><b>"+pct[i]+"%</b></td></tr>";}).join("")+"</tbody></table></div>"+
+      '<div class="card"><h2 style="margin:0 0 6px">1. '+Q[0].p.title+"</h2>"+testsHTML(Q[0].res)+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Your code ('+LANG_NAMES[Q[0].lang]+')</b><pre class="code">'+esc(Q[0].code[Q[0].lang])+'</pre></div><div><b>Reference solution ('+LANG_NAMES[Q[0].lang]+')</b><pre class="code">'+esc(Q[0].p.ref[Q[0].lang])+'</pre></div></div><div style="font-size:13.5px;color:var(--ink2)"><b>Approach</b><ul style="margin:4px 0">'+Q[0].p.approach.map(function(a){return"<li>"+a+"</li>";}).join("")+"</ul></div></div>"+
       '<div class="card"><h2 style="margin:0 0 6px">2. '+esc(Q[1].p.title)+"</h2>"+testsHTML(Q[1].res)+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Your query</b><pre class="code">'+esc(Q[1].code||"-- (empty)")+'</pre></div><div><b>Reference solution</b><pre class="code">'+esc(Q[1].p.solution)+'</pre></div></div><p style="font-size:13.5px;color:var(--ink2)">'+esc(Q[1].p.explain)+"</p></div>"+
       '<div class="card"><h2 style="margin:0 0 6px">3. '+esc(Q[2].p.title)+"</h2>"+testsHTML(Q[2].res,Q[2].p.tests.map(function(t){return t.name;}))+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><b>Your code</b>'+files(Q[2].files)+"</div><div><b>Reference solution</b>"+files(Q[2].p.solution)+"</div></div></div>";}
   document.addEventListener("DOMContentLoaded",function(){SCORM.init();});
-  return{start:start,show:show,lang:lang,dsaRun:dsaRun,dsaAll:dsaAll,sqlRun:sqlRun,sqlCheck:sqlCheck,feTab:feTab,feRefresh:feRefresh,feTests:feTests,askFinish:askFinish,closeModal:closeModal,finish:finish,_Q:function(){return Q;}};
+  return{start:start,show:show,lang:lang,dsaReset:dsaReset,dsaRun:dsaRun,dsaAll:dsaAll,sqlRun:sqlRun,sqlCheck:sqlCheck,feTab:feTab,feRefresh:feRefresh,feTests:feTests,askFinish:askFinish,closeModal:closeModal,finish:finish,_Q:function(){return Q;}};
 })();
 </script>
 </body>

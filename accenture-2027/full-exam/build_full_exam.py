@@ -4,7 +4,7 @@ Rounds and the apps they use:
   1 Behavioural    ../practice/index.html                       (54 statements, 20 min)
   2 Cognitive      ../cognitive/{bubbles,pathfinding,keycollection}-practice/index.html
   3 Technical      tech_exam.html + tech_bank.py (45 MCQs in the 4 exam sections)
-  4 Coding         coding_exam.html (DSA via Skulpt/Web Worker, SQL via sql.js, Front-end via the
+  4 Coding         coding_exam.html (official Backend questions run on Wandbox compilers, Python offline via Skulpt, SQL via sql.js, Front-end via the
                    front-end practice engine) - one 60-minute timer
   5 Communication  ../communication-practice/Communication-Practice.html
 The shell (shell.html) runs each round in an iframe and gives it a SCORM API, so every round reports its
@@ -47,11 +47,9 @@ def tech_html():
 
 
 def dsa_bank():
-    from coding_problems import P
-    ok_path = os.path.join(HERE, "dsa_ok.json")
-    ok = set(json.load(open(ok_path))) if os.path.exists(ok_path) else None
-    return [{"id": p["id"], "title": p["title"], "statement": p["statement"], "fmt": p["fmt"], "tests": p["tests"],
-             "py": p["py"], "approach": p["approach"]} for p in P if ok is None or p["id"] in ok]
+    """Backend questions: the official Accenture questions (function-based, Python 3 / Java / C++ / C)."""
+    from official_coding import verify
+    return verify()
 
 
 def coding_html():
