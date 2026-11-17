@@ -109,7 +109,23 @@ var X=(function(){
   var name="",ri=0,pi=0,results={},startedAt=0,urls={},frames={},current=null;
   function $(id){return document.getElementById(id);}
   function show(id){["welcome","between","final"].forEach(function(x){$(x).classList.toggle("hidden",x!==id);});$("runner").classList.toggle("hidden",id!=="runner");window.scrollTo(0,0);}
-  function url(app){if(!urls[app])urls[app]=URL.createObjectURL(new Blob([APPS[app]],{type:"text/html"}));return urls[app];}
+  /* Every round gets its own SCORM 1.2 API injected into its page. The API forwards each value to this
+     shell with postMessage, which works even when the course player sandboxes the frames or the file is
+     opened from disk (where the rounds cannot reach window.parent.API directly). */
+  function bridge(key){var nm=JSON.stringify(name||"").replace(/</g,"\\u003c");
+    return'<script>(function(){var V={"cmi.core.lesson_status":"not attempted","cmi.core.student_name":'+nm+'};'+
+      'function send(k,v){try{parent.postMessage({fx:"scorm",key:"'+key+'",k:k,v:v},"*");}catch(e){}}'+
+      'window.API={LMSInitialize:function(){return"true";},LMSFinish:function(){return"true";},LMSGetValue:function(k){return V[k]||"";},'+
+      'LMSSetValue:function(k,v){V[k]=String(v);send(k,String(v));return"true";},LMSCommit:function(){return"true";},'+
+      'LMSGetLastError:function(){return"0";},LMSGetErrorString:function(){return"";},LMSGetDiagnostic:function(){return"";}};})();<\/script>';}
+  function url(app,key){var html=APPS[app],b=bridge(key),m=html.match(/<head[^>]*>/i);
+    html=m?html.replace(m[0],m[0]+b):b+html;
+    var u=URL.createObjectURL(new Blob([html],{type:"text/html"}));urls[key]=u;return u;}
+  var vals={};
+  window.addEventListener("message",function(e){var d=e.data;if(!d||d.fx!=="scorm"||!frames[d.key])return;
+    if(e.source!==frames[d.key].contentWindow)return;
+    var v=vals[d.key]=vals[d.key]||{};v[d.k]=d.v;
+    if(d.k==="cmi.core.lesson_status"&&/^(completed|passed|failed)$/.test(d.v))setTimeout(function(){partDone(d.key,+v["cmi.core.score.raw"]||0);},400);});
   function welcome(){$("patt").innerHTML=ROUNDS.map(function(r,i){return"<tr><td>"+(i+1)+"</td><td><b>"+r.name+"</b></td><td>"+r.qs+"</td><td>"+r.dur+"</td><td>"+(r.elim?'<span class="pill y">Yes</span>'+(r.id==="tech"?" · most elimination-heavy":""):'<span class="pill n">No</span>')+"</td></tr>";}).join("");
     var n=LMS.name();if(n)$("cname").value=n;$("agree").addEventListener("change",function(){$("startBtn").disabled=!this.checked;});}
   function stepsHTML(){return'<div class="steps">'+ROUNDS.map(function(r,i){return'<div class="step'+(i<ri?" done":i===ri?" cur":"")+'"><b>'+(i<ri?"✓ ":"")+(i+1)+". "+r.short+"</b>"+r.dur+"</div>";}).join("")+"</div>";}
@@ -119,13 +135,8 @@ var X=(function(){
       (r.parts.length>1?'<p style="margin:0 0 6px"><b>'+part.label+"</b></p>":"")+'<p style="color:var(--ink2)">'+r.how+'</p><table class="t" style="max-width:520px"><tr><th>Questions</th><td>'+r.qs+"</td></tr><tr><th>Duration</th><td>"+r.dur+"</td></tr><tr><th>Elimination</th><td>"+(r.elim?"Yes":"No")+'</td></tr></table><div class="row" style="margin-top:16px"><button class="btn big" onclick="X.load()">Begin '+(r.parts.length>1?part.label.split(" · ")[0]:"round")+" &rarr;</button></div></div>";
     show("between");}
   function load(){var r=ROUNDS[ri],part=r.parts[pi],key=r.id+"_"+pi;
-    /* a fresh SCORM 1.2 API for this round: the round reports to it, and the shell moves on */
-    var vals={"cmi.core.lesson_status":"not attempted","cmi.core.student_name":name||""};
-    window.API={LMSInitialize:function(){return"true";},LMSFinish:function(){return"true";},LMSGetValue:function(k){return vals[k]||"";},
-      LMSSetValue:function(k,v){vals[k]=String(v);if(k==="cmi.core.lesson_status"&&(v==="completed"||v==="passed"||v==="failed"))setTimeout(function(){partDone(key,+vals["cmi.core.score.raw"]||0);},400);return"true";},
-      LMSCommit:function(){return"true";},LMSGetLastError:function(){return"0";},LMSGetErrorString:function(){return"";},LMSGetDiagnostic:function(){return"";}};
     Object.keys(frames).forEach(function(k){frames[k].style.display="none";});
-    var f=document.createElement("iframe");f.src=url(part.app);f.setAttribute("allow","microphone; autoplay; fullscreen; clipboard-write");f.title=part.label;
+    var f=document.createElement("iframe");f.src=url(part.app,key);f.setAttribute("allow","microphone; autoplay; fullscreen; clipboard-write");f.title=part.label;
     $("frames").appendChild(f);frames[key]=f;current=key;
     $("rbName").textContent=r.name;$("rbStep").textContent="Round "+(ri+1)+" of "+ROUNDS.length+(r.parts.length>1?" · "+part.label:"");$("rbBack").classList.add("hidden");$("rbExit").classList.remove("hidden");
     show("runner");}
